@@ -1,0 +1,35 @@
+{
+  "id": "e3g3i3e5-7h9l-0e4e-4e7e-5h7j7k7g3i3e",
+  "preTitle": "Vamos começar a desenhar a sua próxima viagem",
+  "title": "Transforme os seus sonhos em realidade!",
+  "description": "Entre em contacto comigo e vamos criar algo extraordinário juntos.",
+  "whatsappCard": {
+    "title": "Conversa Rápida",
+    "description": "A forma mais rápida de obter respostas. Envie uma mensagem e vamos conversar sobre os seus planos."
+  },
+  "emailCard": {
+    "title": "Pedido Detalhado",
+    "description": "Prefere detalhar as suas ideias por escrito? Envie um email e responderei com todas as informações."
+  },
+  "ctaWhatsApp": "Contactar via WhatsApp",
+  "ctaEmail": "Enviar Email",
+  "emailSubject": "Pedido de Informações de Viagem",
+  "whatsappMessageTemplate": "Olá {agentFirstName}, gostaria de planear a minha próxima viagem.",
+  "emailBodyTemplate": "Olá {agentFirstName},\n\nGostaria de obter mais informações sobre os seus serviços de planeamento de viagens.\n\nCumprimentos,",
+  "contactMethods": [
+    {
+      "type": "whatsapp",
+      "label": "WhatsApp",
+      "value": "934327708",
+      "displayValue": "+351 934 327 708",
+      "available": "Disponível todos os dias das 9h às 21h"
+    },
+    {
+      "type": "email",
+      "label": "Email",
+      "value": "hugo@viagenshugoramos.com",
+      "displayValue": "hugo@viagenshugoramos.com",
+      "available": "Resposta em 24h"
+    }
+  ]
+}

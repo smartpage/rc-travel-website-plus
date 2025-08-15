@@ -1,0 +1,31 @@
+{
+  "id": "f8b8d8f0-2c4g-5f9f-9f2f-0c2e2f2b8d8f",
+  "title": "Viaje com propósito e crie memórias únicas.",
+  "subtitle": "",
+  "description": "Vou ajudá-lo a fugir do óbvio com viagens personalizadas que transformam. O seu próximo destino começa aqui comigo.",
+  "ctaText": "Explorar Destinos",
+  "ctaSecondary": "Saber Mais",
+  "backgroundImageUrl": "/hero_hugo_n.png",
+  "backgroundImageAlt": "Paisagem de viagem",
+  "profileImageUrl": "/branding/hugo.webp",
+  "profileImageAlt": "Hugo Ramos",
+  "socialLinks": {
+    "instagram": "https://instagram.com/hugoramos.travel",
+    "facebook": "https://facebook.com/hugoramos.travel",
+    "linkedin": "https://linkedin.com/in/hugoramos-travel"
+  },
+  "services": [
+    {
+      "title": "Curadoria Personalizada",
+      "description": "Esqueça os roteiros genéricos. Crio viagens com base em experiências reais, vividas e testadas — para que conheça o melhor de cada destino."
+    },
+    {
+      "title": "Planeamento sem stress",
+      "description": "Desde os voos aos jantares, penso em tudo por si. A única preocupação será viver intensamente cada momento."
+    },
+    {
+      "title": "Apoio onde e quando precisar",
+      "description": "Estou disponível antes, durante e após a viagem, para garantir que tudo corre como sonhou. Viaje com confiança e tranquilidade."
+    }
+  ]
+}

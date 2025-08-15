@@ -1,0 +1,75 @@
+{
+  "id": "a9c9e9a1-3d5h-6a0a-0a3a-1d3f3g3c9e9a",
+  "title": "Mais do que planear viagens — também as vivo.",
+  "subtitle": "E é por isso que compreendo quem procura mais do que um destino. Neste espaço partilho um pouco do meu percurso, da minha forma de viajar e da minha forma de estar na vida.",
+  "description": "E é por isso que compreendo quem procura mais do que um destino. Neste espaço partilho um pouco do meu percurso, da minha forma de viajar e da minha forma de estar na vida.",
+  "bio": "Sou o Hugo, apaixonado por viagens com significado e que deixem memórias. Ao longo dos anos, fui descobrindo que viajar é muito mais do que sair do lugar onde estamos: é aproximarmo-nos de quem somos. Criei a NomadWise para ajudar outras pessoas a viverem essa experiência com propósito, com detalhe e com leveza. Seja para trabalhar a partir do outro lado do mundo, fazer uma pausa em casal, criar memórias em família ou descobrir o mundo ao seu ritmo, estou aqui para ajudar a tornar cada viagem verdadeiramente única. Aqui partilho um pouco da minha história...porque antes de confiar na proposta, é justo conhecer quem a desenha.",
+  "loadMoreText": "Carregar mais",
+  "imageAlt": "Paisagem de montanha",
+  "backgroundImage": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2680&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  
+  "features": [
+    {
+      "icon": "MapPin",
+      "title": "Viagens com Propósito",
+      "description": "Desenho experiências que vão além do turismo, focadas no seu crescimento e bem-estar."
+    },
+    {
+      "icon": "Clock",
+      "title": "Flexibilidade Total",
+      "description": "Adapto cada roteiro ao seu ritmo, garantindo tempo para o que realmente importa."
+    },
+    {
+      "icon": "Gem",
+      "title": "Detalhes que Contam",
+      "description": "Desde a escolha do alojamento a experiências únicas, cada pormenor é pensado."
+    },
+    {
+      "icon": "Calendar",
+      "title": "Apoio Contínuo",
+      "description": "Estou sempre disponível para garantir que a sua viagem corre como sempre sonhou."
+    }
+  ],
+  "galleryImages": [
+    "/viagens_hugo/img1.jpeg",
+    "/viagens_hugo/img2.jpeg",
+    "/viagens_hugo/img3.jpeg",
+    "/viagens_hugo/img4.jpeg",
+    "/viagens_hugo/img5.jpeg",
+    "/viagens_hugo/img6.jpeg",
+    "/viagens_hugo/img7.jpeg",
+    "/viagens_hugo/img8.jpeg",
+    "/viagens_hugo/img9.jpeg",
+    "/viagens_hugo/img10.jpeg",
+    "/viagens_hugo/img11.jpeg",
+    "/viagens_hugo/img12.jpeg",
+    "/viagens_hugo/img13.jpeg",
+    "/viagens_hugo/img14.jpeg",
+    "/viagens_hugo/img15.jpeg",
+    "/viagens_hugo/img16.jpeg",
+    "/viagens_hugo/img17.jpeg",
+    "/viagens_hugo/img18.jpeg",
+    "/viagens_hugo/img19.jpeg",
+    "/viagens_hugo/img20.jpeg",
+    "/viagens_hugo/img21.jpeg",
+    "/viagens_hugo/img22.jpeg",
+    "/viagens_hugo/img23.jpeg",
+    "/viagens_hugo/img24.jpeg",
+    "/viagens_hugo/img25.jpeg",
+    "/viagens_hugo/img26.jpeg",
+    "/viagens_hugo/img27.jpeg",
+    "/viagens_hugo/img28.jpeg",
+    "/viagens_hugo/img29.jpeg",
+    "/viagens_hugo/img30.jpeg",
+    "/viagens_hugo/img31.jpeg",
+    "/viagens_hugo/img32.jpeg",
+    "/viagens_hugo/img33.jpeg",
+    "/viagens_hugo/img34.jpeg",
+    "/viagens_hugo/img35.jpeg",
+    "/viagens_hugo/img36.jpeg",
+    "/viagens_hugo/img37.jpeg",
+    "/viagens_hugo/img38.jpeg",
+    "/viagens_hugo/img39.jpeg",
+    "/viagens_hugo/img40.jpeg"
+  ]
+}

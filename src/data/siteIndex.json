@@ -1,0 +1,110 @@
+{
+  "sections": [
+    {
+      "id": "e7a7c7e9-1b3f-4e8e-8e1e-9b1d1e1a7c7e",
+      "name": "navigation",
+      "component": "Navigation",
+      "isActive": false
+    },
+    {
+      "id": "n1v1a1r1-1i2a-3t4i-o5n6-7n8a9v0i1g2a",
+      "name": "navigationVariation",
+      "component": "NavigationVariation",
+      "isActive": true
+    },
+    {
+      "id": "f8b8d8f0-2c4g-5f9f-9f2f-0c2e2f2b8d8f",
+      "name": "hero",
+      "component": "HeroSection",
+      "isActive": true
+    },
+    {
+      "id": "h9v9a9r9-4i6a-8t1o-1n5n-2i4a8t1o9n5h",
+      "name": "heroVariation",
+      "component": "HeroVariation",
+      "isActive": false
+    },
+    
+    {
+      "id": "c1e1g1c3-5f7j-8c2c-2c5c-3f5h5i5e1g1c",
+      "name": "travelPackages",
+      "component": "TravelPackages",
+      "isActive": true,
+      "internalComponents": [
+        {
+          "type": "TabGrid",
+          "name": "mainPackages",
+          "contentFile": "travelPackagesTabCards",
+          "showTabsNavigation": true,
+          "cardType": "travel",
+          "gridLayout": "grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+        }
+      ]
+    },
+    {
+      "id": "t5r5a5v5-e8l8d8e8-s9i9g9n9-e0r0d0e0-s1i1g1n1",
+      "name": "travelDesigner",
+      "component": "TravelDesigner",
+      "isActive": true
+    },
+    {
+      "id": "b0d0f0b2-4e6i-7b1b-1b4b-2e4g4h4d0f0b",
+      "name": "why",
+      "component": "WhyFeatureCards",
+      "isActive": true
+    },
+    {
+      "id": "s1e1r1v1-i2c3e4s5-s6e7c8t9-i0o1n2s3-e4r5v6i7",
+      "name": "services",
+      "component": "ServicesSection",
+      "isActive": true
+    },
+    {
+      "id": "d2f2h2d4-6g8k-9d3d-3d6d-4g6i6j6f2h2d",
+      "name": "testimonials",
+      "component": "TestimonialsSection",
+      "isActive": true,
+      "internalComponents": [
+        {
+          "type": "TabGrid",
+          "name": "testimonials-tab-grid",
+          "contentFile": "testimonialsTabCards",
+          "showTabsNavigation": false,
+          "cardType": "testimonial",
+          "useSlider": true,
+          "gridLayout": "grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+        }
+      ]
+    },
+    {
+      "id": "a9c9e9a1-3d5h-6a0a-0a3a-1d3f3g3c9e9a",
+      "name": "aboutSectionGallery",
+      "component": "AboutSectionGallery",
+      "isActive": true
+    },
+    {
+      "id": "f5a3b7c9-2d4f-6e8g-0h2j-4k6m8n0p2q4s",
+      "name": "faq",
+      "component": "FAQ",
+      "isActive": true
+    },
+    {
+      "id": "c1f1o1r1-m2s3e4c5-t6i7o8n9-f0o1r2m3-c4o5n6t7",
+      "name": "contactForm",
+      "component": "ContactFormSection",
+      "isActive": true
+    },
+    {
+      "id": "e3g3i3e5-7h9l-0e4e-4e7e-5h7j7k7g3i3e",
+      "name": "contact",
+      "component": "ContactSection",
+      "isActive": true
+    },
+    {
+      "id": "f4h4j4f6-8i0m-1f5f-5f8f-6i8k8l8h4j4f",
+      "name": "footer",
+      "component": "Footer",
+      "isActive": true
+    }
+  ]
+}

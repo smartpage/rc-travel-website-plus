@@ -1,0 +1,47 @@
+{
+  "tabs": [
+    {
+      "id": "all",
+      "name": "Todos os Testemunhos",
+      "cardIds": ["test_1", "test_2", "test_3", "test_4"]
+    }
+  ],
+  "cards": [
+    {
+      "id": "test_1",
+      "name": "Ana e Miguel",
+      "location": "Oeiras",
+      "text": "Nunca pensamos que uma viagem pudesse ser tão especial. Sentimos que cada detalhe foi pensado para nós. A viagem ao México foi inesquecível. Obrigada, Hugo!",
+      "rating": 5,
+      "image": "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=150&h=150&q=80",
+      "categoryIds": ["all"]
+    },
+    {
+      "id": "test_2",
+      "name": "Gabriela Santos",
+      "location": "Caldas da Rainha",
+      "text": "Agradeço o cuidado e toda a atenção dispensada. Gostei muito desta semana em Marbelha sobretudo porque foi tudo muito bem organizado. Espero poder repetir mais vezes e vou recomendar o Hugo com toda a certeza. Muito obrigada por tudo!",
+      "rating": 5,
+      "image": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=150&h=150&q=80",
+      "categoryIds": ["all"]
+    },
+    {
+      "id": "test_3",
+      "name": "Maria Silva",
+      "location": "Lisboa",
+      "text": "O Hugo organizou a nossa lua de mel em Santorini e foi simplesmente perfeito! Cada detalhe foi pensado ao pormenor. Recomendo vivamente!",
+      "rating": 5,
+      "image": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&h=150&q=80",
+      "categoryIds": ["all"]
+    },
+    {
+      "id": "test_4",
+      "name": "João Costa",
+      "location": "Porto",
+      "text": "Viagem incrível para a Tailândia! O Hugo conseguiu criar um itinerário que superou todas as nossas expectativas. Serviço de primeira qualidade.",
+      "rating": 5,
+      "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&h=150&q=80",
+      "categoryIds": ["all"]
+    }
+  ]
+}

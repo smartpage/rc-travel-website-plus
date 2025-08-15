@@ -1,0 +1,109 @@
+{
+  "title": "Serviços Premium",
+  "subtitle": "Experiências Personalizadas para Cada Viagem",
+  "description": "Oferecemos uma gama completa de serviços de turismo personalizados, desde transfers de aeroporto até experiências únicas em Portugal e Espanha.",
+  "services": [
+    {
+      "id": "airport-transfers",
+      "icon": "Plane",
+      "title": "Transfers de Aeroporto",
+      "description": "Serviço de transfer premium do aeroporto ao seu destino, com conforto e pontualidade garantidos.",
+      "image": "https://images.pexels.com/photos/912050/pexels-photo-912050.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "type": "Transfers",
+      "featured": true
+    },
+    {
+      "id": "beach-tours",
+      "icon": "Waves", 
+      "title": "Tours de Praia",
+      "description": "Descubra as mais belas praias de Portugal com guias especializados e experiências exclusivas.",
+      "image": "https://images.pexels.com/photos/1032650/pexels-photo-1032650.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "type": "Praia 🏝️",
+      "featured": true
+    },
+    {
+      "id": "city-tours",
+      "icon": "Map",
+      "title": "Tours pela Cidade", 
+      "description": "Explore as cidades históricas de Portugal e Espanha com roteiros personalizados e guias locais.",
+      "image": "https://images.pexels.com/photos/1534560/pexels-photo-1534560.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "type": "Passeios",
+      "featured": true
+    },
+    {
+      "id": "airport-service",
+      "icon": "Plane",
+      "title": "Serviços de Aeroporto",
+      "description": "Assistência completa no aeroporto, desde check-in até embarque, para uma viagem sem stress."
+    },
+    {
+      "id": "corporate-travel",
+      "icon": "Briefcase",
+      "title": "Viagens Corporativas",
+      "description": "Soluções completas para viagens de negócios, reuniões e eventos corporativos."
+    },
+    {
+      "id": "weddings",
+      "icon": "Heart",
+      "title": "Casamentos",
+      "description": "Organize o casamento dos seus sonhos com serviços especializados em destinos únicos."
+    },
+    {
+      "id": "conferences",
+      "icon": "Building",
+      "title": "Conferências",
+      "description": "Gestão completa de eventos, conferências e seminários em localizações premium."
+    },
+    {
+      "id": "football",
+      "icon": "Trophy",
+      "title": "Eventos Desportivos",
+      "description": "Experiências VIP em jogos de futebol e outros eventos desportivos em Portugal e Espanha."
+    },
+    {
+      "id": "seville-tours",
+      "icon": "Navigation",
+      "title": "Tours Sevilha",
+      "description": "Descubra a beleza histórica de Sevilha com tours exclusivos e experiências autênticas."
+    },
+    {
+      "id": "fatima-tours",
+      "icon": "Church",
+      "title": "Tours Fátima",
+      "description": "Peregrinações espirituais a Fátima com guias especializados e roteiros personalizados."
+    },
+    {
+      "id": "porto-tours", 
+      "icon": "Anchor",
+      "title": "Tours Porto",
+      "description": "Explore a cidade invicta com roteiros que incluem quintas, gastronomia e património."
+    },
+    {
+      "id": "lisbon-tours",
+      "icon": "MapPin", 
+      "title": "Tours Lisboa",
+      "description": "Descubra os encantos da capital portuguesa com tours personalizados e experiências únicas."
+    },
+    {
+      "id": "group-travel",
+      "icon": "Users",
+      "title": "Viagens em Grupo",
+      "description": "Organize viagens para grupos grandes com logística completa e experiências memoráveis."
+    },
+    {
+      "id": "special-events",
+      "icon": "Calendar",
+      "title": "Eventos Especiais", 
+      "description": "Celebrações especiais, aniversários e comemorações em locais únicos e exclusivos."
+    },
+    {
+      "id": "custom-services",
+      "icon": "MessageCircle",
+      "title": "Serviços Personalizados",
+      "description": "Tem algo específico em mente? Criamos experiências únicas adaptadas aos seus desejos e necessidades.",
+      "buttonText": "Contacte-nos",
+      "buttonLink": "https://wa.me/351912424269?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20serviços%20personalizados.",
+      "specialStyling": "yellow-card"
+    }
+  ]
+}

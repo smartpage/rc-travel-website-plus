@@ -1,0 +1,39 @@
+{
+  "id": "e7a7c7e9-1b3f-4e8e-8e1e-9b1d1e1a7c7e",
+  "desktopMenuItems": [
+    { 
+      "label": "Início", 
+      "href": "#home" 
+    },
+    { 
+      "label": "Viagens", 
+      "href": "#packages" 
+    },
+    { 
+      "label": "Sobre", 
+      "href": "#about" 
+    },
+    { 
+      "label": "Pedir Orçamento", 
+      "href": "#contact" 
+    }
+  ],
+  "mobileMenuItems": [
+    { 
+      "label": "Início", 
+      "href": "#home" 
+    },
+    { 
+      "label": "Viagens", 
+      "href": "#packages" 
+    },
+    { 
+      "label": "Sobre", 
+      "href": "#about" 
+    },
+    { 
+      "label": "Orçamentos", 
+      "href": "#contact" 
+    }
+  ]
+}

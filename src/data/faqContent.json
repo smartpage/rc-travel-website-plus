@@ -1,0 +1,26 @@
+{
+  "title": "Perguntas Frequentes",
+  "description": "Respostas para as dúvidas mais comuns sobre os nossos serviços de viagens personalizadas.",
+  "items": [
+    {
+      "question": "Como funciona o processo de criação de uma viagem personalizada?",
+      "answer": "O processo começa com uma conversa para entender os seus desejos, preferências e expectativas. A partir daí, desenho um roteiro personalizado, que será ajustado conforme o seu feedback até chegarmos à versão final. Depois de aprovado, cuido de todas as reservas e detalhes logísticos para que você só precise aproveitar a viagem."
+    },
+    {
+      "question": "Quanto tempo de antecedência devo planear a minha viagem?",
+      "answer": "Recomendo iniciar o planeamento com pelo menos 3 meses de antecedência para destinos populares, e 6 meses para viagens mais complexas ou em alta temporada. Isso garante melhores opções de hospedagem, atividades exclusivas e tarifas mais vantajosas. No entanto, também posso ajudar com planeamentos de última hora, dependendo da disponibilidade."
+    },
+    {
+      "question": "Trabalha apenas com destinos específicos ou pode ajudar com qualquer lugar do mundo?",
+      "answer": "Trabalho com destinos em todo o mundo. Tenho experiência pessoal em diversos países e continentes, e conto com uma rede global de parceiros locais que garantem experiências autênticas e de qualidade onde quer que você deseje ir."
+    },
+    {
+      "question": "Como são os custos dos seus serviços?",
+      "answer": "Os custos variam conforme a complexidade da viagem e o nível de personalização desejado. Trabalho com total transparência: você saberá exatamente quanto custa cada elemento da sua viagem. Meu objetivo é oferecer o melhor valor possível dentro do seu orçamento, sem surpresas desagradáveis."
+    },
+    {
+      "question": "Oferecem assistência durante a viagem?",
+      "answer": "Sim, estou disponível durante toda a sua viagem para assistência e suporte. Em caso de imprevistos ou mudanças de planos, pode contar comigo para encontrar soluções e garantir que sua experiência continue sendo incrível, independentemente dos desafios que possam surgir."
+    }
+  ]
+}

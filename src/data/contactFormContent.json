@@ -1,0 +1,106 @@
+{
+  "title": "Reserve o Seu Transfer",
+  "subtitle": "Experiência Premium de Transporte",
+  "description": "Preencha o formulário abaixo para solicitar um orçamento personalizado para o seu transfer ou experiência de viagem.",
+  "form": {
+    "fields": {
+      "name": {
+        "label": "Nome Completo",
+        "placeholder": "Digite o seu nome completo",
+        "required": true,
+        "type": "text"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "exemplo@email.com",
+        "required": true,
+        "type": "email",
+        "icon": "Mail"
+      },
+      "phone": {
+        "label": "Telefone",
+        "placeholder": "+351 XXX XXX XXX",
+        "required": true,
+        "type": "tel",
+        "icon": "Phone"
+      },
+      "pickup": {
+        "label": "Local de Recolha",
+        "placeholder": "Aeroporto, hotel ou endereço completo",
+        "required": true,
+        "type": "text",
+        "icon": "MapPin"
+      },
+      "dropoff": {
+        "label": "Local de Destino",
+        "placeholder": "Hotel, aeroporto ou endereço completo",
+        "required": true,
+        "type": "text",
+        "icon": "MapPin"
+      },
+      "date": {
+        "label": "Data do Transfer",
+        "placeholder": "dd/mm/aaaa",
+        "required": true,
+        "type": "date",
+        "icon": "Calendar"
+      },
+      "time": {
+        "label": "Horário",
+        "placeholder": "HH:MM",
+        "required": true,
+        "type": "time",
+        "icon": "Clock"
+      },
+      "passengers": {
+        "label": "Número de Passageiros",
+        "required": true,
+        "type": "select",
+        "icon": "Users",
+        "options": [
+          { "value": "1", "label": "1 Passageiro" },
+          { "value": "2", "label": "2 Passageiros" },
+          { "value": "3", "label": "3 Passageiros" },
+          { "value": "4", "label": "4 Passageiros" },
+          { "value": "5", "label": "5 Passageiros" },
+          { "value": "6", "label": "6 Passageiros" },
+          { "value": "7", "label": "7 Passageiros" },
+          { "value": "8", "label": "8+ Passageiros" }
+        ]
+      },
+      "flightNumber": {
+        "label": "Número do Voo",
+        "placeholder": "TP1234 (opcional)",
+        "required": false,
+        "type": "text",
+        "icon": "Plane"
+      },
+      "requests": {
+        "label": "Pedidos Especiais",
+        "placeholder": "Cadeira de bebé, WiFi, paragens adicionais, ou outros pedidos...",
+        "required": false,
+        "type": "textarea"
+      }
+    },
+    "submitButton": {
+      "text": "Solicitar Orçamento",
+      "loadingText": "A enviar..."
+    },
+    "successMessage": {
+      "title": "Pedido Enviado com Sucesso!",
+      "description": "Entraremos em contacto consigo brevemente com um orçamento personalizado."
+    },
+    "errorMessage": {
+      "title": "Erro ao Enviar",
+      "description": "Ocorreu um problema ao enviar o seu pedido. Tente novamente ou contacte-nos diretamente."
+    }
+  },
+  "design": {
+    "backgroundColor": "bg-black",
+    "textColor": "text-white",
+    "accentColor": "yellow-500",
+    "inputStyle": "bg-transparent border-0 border-b border-gray-700 text-white text-lg py-4 px-0 rounded-none focus:border-yellow-500 focus:ring-0 placeholder:text-gray-500",
+    "labelStyle": "text-gray-400 text-sm font-light uppercase tracking-wider flex items-center gap-2",
+    "buttonStyle": "bg-yellow-500 text-black hover:bg-yellow-400 px-16 py-6 text-lg font-medium rounded-none transition-all duration-300"
+  }
+}

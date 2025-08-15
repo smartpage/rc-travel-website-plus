@@ -1,0 +1,17 @@
+{
+  "id": "f8b8d8f0-2c4g-5f9f-9f2f-0c2e2f2b8d8f",
+  "title": "Descubra o mundo de uma forma completamente nova.",
+  "subtitle": "",
+  "description": "Experiências de viagem únicas e personalizadas que vão além do convencional. Transforme a sua próxima aventura numa jornada inesquecível.",
+  "ctaText": "Começar Jornada",
+  "ctaSecondary": "Saber Mais",
+  "backgroundImageUrl": "/hero_hugo_n.png",
+  "backgroundImageAlt": "Paisagem de viagem",
+  "profileImageUrl": "/branding/hugo.webp",
+  "profileImageAlt": "Hugo Ramos",
+  "socialLinks": {
+    "instagram": "https://instagram.com/hugoramos.travel",
+    "facebook": "https://facebook.com/hugoramos.travel",
+    "linkedin": "https://linkedin.com/in/hugoramos-travel"
+  }
+}

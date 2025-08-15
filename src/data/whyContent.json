@@ -1,0 +1,36 @@
+{
+  "title": "Porque cada viagem merece ser tratada como única.",
+  "description": "Não crio viagens em série. Ouço, pergunto, pesquiso e desenho cada itinerário com atenção ao que realmente importa: os sonhos, os interesses, as necessidades e o bem-estar de quem vai viajar.",
+  "features": [
+    {
+      "title": "Atendimento humano, sempre",
+      "description": "Desde o primeiro contacto, faço questão de ouvir com atenção. Cada proposta nasce de uma conversa real. Sem automatismos, sem fórmulas.",
+      "icon": "Star"
+    },
+    {
+      "title": "Pesquisa cuidada para cada destino",
+      "description": "Mesmo quando não conheço pessoalmente o local, faço questão de investigar a fundo, validar referências e selecionar experiências que façam sentido, com segurança e autenticidade.",
+      "icon": "Globe"
+    },
+    {
+      "title": "Propostas com flexibilidade real",
+      "description": "Trabalho com operadores turísticos e pacotes quando isso faz sentido, mas cada proposta é adaptada ao estilo, ritmo e objetivos de quem viaja comigo. Uso um poderoso motor multidestino capaz de criar uma viagem única para cada viajante.",
+      "icon": "Map"
+    },
+    {
+      "title": "Acompanhamento próximo e real",
+      "description": "Estou presente em todas as fases da viagem. Gosto de acompanhar de perto e garantir que tudo corre como foi planeado. Com confiança e disponibilidade.",
+      "icon": "Users"
+    },
+    {
+      "title": "Transparência acima de tudo",
+      "description": "Quem viaja comigo sabe exatamente o que está incluído, quanto custa e o que esperar. Sem surpresas escondidas. Só clareza e respeito.",
+      "icon": "ShieldCheck"
+    },
+    {
+      "title": "Tranquilidade para quem viaja",
+      "description": "Trato de todos os detalhes para que o foco esteja onde deve estar: na experiência. Quem viaja comigo sente que tem sempre alguém a cuidar do processo.",
+      "icon": "Coffee"
+    }
+  ]
+}

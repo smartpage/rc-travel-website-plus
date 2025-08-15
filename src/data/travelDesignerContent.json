@@ -1,0 +1,21 @@
+{
+  "preTitle": "A sua viagem, a minha assinatura.",
+  "title": "Travel Designer",
+  "imageUrl": "/branding/about.jpg",
+  "imageAlt": "Hugo Ramos - Travel Designer",
+  "originalCard": {
+    "paragraphs": [
+      "Sou o <strong>Hugo</strong>, apaixonado por viagens com <strong>significado</strong> e que deixem <strong>memórias</strong>. Ao longo dos anos, fui descobrindo que viajar é muito mais do que sair do lugar onde estamos: é aproximarmo-nos de quem somos.",
+      "Criei a <strong>NomadWise</strong> para ajudar outras pessoas a viverem essa experiência com <strong>propósito</strong>, com detalhe e com leveza.",
+      "Seja para trabalhar a partir do outro lado do mundo, fazer uma pausa em casal, criar memórias em família ou descobrir o mundo ao seu ritmo, estou aqui para ajudar a tornar cada viagem <strong>verdadeiramente única</strong>.",
+      "Aqui partilho um pouco da minha história... porque antes de confiar na proposta, é justo conhecer quem a desenha."
+    ]
+  },
+  "overlayCard": {
+    "title": "CONHECE-ME",
+    "description": "Sou o Hugo, apaixonado por viagens com significado e que deixem memórias. Ao longo dos anos, fui descobrindo que viajar é muito mais do que sair do lugar onde estamos: é aproximarmo-nos de quem somos. Criei a NomadWise para ajudar outras pessoas a viverem essa experiência com propósito, com detalhe e com leveza. Seja para trabalhar a partir do outro lado do mundo, fazer uma pausa em casal, criar memórias em família ou descobrir o mundo ao seu ritmo, estou aqui para ajudar a tornar cada viagem verdadeiramente única. Aqui partilho um pouco da minha história...porque antes de confiar na proposta, é justo conhecer quem a desenha."
+  },
+  "socialSection": {
+    "title": "Conhece-me"
+  }
+}

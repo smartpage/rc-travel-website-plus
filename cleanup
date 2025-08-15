@@ -1,0 +1,74 @@
+import { Hono } from "hono";
+import { cors } from "hono/cors";
+
+const app = new Hono();
+
+const ELASTIC_EMAIL_API_KEY = Bun.env.ELASTIC_EMAIL_API_KEY;
+const ADMIN_EMAIL_ADDRESS = "joao@intuitiva.pt";
+
+
+
+app.use(
+  "/*",
+  cors({
+    origin: [
+      "https://rctravel.pt",
+      "https://www.rctravel.pt",
+      "http://localhost:3000",
+      "http://localhost:5173",
+      "http://127.0.0.1:3000",
+      "http://127.0.0.1:5173",
+      "http://localhost:8080/",
+      "http://127.0.0.1:8080",
+      /.*\.up\.railway\.app$/
+    ],
+    allowMethods: ["POST", "OPTIONS"],
+    allowHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
+app.post("/send-email", async (c) => {
+  const { subject, body } = await c.req.json();
+  
+  const response = await fetch(
+    "https://api.elasticemail.com/v4/emails/transactional",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-ElasticEmail-ApiKey": ELASTIC_EMAIL_API_KEY,
+      },
+      body: JSON.stringify({
+        Recipients: {
+          To: [ADMIN_EMAIL_ADDRESS]
+        },
+        Content: {
+          Body: [
+            {
+              ContentType: "PlainText", 
+              Content: body,
+              Charset: "utf-8"
+            }
+          ],
+          From: "noreply@intuitiva.pt",
+          Subject: subject
+        }
+      }),
+    }
+  );
+
+  if (response.ok) {
+    return c.json({ status: "success" });
+  } else {
+    const errorBody = await response.text();
+    console.error("Error sending email:", errorBody);
+    return c.json({ status: "error", message: "Failed to send email" }, 500);
+  }
+});
+
+console.log(`Server is running on port ${Bun.env.PORT ?? 3000}`);
+
+Bun.serve({
+  port: Bun.env.PORT ?? 3000,
+  fetch: app.fetch,
+});

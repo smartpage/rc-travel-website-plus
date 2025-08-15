@@ -1,0 +1,189 @@
+{
+  "tabs": [
+    {
+      "id": "europa",
+      "name": "Europa",
+      "cardIds": ["pkg_1f9a8b7c", "pkg_3d4e5f6a", "pkg_9h8g7f6e"]
+    },
+    {
+      "id": "tropical",
+      "name": "Tropical", 
+      "cardIds": ["pkg_a2b3c4d5", "pkg_e6f7g8h9"]
+    },
+    {
+      "id": "aventura",
+      "name": "Aventura",
+      "cardIds": ["pkg_a2b3c4d5", "pkg_i1j2k3l4", "pkg_m5n6p7q8"]
+    }
+  ],
+  "cards": [
+    {
+      "id": "pkg_1f9a8b7c",
+      "name": "Paris Essencial",
+      "image": "https://images.unsplash.com/photo-1500673922987-e212871fec22?auto=format&fit=crop&w=800&q=80",
+      "price": {
+        "value": 1299,
+        "currency": "€",
+        "type": "a partir de"
+      },
+      "duration": "5 dias / 4 noites",
+      "description": "Uma imersão na cultura e romance de Paris, com experiências que vão além do óbvio.",
+      "includes": [
+        "Estadia em hotel boutique selecionado no coração de Le Marais.",
+        "Jantar exclusivo com vista para a Torre Eiffel, em um restaurante localmente aclamado.",
+        "Passeio guiado privado pelo Louvre, focado nas obras-primas.",
+        "Cruzeiro ao entardecer no Rio Sena com champanhe."
+      ],
+      "availableDates": [
+        "Março 2025",
+        "Abril 2025",
+        "Maio 2025"
+      ],
+      "categoryIds": ["europa"]
+    },
+    {
+      "id": "pkg_3d4e5f6a",
+      "name": "Descoberta na Costa Amalfitana",
+      "image": "https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?auto=format&fit=crop&w=800&q=80",
+      "price": {
+        "value": 1899,
+        "currency": "€",
+        "type": "a partir de"
+      },
+      "duration": "8 dias / 7 noites",
+      "description": "Explore as cores, sabores e paisagens da Costa Amalfitana, de Positano a Ravello.",
+      "includes": [
+        "Alojamento em hotéis com vistas deslumbrantes para o mar.",
+        "Aula de culinária local para aprender os segredos da cozinha italiana.",
+        "Passeio de barco privado para a ilha de Capri.",
+        "Degustação de Limoncello em uma quinta tradicional."
+      ],
+      "availableDates": [
+        "Abril 2025",
+        "Maio 2025",
+        "Setembro 2025"
+      ],
+      "categoryIds": ["europa"]
+    },
+    {
+      "id": "pkg_9h8g7f6e",
+      "name": "Odisseia nas Ilhas Gregas",
+      "image": "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=800&q=80",
+      "price": {
+        "value": 2199,
+        "currency": "€",
+        "type": "a partir de"
+      },
+      "duration": "10 dias / 9 noites",
+      "description": "Uma viagem épica por Atenas, Mykonos e Santorini, combinando história e luxo.",
+      "includes": [
+        "Estadia em hotéis boutique com piscinas infinitas.",
+        "Visita guiada privada à Acrópole.",
+        "Catamarã ao pôr do sol em Santorini com jantar a bordo.",
+        "Acesso a beach clubs exclusivos em Mykonos."
+      ],
+      "availableDates": [
+        "Maio 2025",
+        "Junho 2025",
+        "Setembro 2025"
+      ],
+      "categoryIds": ["europa"]
+    },
+    {
+      "id": "pkg_a2b3c4d5",
+      "name": "Paraíso nas Maldivas",
+      "image": "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=800&q=80",
+      "price": {
+        "value": 3499,
+        "currency": "€",
+        "type": "a partir de"
+      },
+      "duration": "7 dias / 6 noites",
+      "description": "Relaxe em um bangalô sobre as águas azul-turquesa do Oceano Índico.",
+      "includes": [
+        "Estadia em bangalô sobre a água com acesso direto ao mar.",
+        "Sessão de snorkeling guiada para ver a vida marinha local.",
+        "Jantar romântico privado na praia.",
+        "Transfer de hidroavião com vistas espetaculares."
+      ],
+      "availableDates": [
+        "Fevereiro 2025",
+        "Março 2025",
+        "Novembro 2025"
+      ],
+      "categoryIds": ["tropical", "aventura"]
+    },
+    {
+      "id": "pkg_e6f7g8h9",
+      "name": "Bali Espiritual",
+      "image": "https://images.unsplash.com/photo-1537953773345-d172ccf13cf1?auto=format&fit=crop&w=800&q=80",
+      "price": {
+        "value": 1699,
+        "currency": "€",
+        "type": "a partir de"
+      },
+      "duration": "10 dias / 9 noites",
+      "description": "Conecte-se com a cultura e a natureza exuberante de Bali, a Ilha dos Deuses.",
+      "includes": [
+        "Alojamento em um retiro de ioga em Ubud.",
+        "Cerimônia de purificação em um templo sagrado.",
+        "Aula de culinária balinesa com ingredientes locais.",
+        "Caminhada pelos terraços de arroz de Tegalalang."
+      ],
+      "availableDates": [
+        "Janeiro 2025",
+        "Março 2025",
+        "Julho 2025"
+      ],
+      "categoryIds": ["tropical"]
+    },
+    {
+      "id": "pkg_i1j2k3l4",
+      "name": "Caça à Aurora Boreal na Islândia",
+      "image": "https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?auto=format&fit=crop&w=800&q=80",
+      "price": {
+        "value": 2199,
+        "currency": "€",
+        "type": "a partir de"
+      },
+      "duration": "6 dias / 5 noites",
+      "description": "Uma expedição para testemunhar um dos maiores espetáculos da natureza.",
+      "includes": [
+        "Estadia em hotéis rurais para otimizar a visualização da aurora.",
+        "Excursões noturnas com guias especializados em caça à aurora.",
+        "Passeio pela Geleira Vatnajökull e visita a uma caverna de gelo.",
+        "Acesso premium à Blue Lagoon."
+      ],
+      "availableDates": [
+        "Janeiro 2025",
+        "Fevereiro 2025",
+        "Novembro 2025"
+      ],
+      "categoryIds": ["aventura"]
+    },
+    {
+      "id": "pkg_m5n6p7q8",
+      "name": "Patagônia para Exploradores",
+      "image": "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=800&q=80",
+      "price": {
+        "value": 2899,
+        "currency": "€",
+        "type": "a partir de"
+      },
+      "duration": "12 dias / 11 noites",
+      "description": "Uma jornada de trekking pelos picos e glaciares de Torres del Paine.",
+      "includes": [
+        "Alojamento em refúgios de montanha e hotéis de charme.",
+        "Trekking guiado pelo famoso circuito W.",
+        "Navegação no Lago Grey para ver os glaciares de perto.",
+        "Equipamento de trekking de alta qualidade incluído."
+      ],
+      "availableDates": [
+        "Fevereiro 2025",
+        "Março 2025",
+        "Dezembro 2025"
+      ],
+      "categoryIds": ["aventura"]
+    }
+  ]
+}
