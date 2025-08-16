@@ -83,6 +83,7 @@ const TabGrid = ({
   
   const onInit = useCallback((emblaApi: any) => {
     setScrollSnaps(emblaApi.scrollSnapList());
+    setSelectedIndex(emblaApi.selectedScrollSnap());
   }, []);
   
   const onSelect = useCallback((emblaApi: any) => {

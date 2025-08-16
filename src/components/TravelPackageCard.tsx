@@ -15,6 +15,7 @@ interface TravelPackageCardProps {
       type: string;
     };
     duration: string;
+    people?: string;
     description: string;
     includes: string[];
     availableDates: string[];
@@ -50,8 +51,16 @@ const TravelPackageCard = ({ pkg, ctaText, moreDetailsText, onWhatsAppContact }:
             alt={pkg.name}
             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
-          <div className={`absolute top-4 left-4 bg-${colors.accent} text-black text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-sm`}>
-            {pkg.duration}
+          {/* Pills: duration and people (content token) */}
+          <div className="absolute top-4 left-4 flex flex-col items-start">
+            <div className={`bg-${colors.accent} text-black text-xs font-semibold px-3 py-1.5 backdrop-blur-sm w-fit`} style={{ borderRadius: '12px 0px 12px 0px' }}>
+              {pkg.duration}
+            </div>
+            {pkg.people && (
+              <div className="bg-black text-white text-xs font-semibold px-3 py-1.5 backdrop-blur-sm w-fit" style={{ borderRadius: '0px 12px 0px 12px' }}>
+                {pkg.people}
+              </div>
+            )}
           </div>
         </div>
       </CardHeader>

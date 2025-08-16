@@ -25,7 +25,7 @@ if (typeof window !== 'undefined') {
   document.head.appendChild(style);
 }
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import SectionTitle from '@/components/ui/SectionTitle';
 import Section from '@/components/ui/Section';
 
@@ -66,6 +66,20 @@ const AboutSectionGallery = () => {
   const { getContentForComponent, loading } = useContent();
   const galleryContent = getContentForComponent<any>('AboutSectionGallery');
   const [visibleCount, setVisibleCount] = useState(INITIAL_IMAGES);
+  const [columns, setColumns] = useState<number>(3);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el || typeof ResizeObserver === 'undefined') return;
+    const ro = new ResizeObserver((entries) => {
+      const w = entries[0]?.contentRect?.width || 0;
+      const nextCols = w < 500 ? 1 : w < 800 ? 2 : 3;
+      setColumns(nextCols);
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   if (loading || !galleryContent) {
     return (
@@ -93,7 +107,7 @@ const AboutSectionGallery = () => {
     <Section sectionId="about" backgroundImageUrl={galleryContent.backgroundImage}>
       <div className="relative z-20 w-full h-full flex flex-col justify-center items-center text-center min-h-[80vh]">
           {/* Main content */}
-          <div className="mb-10 :mb-16 max-w-4xl">
+          <div className="mb-10 @md:mb-16 max-w-4xl">
             <SectionTitle 
               title={galleryContent.title}
               description={galleryContent.description}
@@ -103,10 +117,10 @@ const AboutSectionGallery = () => {
             />
           </div>
           {/* Masonry Gallery */}
-          <div className="w-full mt-8">
+          <div className="w-full mt-8" ref={containerRef}>
             <SkeletonTheme baseColor="#202020" highlightColor="#444">
             <Masonry
-              breakpointCols={{ default: 3, 1200: 3, 800: 2, 500: 1 }}
+              breakpointCols={columns}
               className="masonry-grid"
               columnClassName="masonry-column"
             >
