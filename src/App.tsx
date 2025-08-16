@@ -36,6 +36,7 @@ const App = () => {
                     // Design mode: overlays + site content in animated container
                     <>
                       <DesignInspectorOverlay />
+                      <SectionNavigator />
                       <ViewportToggleOverlay>
                         {/* Site content will render inside ViewportToggleOverlay's container */}
                         <Routes>
