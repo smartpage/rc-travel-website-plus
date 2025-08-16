@@ -9,7 +9,7 @@ const ViewportToggleOverlay: React.FC = () => {
     return q.get('design') === '1' || q.get('design') === 'true';
   }, [location.search]);
 
-  // Hide overlay when explicitly embedding (used by inline mobile iframe)
+  // Hide overlay when explicitly embedding (not typical for this flow, but safe)
   const isEmbed = React.useMemo(() => {
     const q = new URLSearchParams(location.search);
     return q.get('embed') === '1' || q.get('embed') === 'true';
@@ -24,7 +24,7 @@ const ViewportToggleOverlay: React.FC = () => {
     sessionStorage.setItem('design_vp', vp);
   }, [vp, enabled]);
 
-  // Build inline mobile iframe URL (same page, but overlay disabled)
+  // Build inline mobile iframe URL (same page with overlay disabled)
   const iframeUrl = React.useMemo(() => {
     if (vp !== 'mobile') return '';
     const url = new URL(window.location.href);
@@ -33,9 +33,21 @@ const ViewportToggleOverlay: React.FC = () => {
     return url.toString();
   }, [vp]);
 
+  // Small entrance animation for the iframe container
+  const [animateIn, setAnimateIn] = React.useState(false);
+  React.useEffect(() => {
+    if (vp !== 'mobile') {
+      setAnimateIn(false);
+      return;
+    }
+    setAnimateIn(false);
+    const r = requestAnimationFrame(() => setAnimateIn(true));
+    return () => cancelAnimationFrame(r);
+  }, [vp]);
+
   if (!enabled || isEmbed) return null;
 
-  // no overlays that alter layout; desktop is untouched, mobile uses viewport meta
+  // Desktop is untouched. Mobile shows an inline iframe with backdrop and animation.
 
   return (
     <>
@@ -80,29 +92,47 @@ const ViewportToggleOverlay: React.FC = () => {
       </div>
 
       {vp === 'mobile' && (
-        <div
-          style={{
-            position: 'fixed',
-            inset: 0,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'flex-start',
-            background: 'transparent',
-            zIndex: 998,
-          }}
-        >
-          <iframe
-            key={iframeUrl}
-            src={iframeUrl}
-            title="Mobile preview"
+        <>
+          {/* Backdrop that hides desktop without blocking inspector (pointer-events: none) */}
+          <div
             style={{
-              width: 390,
-              height: '100vh',
-              border: 'none',
-              background: '#000',
+              position: 'fixed',
+              inset: 0,
+              background: 'rgba(0,0,0,0.75)',
+              zIndex: 900,
+              pointerEvents: 'none',
+              transition: 'opacity 200ms ease-out',
+              opacity: animateIn ? 1 : 0,
             }}
           />
-        </div>
+          {/* Animated, centered mobile frame */}
+          <div
+            style={{
+              position: 'fixed',
+              top: 56,
+              left: '50%',
+              transform: `translateX(-50%) ${animateIn ? 'scale(1)' : 'scale(0.985)'}`,
+              transformOrigin: 'top center',
+              zIndex: 950,
+              transition: 'transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 220ms ease-out',
+              opacity: animateIn ? 1 : 0,
+              filter: 'drop-shadow(0 10px 30px rgba(0,0,0,0.6))',
+            }}
+          >
+            <iframe
+              key={iframeUrl}
+              src={iframeUrl}
+              title="Mobile preview"
+              style={{
+                width: 390,
+                height: 'calc(100vh - 72px)',
+                border: '1px solid rgba(255,255,255,0.08)',
+                background: '#000',
+                borderRadius: 12,
+              }}
+            />
+          </div>
+        </>
       )}
     </>
   );
