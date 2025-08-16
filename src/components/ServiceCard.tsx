@@ -45,7 +45,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, iconMap }) => {
         <div className="absolute inset-0 bg-black/40" />
         
         {/* Content */}
-        <div className="relative z-10 p-12 h-full flex flex-col min-h-[500px]">
+        <div className="relative z-10 p-4 @md:p-8 @lg:p-12 h-full flex flex-col min-h-[500px]">
           {/* Icon at top */}
           <div className="mb-12">
             {IconComponent && <IconComponent className="w-12 h-12 text-white" />}
@@ -80,7 +80,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, iconMap }) => {
   if (service.specialStyling === 'yellow-card') {
     return (
       <div className="relative overflow-hidden bg-yellow-500 hover:bg-yellow-400 transition-all duration-300 group min-h-[500px] flex flex-col rounded-2xl">
-        <div className="relative z-10 p-12 h-full flex flex-col min-h-[500px]">
+        <div className="relative z-10 p-4 @md:p-8 @lg:p-12 h-full flex flex-col min-h-[500px]">
           {/* Icon at top */}
           <div className="mb-12">
             {IconComponent && <IconComponent className="w-12 h-12 text-black" />}
@@ -115,7 +115,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, iconMap }) => {
 
   // Regular service
   return (
-    <div className="border border-gray-800 p-12 bg-gray-900/20 hover:bg-gray-900/40 transition-all duration-300 group min-h-[500px] flex flex-col rounded-2xl">
+    <div className="border border-gray-800 p-4 @md:p-8 @lg:p-12 bg-gray-900/20 hover:bg-gray-900/40 transition-all duration-300 group min-h-[500px] flex flex-col rounded-2xl">
       <div className="mb-12">
         {IconComponent && (
           <IconComponent className={`w-12 h-12 text-gray-400 group-hover:text-${design.colors.primary} transition-colors duration-300`} />

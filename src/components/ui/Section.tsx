@@ -28,16 +28,16 @@ const Section: React.FC<SectionProps> = ({ children, sectionId, className, id, b
 
   // --- Style Objects ---
   const outerStyle: React.CSSProperties = {
-    width: '100%',
+    width: layout.width || '100%',
     maxWidth: layout.maxWidth,
-    margin: '0 auto',
+    margin: (layout as any).margin || '0 auto',
     backgroundColor: layout.backgroundColor || design.colors.background,
-    // The padding is now applied via the <style> tag, so it's removed from here
+    overflow: (layout as any).overflow,
   };
 
   const innerStyle: React.CSSProperties = {
-    position: 'relative', // Needed for the ::before pseudo-element
-    width: '100%',
+    position: 'relative',
+    width: (inner as any).width || '100%',
     maxWidth: inner.maxWidth,
     margin: inner.margin,
     backgroundColor: inner.backgroundColor,
@@ -48,6 +48,7 @@ const Section: React.FC<SectionProps> = ({ children, sectionId, className, id, b
     alignItems: (inner as any).alignItems,
     justifyContent: (inner as any).justifyContent,
     minHeight: (inner as any).minHeight,
+    height: (inner as any).height,
   };
 
   // --- Dynamic CSS Generation ---
@@ -55,18 +56,15 @@ const Section: React.FC<SectionProps> = ({ children, sectionId, className, id, b
     let css = `
       #${uniqueId} {
         padding: ${layout.padding.mobile};
-        overflow-x: hidden;
-        max-width: 100%;
         box-sizing: border-box;
       }
       #${uniqueId} > .inner-section {
         padding: ${inner.padding.mobile};
-        max-width: 100%;
         box-sizing: border-box;
         ${(inner as any).minHeight ? `min-height: ${(inner as any).minHeight};` : ''}
       }
 
-      @media (min-width: 768px) {
+      @container (min-width: 768px) {
         #${uniqueId} {
           padding: ${layout.padding.tablet};
           overflow-x: visible;
@@ -76,7 +74,7 @@ const Section: React.FC<SectionProps> = ({ children, sectionId, className, id, b
         }
       }
 
-      @media (min-width: 1024px) {
+      @container (min-width: 1024px) {
         #${uniqueId} {
           padding: ${layout.padding.desktop};
         }

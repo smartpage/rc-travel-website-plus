@@ -33,7 +33,7 @@ const ServicesSection: React.FC = () => {
   if (!content) {
     return (
       <Section sectionId="services">
-        <div className="max-w-7xl mx-auto px-8 :px-16">
+        <div className="w-[98%] max-w-7xl mx-auto">
           <div className="grid @md:grid-cols-2 @lg:grid-cols-3 gap-8">
             {Array.from({ length: 6 }).map((_, index) => (
               <div key={index} className="min-h-[500px] bg-gray-200 animate-pulse rounded" />

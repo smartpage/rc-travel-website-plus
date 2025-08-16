@@ -28,6 +28,7 @@ export interface SectionBackground {
 }
 
 export interface SectionInnerLayout {
+  width?: string;
   maxWidth: string;
   height?: string;
   display?: string;
@@ -45,6 +46,8 @@ export interface SectionInnerLayout {
 export interface SectionLayout {
   maxWidth: string;
   width?: string;
+  margin?: string;
+  overflow?: string;
   minHeight?: string;
   height?: string;
   display?: string;

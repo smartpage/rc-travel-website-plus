@@ -147,16 +147,16 @@
             "mobile": "0.5rem 0.5rem 4rem",
             "tablet": "0.5rem 0.5rem",
             "desktop": "0.5rem .5rem"
-                  },
-        "inner": {
-          "maxWidth": "100%",
-          "minHeight": "100vh",
-          "margin": "0 auto",
-          "padding": {
-            "mobile": "6rem 1rem",
-            "tablet": "6rem 2rem",
-            "desktop": "6rem 2rem"
           },
+          "inner": {
+            "maxWidth": "100%",
+            "minHeight": "100vh",
+            "margin": "0 auto",
+            "padding": {
+              "mobile": "6rem 1rem",
+              "tablet": "6rem 2rem",
+              "desktop": "6rem 2rem"
+            },
             "rounded": true,
             "borderRadius": "1.5rem",
             "backgroundColor": "transparent",
@@ -259,7 +259,7 @@
           "maxWidth": "100%",
           "backgroundColor": null,
           "padding": {
-            "mobile": "4rem 1rem",
+            "mobile": "4rem 0rem",
             "tablet": "6rem 2rem",
             "desktop": "17rem 2rem"
           },
@@ -277,7 +277,8 @@
             "background": {
               "type": "color",
               "value": "transparent"
-            }
+            },
+            "width": ""
           }
         }
       },
@@ -318,7 +319,7 @@
           "maxWidth": "100%",
           "backgroundColor": null,
           "padding": {
-            "mobile": "4rem 1rem",
+            "mobile": "4rem 0rem",
             "tablet": "6rem 2rem",
             "desktop": "6rem 2rem"
           },
@@ -336,7 +337,8 @@
             "background": {
               "type": "color",
               "value": "transparent"
-            }
+            },
+            "width": ""
           }
         }
       },
@@ -345,7 +347,7 @@
           "maxWidth": "100%",
           "backgroundColor": null,
           "padding": {
-            "mobile": "5rem 1rem",
+            "mobile": "5rem 0.5rem",
             "tablet": "8rem 1rem",
             "desktop": "8rem 1rem"
           },
@@ -363,7 +365,8 @@
             "background": {
               "type": "color",
               "value": "transparent"
-            }
+            },
+            "width": ""
           }
         }
       },
@@ -372,7 +375,7 @@
           "maxWidth": "none",
           "backgroundColor": null,
           "padding": {
-            "mobile": "5rem 1rem",
+            "mobile": "5rem 0.5rem",
             "tablet": "5rem 2rem",
             "desktop": "5rem 2rem"
           },
@@ -390,7 +393,8 @@
             "background": {
               "type": "color",
               "value": "transparent"
-            }
+            },
+            "width": ""
           }
         }
       },
@@ -399,13 +403,14 @@
           "maxWidth": "none",
           "backgroundColor": null,
           "padding": {
-            "mobile": "5rem 1rem",
+            "mobile": "0.5rem .5rem",
             "tablet": "5rem 2rem",
             "desktop": "5rem 2rem"
           },
           "inner": {
             "maxWidth": "1280px",
             "margin": "0 auto",
+            "width": "98%",
             "padding": {
               "mobile": "0",
               "tablet": "0",
@@ -425,7 +430,7 @@
           "maxWidth": "100%",
           "backgroundColor": null,
           "padding": {
-            "mobile": "5rem 1rem",
+            "mobile": "5rem .5rem",
             "tablet": "8rem 1rem",
             "desktop": "8rem 1rem"
           },
@@ -443,7 +448,8 @@
             "background": {
               "type": "color",
               "value": "transparent"
-            }
+            },
+            "width": ""
           }
         }
       },
@@ -471,6 +477,32 @@
               "type": "color",
               "value": "transparent"
             }
+          }
+        }
+      },
+      "contactForm": {
+        "layout": {
+          "padding": {
+            "mobile": "0.5rem 0.5rem",
+            "tablet": "",
+            "desktop": ""
+          },
+          "inner": {
+            "maxWidth": "100%",
+            "margin": "0 auto",
+            "padding": {
+              "mobile": "0",
+              "tablet": "0",
+              "desktop": "0"
+            },
+            "rounded": false,
+            "backgroundColor": "transparent",
+            "overflow": "visible",
+            "background": {
+              "type": "color",
+              "value": "transparent"
+            },
+            "width": ""
           }
         }
       }

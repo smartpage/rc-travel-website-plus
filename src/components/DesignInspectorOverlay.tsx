@@ -18,11 +18,14 @@ const DesignInspectorOverlay: React.FC = () => {
 
   const [primary, setPrimary] = React.useState<string>(design?.colors?.primary || '');
   const [activeSectionId, setActiveSectionId] = React.useState<string>('hero');
-  const [heroPadMobile, setHeroPadMobile] = React.useState<string>(
+  const [padMobile, setPadMobile] = React.useState<string>(
     design?.sections?.hero?.layout?.padding?.mobile || ''
   );
-  const [heroPadDesktop, setHeroPadDesktop] = React.useState<string>(
+  const [padDesktop, setPadDesktop] = React.useState<string>(
     design?.sections?.hero?.layout?.padding?.desktop || ''
+  );
+  const [innerWidth, setInnerWidth] = React.useState<string>(
+    (design?.sections?.hero?.layout?.inner as any)?.width || ''
   );
   const [saving, setSaving] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
@@ -30,8 +33,9 @@ const DesignInspectorOverlay: React.FC = () => {
 
   React.useEffect(() => {
     setPrimary(design?.colors?.primary || '');
-    setHeroPadMobile(design?.sections?.[activeSectionId]?.layout?.padding?.mobile || '');
-    setHeroPadDesktop(design?.sections?.[activeSectionId]?.layout?.padding?.desktop || '');
+    setPadMobile(design?.sections?.[activeSectionId]?.layout?.padding?.mobile || '');
+    setPadDesktop(design?.sections?.[activeSectionId]?.layout?.padding?.desktop || '');
+    setInnerWidth((design?.sections?.[activeSectionId]?.layout?.inner as any)?.width || '');
   }, [design, activeSectionId]);
 
   // Receive selection from embed iframe via BroadcastChannel
@@ -83,9 +87,14 @@ const DesignInspectorOverlay: React.FC = () => {
         ...next.sections[sid].layout,
         padding: {
           ...next.sections[sid].layout.padding,
-          mobile: heroPadMobile,
-          desktop: heroPadDesktop,
+          mobile: padMobile,
+          desktop: padDesktop,
         },
+      };
+      // optional inner width token
+      (next.sections[sid].layout.inner as any) = {
+        ...next.sections[sid].layout.inner,
+        width: innerWidth,
       };
       return next;
     })(design);
@@ -137,11 +146,14 @@ const DesignInspectorOverlay: React.FC = () => {
         <PanelRow label="colors.primary">
           <input value={primary} onChange={(e) => setPrimary(e.target.value)} style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }} />
         </PanelRow>
-        <PanelRow label="sections.hero.layout.padding.mobile">
-          <input value={heroPadMobile} onChange={(e) => setHeroPadMobile(e.target.value)} style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }} />
+        <PanelRow label={`sections.${activeSectionId}.layout.padding.mobile`}>
+          <input value={padMobile} onChange={(e) => setPadMobile(e.target.value)} placeholder="e.g. 0.5rem 0" style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }} />
         </PanelRow>
-        <PanelRow label="sections.hero.layout.padding.desktop">
-          <input value={heroPadDesktop} onChange={(e) => setHeroPadDesktop(e.target.value)} style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }} />
+        <PanelRow label={`sections.${activeSectionId}.layout.padding.desktop`}>
+          <input value={padDesktop} onChange={(e) => setPadDesktop(e.target.value)} placeholder="e.g. 5rem 2rem" style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }} />
+        </PanelRow>
+        <PanelRow label={`sections.${activeSectionId}.layout.inner.width`}>
+          <input value={innerWidth} onChange={(e) => setInnerWidth(e.target.value)} placeholder="e.g. 98%" style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }} />
         </PanelRow>
         <div style={{ display: 'flex', gap: 8 }}>
           <button onClick={applyPreview} style={{ padding: '8px 10px', background: '#2b2b2b', color: '#fff', borderRadius: 6, border: '1px solid #3a3a3a' }}>Preview</button>
