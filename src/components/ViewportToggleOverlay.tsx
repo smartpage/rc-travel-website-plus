@@ -9,7 +9,7 @@ const ViewportToggleOverlay: React.FC = () => {
     return q.get('design') === '1' || q.get('design') === 'true';
   }, [location.search]);
 
-  // Hide overlay when explicitly embedding (not typical for this flow, but safe)
+  // Hide overlay when explicitly embedding (used by inline mobile iframe)
   const isEmbed = React.useMemo(() => {
     const q = new URLSearchParams(location.search);
     return q.get('embed') === '1' || q.get('embed') === 'true';
@@ -24,65 +24,14 @@ const ViewportToggleOverlay: React.FC = () => {
     sessionStorage.setItem('design_vp', vp);
   }, [vp, enabled]);
 
-  // Apply a root wrapper constraint by setting inline styles on #root
-  const previousRootStylesRef = React.useRef<Partial<CSSStyleDeclaration> | null>(null);
-  React.useEffect(() => {
-    if (!enabled) return;
-    const root = document.getElementById('root') as HTMLElement | null;
-    if (!root) return;
-
-    const setMobile = vp === 'mobile';
-
-    if (setMobile) {
-      if (!previousRootStylesRef.current) {
-        previousRootStylesRef.current = {
-          width: root.style.width,
-          marginLeft: root.style.marginLeft,
-          marginRight: root.style.marginRight,
-          maxWidth: (root.style as any).maxWidth,
-        } as Partial<CSSStyleDeclaration>;
-      }
-
-      root.style.width = '390px';
-      root.style.marginLeft = 'auto';
-      root.style.marginRight = 'auto';
-      (root.style as any).maxWidth = 'none';
-    } else {
-      if (previousRootStylesRef.current) {
-        root.style.width = previousRootStylesRef.current.width || '';
-        root.style.marginLeft = previousRootStylesRef.current.marginLeft || '';
-        root.style.marginRight = previousRootStylesRef.current.marginRight || '';
-        (root.style as any).maxWidth = (previousRootStylesRef.current as any).maxWidth || '';
-        previousRootStylesRef.current = null;
-      } else {
-        // Ensure cleanup even if we did not store previous styles
-        root.style.width = '';
-        root.style.marginLeft = '';
-        root.style.marginRight = '';
-        (root.style as any).maxWidth = '';
-      }
-    }
-
-    return () => {
-      // On unmount, restore styles if we modified them
-      if (!enabled) return;
-      const rootCleanup = document.getElementById('root') as HTMLElement | null;
-      if (rootCleanup) {
-        if (previousRootStylesRef.current) {
-          rootCleanup.style.width = previousRootStylesRef.current.width || '';
-          rootCleanup.style.marginLeft = previousRootStylesRef.current.marginLeft || '';
-          rootCleanup.style.marginRight = previousRootStylesRef.current.marginRight || '';
-          (rootCleanup.style as any).maxWidth = (previousRootStylesRef.current as any).maxWidth || '';
-          previousRootStylesRef.current = null;
-        } else {
-          rootCleanup.style.width = '';
-          rootCleanup.style.marginLeft = '';
-          rootCleanup.style.marginRight = '';
-          (rootCleanup.style as any).maxWidth = '';
-        }
-      }
-    };
-  }, [vp, enabled]);
+  // Build inline mobile iframe URL (same page, but overlay disabled)
+  const iframeUrl = React.useMemo(() => {
+    if (vp !== 'mobile') return '';
+    const url = new URL(window.location.href);
+    url.searchParams.delete('design');
+    url.searchParams.set('embed', '1');
+    return url.toString();
+  }, [vp]);
 
   if (!enabled || isEmbed) return null;
 
@@ -129,6 +78,32 @@ const ViewportToggleOverlay: React.FC = () => {
           </button>
         </div>
       </div>
+
+      {vp === 'mobile' && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'flex-start',
+            background: 'transparent',
+            zIndex: 998,
+          }}
+        >
+          <iframe
+            key={iframeUrl}
+            src={iframeUrl}
+            title="Mobile preview"
+            style={{
+              width: 390,
+              height: '100vh',
+              border: 'none',
+              background: '#000',
+            }}
+          />
+        </div>
+      )}
     </>
   );
 };
