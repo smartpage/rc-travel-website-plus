@@ -15,7 +15,6 @@
       "accent": "yellow-500",
       "highlight": "yellow-600"
     },
-
     "navigation": {
       "menuOverlay": {
         "backgroundColor": "rgba(0, 0, 0, 0.8)",
@@ -142,20 +141,22 @@
       "hero": {
         "layout": {
           "maxWidth": "100%",
+          "minHeight": "100vh",
           "backgroundColor": null,
           "padding": {
             "mobile": "0.5rem 0.5rem 4rem",
             "tablet": "0.5rem 0.5rem",
-            "desktop": "6.5rem 1.5rem"
+            "desktop": "0.5rem .5rem"
+                  },
+        "inner": {
+          "maxWidth": "100%",
+          "minHeight": "100vh",
+          "margin": "0 auto",
+          "padding": {
+            "mobile": "6rem 1rem",
+            "tablet": "6rem 2rem",
+            "desktop": "6rem 2rem"
           },
-          "inner": {
-            "maxWidth": "100%",
-            "margin": "0 auto",
-            "padding": {
-              "mobile": "6rem 1rem",
-              "tablet": "6rem 2rem",
-              "desktop": "6rem 2rem"
-            },
             "rounded": true,
             "borderRadius": "1.5rem",
             "backgroundColor": "transparent",

@@ -72,7 +72,7 @@ const FAQ = () => {
 
   return (
     <Section sectionId="faq">
-      <div className="w-full max-w-5xl mx-auto px-1 :px-6 :px-8 h-full flex flex-col justify-center items-center text-center">
+      <div className="w-full max-w-5xl mx-auto h-full flex flex-col justify-center items-center text-center">
         {/* Header */}
         <div className="mb-12 :mb-16">
           <SectionTitle

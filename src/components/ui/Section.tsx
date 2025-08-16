@@ -63,6 +63,7 @@ const Section: React.FC<SectionProps> = ({ children, sectionId, className, id, b
         padding: ${inner.padding.mobile};
         max-width: 100%;
         box-sizing: border-box;
+        ${(inner as any).minHeight ? `min-height: ${(inner as any).minHeight};` : ''}
       }
 
       @media (min-width: 768px) {

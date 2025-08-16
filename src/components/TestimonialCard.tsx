@@ -24,7 +24,7 @@ const TestimonialCard = ({ testimonial }: TestimonialCardProps) => {
       ${design.primaryCards.container.shadow}
       ${design.primaryCards.container.transition}
       ${design.primaryCards.container.hover}
-      h-full flex flex-col p-6
+      h-full flex flex-col p-3 @md:p-6
     `}>
       <CardHeader className="text-center pb-4 flex-shrink-0">
         <div className={`w-20 h-20 mx-auto mb-4 rounded-full overflow-hidden ring-2 ring-${design.colors.primary}/20`}>

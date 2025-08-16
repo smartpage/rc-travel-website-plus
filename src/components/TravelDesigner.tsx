@@ -15,14 +15,14 @@ const TravelDesigner = () => {
   if (loading || !travelDesigner) {
     return (
       <Section sectionId="travelDesigner">
-        <div className="max-w-4xl mx-auto px-2 :px-6 text-center">
+        <div className="max-w-4xl mx-auto text-center">
           <div className="text-center">
             <Skeleton height={20} width={250} className="mx-auto mb-2" />
             <Skeleton height={60} width={400} className="mx-auto" />
           </div>
           
           <div className="mt-16 flex justify-center">
-            <div className="w-full max-w-lg :max-w-xl bg-white rounded-2xl shadow-lg p-2">
+            <div className="w-full max-w-lg @md:max-w-xl bg-white rounded-2xl shadow-lg p-2">
               <Skeleton height={400} className="rounded-xl mb-4" />
               <div className="p-4">
                 <Skeleton height={16} count={4} className="mb-2" />
@@ -45,7 +45,7 @@ const TravelDesigner = () => {
 
   return (
     <Section sectionId="travelDesigner">
-      <div className="max-w-4xl mx-auto px-2 :px-6 text-center">
+      <div className="max-w-4xl mx-auto text-center">
         
         
 

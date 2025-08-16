@@ -53,7 +53,7 @@ const TravelPackages = () => {
           <Skeleton height={20} width={600} className="mx-auto" />
         </div>
         
-        <div className="grid grid-cols-1 @:grid-cols-2 @:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 @md:grid-cols-2 @lg:grid-cols-3 gap-8">
           {[...Array(6)].map((_, i) => (
             <div key={i} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
               <Skeleton height={200} className="rounded-none" />

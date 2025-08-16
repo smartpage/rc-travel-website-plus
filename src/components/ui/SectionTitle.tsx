@@ -106,14 +106,14 @@ const SectionTitle: React.FC<SectionTitleProps> = ({
   // ID único para este componente
   const uniqueId = `title-${Math.random().toString(36).substr(2, 9)}`;
   
-  // Media queries para responsividade
+  // Container queries para responsividade
   const mediaQueryStyles = `
-    @media (min-width: 768px) {
+    @container (min-width: 768px) {
       #${uniqueId} {
         font-size: ${headingConfig.fontSizeMd || '3rem'} !important;
       }
     }
-    @media (min-width: 1024px) {
+    @container (min-width: 1024px) {
       #${uniqueId} {
         font-size: ${headingConfig.fontSizeLg || '3.5rem'} !important;
       }

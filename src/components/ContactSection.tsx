@@ -43,7 +43,7 @@ const ContactSection = () => {
           <Skeleton height={20} width={500} className="mx-auto" />
         </div>
         
-        <div className="grid grid-cols-1 @:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 @lg:grid-cols-2 gap-12">
           {/* Contact Info Card Skeleton */}
           <Card className="p-8">
             <CardHeader className="text-center">
@@ -113,7 +113,7 @@ const ContactSection = () => {
         />
       </div>
 
-      <div className="max-w-4xl mx-auto grid grid-cols-1 @:grid-cols-2 gap-8">
+      <div className="max-w-4xl mx-auto grid grid-cols-1 @lg:grid-cols-2 gap-8">
         {/* WhatsApp Card */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
