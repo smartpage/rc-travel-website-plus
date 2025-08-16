@@ -28,6 +28,7 @@ if (typeof window !== 'undefined') {
 import React, { useEffect, useRef, useState } from 'react';
 import SectionTitle from '@/components/ui/SectionTitle';
 import Section from '@/components/ui/Section';
+import { Button } from '@/components/ui/button';
 
 const IMAGES_PATH = '/viagens_hugo';
 
@@ -131,13 +132,22 @@ const AboutSectionGallery = () => {
             </SkeletonTheme>
             {hasMore && (
               <div className="w-full flex justify-center mt-8">
-                <button
+                <Button
                   onClick={() => setVisibleCount(c => Math.min(c + LOAD_MORE, galleryContent.galleryImages.length))}
-                  className="px-10 py-4 rounded-2xl bg-cyan-700 text-white font-semibold shadow-lg hover:bg-cyan-800 transition-all duration-200 text-lg"
-                  style={{ fontFamily: design.fonts.title }}
+                  className={`
+                    ${design.buttonStyles.primary.base}
+                    ${design.buttonStyles.primary.hover}
+                    ${design.buttonStyles.primary.border}
+                    ${design.buttonStyles.primary.borderHover}
+                    ${design.buttonStyles.primary.rounded}
+                    ${design.buttonStyles.primary.padding}
+                    ${design.buttonStyles.primary.fontSize}
+                    ${design.buttonStyles.primary.transition}
+                    ${design.buttonStyles.primary.shadow}
+                  `}
                 >
                   {galleryContent.loadMoreText}
-                </button>
+                </Button>
               </div>
             )}
           </div>

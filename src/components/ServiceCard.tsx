@@ -31,8 +31,8 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, iconMap }) => {
     }
   };
 
-  // Featured service with photo
-  if (service.featured && service.image) {
+  // Featured service with photo (must be explicitly true)
+  if (service.featured === true && typeof service.image === 'string' && service.image.trim() !== '') {
     return (
       <div className="relative overflow-hidden bg-gray-900 hover:bg-gray-800 transition-all duration-300 group min-h-[500px] rounded-2xl">
         {/* Background Image */}
@@ -113,7 +113,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, iconMap }) => {
     );
   }
 
-  // Regular service
+  // Regular service (no background image)
   return (
     <div className="border border-gray-800 p-4 @md:p-8 @lg:p-12 bg-gray-900/20 hover:bg-gray-900/40 transition-all duration-300 group min-h-[500px] flex flex-col rounded-2xl">
       <div className="mb-12">

@@ -1,4 +1,4 @@
-feel {
+{
   "design": {
     "colors": {
       "primary": "yellow-500",
@@ -287,7 +287,7 @@ feel {
           "maxWidth": "100%",
           "backgroundColor": null,
           "padding": {
-            "mobile": "6rem 0.5rem 4rem",
+            "mobile": "6rem 0.1rem 4rem",
             "tablet": "6rem 0.5rem",
             "desktop": "6rem 0.5rem"
           },
@@ -310,7 +310,8 @@ feel {
                 "color": "linear-gradient(to bottom, rgba(12, 36, 68, 0.9) 0%, rgba(12, 36, 68, 0.7) 50%, rgba(0, 0, 0, 0.8) 65%, rgba(0, 0, 0, 1) 80%)",
                 "opacity": 1
               }
-            }
+            },
+            "width": ""
           }
         }
       },

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { useContent } from '@/contexts/ContentContext';
+import { useEditorOverlay } from '@/contexts/EditorOverlayContext';
 
 const SectionNavigator: React.FC = () => {
   const location = useLocation();
@@ -8,7 +9,8 @@ const SectionNavigator: React.FC = () => {
   const enabled = query.get('design') === '1' || query.get('design') === 'true';
 
   const { siteIndex, loading } = useContent();
-  const [isCollapsed, setIsCollapsed] = React.useState(false);
+  const { collapsed, toggleCollapse } = useEditorOverlay();
+  const isCollapsed = collapsed.navigator;
 
   if (!enabled || loading || !siteIndex) return null;
 
@@ -76,7 +78,7 @@ const SectionNavigator: React.FC = () => {
       flex: '1 1 auto' // Take remaining space but can shrink
     }}>
       <button 
-        onClick={() => setIsCollapsed(!isCollapsed)}
+        onClick={() => toggleCollapse('navigator')}
         style={{ 
           width: '100%',
           background: isCollapsed ? '#1a1a1a' : '#2a2a2a', 

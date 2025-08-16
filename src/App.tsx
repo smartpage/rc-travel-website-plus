@@ -13,7 +13,6 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import ZodTestPage from "./pages/ZodTestPage";
 import ViewportToggleOverlay from "@/components/ViewportToggleOverlay";
-import EditorBridge from "@/components/EditorBridge";
 import EditorPanelsWrapper from "@/components/EditorPanelsWrapper";
 
 const queryClient = new QueryClient();

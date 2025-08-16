@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { useDesign } from '@/contexts/DesignContext';
+import { useEditorOverlay } from '@/contexts/EditorOverlayContext';
 
 const PanelRow: React.FC<{ label: string; children: React.ReactNode }> = ({ label, children }) => (
   <label style={{ display: 'grid', gap: 4 }}>
@@ -30,7 +31,8 @@ const DesignInspectorOverlay: React.FC = () => {
   const [saving, setSaving] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const [saved, setSaved] = React.useState(false);
-  const [isCollapsed, setIsCollapsed] = React.useState(false);
+  const { collapsed, toggleCollapse } = useEditorOverlay();
+  const isCollapsed = collapsed.inspector;
 
   React.useEffect(() => {
     setPrimary(design?.colors?.primary || '');
@@ -39,22 +41,7 @@ const DesignInspectorOverlay: React.FC = () => {
     setInnerWidth((design?.sections?.[activeSectionId]?.layout?.inner as any)?.width || '');
   }, [design, activeSectionId]);
 
-  // Receive selection from embed iframe via BroadcastChannel
-  React.useEffect(() => {
-    if (!enabled) return;
-    const channel = new BroadcastChannel('rc_editor');
-    const onMsg = (ev: MessageEvent) => {
-      const msg = ev.data as any;
-      if (msg?.type === 'select-section' && typeof msg.sectionId === 'string') {
-        setActiveSectionId(msg.sectionId);
-      }
-    };
-    channel.addEventListener('message', onMsg);
-    return () => {
-      channel.removeEventListener('message', onMsg as any);
-      channel.close();
-    };
-  }, [enabled]);
+  // Legacy iframe bridge removed: editor works without BroadcastChannel
 
   // Listen for hover/click on sections to set scope (data-section-id from Section component)
   React.useEffect(() => {
@@ -102,14 +89,7 @@ const DesignInspectorOverlay: React.FC = () => {
     
     updateDesignLocal(() => updatedDesign);
     
-    // Send design update to iframe via BroadcastChannel
-    try {
-      const channel = new BroadcastChannel('rc_editor');
-      channel.postMessage({ type: 'design-update', design: updatedDesign });
-      channel.close();
-    } catch (e) {
-      console.warn('Failed to send design update to iframe:', e);
-    }
+    // BroadcastChannel removed (no iframe mode)
   };
 
   const save = async () => {
@@ -146,7 +126,7 @@ const DesignInspectorOverlay: React.FC = () => {
       overflow: 'hidden'
     }}>
       <button 
-        onClick={() => setIsCollapsed(!isCollapsed)}
+        onClick={() => toggleCollapse('inspector')}
         style={{ 
           width: '100%',
           background: isCollapsed ? '#1a1a1a' : '#2a2a2a', 
