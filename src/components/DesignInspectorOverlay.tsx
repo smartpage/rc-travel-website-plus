@@ -30,6 +30,7 @@ const DesignInspectorOverlay: React.FC = () => {
   const [saving, setSaving] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const [saved, setSaved] = React.useState(false);
+  const [isCollapsed, setIsCollapsed] = React.useState(false);
 
   React.useEffect(() => {
     setPrimary(design?.colors?.primary || '');
@@ -132,38 +133,69 @@ const DesignInspectorOverlay: React.FC = () => {
   };
 
   return (
-    <div style={{ position: 'fixed', top: 12, right: 12, zIndex: 1000, width: 340, background: '#0f0f0f', color: '#fff', padding: 12, borderRadius: 8, boxShadow: '0 8px 24px rgba(0,0,0,0.5)' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-        <div style={{ fontWeight: 700 }}>Design Inspector</div>
-        <div style={{ fontSize: 12, opacity: 0.7 }}>API-only</div>
-      </div>
-      <div style={{ display: 'grid', gap: 10 }}>
+    <div style={{ position: 'fixed', top: 12, right: 12, zIndex: 1000, width: 340, background: '#0f0f0f', color: '#fff', borderRadius: 8, boxShadow: '0 8px 24px rgba(0,0,0,0.5)' }}>
+      <button 
+        onClick={() => setIsCollapsed(!isCollapsed)}
+        style={{ 
+          width: '100%',
+          background: isCollapsed ? '#1a1a1a' : '#2a2a2a', 
+          border: '1px solid #3a3a3a', 
+          color: '#fff', 
+          padding: '12px 16px', 
+          borderRadius: 8, 
+          fontSize: 14,
+          fontWeight: 600,
+          cursor: 'pointer',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          transition: 'all 0.2s ease',
+          marginBottom: isCollapsed ? 0 : 12
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = isCollapsed ? '#2a2a2a' : '#3a3a3a';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = isCollapsed ? '#1a1a1a' : '#2a2a2a';
+        }}
+      >
+        <span>Design Inspector</span>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ fontSize: 12, opacity: 0.8 }}>Section:</span>
-          <code style={{ background: '#161616', padding: '2px 6px', borderRadius: 4 }}>{activeSectionId}</code>
-          <span style={{ fontSize: 11, opacity: 0.7 }}>(click a section to focus)</span>
+          <span style={{ fontSize: 12, opacity: 0.7 }}>API-only</span>
+          <span style={{ fontSize: 12, opacity: 0.8 }}>{isCollapsed ? '↓' : '↑'}</span>
         </div>
-        <PanelRow label="colors.primary">
-          <input value={primary} onChange={(e) => setPrimary(e.target.value)} style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }} />
-        </PanelRow>
-        <PanelRow label={`sections.${activeSectionId}.layout.padding.mobile`}>
-          <input value={padMobile} onChange={(e) => setPadMobile(e.target.value)} placeholder="e.g. 0.5rem 0" style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }} />
-        </PanelRow>
-        <PanelRow label={`sections.${activeSectionId}.layout.padding.desktop`}>
-          <input value={padDesktop} onChange={(e) => setPadDesktop(e.target.value)} placeholder="e.g. 5rem 2rem" style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }} />
-        </PanelRow>
-        <PanelRow label={`sections.${activeSectionId}.layout.inner.width`}>
-          <input value={innerWidth} onChange={(e) => setInnerWidth(e.target.value)} placeholder="e.g. 98%" style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }} />
-        </PanelRow>
-        <div style={{ display: 'flex', gap: 8 }}>
-          <button onClick={applyPreview} style={{ padding: '8px 10px', background: '#2b2b2b', color: '#fff', borderRadius: 6, border: '1px solid #3a3a3a' }}>Preview</button>
-          <button onClick={save} disabled={saving} style={{ padding: '8px 10px', background: '#2d6a4f', color: '#fff', borderRadius: 6, border: '1px solid #3a7' }}>{saving ? 'Saving…' : 'Save'}</button>
-          <button onClick={revert} style={{ padding: '8px 10px', background: '#5c2121', color: '#fff', borderRadius: 6, border: '1px solid #7a3a3a' }}>Revert</button>
+      </button>
+      {!isCollapsed && (
+        <div style={{ padding: '0 12px 12px 12px' }}>
+          <div style={{ display: 'grid', gap: 10 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span style={{ fontSize: 12, opacity: 0.8 }}>Section:</span>
+              <code style={{ background: '#161616', padding: '2px 6px', borderRadius: 4 }}>{activeSectionId}</code>
+              <span style={{ fontSize: 11, opacity: 0.7 }}>(click a section to focus)</span>
+            </div>
+            <PanelRow label="colors.primary">
+              <input value={primary} onChange={(e) => setPrimary(e.target.value)} style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }} />
+            </PanelRow>
+            <PanelRow label={`sections.${activeSectionId}.layout.padding.mobile`}>
+              <input value={padMobile} onChange={(e) => setPadMobile(e.target.value)} placeholder="e.g. 0.5rem 0" style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }} />
+            </PanelRow>
+            <PanelRow label={`sections.${activeSectionId}.layout.padding.desktop`}>
+              <input value={padDesktop} onChange={(e) => setPadDesktop(e.target.value)} placeholder="e.g. 5rem 2rem" style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }} />
+            </PanelRow>
+            <PanelRow label={`sections.${activeSectionId}.layout.inner.width`}>
+              <input value={innerWidth} onChange={(e) => setInnerWidth(e.target.value)} placeholder="e.g. 98%" style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }} />
+            </PanelRow>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <button onClick={applyPreview} style={{ padding: '8px 10px', background: '#2b2b2b', color: '#fff', borderRadius: 6, border: '1px solid #3a3a3a' }}>Preview</button>
+              <button onClick={save} disabled={saving} style={{ padding: '8px 10px', background: '#2d6a4f', color: '#fff', borderRadius: 6, border: '1px solid #3a7' }}>{saving ? 'Saving…' : 'Save'}</button>
+              <button onClick={revert} style={{ padding: '8px 10px', background: '#5c2121', color: '#fff', borderRadius: 6, border: '1px solid #7a3a3a' }}>Revert</button>
+            </div>
+            {saved && <div style={{ fontSize: 12, color: '#7ee787' }}>Saved</div>}
+            {error && <div style={{ fontSize: 12, color: '#ff7b72' }}>{error}</div>}
+            <div style={{ fontSize: 11, opacity: 0.7 }}>Tip: append <code>?design=1</code> to any URL to toggle this panel.</div>
+          </div>
         </div>
-        {saved && <div style={{ fontSize: 12, color: '#7ee787' }}>Saved</div>}
-        {error && <div style={{ fontSize: 12, color: '#ff7b72' }}>{error}</div>}
-        <div style={{ fontSize: 11, opacity: 0.7 }}>Tip: append <code>?design=1</code> to any URL to toggle this panel.</div>
-      </div>
+      )}
     </div>
   );
 };

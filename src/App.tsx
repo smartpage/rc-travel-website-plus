@@ -15,6 +15,7 @@ import ZodTestPage from "./pages/ZodTestPage";
 import DesignInspectorOverlay from "@/components/DesignInspectorOverlay";
 import ViewportToggleOverlay from "@/components/ViewportToggleOverlay";
 import EditorBridge from "@/components/EditorBridge";
+import SectionNavigator from "@/components/SectionNavigator";
 
 const queryClient = new QueryClient();
 

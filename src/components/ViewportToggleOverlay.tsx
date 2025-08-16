@@ -2,9 +2,11 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { Monitor, Smartphone } from 'lucide-react';
 import { createPortal } from 'react-dom';
+import { useDesign } from '@/contexts/DesignContext';
 
 const ViewportToggleOverlay: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const location = useLocation();
+  const { design } = useDesign();
   const enabled = React.useMemo(() => {
     const q = new URLSearchParams(location.search);
     return q.get('design') === '1' || q.get('design') === 'true';
@@ -84,7 +86,7 @@ const ViewportToggleOverlay: React.FC<{ children?: React.ReactNode }> = ({ child
           zIndex: 900,
           transition: 'width 300ms cubic-bezier(0.2, 0.8, 0.2, 1)',
           overflow: 'auto',
-          background: 'transparent',
+          background: design?.colors?.background || 'black',
         }}
       >
         {/* Site content will be portaled here */}
