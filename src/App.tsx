@@ -13,6 +13,8 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import ZodTestPage from "./pages/ZodTestPage";
 import DesignInspectorOverlay from "@/components/DesignInspectorOverlay";
+import ViewportToggleOverlay from "@/components/ViewportToggleOverlay";
+import EditorBridge from "@/components/EditorBridge";
 
 const queryClient = new QueryClient();
 
@@ -33,7 +35,9 @@ const App = () => (
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
+            <EditorBridge />
             <DesignInspectorOverlay />
+            <ViewportToggleOverlay />
           </BrowserRouter>
             </TooltipProvider>
           </ContentProvider>

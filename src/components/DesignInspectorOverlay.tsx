@@ -34,6 +34,23 @@ const DesignInspectorOverlay: React.FC = () => {
     setHeroPadDesktop(design?.sections?.[activeSectionId]?.layout?.padding?.desktop || '');
   }, [design, activeSectionId]);
 
+  // Receive selection from embed iframe via BroadcastChannel
+  React.useEffect(() => {
+    if (!enabled) return;
+    const channel = new BroadcastChannel('rc_editor');
+    const onMsg = (ev: MessageEvent) => {
+      const msg = ev.data as any;
+      if (msg?.type === 'select-section' && typeof msg.sectionId === 'string') {
+        setActiveSectionId(msg.sectionId);
+      }
+    };
+    channel.addEventListener('message', onMsg);
+    return () => {
+      channel.removeEventListener('message', onMsg as any);
+      channel.close();
+    };
+  }, [enabled]);
+
   // Listen for hover/click on sections to set scope (data-section-id from Section component)
   React.useEffect(() => {
     if (!enabled) return;
