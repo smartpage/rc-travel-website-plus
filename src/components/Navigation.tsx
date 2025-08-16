@@ -99,10 +99,10 @@ const Navigation = () => {
             >
               <a href="#" className={cx(
                 layout.flex.center,
-                'py-3 @md:py-4'
+                'py-3 @:py-4'
               )}>
                 {loading ? (
-                  <Skeleton height={56} width={120} className="@md:h-12" />
+                  <Skeleton height={56} width={120} className="@:h-12" />
                 ) : (
                   <img 
                     id={logoId}
@@ -142,7 +142,7 @@ const Navigation = () => {
               
               {/* Mobile Hamburger Button */}
               <div className={cx(
-                '@md:hidden',
+                '@:hidden',
                 layout.position.relative,
                 'z-[60]'
               )}>
@@ -199,7 +199,7 @@ const Navigation = () => {
                     <button
                       onClick={() => handleLinkClick(item.href)}
                       className={cx(
-                        'text-6xl @lg:text-8xl',
+                        'text-6xl @:text-8xl',
                         typography.fontWeight.light,
                         'text-black',
                         'hover:text-gray-700',

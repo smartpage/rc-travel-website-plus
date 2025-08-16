@@ -26,14 +26,14 @@ const TravelPackages = () => {
 
   if (loading || !travelPackages) {
     return (
-      <section id="packages" className={`py-20 md:py-32 bg-${design.colors.background}`}>
+      <section id="packages" className={`py-20 :py-32 bg-${design.colors.background}`}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <Skeleton height={48} width={400} className="mx-auto mb-4" />
             <Skeleton height={20} width={600} className="mx-auto" />
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 :grid-cols-2 :grid-cols-3 gap-8">
             {[...Array(6)].map((_, i) => (
               <div key={i} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
                 <Skeleton height={200} className="rounded-none" />
@@ -69,7 +69,7 @@ const TravelPackages = () => {
 
   if (error) {
     return (
-      <section id="packages" className={`py-20 md:py-32 bg-${design.colors.background}`}>
+      <section id="packages" className={`py-20 :py-32 bg-${design.colors.background}`}>
         <div className="container mx-auto px-4">
           <div className="text-center py-20">
             <p className="text-lg text-red-600">Erro ao carregar pacotes: {error}</p>
@@ -84,12 +84,12 @@ const TravelPackages = () => {
   }
 
   return (
-    <section id="packages" className={`py-20 md:py-32 bg-${design.colors.background}`}>
+    <section id="packages" className={`py-20 :py-32 bg-${design.colors.background}`}>
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
             <p className="text-lg text-gray-600" style={{ fontFamily: design.fonts.body }}>{travelPackages.preTitle}</p>
             <h2 
-                className="text-7xl md:text-9xl font-light tracking-tighter text-gray-900 mt-2"
+                className="text-7xl :text-9xl font-light tracking-tighter text-gray-900 mt-2"
                 style={{ fontFamily: design.fonts.title }}
             >
                 {travelPackages.title}
@@ -106,7 +106,7 @@ const TravelPackages = () => {
                 <TabsTrigger 
                   key={category.id} 
                   value={category.id} 
-                  className="text-slate-400 data-[state=active]:text-slate-900 data-[state=active]:bg-transparent data-[state=active]:shadow-none rounded-none border-b-2 border-transparent data-[state=active]:border-cyan-700 py-3 px-4 sm:px-6 font-medium transition-all flex-shrink-0 flex-grow text-center min-w-[100px]"
+                  className="text-slate-400 data-[state=active]:text-slate-900 data-[state=active]:bg-transparent data-[state=active]:shadow-none rounded-none border-b-2 border-transparent data-[state=active]:border-cyan-700 py-3 px-4 :px-6 font-medium transition-all flex-shrink-0 flex-grow text-center min-w-[100px]"
                   style={{ fontFamily: design.fonts.body }}
                 >
                   {category.name}
@@ -117,7 +117,7 @@ const TravelPackages = () => {
 
           {travelPackages.categories.map((category) => (
             <TabsContent key={category.id} value={category.id}>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 :grid-cols-2 :grid-cols-3 gap-8">
                 {travelPackages.packages
                   .filter((pkg) => pkg.categoryIds.includes(category.id))
                   .map((pkg: any) => {

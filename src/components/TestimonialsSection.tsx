@@ -27,7 +27,7 @@ const TestimonialsSection = () => {
           <Skeleton height={48} width={400} className="mx-auto mb-4" />
           <Skeleton height={20} width={600} className="mx-auto" />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 @:grid-cols-2 @:grid-cols-4 gap-8">
           {[...Array(4)].map((_, i) => (
             <div key={i} className="p-6 rounded-xl border">
               <div className="text-center pb-4">

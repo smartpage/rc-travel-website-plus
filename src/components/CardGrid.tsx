@@ -23,7 +23,7 @@ interface CardGridProps {
 const CardGrid = ({ 
   cards, 
   cardType = 'travel', 
-  gridLayout = 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+  gridLayout = 'grid-cols-1 @:grid-cols-2 @:grid-cols-3',
   ctaText = 'Saber Mais', 
   moreDetailsText = 'mais detalhes', 
   onWhatsAppContact 

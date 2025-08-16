@@ -59,7 +59,7 @@ const ContactFormSection: React.FC = () => {
   if (!content) {
     return (
       <Section sectionId="contactForm">
-        <div className="max-w-4xl mx-auto px-8 lg:px-16">
+        <div className="max-w-4xl mx-auto px-8 :px-16">
           <div className="space-y-8">
             {Array.from({ length: 8 }).map((_, index) => (
               <div key={index} className="space-y-3">
@@ -260,7 +260,7 @@ Esta mensagem foi enviada através do formulário de contato do website.
 
   return (
     <Section sectionId="contactForm">
-      <div className="max-w-4xl mx-auto px-8 lg:px-16">
+      <div className="max-w-4xl mx-auto px-8 :px-16">
         <div className="text-center mb-16">
           <SectionTitle 
             title={content.title}
@@ -274,25 +274,25 @@ Esta mensagem foi enviada através do formulário de contato do website.
           {form.fields.name && renderField('name', form.fields.name)}
 
           {/* Pickup and Destination */}
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid :grid-cols-2 gap-8">
             {form.fields.pickup && renderField('pickup', form.fields.pickup)}
             {form.fields.dropoff && renderField('dropoff', form.fields.dropoff)}
           </div>
 
           {/* Date and Time */}
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid :grid-cols-2 gap-8">
             {form.fields.date && renderField('date', form.fields.date)}
             {form.fields.time && renderField('time', form.fields.time)}
           </div>
 
           {/* Passengers and Flight Number */}
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid :grid-cols-2 gap-8">
             {form.fields.passengers && renderField('passengers', form.fields.passengers)}
             {form.fields.flightNumber && renderField('flightNumber', form.fields.flightNumber)}
           </div>
 
           {/* Email and Phone */}
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid :grid-cols-2 gap-8">
             {form.fields.email && renderField('email', form.fields.email)}
             {form.fields.phone && renderField('phone', form.fields.phone)}
           </div>

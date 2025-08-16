@@ -64,7 +64,7 @@ const NavigationVariation = () => {
       {/* Injetar CSS responsivo para o logo */}
       <style dangerouslySetInnerHTML={{ __html: logoMediaQueries }} />
       {/* Main Navigation Container */}
-      <div className="fixed top-0 left-0 right-0 z-[60] flex items-center justify-between p-4 sm:p-6">
+      <div className="fixed top-0 left-0 right-0 z-[60] flex items-center justify-between p-4 :p-6">
         {/* Logo with scroll animation */}
         <motion.div 
           initial={{ y: 0, opacity: 1 }}
@@ -95,7 +95,7 @@ const NavigationVariation = () => {
         <div>
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="p-3 sm:p-4 focus:outline-none bg-white/10 backdrop-blur-sm rounded-full shadow-lg"
+            className="p-3 :p-4 focus:outline-none bg-white/10 backdrop-blur-sm rounded-full shadow-lg"
             aria-label="Toggle menu"
           >
             <HamburgerIcon isOpen={isOpen} />
@@ -131,7 +131,7 @@ const NavigationVariation = () => {
                   >
                     <button
                       onClick={() => handleLinkClick(item.href)}
-                      className="text-5xl lg:text-6xl font-light transition-colors duration-300"
+                      className="text-5xl :text-6xl font-light transition-colors duration-300"
                       style={{ color: design.navigation.menuOverlay.linkColor }}
                       onMouseEnter={(e) => {
                         const target = e.target as HTMLElement;

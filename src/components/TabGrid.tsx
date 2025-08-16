@@ -157,7 +157,7 @@ const TabGrid = ({
         {/* Embla Slider with Arrows */}
         <div className="relative mx-0 w-full">
           <button
-            className={`hidden md:block absolute -left-12 top-1/2 -translate-y-1/2 z-10 p-2 transition-colors disabled:opacity-30 ${design.sliderOptions.colors.arrows} ${design.sliderOptions.colors.arrowsHover}`}
+            className={`hidden :block absolute -left-12 top-1/2 -translate-y-1/2 z-10 p-2 transition-colors disabled:opacity-30 ${design.sliderOptions.colors.arrows} ${design.sliderOptions.colors.arrowsHover}`}
             onClick={() => emblaApi?.scrollPrev()}
             disabled={!canScrollPrev}
             aria-label="Previous slide"
@@ -165,7 +165,7 @@ const TabGrid = ({
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
           </button>
           <button
-            className={`hidden md:block absolute -right-12 top-1/2 -translate-y-1/2 z-10 p-2 transition-colors disabled:opacity-30 ${design.sliderOptions.colors.arrows} ${design.sliderOptions.colors.arrowsHover}`}
+            className={`hidden :block absolute -right-12 top-1/2 -translate-y-1/2 z-10 p-2 transition-colors disabled:opacity-30 ${design.sliderOptions.colors.arrows} ${design.sliderOptions.colors.arrowsHover}`}
             onClick={() => emblaApi?.scrollNext()}
             disabled={!canScrollNext}
             aria-label="Next slide"
@@ -177,7 +177,7 @@ const TabGrid = ({
             {activeCards.map((card, index) => (
               <div
                 key={card.id}
-                className="flex-none w-full md:w-1/2 lg:w-1/3 xl:w-1/4"
+                className="flex-none w-full :w-1/2 :w-1/3 :w-1/4"
                 style={{
                   marginLeft: `${design.sliderOptions.gap}px`
                 }}

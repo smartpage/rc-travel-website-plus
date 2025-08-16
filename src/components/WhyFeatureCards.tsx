@@ -32,7 +32,7 @@ const WhyFeatureCards: React.FC = () => {
             <Skeleton height={20} width={600} className="mx-auto" />
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 @:grid-cols-2 @:grid-cols-3 gap-8">
             {[...Array(6)].map((_, i) => (
               <Card key={i} className="bg-white/90 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300 p-6">
                 <CardHeader className="text-center pb-4">
@@ -67,7 +67,7 @@ const WhyFeatureCards: React.FC = () => {
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 @:grid-cols-2 @:grid-cols-3 gap-8">
           {whySection.features.map((feature: any, index: number) => {
             const IconComponent = iconMap[feature.icon as keyof typeof iconMap] || Star;
             return (

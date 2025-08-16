@@ -93,7 +93,7 @@ const AboutSectionGallery = () => {
     <Section sectionId="about" backgroundImageUrl={galleryContent.backgroundImage}>
       <div className="relative z-20 w-full h-full flex flex-col justify-center items-center text-center min-h-[80vh]">
           {/* Main content */}
-          <div className="mb-10 sm:mb-16 max-w-4xl">
+          <div className="mb-10 :mb-16 max-w-4xl">
             <SectionTitle 
               title={galleryContent.title}
               description={galleryContent.description}

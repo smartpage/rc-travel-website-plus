@@ -72,9 +72,9 @@ const FAQ = () => {
 
   return (
     <Section sectionId="faq">
-      <div className="w-full max-w-5xl mx-auto px-1 sm:px-6 lg:px-8 h-full flex flex-col justify-center items-center text-center">
+      <div className="w-full max-w-5xl mx-auto px-1 :px-6 :px-8 h-full flex flex-col justify-center items-center text-center">
         {/* Header */}
-        <div className="mb-12 sm:mb-16">
+        <div className="mb-12 :mb-16">
           <SectionTitle
             variant="headings"
             useHtmlRendering={true}
@@ -84,7 +84,7 @@ const FAQ = () => {
         </div>
         
         {/* FAQ Cards */}
-        <div className="w-[98%] sm:w-full max-w-4xl mx-auto space-y-6">
+        <div className="w-[98%] :w-full max-w-4xl mx-auto space-y-6">
           {faqContent.items.map((item, index) => {
             return (
               <motion.div 
@@ -103,7 +103,7 @@ const FAQ = () => {
               >
                 <motion.div
                   onClick={() => toggleItem(index)}
-                  className="p-6 sm:p-8 cursor-pointer flex justify-between items-center"
+                  className="p-6 :p-8 cursor-pointer flex justify-between items-center"
                   style={{
                     backgroundColor: design.faq.card.backgroundColor,
                     borderBottom: openIndex === index ? `2px solid ${design.colors.primary}` : 'none'
@@ -111,7 +111,7 @@ const FAQ = () => {
                   transition={{ duration: 0.2 }}
                 >
                   <span 
-                    className="flex-1 pr-4 text-left font-semibold text-lg sm:text-xl"
+                    className="flex-1 pr-4 text-left font-semibold text-lg :text-xl"
                     style={{ color: design.faq.card.questionColor }}
                   >
                     {item.question}
@@ -143,7 +143,7 @@ const FAQ = () => {
                       className="overflow-hidden"
                     >
                       <div 
-                        className="px-6 sm:px-8 py-8 sm:py-10 text-left"
+                        className="px-6 :px-8 py-8 :py-10 text-left"
                         style={{
                           lineHeight: '1.6',
                           fontSize: '1rem',

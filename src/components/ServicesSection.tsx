@@ -33,8 +33,8 @@ const ServicesSection: React.FC = () => {
   if (!content) {
     return (
       <Section sectionId="services">
-        <div className="max-w-7xl mx-auto px-8 lg:px-16">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="max-w-7xl mx-auto px-8 :px-16">
+          <div className="grid @:grid-cols-2 @:grid-cols-3 gap-8">
             {Array.from({ length: 6 }).map((_, index) => (
               <div key={index} className="min-h-[500px] bg-gray-200 animate-pulse rounded" />
             ))}
@@ -57,7 +57,7 @@ const ServicesSection: React.FC = () => {
       </div>
       
       {/* Services Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 @:grid-cols-2 @:grid-cols-3 gap-8">
         {services.map((service: any, index: number) => (
           <ServiceCard 
             key={service.id || index}

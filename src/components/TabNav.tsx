@@ -62,7 +62,7 @@ const TabNav = ({ tabs, activeTab, onTabChange, showNavigation = true }: TabNavP
   return (
     <div className="mb-12">
       {/* Mobile Layout */}
-      <div className="md:hidden">
+      <div className=":hidden">
         <div className="relative">
           <button
             onClick={scrollPrev}
@@ -124,7 +124,7 @@ const TabNav = ({ tabs, activeTab, onTabChange, showNavigation = true }: TabNavP
       </div>
 
       {/* Desktop Layout */}
-      <div className="hidden md:flex md:justify-center">
+      <div className="hidden :flex :justify-center">
         <div 
           className="inline-flex rounded-lg p-1" 
           style={{ backgroundColor: design.buttonStyles.tab.container.backgroundColor }}
