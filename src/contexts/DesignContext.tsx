@@ -1,8 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { z } from 'zod';
-import { SITE_ID, ORG_ID } from '../../db_connect';
+import { SITE_ID, ORG_ID, API_BASE_URL } from '../../db_connect';
 import { validateData } from '@/schemas/contextSchemas';
-import { fetchDesignFromLocalDB } from '@/adapters/designAdapter';
 import defaultDesign from '@/design-default.json';
 
 // Types
@@ -445,6 +444,8 @@ interface DesignContextType {
   validateDesign: <T extends z.ZodSchema>(data: unknown, schema: T) => z.infer<T> | null;
   refreshDesign: () => Promise<void>;
   setSiteId: (id: string) => void;
+  updateDesignLocal: (updater: (prev: DesignConfig) => DesignConfig) => void;
+  saveDesignToAPI: () => Promise<void>;
 }
 
 const DesignContext = createContext<DesignContextType | undefined>(undefined);
@@ -468,16 +469,23 @@ export const DesignProvider: React.FC<DesignProviderProps> = ({
     setError(null);
 
     try {
-      // Load from local json-server via adapter
-      console.log('🔄 Fetching design from local JSON DB via adapter...');
-      const data = await fetchDesignFromLocalDB('/design-api');
-      setDesign(data as unknown as DesignConfig);
-      console.log('✅ Design config loaded from local JSON DB');
+      // Local dev: json-server via Vite proxy `/design-api`
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 10000);
+      const response = await fetch(`/design-api/design?t=${Date.now()}`, { signal: controller.signal, headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' } as any, cache: 'no-store' as RequestCache });
+      clearTimeout(timeout);
+
+      if (!response.ok) {
+        throw new Error(`Design API error ${response.status}`);
+      }
+
+      const data = await response.json();
+      setDesign(data as DesignConfig);
 
     } catch (err) {
       console.error('[DesignContext] Error loading design config:', err);
       setError(err instanceof Error ? err.message : 'Failed to load design config');
-      // Fallback to default local JSON
+      // Fallback to default local JSON for preview only
       setDesign(defaultDesign as unknown as DesignConfig);
     } finally {
       setLoading(false);
@@ -496,6 +504,18 @@ export const DesignProvider: React.FC<DesignProviderProps> = ({
     return validateData(data, schema, 'Design');
   };
 
+  const saveDesignToAPI = async () => {
+    // Local dev save to json-server via `/design-api`
+    let res = await fetch(`/design-api/design`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(design) });
+    if (!res.ok) {
+      // Fallback to PATCH for singleton updates if PUT is not supported
+      res = await fetch(`/design-api/design`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(design) });
+      if (!res.ok) throw new Error(`Failed to save design: ${res.status}`);
+    }
+    // Ensure state mirrors persisted data
+    await fetchDesign();
+  };
+
   const value: DesignContextType = {
     design,
     loading,
@@ -503,6 +523,16 @@ export const DesignProvider: React.FC<DesignProviderProps> = ({
     validateDesign,
     refreshDesign: fetchDesign,
     setSiteId,
+    updateDesignLocal: (updater) => {
+      setDesign((prev) => {
+        try {
+          return updater(structuredClone(prev));
+        } catch {
+          return updater(JSON.parse(JSON.stringify(prev)) as DesignConfig);
+        }
+      });
+    },
+    saveDesignToAPI,
   };
 
   return (

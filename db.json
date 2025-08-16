@@ -145,7 +145,7 @@
           "padding": {
             "mobile": "0.5rem 0.5rem 4rem",
             "tablet": "0.5rem 0.5rem",
-            "desktop": "0.5rem 0.5rem"
+            "desktop": "6.5rem 5.5rem"
           },
           "inner": {
             "maxWidth": "100%",
@@ -157,11 +157,6 @@
             },
             "rounded": true,
             "borderRadius": "1.5rem",
-            "display": "flex",
-            "flexDirection": "column",
-            "alignItems": "center",
-            "justifyContent": "center",
-            "minHeight": "100vh",
             "backgroundColor": "transparent",
             "overflow": "hidden",
             "background": {
@@ -214,13 +209,13 @@
           "inner": {
             "maxWidth": "1280px",
             "margin": "0 auto",
-            "backgroundColor": "transparent",
             "padding": {
               "mobile": "0",
               "tablet": "0",
               "desktop": "0"
             },
             "rounded": false,
+            "backgroundColor": "transparent",
             "overflow": "visible",
             "background": {
               "type": "color",
@@ -355,13 +350,13 @@
           "inner": {
             "maxWidth": "1280px",
             "margin": "0 auto",
-            "backgroundColor": "transparent",
             "padding": {
               "mobile": "0",
               "tablet": "0",
               "desktop": "0"
             },
             "rounded": false,
+            "backgroundColor": "transparent",
             "overflow": "visible",
             "background": {
               "type": "color",
@@ -435,13 +430,13 @@
           "inner": {
             "maxWidth": "1280px",
             "margin": "0 auto",
-            "backgroundColor": "transparent",
             "padding": {
               "mobile": "0",
               "tablet": "0",
               "desktop": "0"
             },
             "rounded": false,
+            "backgroundColor": "transparent",
             "overflow": "visible",
             "background": {
               "type": "color",
@@ -492,7 +487,9 @@
         "padding": "p-8",
         "hover": "hover:border-yellow-400 hover:bg-black/90"
       },
-      "header": { "spacing": "mb-6" },
+      "header": {
+        "spacing": "mb-6"
+      },
       "title": {
         "layout": "flex items-center gap-3",
         "base": "text-white",
@@ -501,7 +498,9 @@
         "iconColor": "text-yellow-500",
         "iconSize": "w-7 h-7"
       },
-      "content": { "spacing": "space-y-6" },
+      "content": {
+        "spacing": "space-y-6"
+      },
       "description": {
         "color": "text-white/80",
         "fontSize": "text-base",
@@ -570,7 +569,9 @@
     },
     "cardDefaults": {
       "className": "bg-white/80 backdrop-blur-sm border-none rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl h-full flex flex-col group",
-      "motionWhileHover": { "y": -5 }
+      "motionWhileHover": {
+        "y": -5
+      }
     },
     "serviceCard": {
       "rounded": "rounded-2xl",
@@ -645,7 +646,11 @@
       "dots": true,
       "autoplay": true,
       "autoplayDelay": 4000,
-      "slidesToShow": { "mobile": 1, "tablet": 2, "desktop": 3 },
+      "slidesToShow": {
+        "mobile": 1,
+        "tablet": 2,
+        "desktop": 3
+      },
       "gap": 24,
       "dragFree": true,
       "colors": {
@@ -654,8 +659,95 @@
         "arrows": "text-yellow-500",
         "arrowsHover": "hover:text-yellow-600"
       }
-    }
+    },
+    "designProfiles": {
+      "rc_black_yellow": {
+        "_meta": {
+          "label": "RC Black/Yellow",
+          "description": "Current default theme exported as a profile"
+        },
+        "colors": {
+          "primary": "yellow-500",
+          "primaryHover": "yellow-600",
+          "secondary": "slate-800",
+          "secondaryHover": "slate-900",
+          "text": "white",
+          "textLight": "#cbd5e1",
+          "textMuted": "#94a3b8",
+          "headingColor": "white",
+          "background": "black",
+          "pageBackground": "black",
+          "cardBackground": "black",
+          "accent": "yellow-500",
+          "highlight": "yellow-600"
+        },
+        "buttons": {
+          "primary": {
+            "text": "Saber mais via WhatsApp",
+            "bg": "bg-yellow-500",
+            "hover": "hover:bg-yellow-600",
+            "textColor": "text-black",
+            "fontWeight": "font-normal"
+          },
+          "secondary": {
+            "text": "Enviar um Email",
+            "bg": "bg-yellow-500",
+            "hover": "hover:bg-yellow-600",
+            "textColor": "text-black"
+          },
+          "whatsapp": {
+            "text": "Iniciar no WhatsApp",
+            "bg": "bg-yellow-500",
+            "hover": "hover:bg-yellow-600",
+            "textColor": "text-black",
+            "fontWeight": "font-normal"
+          }
+        },
+        "sliderOptions": {
+          "loop": true,
+          "dots": true,
+          "autoplay": true,
+          "autoplayDelay": 4000,
+          "slidesToShow": {
+            "mobile": 1,
+            "tablet": 2,
+            "desktop": 3
+          },
+          "gap": 24,
+          "dragFree": true,
+          "colors": {
+            "dotActive": "bg-yellow-500",
+            "dotInactive": "bg-slate-400",
+            "arrows": "text-yellow-500",
+            "arrowsHover": "hover:text-yellow-600"
+          }
+        },
+        "headings": {
+          "fontFamily": "Inter, sans-serif",
+          "fontSize": "4rem",
+          "fontSizeMd": "6.7rem",
+          "fontSizeLg": "7.7rem",
+          "lineHeight": "1",
+          "fontWeight": "300",
+          "letterSpacing": "-0.05em",
+          "color": "white",
+          "marginBottom": "0.5rem",
+          "textAlign": "center"
+        },
+        "hero_headings": {
+          "fontFamily": "Inter, sans-serif",
+          "fontSize": "4.1rem",
+          "fontSizeMd": "6.5rem",
+          "fontSizeLg": "7rem",
+          "lineHeight": "1",
+          "fontWeight": "400",
+          "letterSpacing": "-0.025em",
+          "color": "white",
+          "marginBottom": "1.5rem",
+          "textAlign": "center"
+        }
+      }
+    },
+    "activeDesignProfileId": "rc_black_yellow"
   }
 }
-
-

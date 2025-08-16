@@ -12,6 +12,7 @@ import SiteMetadata from '@/components/SiteMetadata';
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import ZodTestPage from "./pages/ZodTestPage";
+import DesignInspectorOverlay from "@/components/DesignInspectorOverlay";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +33,7 @@ const App = () => (
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
+            <DesignInspectorOverlay />
           </BrowserRouter>
             </TooltipProvider>
           </ContentProvider>

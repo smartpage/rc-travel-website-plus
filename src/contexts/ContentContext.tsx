@@ -3,8 +3,8 @@ import { z } from 'zod';
 import { SITE_ID, ORG_ID, API_BASE_URL } from '../../db_connect';
 import { validateData } from '@/schemas/contextSchemas';
 
-// Only import siteIndex.json as single source of truth
-import siteIndex from '@/data/siteIndex.json';
+// Remove hard local siteIndex import; API is the source of truth
+const localSiteIndex = undefined as unknown as any;
 
 // --- Types ---
 type InternalComponent = {
@@ -52,24 +52,7 @@ const loadContentSection = async (sectionName: string): Promise<any> => {
   }
 };
 
-// Build content manifest dynamically from siteIndex
-const buildLocalContentManifest = async (): Promise<{ [key: string]: any }> => {
-  const manifest: { [key: string]: any } = {
-    siteIndex: siteIndex
-  };
-  
-  // Load content for each section defined in siteIndex
-  for (const section of siteIndex.sections) {
-    if (section.isActive) {
-      const content = await loadContentSection(section.name);
-      if (content) {
-        manifest[section.name] = content;
-      }
-    }
-  }
-  
-  return manifest;
-};
+// Local manifest removed to enforce API-only loading
 
 // --- Provider ---
 export const ContentProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -103,17 +86,13 @@ export const ContentProvider: React.FC<{ children: ReactNode }> = ({ children })
       clearTimeout(timeout);
       
       if (!response.ok) {
-        console.warn(`[ContentContext] API respondeu ${response.status}. A usar fallback local.`);
-        // Fallback imediato para conteúdo local quando API falha
-        const localManifest = await buildLocalContentManifest();
-        const newContentMap = new Map<string, any>();
-        for (const [key, value] of Object.entries(localManifest)) {
-          newContentMap.set(key, value);
+        if (response.status === 404) {
+          throw new Error(`Endpoint não encontrado (404). Verifique se o servidor da API está configurado corretamente.`);
+        } else if (response.status >= 500) {
+          throw new Error(`Erro no servidor da API (${response.status}). Por favor, tente novamente mais tarde.`);
+        } else {
+          throw new Error(`Falha no pedido à API com código ${response.status}`);
         }
-        setSiteIndex(localManifest.siteIndex as SiteIndex);
-        setContentMap(newContentMap);
-        setError(null);
-        return;
       }
       
       const data = await response.json();
@@ -142,21 +121,9 @@ export const ContentProvider: React.FC<{ children: ReactNode }> = ({ children })
       console.log('✅ Content successfully loaded from Firebase API.');
 
     } catch (err) {
-      console.warn('❌ Firebase fetch failed, falling back to local JSONs:', err);
-      try {
-        const localManifest = await buildLocalContentManifest();
-        const newContentMap = new Map<string, any>();
-        for (const [key, value] of Object.entries(localManifest)) {
-          newContentMap.set(key, value);
-        }
-        setSiteIndex(localManifest.siteIndex as SiteIndex);
-        setContentMap(newContentMap);
-        setError(null);
-      } catch (fallbackErr) {
-        console.error('❌ Fallback local também falhou:', fallbackErr);
-        const errorMessage = err instanceof Error ? err.message : 'Ocorreu um erro desconhecido ao tentar carregar o conteúdo.';
-        setError(errorMessage);
-      }
+      console.error('❌ Firebase fetch failed:', err);
+      const errorMessage = err instanceof Error ? err.message : 'Ocorreu um erro desconhecido ao tentar carregar o conteúdo.';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }

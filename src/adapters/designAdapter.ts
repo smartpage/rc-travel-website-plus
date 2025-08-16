@@ -70,7 +70,10 @@ const DesignSchema = z.object({
   headings: z.any(),
   buttons: z.any(),
   sliderOptions: z.any(),
-});
+  // Profile scaffolding (optional)
+  designProfiles: z.record(z.any()).optional(),
+  activeDesignProfileId: z.string().optional(),
+}).passthrough();
 
 export type DesignData = z.infer<typeof DesignSchema>;
 

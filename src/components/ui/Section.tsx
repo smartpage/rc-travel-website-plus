@@ -123,7 +123,7 @@ const Section: React.FC<SectionProps> = ({ children, sectionId, className, id, b
   return (
     <>
       <style>{generateDynamicCSS()}</style>
-      <section id={uniqueId} style={outerStyle} className={className}>
+      <section id={uniqueId} data-section-id={sectionId} style={outerStyle} className={className}>
         <div className="inner-section" style={innerStyle}>
           <div style={{ position: 'relative', zIndex: 2 }}>
             {children}
