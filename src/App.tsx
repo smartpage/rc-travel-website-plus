@@ -20,7 +20,6 @@ const queryClient = new QueryClient();
 
 const App = () => {
   const isDesignMode = new URLSearchParams(window.location.search).get('design') === '1';
-  const isEmbed = new URLSearchParams(window.location.search).get('embed') === '1';
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -33,14 +32,22 @@ const App = () => {
                 <Toaster />
                 <Sonner />
                 <BrowserRouter>
-                  {isDesignMode && !isEmbed ? (
-                    // Design mode: only show overlays, no site content
+                  {isDesignMode ? (
+                    // Design mode: overlays + site content in animated container
                     <>
                       <DesignInspectorOverlay />
-                      <ViewportToggleOverlay />
+                      <ViewportToggleOverlay>
+                        {/* Site content will render inside ViewportToggleOverlay's container */}
+                        <Routes>
+                          <Route path="/" element={<Index />} />
+                          <Route path="/test-zod-contexts" element={<ZodTestPage />} />
+                          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                          <Route path="*" element={<NotFound />} />
+                        </Routes>
+                      </ViewportToggleOverlay>
                     </>
                   ) : (
-                    // Normal mode or embed mode: show site content
+                    // Normal mode: regular site
                     <>
                       <Routes>
                         <Route path="/" element={<Index />} />
@@ -48,13 +55,6 @@ const App = () => {
                         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                         <Route path="*" element={<NotFound />} />
                       </Routes>
-                      <EditorBridge />
-                      {!isEmbed && (
-                        <>
-                          <DesignInspectorOverlay />
-                          <ViewportToggleOverlay />
-                        </>
-                      )}
                     </>
                   )}
                 </BrowserRouter>

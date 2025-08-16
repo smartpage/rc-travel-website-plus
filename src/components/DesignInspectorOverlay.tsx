@@ -73,7 +73,7 @@ const DesignInspectorOverlay: React.FC = () => {
   const applyPreview = () => {
     setSaved(false);
     setError(null);
-    updateDesignLocal((prev: any) => {
+    const updatedDesign = ((prev: any) => {
       const next = { ...prev };
       next.colors = { ...next.colors, primary };
       next.sections = next.sections || {};
@@ -88,7 +88,18 @@ const DesignInspectorOverlay: React.FC = () => {
         },
       };
       return next;
-    });
+    })(design);
+    
+    updateDesignLocal(() => updatedDesign);
+    
+    // Send design update to iframe via BroadcastChannel
+    try {
+      const channel = new BroadcastChannel('rc_editor');
+      channel.postMessage({ type: 'design-update', design: updatedDesign });
+      channel.close();
+    } catch (e) {
+      console.warn('Failed to send design update to iframe:', e);
+    }
   };
 
   const save = async () => {

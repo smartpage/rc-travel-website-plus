@@ -1,43 +1,32 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { Monitor, Smartphone } from 'lucide-react';
+import { createPortal } from 'react-dom';
 
-const ViewportToggleOverlay: React.FC = () => {
+const ViewportToggleOverlay: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const location = useLocation();
   const enabled = React.useMemo(() => {
     const q = new URLSearchParams(location.search);
     return q.get('design') === '1' || q.get('design') === 'true';
   }, [location.search]);
 
-  // Hide overlay when explicitly embedding (the iframe loads with embed=1)
-  const isEmbed = React.useMemo(() => {
-    const q = new URLSearchParams(location.search);
-    return q.get('embed') === '1' || q.get('embed') === 'true';
-  }, [location.search]);
-
   const [vp, setVp] = React.useState<'desktop' | 'mobile'>(() => {
     return (sessionStorage.getItem('design_vp') as 'desktop' | 'mobile') || 'desktop';
   });
+
+  const [containerRef, setContainerRef] = React.useState<HTMLDivElement | null>(null);
 
   React.useEffect(() => {
     if (!enabled) return;
     sessionStorage.setItem('design_vp', vp);
   }, [vp, enabled]);
 
-  // Always render a single full-viewport iframe; prevent recursion via ?embed=1
-  const iframeUrl = React.useMemo(() => {
-    const url = new URL(window.location.href);
-    url.searchParams.delete('design');
-    url.searchParams.set('embed', '1');
-    return url.toString();
-  }, []);
-
-  // Animate the frame width between desktop and mobile
+  // Animate the container width between desktop and mobile
   const targetWidth = vp === 'mobile' ? 390 : undefined; // undefined => 100vw
 
-  if (!enabled || isEmbed) return null;
+  if (!enabled) return null;
 
-  // Desktop/Mobile shown inside one iframe. Parent page never changes layout.
+  // Desktop/Mobile shown inside animated container. No iframe isolation.
 
   return (
     <>
@@ -81,8 +70,9 @@ const ViewportToggleOverlay: React.FC = () => {
         </div>
       </div>
 
-      {/* Single iframe that animates its width between desktop (100vw) and mobile (390px) */}
+      {/* Animated container wrapper - renders site content directly inside */}
       <div
+        ref={setContainerRef}
         style={{
           position: 'fixed',
           top: 0,
@@ -90,21 +80,14 @@ const ViewportToggleOverlay: React.FC = () => {
           transform: 'translateX(-50%)',
           width: targetWidth ? `${targetWidth}px` : '100vw',
           height: '100vh',
-          zIndex: 1000,
+          zIndex: 900,
           transition: 'width 300ms cubic-bezier(0.2, 0.8, 0.2, 1)',
+          overflow: 'auto',
+          background: 'transparent',
         }}
       >
-        <iframe
-          src={iframeUrl}
-          title="Site preview"
-          style={{
-            width: '100%',
-            height: '100%',
-            border: 'none',
-            background: 'transparent',
-            overflow: 'hidden',
-          }}
-        />
+        {/* Site content will be portaled here */}
+        {containerRef && children && createPortal(children, containerRef)}
       </div>
     </>
   );

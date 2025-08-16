@@ -23,11 +23,22 @@ const EditorBridge: React.FC = () => {
     };
     document.addEventListener('click', clickHandler, true);
 
-    // Listen for preview updates from the parent if needed later
+    // Listen for design updates from parent and apply to local DesignContext
     const onMessage = (ev: MessageEvent) => {
       const msg = ev.data;
       if (!msg || typeof msg !== 'object') return;
-      // Placeholder for future live preview syncing
+      
+      if (msg.type === 'design-update' && msg.design) {
+        // Get the DesignContext from window (if available)
+        try {
+          const designContextUpdate = (window as any).rcDesignContextUpdate;
+          if (typeof designContextUpdate === 'function') {
+            designContextUpdate(msg.design);
+          }
+        } catch (e) {
+          console.warn('Failed to apply design update in iframe:', e);
+        }
+      }
     };
     channel.addEventListener('message', onMessage);
 
