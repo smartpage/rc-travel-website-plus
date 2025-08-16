@@ -177,12 +177,16 @@ const TabGrid = ({
             {activeCards.map((card, index) => (
               <div
                 key={card.id}
-                className="flex-none w-full :w-1/2 :w-1/3 :w-1/4"
+                className="flex-none w-[var(--slide-mobile-width,98%)] @md:w-1/2 @lg:w-1/3 @xl:w-1/4"
                 style={{
-                  marginLeft: `${design.sliderOptions.gap}px`
-                }}
+                  marginLeft: `${design.sliderOptions.gap}px`,
+                  // Allow tokenized control over mobile slide width
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore
+                  '--slide-mobile-width': (design as any)?.sliderOptions?.mobileCardWidth || '98%'
+                } as React.CSSProperties}
               >
-                <div className="h-full">
+                <div className="h-full mx-auto">
                   <CardGrid
                     cards={[card]}
                     cardType={cardType}
@@ -204,7 +208,7 @@ const TabGrid = ({
             {scrollSnaps.map((_, index) => (
               <button
                 key={index}
-                className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                className={`${(design as any)?.sliderOptions?.dotSizeClass || 'w-2.5 h-2.5'} rounded-full transition-all duration-300 ${
                   index === selectedIndex
                     ? design.sliderOptions.colors.dotActive
                     : design.sliderOptions.colors.dotInactive

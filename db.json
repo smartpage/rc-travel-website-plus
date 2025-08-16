@@ -687,9 +687,11 @@
       },
       "gap": 24,
       "dragFree": true,
+      "mobileCardWidth": "98%",
+      "dotSizeClass": "w-3 h-3",
       "colors": {
         "dotActive": "bg-yellow-500",
-        "dotInactive": "bg-slate-400",
+        "dotInactive": "bg-slate-500/60",
         "arrows": "text-yellow-500",
         "arrowsHover": "hover:text-yellow-600"
       }
