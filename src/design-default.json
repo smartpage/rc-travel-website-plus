@@ -1,20 +1,312 @@
 {
   "$schema": "",
-  "__note": "Default design JSON fallback duplicated from db.json/design",
+  "__note": "COMPREHENSIVE DESIGN TOKEN SYSTEM - Full tokenization for container queries and zero hardcoded values",
+  
   "colors": {
     "primary": "yellow-500",
     "primaryHover": "yellow-600",
+    "primaryLight": "yellow-400",
+    "primaryDark": "yellow-600",
     "secondary": "slate-800",
     "secondaryHover": "slate-900",
-    "text": "white",
-    "textLight": "#cbd5e1",
-    "textMuted": "#94a3b8",
-    "headingColor": "white",
-    "background": "black",
-    "pageBackground": "black",
-    "cardBackground": "black",
-    "accent": "yellow-500",
-    "highlight": "yellow-600"
+    "secondaryLight": "slate-700",
+    "text": {
+      "primary": "text-white",
+      "secondary": "text-slate-300",
+      "muted": "text-slate-400",
+      "light": "text-slate-200",
+      "dark": "text-slate-600",
+      "heading": "text-white",
+      "body": "text-white",
+      "card": "text-white/80",
+      "error": "text-red-400",
+      "success": "text-green-400",
+      "warning": "text-yellow-400",
+      "info": "text-blue-400"
+    },
+    "background": {
+      "primary": "bg-black",
+      "secondary": "bg-slate-900",
+      "tertiary": "bg-slate-800",
+      "card": "bg-black/80",
+      "overlay": "bg-black/60",
+      "surface": "bg-white/5",
+      "hover": "bg-white/10",
+      "transparent": "bg-transparent"
+    },
+    "border": {
+      "primary": "border-yellow-500",
+      "secondary": "border-slate-600",
+      "light": "border-white/20",
+      "lighter": "border-white/10",
+      "dark": "border-slate-800",
+      "transparent": "border-transparent"
+    },
+    "utility": {
+      "white": "white",
+      "black": "black",
+      "transparent": "transparent",
+      "current": "currentColor"
+    }
+  },
+
+  "spacing": {
+    "scale": {
+      "xs": "0.5rem",
+      "sm": "1rem", 
+      "md": "1.5rem",
+      "lg": "2rem",
+      "xl": "3rem",
+      "2xl": "4rem",
+      "3xl": "6rem",
+      "4xl": "8rem"
+    },
+    "padding": {
+      "none": "p-0",
+      "xs": "p-2",
+      "sm": "p-4", 
+      "md": "p-6",
+      "lg": "p-8",
+      "xl": "p-12",
+      "2xl": "p-16",
+      "card": "p-6 @md:p-8",
+      "section": "px-4 py-8 @md:px-8 @md:py-12 @lg:px-16 @lg:py-16",
+      "container": "px-4 @md:px-6 @lg:px-8"
+    },
+    "margin": {
+      "none": "m-0",
+      "xs": "m-2",
+      "sm": "m-4",
+      "md": "m-6", 
+      "lg": "m-8",
+      "xl": "m-12",
+      "2xl": "m-16",
+      "auto": "mx-auto",
+      "bottom": {
+        "xs": "mb-2",
+        "sm": "mb-4",
+        "md": "mb-6",
+        "lg": "mb-8",
+        "xl": "mb-12",
+        "2xl": "mb-16"
+      },
+      "top": {
+        "xs": "mt-2",
+        "sm": "mt-4", 
+        "md": "mt-6",
+        "lg": "mt-8",
+        "xl": "mt-12",
+        "2xl": "mt-16"
+      }
+    },
+    "gap": {
+      "none": "gap-0",
+      "xs": "gap-2",
+      "sm": "gap-4",
+      "md": "gap-6",
+      "lg": "gap-8",
+      "xl": "gap-12",
+      "2xl": "gap-16"
+    }
+  },
+
+  "layout": {
+    "containers": {
+      "xs": "max-w-sm mx-auto",
+      "sm": "max-w-2xl mx-auto", 
+      "md": "max-w-4xl mx-auto",
+      "lg": "max-w-5xl mx-auto",
+      "xl": "max-w-6xl mx-auto",
+      "2xl": "max-w-7xl mx-auto",
+      "full": "w-full max-w-none",
+      "screen": "w-screen"
+    },
+    "grids": {
+      "oneColumn": "grid grid-cols-1",
+      "twoColumn": "grid grid-cols-1 @md:grid-cols-2", 
+      "threeColumn": "grid grid-cols-1 @md:grid-cols-2 @lg:grid-cols-3",
+      "fourColumn": "grid grid-cols-1 @md:grid-cols-2 @lg:grid-cols-4",
+      "autoFit": "grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))]",
+      "responsive": {
+        "cards": "grid grid-cols-1 @md:grid-cols-2 @lg:grid-cols-3",
+        "testimonials": "grid grid-cols-1 @md:grid-cols-2 @lg:grid-cols-4",
+        "features": "grid grid-cols-1 @md:grid-cols-2 @lg:grid-cols-3",
+        "contact": "grid grid-cols-1 @lg:grid-cols-2"
+      }
+    },
+    "flex": {
+      "center": "flex items-center justify-center",
+      "between": "flex items-center justify-between",
+      "start": "flex items-center justify-start",
+      "end": "flex items-center justify-end",
+      "column": "flex flex-col",
+      "columnCenter": "flex flex-col items-center justify-center",
+      "wrap": "flex flex-wrap"
+    },
+    "widths": {
+      "full": "w-full",
+      "screen": "w-screen",
+      "auto": "w-auto",
+      "fit": "w-fit",
+      "min": "w-min",
+      "max": "w-max",
+      "xs": "w-20",
+      "sm": "w-32", 
+      "md": "w-48",
+      "lg": "w-64",
+      "xl": "w-80"
+    },
+    "heights": {
+      "full": "h-full",
+      "screen": "h-screen",
+      "auto": "h-auto",
+      "fit": "h-fit",
+      "min": "h-min",
+      "viewport": "min-h-screen",
+      "xs": "h-20",
+      "sm": "h-32",
+      "md": "h-48", 
+      "lg": "h-64",
+      "xl": "h-80"
+    },
+    "zIndex": {
+      "hide": "z-[-1]",
+      "base": "z-0",
+      "low": "z-10",
+      "medium": "z-20",
+      "high": "z-30",
+      "overlay": "z-40",
+      "modal": "z-50",
+      "popover": "z-60",
+      "tooltip": "z-70",
+      "notification": "z-80",
+      "max": "z-[9999]"
+    },
+    "position": {
+      "relative": "relative",
+      "absolute": "absolute", 
+      "fixed": "fixed",
+      "sticky": "sticky",
+      "static": "static"
+    }
+  },
+
+  "typography": {
+    "fontFamily": {
+      "primary": "Inter, sans-serif",
+      "secondary": "system-ui, sans-serif",
+      "mono": "ui-monospace, monospace"
+    },
+    "fontSize": {
+      "xs": "text-xs",
+      "sm": "text-sm",
+      "base": "text-base", 
+      "lg": "text-lg",
+      "xl": "text-xl",
+      "2xl": "text-2xl",
+      "3xl": "text-3xl",
+      "4xl": "text-4xl",
+      "5xl": "text-5xl",
+      "6xl": "text-6xl",
+      "responsive": {
+        "heading": "text-4xl @md:text-6xl @lg:text-7xl",
+        "heroHeading": "text-5xl @md:text-7xl @lg:text-8xl",
+        "subheading": "text-lg @md:text-xl",
+        "body": "text-base @md:text-lg"
+      }
+    },
+    "fontWeight": {
+      "light": "font-light",
+      "normal": "font-normal",
+      "medium": "font-medium", 
+      "semibold": "font-semibold",
+      "bold": "font-bold"
+    },
+    "lineHeight": {
+      "tight": "leading-tight",
+      "normal": "leading-normal",
+      "relaxed": "leading-relaxed",
+      "loose": "leading-loose"
+    },
+    "letterSpacing": {
+      "tight": "tracking-tight",
+      "normal": "tracking-normal", 
+      "wide": "tracking-wide"
+    },
+    "textAlign": {
+      "left": "text-left",
+      "center": "text-center",
+      "right": "text-right"
+    }
+  },
+
+  "effects": {
+    "shadows": {
+      "none": "shadow-none",
+      "sm": "shadow-sm",
+      "base": "shadow",
+      "md": "shadow-md",
+      "lg": "shadow-lg",
+      "xl": "shadow-xl",
+      "2xl": "shadow-2xl",
+      "inner": "shadow-inner"
+    },
+    "borders": {
+      "none": "border-0",
+      "thin": "border",
+      "thick": "border-2",
+      "radius": {
+        "none": "rounded-none",
+        "sm": "rounded-sm",
+        "base": "rounded",
+        "md": "rounded-md",
+        "lg": "rounded-lg",
+        "xl": "rounded-xl",
+        "2xl": "rounded-2xl",
+        "full": "rounded-full"
+      }
+    },
+    "transitions": {
+      "none": "transition-none",
+      "all": "transition-all duration-300",
+      "fast": "transition-all duration-150", 
+      "slow": "transition-all duration-500",
+      "colors": "transition-colors duration-300",
+      "transform": "transition-transform duration-300"
+    },
+    "blur": {
+      "none": "backdrop-blur-none",
+      "sm": "backdrop-blur-sm",
+      "base": "backdrop-blur",
+      "md": "backdrop-blur-md",
+      "lg": "backdrop-blur-lg"
+    }
+  },
+
+  "components": {
+    "card": {
+      "primary": "bg-black/80 backdrop-blur-lg border-2 border-yellow-500 rounded-2xl shadow-2xl transition-all duration-300 hover:border-yellow-400 hover:shadow-3xl overflow-hidden",
+      "secondary": "bg-white/5 backdrop-blur-sm border border-white/20 rounded-xl shadow-lg transition-all duration-300 hover:bg-white/10",
+      "glass": "bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-xl",
+      "simple": "bg-white rounded-lg shadow-sm border border-gray-200",
+      "elevated": "bg-white rounded-xl shadow-lg border border-gray-100"
+    },
+    "button": {
+      "primary": "bg-yellow-500 hover:bg-yellow-600 text-black font-normal px-6 py-4 @md:px-8 @md:py-6 rounded-xl border-2 border-yellow-500 hover:border-yellow-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105",
+      "secondary": "bg-transparent hover:bg-white/10 text-white font-normal px-6 py-4 @md:px-8 @md:py-6 rounded-xl border-2 border-white/30 hover:border-white/50 transition-all duration-300 shadow-none hover:shadow-lg",
+      "ghost": "bg-transparent hover:bg-white/5 text-white px-4 py-2 rounded-lg transition-colors duration-200",
+      "small": "px-4 py-2 text-sm rounded-lg",
+      "large": "px-8 py-4 text-lg rounded-xl"
+    },
+    "input": {
+      "primary": "w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:border-yellow-500 focus:outline-none transition-colors duration-200",
+      "secondary": "w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-gray-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+    },
+    "navigation": {
+      "overlay": "fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-black/20",
+      "menu": "hidden @md:flex items-center space-x-8",
+      "hamburger": "block @md:hidden p-3 bg-white/10 backdrop-blur-sm rounded-full"
+    }
   },
   "navigation": {
     "menuOverlay": {

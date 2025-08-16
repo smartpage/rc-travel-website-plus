@@ -4,12 +4,15 @@ import Skeleton from 'react-loading-skeleton';
 import { useDesign } from '@/contexts/DesignContext';
 import { useSettings } from '@/contexts/SettingsContext';
 import { useContent } from '@/contexts/ContentContext';
+import { useDesignTokens } from '@/hooks/useDesignTokens';
 import HamburgerIcon from "./HamburgerIcon";
 
 const Navigation = () => {
   const { design } = useDesign();
   const { siteConfig, agentConfig } = useSettings();
   const { getContentForComponent, loading } = useContent();
+  const { colors, spacing, layout, typography, effects, components, cx } = useDesignTokens();
+  
   const navigation = getContentForComponent<any>('Navigation');
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -17,21 +20,21 @@ const Navigation = () => {
   // Unique ID for the responsive logo
   const logoId = `logo-${Math.random().toString(36).substr(2, 9)}`;
 
-  // Media queries for the logo, using design configurations
-  const logoMediaQueries = `
+  // Container queries for the logo, using design configurations
+  const logoContainerQueries = `
     #${logoId} {
-      height: ${design.logos.main.height};
-      width: ${design.logos.main.width};
-      object-fit: ${design.logos.main.objectFit};
+      height: ${design.logos?.main?.height || '4.5rem'};
+      width: ${design.logos?.main?.width || 'auto'};
+      object-fit: ${design.logos?.main?.objectFit || 'contain'};
     }
-    @media (min-width: 768px) {
+    @container (min-width: 768px) {
       #${logoId} {
-        height: ${design.logos.main.heightMd};
+        height: ${design.logos?.main?.heightMd || '4.5rem'};
       }
     }
-    @media (min-width: 1024px) {
+    @container (min-width: 1024px) {
       #${logoId} {
-        height: ${design.logos.main.heightLg};
+        height: ${design.logos?.main?.heightLg || '4.5rem'};
       }
     }
   `;
@@ -61,14 +64,29 @@ const Navigation = () => {
   return (
     <>
       {/* Inject responsive CSS for the logo */}
-      <style dangerouslySetInnerHTML={{ __html: logoMediaQueries }} />
-      <nav className={`fixed top-0 w-full z-[60] transition-all duration-300 ${
-        isScrolled ? 'bg-white/90 backdrop-blur-lg shadow-lg' : 'bg-white/80 backdrop-blur-sm'
-      }`}>
-        <div className="flex justify-center w-full">
-          <div className="w-full max-w-screen-xl flex items-center justify-between px-0 mx-auto">
+      <style dangerouslySetInnerHTML={{ __html: logoContainerQueries }} />
+      <nav className={cx(
+        'fixed top-0',
+        layout.widths.full,
+        'z-[60]',
+        effects.transitions.all,
+        isScrolled 
+          ? cx(colors.background.surface, effects.blur.lg, effects.shadows.lg)
+          : cx(colors.background.hover, effects.blur.sm)
+      )}>
+        <div className={layout.flex.center}>
+          <div className={cx(
+            layout.widths.full,
+            layout.containers['2xl'],
+            layout.flex.between,
+            'px-0'
+          )}>
             <motion.div 
-              className="flex-1 flex items-center pl-4 sm:pl-6 md:pl-10"
+              className={cx(
+                'flex-1',
+                layout.flex.center,
+                spacing.padding.container.replace('py-8', '').replace('py-12', '').replace('py-16', '')
+              )}
               initial={{ y: 0, opacity: 1 }}
               animate={{
                 y: (isScrolled && !isOpen) ? -100 : 0,
@@ -79,28 +97,43 @@ const Navigation = () => {
                 ease: "easeInOut"
               }}
             >
-              <a href="#" className="flex items-center py-3 sm:py-4">
+              <a href="#" className={cx(
+                layout.flex.center,
+                'py-3 @md:py-4'
+              )}>
                 {loading ? (
-                  <Skeleton height={56} width={120} className="sm:h-12" />
+                  <Skeleton height={56} width={120} className="@md:h-12" />
                 ) : (
                   <img 
                     id={logoId}
                     src={siteConfig?.logoUrl || ''} 
                     alt={`${agentConfig?.fullName || ''} - ${siteConfig?.tagline || ''}`}
-                    className="transition-all duration-300"
+                    className={effects.transitions.all}
                   />
                 )}
               </a>
             </motion.div>
             
-            <div className="flex-1 flex items-center justify-end pr-4 sm:pr-6 md:pr-10">
+            <div className={cx(
+              'flex-1',
+              layout.flex.end,
+              spacing.padding.container.replace('py-8', '').replace('py-12', '').replace('py-16', '')
+            )}>
               {/* Desktop Menu */}
-              <div className="hidden md:flex items-center space-x-10">
+              <div className={cx(
+                components.navigation.menu,
+                spacing.gap.xl.replace('gap-', 'space-x-')
+              )}>
                 {desktopMenuItems.map((item) => (
                   <a 
                     key={item.label}
                     href={item.href} 
-                    className="text-gray-900 font-medium transition-colors duration-300 hover:text-cyan-700"
+                    className={cx(
+                      'text-gray-900',
+                      typography.fontWeight.medium,
+                      effects.transitions.colors,
+                      'hover:text-cyan-700'
+                    )}
                   >
                     {item.label}
                   </a>
@@ -108,10 +141,19 @@ const Navigation = () => {
               </div>
               
               {/* Mobile Hamburger Button */}
-              <div className="md:hidden relative z-[60]">
+              <div className={cx(
+                '@md:hidden',
+                layout.position.relative,
+                'z-[60]'
+              )}>
                 <button
                   onClick={() => setIsOpen(!isOpen)}
-                  className="p-2 focus:outline-none relative z-[60]"
+                  className={cx(
+                    spacing.padding.xs,
+                    'focus:outline-none',
+                    layout.position.relative,
+                    'z-[60]'
+                  )}
                   aria-label="Toggle menu"
                 >
                   <HamburgerIcon isOpen={isOpen} />
@@ -132,11 +174,16 @@ const Navigation = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 bg-white z-40 flex items-center justify-center"
+            className={cx(
+              layout.position.fixed,
+              'inset-0',
+              'bg-white',
+              'z-40',
+              layout.flex.center
+            )}
           >
-
-            <nav className="text-center">
-              <ul className="space-y-8">
+            <nav className={typography.textAlign.center}>
+              <ul className={spacing.gap.lg.replace('gap-', 'space-y-')}>
                 {mobileMenuItems.map((item, index) => (
                   <motion.li
                     key={item.label}
@@ -151,7 +198,13 @@ const Navigation = () => {
                   >
                     <button
                       onClick={() => handleLinkClick(item.href)}
-                      className="text-6xl lg:text-8xl font-light text-black hover:text-gray-700 transition-colors duration-300"
+                      className={cx(
+                        'text-6xl @lg:text-8xl',
+                        typography.fontWeight.light,
+                        'text-black',
+                        'hover:text-gray-700',
+                        effects.transitions.colors
+                      )}
                     >
                       {item.label}
                     </button>
