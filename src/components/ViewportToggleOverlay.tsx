@@ -34,11 +34,6 @@ const ViewportToggleOverlay: React.FC = () => {
 
   // Animate the frame width between desktop and mobile
   const targetWidth = vp === 'mobile' ? 390 : undefined; // undefined => 100vw
-  const [animateTick, setAnimateTick] = React.useState(0);
-  React.useEffect(() => {
-    // force reflow-driven animation trigger on vp change
-    setAnimateTick((n) => n + 1);
-  }, [vp]);
 
   if (!enabled || isEmbed) return null;
 
@@ -88,16 +83,15 @@ const ViewportToggleOverlay: React.FC = () => {
 
       {/* Single iframe that animates its width between desktop (100vw) and mobile (390px) */}
       <div
-        key={animateTick}
         style={{
           position: 'fixed',
           top: 0,
           left: '50%',
           transform: 'translateX(-50%)',
-          width: targetWidth ? targetWidth : '100vw',
+          width: targetWidth ? `${targetWidth}px` : '100vw',
           height: '100vh',
           zIndex: 1000,
-          transition: 'width 260ms cubic-bezier(0.2, 0.8, 0.2, 1)',
+          transition: 'width 300ms cubic-bezier(0.2, 0.8, 0.2, 1)',
         }}
       >
         <iframe
