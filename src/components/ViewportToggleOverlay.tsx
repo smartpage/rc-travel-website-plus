@@ -73,6 +73,7 @@ const ViewportToggleOverlay: React.FC<{ children?: React.ReactNode }> = ({ child
       {/* Animated container wrapper - renders site content directly inside */}
       <div
         ref={setContainerRef}
+        className="@container"
         style={{
           position: 'fixed',
           top: 0,
