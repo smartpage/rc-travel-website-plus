@@ -64,17 +64,16 @@ const SectionNavigator: React.FC = () => {
 
   return (
     <div style={{ 
-      position: 'fixed', 
-      top: 'calc(12px + 200px)', // Position below the DesignInspectorOverlay
-      right: 12, 
-      zIndex: 1000, 
-      width: 340, 
+      width: '100%', 
       background: '#0f0f0f', 
       color: '#fff', 
       borderRadius: 8, 
       boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
-      maxHeight: 'calc(100vh - 224px)', // Adjust for position below inspector
-      overflowY: 'auto'
+      display: 'flex',
+      flexDirection: 'column',
+      minHeight: 0, // Allow shrinking
+      overflow: 'hidden',
+      flex: '1 1 auto' // Take remaining space but can shrink
     }}>
       <button 
         onClick={() => setIsCollapsed(!isCollapsed)}
@@ -109,7 +108,12 @@ const SectionNavigator: React.FC = () => {
       </button>
       
       {!isCollapsed && (
-        <div style={{ padding: '0 12px 12px 12px' }}>
+        <div style={{ 
+          padding: '0 12px 12px 12px',
+          overflow: 'auto', // Add scrollbar when content exceeds container
+          flex: '1 1 auto', // Take available space but can shrink
+          minHeight: 0 // Allow shrinking
+        }}>
           <div style={{ display: 'grid', gap: 6 }}>
             {navigableSections.map((section) => (
               <button

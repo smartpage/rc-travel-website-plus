@@ -32,42 +32,66 @@ const ViewportToggleOverlay: React.FC<{ children?: React.ReactNode }> = ({ child
 
   return (
     <>
-      {/* Centered pill controls only */}
+      {/* Viewport toggle - panel style */}
       <div style={{ position: 'fixed', top: 12, left: '50%', transform: 'translateX(-50%)', zIndex: 1100 }}>
-        <div style={{ display: 'flex', gap: 4, background: '#0f0f0f', color: '#fff', border: '1px solid #2a2a2a', borderRadius: 9999, padding: 4, boxShadow: '0 8px 24px rgba(0,0,0,0.5)' }}>
+        <div style={{ 
+          background: '#0f0f0f', 
+          color: '#fff', 
+          borderRadius: 8, 
+          boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
+          display: 'flex',
+          gap: 8,
+          padding: 8
+        }}>
           <button
             onClick={() => setVp('desktop')}
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: 6,
-              padding: '6px 10px',
-              background: vp === 'desktop' ? '#1a1a1a' : 'transparent',
-              border: '1px solid #2a2a2a',
-              borderRadius: 9999,
+              justifyContent: 'center',
+              width: 48,
+              height: 40,
+              background: vp === 'desktop' ? '#2a2a2a' : '#1a1a1a',
+              border: '1px solid #3a3a3a',
+              borderRadius: 6,
               color: '#fff',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = vp === 'desktop' ? '#3a3a3a' : '#2a2a2a';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = vp === 'desktop' ? '#2a2a2a' : '#1a1a1a';
             }}
             aria-label="Desktop viewport"
           >
-            <Monitor size={16} />
-            <span style={{ fontSize: 12 }}>Desktop</span>
+            <Monitor size={20} />
           </button>
           <button
             onClick={() => setVp('mobile')}
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: 6,
-              padding: '6px 10px',
-              background: vp === 'mobile' ? '#1a1a1a' : 'transparent',
-              border: '1px solid #2a2a2a',
-              borderRadius: 9999,
+              justifyContent: 'center',
+              width: 48,
+              height: 40,
+              background: vp === 'mobile' ? '#2a2a2a' : '#1a1a1a',
+              border: '1px solid #3a3a3a',
+              borderRadius: 6,
               color: '#fff',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = vp === 'mobile' ? '#3a3a3a' : '#2a2a2a';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = vp === 'mobile' ? '#2a2a2a' : '#1a1a1a';
             }}
             aria-label="Mobile viewport"
           >
-            <Smartphone size={16} />
-            <span style={{ fontSize: 12 }}>Mobile</span>
+            <Smartphone size={20} />
           </button>
         </div>
       </div>

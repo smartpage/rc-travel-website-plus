@@ -133,7 +133,18 @@ const DesignInspectorOverlay: React.FC = () => {
   };
 
   return (
-    <div style={{ position: 'fixed', top: 12, right: 12, zIndex: 1000, width: 340, background: '#0f0f0f', color: '#fff', borderRadius: 8, boxShadow: '0 8px 24px rgba(0,0,0,0.5)' }}>
+    <div style={{ 
+      width: '100%', 
+      background: '#0f0f0f', 
+      color: '#fff', 
+      borderRadius: 8, 
+      boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
+      display: 'flex',
+      flexDirection: 'column',
+      minHeight: 0, // Allow shrinking
+      maxHeight: '50vh', // Don't take more than half viewport initially
+      overflow: 'hidden'
+    }}>
       <button 
         onClick={() => setIsCollapsed(!isCollapsed)}
         style={{ 
@@ -166,7 +177,12 @@ const DesignInspectorOverlay: React.FC = () => {
         </div>
       </button>
       {!isCollapsed && (
-        <div style={{ padding: '0 12px 12px 12px' }}>
+        <div style={{ 
+          padding: '0 12px 12px 12px',
+          overflow: 'auto', // Add scrollbar when content exceeds container
+          flex: '1 1 auto', // Take available space but can shrink
+          minHeight: 0 // Allow shrinking
+        }}>
           <div style={{ display: 'grid', gap: 10 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <span style={{ fontSize: 12, opacity: 0.8 }}>Section:</span>

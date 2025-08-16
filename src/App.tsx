@@ -12,10 +12,9 @@ import SiteMetadata from '@/components/SiteMetadata';
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import ZodTestPage from "./pages/ZodTestPage";
-import DesignInspectorOverlay from "@/components/DesignInspectorOverlay";
 import ViewportToggleOverlay from "@/components/ViewportToggleOverlay";
 import EditorBridge from "@/components/EditorBridge";
-import SectionNavigator from "@/components/SectionNavigator";
+import EditorPanelsWrapper from "@/components/EditorPanelsWrapper";
 
 const queryClient = new QueryClient();
 
@@ -36,8 +35,7 @@ const App = () => {
                   {isDesignMode ? (
                     // Design mode: overlays + site content in animated container
                     <>
-                      <DesignInspectorOverlay />
-                      <SectionNavigator />
+                      <EditorPanelsWrapper />
                       <ViewportToggleOverlay>
                         {/* Site content will render inside ViewportToggleOverlay's container */}
                         <Routes>
