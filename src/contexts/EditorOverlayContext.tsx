@@ -2,13 +2,34 @@ import React from 'react';
 
 type PanelId = 'inspector' | 'navigator';
 
+type OverlayRect = { top: number; left: number; width: number; height: number } | null;
+
+export type TokenMatch = {
+  scope: 'global' | 'section';
+  tokenPath: string; // e.g., "headings.fontSize" or "sections.hero.layout.padding.mobile"
+  label: string;
+  responsive?: boolean;
+};
+
+export interface ActiveElementInfo {
+  label: string;
+  sectionId: string | null;
+  tokenMatches: TokenMatch[];
+}
+
 interface EditorOverlayState {
   collapsed: Record<PanelId, boolean>;
+  overlayRect: OverlayRect;
+  activeElement: ActiveElementInfo | null;
+  viewport: 'desktop' | 'mobile';
 }
 
 interface EditorOverlayContextValue extends EditorOverlayState {
   toggleCollapse: (panel: PanelId) => void;
   setCollapsed: (panel: PanelId, value: boolean) => void;
+  setOverlayRect: (rect: OverlayRect) => void;
+  setActiveElement: (info: ActiveElementInfo | null) => void;
+  setViewport: (vp: 'desktop' | 'mobile') => void;
 }
 
 const EditorOverlayContext = React.createContext<EditorOverlayContextValue | undefined>(undefined);
@@ -16,6 +37,9 @@ const EditorOverlayContext = React.createContext<EditorOverlayContextValue | und
 export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, setState] = React.useState<EditorOverlayState>({
     collapsed: { inspector: false, navigator: false },
+    overlayRect: null,
+    activeElement: null,
+    viewport: (sessionStorage.getItem('design_vp') as 'desktop' | 'mobile') || 'desktop',
   });
 
   const toggleCollapse = (panel: PanelId) => {
@@ -29,10 +53,35 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
     setState(prev => ({ ...prev, collapsed: { ...prev.collapsed, [panel]: value } }));
   };
 
+  const setOverlayRect = (rect: OverlayRect) => {
+    setState(prev => ({ ...prev, overlayRect: rect }));
+  };
+
+  const setActiveElement = (info: ActiveElementInfo | null) => {
+    setState(prev => ({ ...prev, activeElement: info }));
+    if (info && prevViewportRef.current) {
+      // keep overlay rect locked to selection when one is active
+    }
+  };
+
+  const setViewport = (vp: 'desktop' | 'mobile') => {
+    try { sessionStorage.setItem('design_vp', vp); } catch {}
+    setState(prev => ({ ...prev, viewport: vp }));
+  };
+
+  const prevViewportRef = React.useRef(state.viewport);
+  React.useEffect(() => { prevViewportRef.current = state.viewport; }, [state.viewport]);
+
   const value: EditorOverlayContextValue = React.useMemo(() => ({
     collapsed: state.collapsed,
+    overlayRect: state.overlayRect,
+    activeElement: state.activeElement,
+    viewport: state.viewport,
     toggleCollapse,
     setCollapsed,
+    setOverlayRect,
+    setActiveElement,
+    setViewport,
   }), [state]);
 
   return (

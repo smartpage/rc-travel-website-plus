@@ -115,13 +115,15 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, iconMap }) => {
 
   // Regular service (no background image)
   return (
-    <div className="border border-gray-800 p-4 @md:p-8 @lg:p-12 bg-gray-900/20 hover:bg-gray-900/40 transition-all duration-300 group min-h-[500px] flex flex-col rounded-2xl">
-      <div className="mb-12">
+    <div className="relative overflow-hidden border border-gray-800 bg-transparent transition-all duration-300 group min-h-[500px] flex flex-col rounded-2xl" style={{ backgroundImage: 'none' }}>
+      {/* Opaque layer prevents underlying section background bleed */}
+      <div className="absolute inset-0 bg-black" style={{ backgroundImage: 'none' }} />
+      <div className="relative z-10 p-4 @md:p-8 @lg:p-12 mb-12">
         {IconComponent && (
           <IconComponent className={`w-12 h-12 text-gray-400 group-hover:text-${design.colors.primary} transition-colors duration-300`} />
         )}
       </div>
-      <div>
+      <div className="relative z-10 p-4 @md:p-8 @lg:p-12 pt-0">
         <h3 className="text-2xl font-light text-white mb-6">
           {service.title}
         </h3>

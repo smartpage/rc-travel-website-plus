@@ -6,6 +6,8 @@ import EditorPanel from './EditorPanel';
 import DesignInspectorContent from './DesignInspectorContent';
 import SectionNavigatorContent from './SectionNavigatorContent';
 import { EditorOverlayProvider, useEditorOverlay } from '@/contexts/EditorOverlayContext';
+import SelectionOverlay from '@/components/SelectionOverlay';
+import { resolveGlobalTokens, takeComputedSnapshot } from '@/lib/tokenResolver';
 
 const EditorPanelsWrapper: React.FC = () => {
   const location = useLocation();
@@ -15,7 +17,8 @@ const EditorPanelsWrapper: React.FC = () => {
 
   if (!enabled) return null;
 
-  const { collapsed } = useEditorOverlay();
+  const overlay = useEditorOverlay();
+  const { collapsed } = overlay;
   const { siteIndex } = useContent();
   const navigableCount = React.useMemo(() => {
     if (!siteIndex) return 0;
@@ -23,6 +26,39 @@ const EditorPanelsWrapper: React.FC = () => {
       section.isActive && !section.component.includes('Navigation') && section.component !== 'Footer'
     ).length;
   }, [siteIndex]);
+
+  // Bind hover and click handlers to compute highlight and selection
+  React.useEffect(() => {
+    if (!enabled) return;
+    const onMove = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (!target) return;
+      // If there is an active selection, do not update hover rect
+      if (overlay.activeElement) return;
+      const bounds = target.getBoundingClientRect();
+      // Clamp within viewport
+      overlay.setOverlayRect({ top: bounds.top, left: bounds.left, width: bounds.width, height: bounds.height });
+    };
+    const onClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (!target) return;
+      // Find closest section id
+      const sectionEl = target.closest('[data-section-id]') as HTMLElement | null;
+      const sectionId = sectionEl?.getAttribute('data-section-id') || null;
+      const snap = takeComputedSnapshot(target);
+      const tokenMatches = resolveGlobalTokens(snap, sectionId, design);
+      const label = `${snap.tagName.toLowerCase()}${sectionId ? ` · ${sectionId}` : ''}`;
+      overlay.setActiveElement({ label, sectionId, tokenMatches });
+      const bounds = target.getBoundingClientRect();
+      overlay.setOverlayRect({ top: bounds.top, left: bounds.left, width: bounds.width, height: bounds.height });
+    };
+    document.addEventListener('mousemove', onMove, true);
+    document.addEventListener('click', onClick, true);
+    return () => {
+      document.removeEventListener('mousemove', onMove, true);
+      document.removeEventListener('click', onClick, true);
+    };
+  }, [enabled, overlay.activeElement, design]);
 
   return (
     <div style={{
@@ -43,6 +79,8 @@ const EditorPanelsWrapper: React.FC = () => {
       boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
       overflow: 'auto'
     }}>
+      {/* Selection Overlay */}
+      <SelectionOverlay />
       {/* Design Inspector */}
       <div style={{ 
         width: '100%', 
