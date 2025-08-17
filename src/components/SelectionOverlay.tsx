@@ -19,6 +19,7 @@ const SelectionOverlay: React.FC = () => {
         pointerEvents: 'none',
         zIndex: 950,
       }}
+      data-overlay-ui="1"
     >
       <div
         style={{

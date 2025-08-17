@@ -15,6 +15,38 @@
 
 ---
 
+## Provider-Only Architecture Refactor (2025-01-XX)
+**Problem**: Business logic scattered across components, potential for duplicate event handling
+- `EditorPanelsWrapper` handled both UI rendering AND event logic
+- Provider was scoped only to design mode
+- Risk of context errors and duplicate listeners
+
+**Solution**: Centralized all overlay logic in `EditorOverlayProvider`
+- All event handling (mousemove, click, scroll) moved to provider
+- Components simplified to pure UI rendering
+- Global provider available throughout app
+- Better separation of concerns and testing
+
+**Files Modified**:
+- `src/contexts/EditorOverlayContext.tsx`: Added all event handling logic
+- `src/components/EditorPanelsWrapper.tsx`: Simplified to pure UI
+- `src/App.tsx`: Provider now wraps entire app globally
+
+---
+
+## UI Overlay Exclusion Fix (2025-01-XX)
+**Problem**: Overlay UI elements (panels, highlight box, viewport toggle) could be selected by the highlighter
+**Solution**: Added `data-overlay-ui="1"` to all overlay UI components
+- `SelectionOverlay`: Excluded highlight box from being highlighted
+- `ViewportToggleOverlay`: Excluded desktop/mobile toggle buttons
+- `EditorPanelsWrapper`: Excluded inspector and navigator panels
+
+**Files Modified**:
+- `src/components/SelectionOverlay.tsx`: Added data-overlay-ui attribute
+- `src/components/ViewportToggleOverlay.tsx`: Added data-overlay-ui attribute
+
+---
+
 ## Dynamic Element Highlight & Token Resolver (2025-01-XX)
 **Feature**: Click any element to dynamically identify and edit design tokens
 - Global event listeners for element selection

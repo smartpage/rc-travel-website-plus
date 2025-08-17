@@ -4,35 +4,56 @@
 App
 └─ Providers (SettingsProvider → DesignProvider → SkeletonProvider → ContentProvider → TooltipProvider)
    └─ BrowserRouter
-      ├─ ViewportToggleOverlay  ← container-resizes site (container queries)
-      │  └─ [site content rendered via portal]
-      └─ EditorPanelsWrapperWithProvider (design=1)
-         └─ EditorOverlayProvider (context)
-            └─ EditorPanelsWrapper (fixed right)
-               ├─ EditorPanel[id=inspector]
-               │  └─ DesignInspectorContent (edit tokens, preview/save)
-               └─ EditorPanel[id=navigator]
-                  └─ SectionNavigatorContent (anchor jump)
+      └─ EditorOverlayProvider (GLOBAL - Provider-Only Architecture)
+         ├─ (Normal Mode): @container wrapper → [site content]
+         └─ (Design Mode ?design=1):
+            ├─ EditorPanelsWrapper (fixed right) + SelectionOverlay
+            │  ├─ EditorPanel[id=inspector] → DesignInspectorContent
+            │  └─ EditorPanel[id=navigator] → SectionNavigatorContent  
+            └─ ViewportToggleOverlay (responsive container + viewport toggle)
+               └─ [site content rendered via portal]
 ```
 
 ```
-EditorOverlayContext (current)
+EditorOverlayContext (Provider-Only Architecture)
 └─ state
-   └─ collapsed: { inspector: boolean, navigator: boolean }
-└─ actions
-   ├─ toggleCollapse(panel)
-   └─ setCollapsed(panel, value)
+   ├─ collapsed: { inspector: boolean, navigator: boolean }
+   ├─ enabled: boolean (?design=1 detection)
+   ├─ overlayRect: DOMRect | null (highlight positioning)
+   ├─ activeElement: { label, sectionId, tokenMatches } | null
+   ├─ selectedElement: Element | null (DOM reference)
+   ├─ scrollContainer: HTMLElement | null (for scroll sync)
+   └─ viewport: 'desktop' | 'mobile'
+└─ actions (ALL LOGIC IN PROVIDER)
+   ├─ Panel Controls: toggleCollapse, setCollapsed
+   ├─ Selection: setActiveElement, setSelectedElement, setOverlayRect
+   ├─ Viewport: setViewport, setScrollContainer
+   └─ Event Handlers: mousemove, click, scroll (automatic)
 ```
 
 ### What it is
 - A lightweight, API‑first overlay for live editing design tokens and navigating active sections.
 - Uses container queries to preview responsive styles inside a single animated container, without iframes.
+- **NEW**: Dynamic element selection - click any element to automatically identify and edit its design tokens.
+- **NEW**: Provider-Only Architecture - all overlay logic centralized in `EditorOverlayProvider` for better maintainability.
 
 ### Core pieces
+- **EditorOverlayProvider** (Provider-Only Architecture)
+  - Centralized event handling: mousemove, click, scroll listeners
+  - Automatic `?design=1` detection and overlay state management
+  - Dynamic token resolution: maps computed styles to design tokens
+  - Excludes overlay UI elements via `data-overlay-ui="1"` filtering
+
+- **SelectionOverlay**
+  - Visual highlight box and label for selected elements
+  - Follows elements on scroll with real-time position sync
+  - Excluded from being selectable itself
+
 - ViewportToggleOverlay
   - Animates the container width between desktop/mobile.
   - Background consumes `design.colors.background` to avoid white gutters.
   - Renders the actual site content inside the container via React portal.
+  - **NEW**: Excluded from element selection via `data-overlay-ui="1"`
 
 - EditorPanelsWrapper
   - Right‑side stack of panels, gap = 0.5rem.

@@ -36,7 +36,7 @@ const ViewportToggleOverlay: React.FC<{ children?: React.ReactNode }> = ({ child
   return (
     <>
       {/* Viewport toggle - panel style */}
-      <div style={{ position: 'fixed', top: 12, left: '50%', transform: 'translateX(-50%)', zIndex: 1100 }}>
+      <div style={{ position: 'fixed', top: 12, left: '50%', transform: 'translateX(-50%)', zIndex: 1100 }} data-overlay-ui="1">
         <div style={{ 
           background: '#0f0f0f', 
           color: '#fff', 
