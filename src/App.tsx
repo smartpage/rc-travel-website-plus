@@ -49,15 +49,15 @@ const App = () => {
                       </EditorOverlayProvider>
                     </>
                   ) : (
-                    // Normal mode: regular site
-                    <>
+                    // Normal mode: regular site with consistent container wrapper
+                    <div className="@container" style={{ width: '100vw', height: '100vh', overflow: 'auto' }}>
                       <Routes>
                         <Route path="/" element={<Index />} />
                         <Route path="/test-zod-contexts" element={<ZodTestPage />} />
                         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                         <Route path="*" element={<NotFound />} />
                       </Routes>
-                    </>
+                    </div>
                   )}
                 </BrowserRouter>
               </TooltipProvider>

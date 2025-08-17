@@ -8,7 +8,6 @@ import SectionNavigatorContent from './SectionNavigatorContent';
 import { EditorOverlayProvider, useEditorOverlay } from '@/contexts/EditorOverlayContext';
 import SelectionOverlay from '@/components/SelectionOverlay';
 import { resolveGlobalTokens, takeComputedSnapshot } from '@/lib/tokenResolver';
-import { useEditorOverlay } from '@/contexts/EditorOverlayContext';
 
 const EditorPanelsWrapper: React.FC = () => {
   const location = useLocation();
