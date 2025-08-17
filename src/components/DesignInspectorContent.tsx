@@ -40,21 +40,12 @@ const DesignInspectorContent: React.FC = () => {
 		setInnerWidth((design?.sections?.[activeSectionId]?.layout?.inner as any)?.width || '');
 	}, [design, activeSectionId]);
 
+	// Update active section from context (Provider-Only architecture)
 	React.useEffect(() => {
-		if (!enabled) return;
-		const handler = (e: MouseEvent) => {
-			const target = e.target as HTMLElement;
-			const sectionEl = target.closest('[data-section-id]') as HTMLElement | null;
-			if (sectionEl) {
-				const sid = sectionEl.getAttribute('data-section-id');
-				if (sid && sid !== activeSectionId) {
-					setActiveSectionId(sid);
-				}
-			}
-		};
-		document.addEventListener('click', handler, true);
-		return () => document.removeEventListener('click', handler, true);
-	}, [enabled, activeSectionId]);
+		if (activeElement?.sectionId && activeElement.sectionId !== activeSectionId) {
+			setActiveSectionId(activeElement.sectionId);
+		}
+	}, [activeElement?.sectionId, activeSectionId]);
 
 	if (!enabled) return null;
 
@@ -130,6 +121,59 @@ const DesignInspectorContent: React.FC = () => {
 									</div>
 								)}
 							</div>
+							{/* Minimal editors: hero_headings */}
+							{m.tokenPath === 'hero_headings' && (
+								<div style={{ display: 'grid', gap: 6 }}>
+									<PanelRow label={`hero_headings.fontSize (${viewport})`}>
+										<input
+											value={viewport === 'mobile' ? (design?.hero_headings?.fontSize || '') : viewport === 'desktop' ? (design?.hero_headings?.fontSizeLg || '') : (design?.hero_headings?.fontSizeMd || '')}
+											onChange={(e) => {
+												const val = e.target.value;
+												updateDesignLocal((prev: any) => {
+													const next = { ...prev };
+													next.hero_headings = { ...next.hero_headings };
+													if (viewport === 'mobile') next.hero_headings.fontSize = val; else if (viewport === 'desktop') next.hero_headings.fontSizeLg = val; else next.hero_headings.fontSizeMd = val;
+													return next;
+												});
+											}}
+											placeholder="e.g. 3.5rem"
+											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+										/>
+									</PanelRow>
+									<PanelRow label="hero_headings.color">
+										<input
+											value={design?.hero_headings?.color || ''}
+											onChange={(e) => {
+												const val = e.target.value;
+												updateDesignLocal((prev: any) => {
+													const next = { ...prev };
+													next.hero_headings = { ...next.hero_headings };
+													next.hero_headings.color = val;
+													return next;
+												});
+											}}
+											placeholder="e.g. #ffffff"
+											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+										/>
+									</PanelRow>
+									<PanelRow label="hero_headings.fontWeight">
+										<input
+											value={design?.hero_headings?.fontWeight || ''}
+											onChange={(e) => {
+												const val = e.target.value;
+												updateDesignLocal((prev: any) => {
+													const next = { ...prev };
+													next.hero_headings = { ...next.hero_headings };
+													next.hero_headings.fontWeight = val;
+													return next;
+												});
+											}}
+											placeholder="e.g. 700"
+											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+										/>
+									</PanelRow>
+								</div>
+							)}
 							{/* Minimal editors: headings */}
 							{m.tokenPath === 'headings' && (
 								<div style={{ display: 'grid', gap: 6 }}>

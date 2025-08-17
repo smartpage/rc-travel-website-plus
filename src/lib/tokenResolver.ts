@@ -42,10 +42,24 @@ function softContains(a?: string, b?: string): boolean {
 export function resolveGlobalTokens(snapshot: ComputedSnapshot, sectionId: string | null, design: any): TokenMatch[] {
   const matches: TokenMatch[] = [];
 
-  // Text elements → headings / preTitle / titleDescription
+  // Text elements → headings / hero_headings / preTitle / titleDescription
   const isTextTag = ['H1','H2','H3','H4','H5','H6','P','SPAN','DIV'].includes(snapshot.tagName);
   if (isTextTag) {
-    // headings match
+    // Hero-specific headings (priority over global headings)
+    if (sectionId === 'hero' && design?.hero_headings) {
+      const h = design.hero_headings;
+      if (
+        (snapshot.fontFamily && softContains(snapshot.fontFamily, h.fontFamily)) ||
+        (snapshot.letterSpacing && approxEq(snapshot.letterSpacing, h.letterSpacing)) ||
+        (snapshot.fontWeight && softContains(snapshot.fontWeight, h.fontWeight)) ||
+        (snapshot.fontSize && (softContains(snapshot.fontSize, h.fontSize) || softContains(snapshot.fontSize, h.fontSizeMd) || softContains(snapshot.fontSize, h.fontSizeLg))) ||
+        (snapshot.color && softContains(snapshot.color, h.color))
+      ) {
+        matches.push({ scope: 'section', tokenPath: 'hero_headings', label: 'Hero Headings', responsive: true });
+      }
+    }
+    
+    // Global headings match (fallback)
     if (design?.headings) {
       const h = design.headings;
       if (
@@ -56,12 +70,16 @@ export function resolveGlobalTokens(snapshot: ComputedSnapshot, sectionId: strin
         matches.push({ scope: 'global', tokenPath: 'headings', label: 'Headings', responsive: true });
       }
     }
+    
+    // PreTitle match
     if (design?.preTitle) {
       const t = design.preTitle;
-      if (snapshot.color && t.color && snapshot.color === t.color) {
+      if (snapshot.color && t.color && softContains(snapshot.color, t.color)) {
         matches.push({ scope: 'global', tokenPath: 'preTitle', label: 'PreTitle', responsive: false });
       }
     }
+    
+    // Title Description match
     if (design?.titleDescription) {
       const d = design.titleDescription;
       if (snapshot.lineHeight && d.lineHeight && approxEq(snapshot.lineHeight, d.lineHeight)) {

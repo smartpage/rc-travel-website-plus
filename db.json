@@ -1,7 +1,7 @@
 {
   "design": {
     "colors": {
-      "primary": "yellow-500",
+      "primary": "red-500",
       "primaryHover": "yellow-600",
       "secondary": "slate-800",
       "secondaryHover": "slate-900",
@@ -622,9 +622,9 @@
       "fontSizeMd": "6.5rem",
       "fontSizeLg": "7rem",
       "lineHeight": "1",
-      "fontWeight": "400",
+      "fontWeight": "200",
       "letterSpacing": "-0.025em",
-      "color": "white",
+      "color": "red",
       "marginBottom": "1.5rem",
       "textAlign": "center"
     },
@@ -647,7 +647,7 @@
       "fontFamily": "Inter, sans-serif",
       "fontSize": "4rem",
       "fontSizeMd": "6.7rem",
-      "fontSizeLg": "7.7rem",
+      "fontSizeLg": "9.7rem",
       "lineHeight": "1",
       "fontWeight": "300",
       "letterSpacing": "-0.05em",
