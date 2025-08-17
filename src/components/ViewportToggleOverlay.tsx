@@ -3,12 +3,10 @@ import { useLocation } from 'react-router-dom';
 import { Monitor, Smartphone } from 'lucide-react';
 import { createPortal } from 'react-dom';
 import { useDesign } from '@/contexts/DesignContext';
-import { useEditorOverlay } from '@/contexts/EditorOverlayContext';
 
 const ViewportToggleOverlay: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const location = useLocation();
   const { design } = useDesign();
-  const overlay = useEditorOverlay();
   const enabled = React.useMemo(() => {
     const q = new URLSearchParams(location.search);
     return q.get('design') === '1' || q.get('design') === 'true';
@@ -23,7 +21,9 @@ const ViewportToggleOverlay: React.FC<{ children?: React.ReactNode }> = ({ child
   React.useEffect(() => {
     if (!enabled) return;
     sessionStorage.setItem('design_vp', vp);
-    overlay.setViewport(vp);
+    try {
+      window.dispatchEvent(new CustomEvent('design-viewport-change', { detail: { vp } }));
+    } catch {}
   }, [vp, enabled]);
 
   // Animate the container width between desktop and mobile

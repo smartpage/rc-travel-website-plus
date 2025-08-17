@@ -8,6 +8,7 @@ import SectionNavigatorContent from './SectionNavigatorContent';
 import { EditorOverlayProvider, useEditorOverlay } from '@/contexts/EditorOverlayContext';
 import SelectionOverlay from '@/components/SelectionOverlay';
 import { resolveGlobalTokens, takeComputedSnapshot } from '@/lib/tokenResolver';
+import { useEditorOverlay } from '@/contexts/EditorOverlayContext';
 
 const EditorPanelsWrapper: React.FC = () => {
   const location = useLocation();
@@ -51,6 +52,7 @@ const EditorPanelsWrapper: React.FC = () => {
       overlay.setActiveElement({ label, sectionId, tokenMatches });
       const bounds = target.getBoundingClientRect();
       overlay.setOverlayRect({ top: bounds.top, left: bounds.left, width: bounds.width, height: bounds.height });
+      overlay.setSelectedElement(target);
     };
     document.addEventListener('mousemove', onMove, true);
     document.addEventListener('click', onClick, true);
@@ -59,6 +61,28 @@ const EditorPanelsWrapper: React.FC = () => {
       document.removeEventListener('click', onClick, true);
     };
   }, [enabled, overlay.activeElement, design]);
+
+  // Keep overlay rect in sync with selected element while scrolling/resizing
+  React.useEffect(() => {
+    if (!enabled) return;
+
+    const updateRect = () => {
+      const el = overlay.selectedElement as HTMLElement | null;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      overlay.setOverlayRect({ top: rect.top, left: rect.left, width: rect.width, height: rect.height });
+    };
+
+    const onScroll = () => updateRect();
+    const onResize = () => updateRect();
+
+    window.addEventListener('scroll', onScroll, true);
+    window.addEventListener('resize', onResize, true);
+    return () => {
+      window.removeEventListener('scroll', onScroll, true);
+      window.removeEventListener('resize', onResize, true);
+    };
+  }, [enabled, overlay.selectedElement]);
 
   return (
     <div style={{

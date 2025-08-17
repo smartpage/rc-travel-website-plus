@@ -14,6 +14,7 @@ import NotFound from "./pages/NotFound";
 import ZodTestPage from "./pages/ZodTestPage";
 import ViewportToggleOverlay from "@/components/ViewportToggleOverlay";
 import EditorPanelsWrapper from "@/components/EditorPanelsWrapper";
+import { EditorOverlayProvider } from "@/contexts/EditorOverlayContext";
 
 const queryClient = new QueryClient();
 
@@ -34,16 +35,18 @@ const App = () => {
                   {isDesignMode ? (
                     // Design mode: overlays + site content in animated container
                     <>
-                      <EditorPanelsWrapper />
-                      <ViewportToggleOverlay>
-                        {/* Site content will render inside ViewportToggleOverlay's container */}
-                        <Routes>
-                          <Route path="/" element={<Index />} />
-                          <Route path="/test-zod-contexts" element={<ZodTestPage />} />
-                          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                          <Route path="*" element={<NotFound />} />
-                        </Routes>
-                      </ViewportToggleOverlay>
+                      <EditorOverlayProvider>
+                        <EditorPanelsWrapper />
+                        <ViewportToggleOverlay>
+                          {/* Site content will render inside ViewportToggleOverlay's container */}
+                          <Routes>
+                            <Route path="/" element={<Index />} />
+                            <Route path="/test-zod-contexts" element={<ZodTestPage />} />
+                            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                            <Route path="*" element={<NotFound />} />
+                          </Routes>
+                        </ViewportToggleOverlay>
+                      </EditorOverlayProvider>
                     </>
                   ) : (
                     // Normal mode: regular site

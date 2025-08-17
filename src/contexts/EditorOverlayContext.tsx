@@ -22,6 +22,8 @@ interface EditorOverlayState {
   overlayRect: OverlayRect;
   activeElement: ActiveElementInfo | null;
   viewport: 'desktop' | 'mobile';
+  selectedElement: Element | null;
+  scrollContainer: HTMLElement | null;
 }
 
 interface EditorOverlayContextValue extends EditorOverlayState {
@@ -30,6 +32,8 @@ interface EditorOverlayContextValue extends EditorOverlayState {
   setOverlayRect: (rect: OverlayRect) => void;
   setActiveElement: (info: ActiveElementInfo | null) => void;
   setViewport: (vp: 'desktop' | 'mobile') => void;
+  setSelectedElement: (el: Element | null) => void;
+  setScrollContainer: (el: HTMLElement | null) => void;
 }
 
 const EditorOverlayContext = React.createContext<EditorOverlayContextValue | undefined>(undefined);
@@ -40,6 +44,8 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
     overlayRect: null,
     activeElement: null,
     viewport: (sessionStorage.getItem('design_vp') as 'desktop' | 'mobile') || 'desktop',
+    selectedElement: null,
+    scrollContainer: null,
   });
 
   const toggleCollapse = (panel: PanelId) => {
@@ -72,6 +78,14 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
   const prevViewportRef = React.useRef(state.viewport);
   React.useEffect(() => { prevViewportRef.current = state.viewport; }, [state.viewport]);
 
+  const setSelectedElement = (el: Element | null) => {
+    setState(prev => ({ ...prev, selectedElement: el }));
+  };
+
+  const setScrollContainer = (el: HTMLElement | null) => {
+    setState(prev => ({ ...prev, scrollContainer: el }));
+  };
+
   const value: EditorOverlayContextValue = React.useMemo(() => ({
     collapsed: state.collapsed,
     overlayRect: state.overlayRect,
@@ -82,6 +96,8 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
     setOverlayRect,
     setActiveElement,
     setViewport,
+    setSelectedElement,
+    setScrollContainer,
   }), [state]);
 
   return (
