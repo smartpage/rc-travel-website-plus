@@ -75,7 +75,6 @@ const TravelPackageCard = ({ pkg, ctaText, moreDetailsText, onWhatsAppContact }:
             <CardTitle className={`text-xl font-bold text-${colors.text} leading-tight`} style={{ fontFamily: fonts.title }}>
               {pkg.name}
             </CardTitle>
-            <p className={`text-sm text-${colors.textLight} mt-1`} style={{ fontFamily: fonts.body }}>{pkg.duration}</p>
           </div>
         </div>
         
