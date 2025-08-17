@@ -32,10 +32,10 @@ const App = () => {
                 <Toaster />
                 <Sonner />
                 <BrowserRouter>
-                  {isDesignMode ? (
-                    // Design mode: overlays + site content in animated container
-                    <>
-                      <EditorOverlayProvider>
+                  <EditorOverlayProvider>
+                    {isDesignMode ? (
+                      // Design mode: overlays + site content in animated container
+                      <>
                         <EditorPanelsWrapper />
                         <ViewportToggleOverlay>
                           {/* Site content will render inside ViewportToggleOverlay's container */}
@@ -46,19 +46,19 @@ const App = () => {
                             <Route path="*" element={<NotFound />} />
                           </Routes>
                         </ViewportToggleOverlay>
-                      </EditorOverlayProvider>
-                    </>
-                  ) : (
-                    // Normal mode: regular site with consistent container wrapper
-                    <div className="@container" style={{ width: '100vw', height: '100vh', overflow: 'auto' }}>
-                      <Routes>
-                        <Route path="/" element={<Index />} />
-                        <Route path="/test-zod-contexts" element={<ZodTestPage />} />
-                        {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                        <Route path="*" element={<NotFound />} />
-                      </Routes>
-                    </div>
-                  )}
+                      </>
+                    ) : (
+                      // Normal mode: regular site with consistent container wrapper
+                      <div className="@container" style={{ width: '100vw', height: '100vh', overflow: 'auto' }}>
+                        <Routes>
+                          <Route path="/" element={<Index />} />
+                          <Route path="/test-zod-contexts" element={<ZodTestPage />} />
+                          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                          <Route path="*" element={<NotFound />} />
+                        </Routes>
+                      </div>
+                    )}
+                  </EditorOverlayProvider>
                 </BrowserRouter>
               </TooltipProvider>
             </ContentProvider>

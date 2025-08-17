@@ -1,25 +1,19 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
 import { useDesign } from '@/contexts/DesignContext';
 import { useContent } from '@/contexts/ContentContext';
 import EditorPanel from './EditorPanel';
 import DesignInspectorContent from './DesignInspectorContent';
 import SectionNavigatorContent from './SectionNavigatorContent';
-import { EditorOverlayProvider, useEditorOverlay } from '@/contexts/EditorOverlayContext';
+import { useEditorOverlay } from '@/contexts/EditorOverlayContext';
 import SelectionOverlay from '@/components/SelectionOverlay';
-import { resolveGlobalTokens, takeComputedSnapshot } from '@/lib/tokenResolver';
 
 const EditorPanelsWrapper: React.FC = () => {
-  const location = useLocation();
   const { design } = useDesign();
-  const query = React.useMemo(() => new URLSearchParams(location.search), [location.search]);
-  const enabled = query.get('design') === '1' || query.get('design') === 'true';
+  const overlay = useEditorOverlay();
+  const { collapsed, enabled } = overlay;
+  const { siteIndex } = useContent();
 
   if (!enabled) return null;
-
-  const overlay = useEditorOverlay();
-  const { collapsed } = overlay;
-  const { siteIndex } = useContent();
   const navigableCount = React.useMemo(() => {
     if (!siteIndex) return 0;
     return siteIndex.sections.filter((section: any) =>
@@ -27,61 +21,7 @@ const EditorPanelsWrapper: React.FC = () => {
     ).length;
   }, [siteIndex]);
 
-  // Bind hover and click handlers to compute highlight and selection
-  React.useEffect(() => {
-    if (!enabled) return;
-    const onMove = (e: MouseEvent) => {
-      const target = e.target as HTMLElement | null;
-      if (!target) return;
-      // If there is an active selection, do not update hover rect
-      if (overlay.activeElement) return;
-      const bounds = target.getBoundingClientRect();
-      // Clamp within viewport
-      overlay.setOverlayRect({ top: bounds.top, left: bounds.left, width: bounds.width, height: bounds.height });
-    };
-    const onClick = (e: MouseEvent) => {
-      const target = e.target as HTMLElement | null;
-      if (!target) return;
-      // Find closest section id
-      const sectionEl = target.closest('[data-section-id]') as HTMLElement | null;
-      const sectionId = sectionEl?.getAttribute('data-section-id') || null;
-      const snap = takeComputedSnapshot(target);
-      const tokenMatches = resolveGlobalTokens(snap, sectionId, design);
-      const label = `${snap.tagName.toLowerCase()}${sectionId ? ` · ${sectionId}` : ''}`;
-      overlay.setActiveElement({ label, sectionId, tokenMatches });
-      const bounds = target.getBoundingClientRect();
-      overlay.setOverlayRect({ top: bounds.top, left: bounds.left, width: bounds.width, height: bounds.height });
-      overlay.setSelectedElement(target);
-    };
-    document.addEventListener('mousemove', onMove, true);
-    document.addEventListener('click', onClick, true);
-    return () => {
-      document.removeEventListener('mousemove', onMove, true);
-      document.removeEventListener('click', onClick, true);
-    };
-  }, [enabled, overlay.activeElement, design]);
 
-  // Keep overlay rect in sync with selected element while scrolling/resizing
-  React.useEffect(() => {
-    if (!enabled) return;
-
-    const updateRect = () => {
-      const el = overlay.selectedElement as HTMLElement | null;
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      overlay.setOverlayRect({ top: rect.top, left: rect.left, width: rect.width, height: rect.height });
-    };
-
-    const onScroll = () => updateRect();
-    const onResize = () => updateRect();
-
-    window.addEventListener('scroll', onScroll, true);
-    window.addEventListener('resize', onResize, true);
-    return () => {
-      window.removeEventListener('scroll', onScroll, true);
-      window.removeEventListener('resize', onResize, true);
-    };
-  }, [enabled, overlay.selectedElement]);
 
   return (
     <div style={{
@@ -101,7 +41,7 @@ const EditorPanelsWrapper: React.FC = () => {
       borderRadius: 8,
       boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
       overflow: 'auto'
-    }}>
+    }} data-overlay-ui="1">
       {/* Selection Overlay */}
       <SelectionOverlay />
       {/* Design Inspector */}
@@ -137,10 +77,4 @@ const EditorPanelsWrapper: React.FC = () => {
   );
 };
 
-export default function EditorPanelsWrapperWithProvider() {
-  return (
-    <EditorOverlayProvider>
-      <EditorPanelsWrapper />
-    </EditorOverlayProvider>
-  );
-}
+export default EditorPanelsWrapper;

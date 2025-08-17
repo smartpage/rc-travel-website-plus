@@ -1,4 +1,7 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
+import { useDesign } from '@/contexts/DesignContext';
+import { resolveGlobalTokens, takeComputedSnapshot } from '@/lib/tokenResolver';
 
 type PanelId = 'inspector' | 'navigator';
 
@@ -24,6 +27,7 @@ interface EditorOverlayState {
   viewport: 'desktop' | 'mobile';
   selectedElement: Element | null;
   scrollContainer: HTMLElement | null;
+  enabled: boolean;
 }
 
 interface EditorOverlayContextValue extends EditorOverlayState {
@@ -39,6 +43,14 @@ interface EditorOverlayContextValue extends EditorOverlayState {
 const EditorOverlayContext = React.createContext<EditorOverlayContextValue | undefined>(undefined);
 
 export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const location = useLocation();
+  const { design } = useDesign();
+  
+  const enabled = React.useMemo(() => {
+    const q = new URLSearchParams(location.search);
+    return q.get('design') === '1' || q.get('design') === 'true';
+  }, [location.search]);
+
   const [state, setState] = React.useState<EditorOverlayState>({
     collapsed: { inspector: false, navigator: false },
     overlayRect: null,
@@ -46,6 +58,7 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
     viewport: (sessionStorage.getItem('design_vp') as 'desktop' | 'mobile') || 'desktop',
     selectedElement: null,
     scrollContainer: null,
+    enabled,
   });
 
   const toggleCollapse = (panel: PanelId) => {
@@ -86,11 +99,92 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
     setState(prev => ({ ...prev, scrollContainer: el }));
   };
 
+  // Update enabled state when location changes
+  React.useEffect(() => {
+    setState(prev => ({ ...prev, enabled }));
+  }, [enabled]);
+
+  // Main event handling logic - moved from EditorPanelsWrapper
+  React.useEffect(() => {
+    if (!enabled) return;
+
+    const onMove = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (!target) return;
+      // Ignore overlay UI and anything outside the content container
+      if (target.closest('[data-overlay-ui="1"]')) return;
+      if (!target.closest('[class~="@container"]')) return;
+      // If there is an active selection, do not update hover rect
+      if (state.activeElement) return;
+      // compute rect relative to viewport
+      const rect = target.getBoundingClientRect();
+      setState(prev => ({ ...prev, overlayRect: { top: rect.top, left: rect.left, width: rect.width, height: rect.height } }));
+    };
+
+    const onClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (!target) return;
+      if (target.closest('[data-overlay-ui="1"]')) return;
+      if (!target.closest('[class~="@container"]')) return;
+      // Find closest section id
+      const sectionEl = target.closest('[data-section-id]') as HTMLElement | null;
+      const sectionId = sectionEl?.getAttribute('data-section-id') || null;
+      const snap = takeComputedSnapshot(target);
+      const tokenMatches = resolveGlobalTokens(snap, sectionId, design);
+      const label = `${snap.tagName.toLowerCase()}${sectionId ? ` · ${sectionId}` : ''}`;
+      const activeElement = { label, sectionId, tokenMatches };
+      const rect = target.getBoundingClientRect();
+      setState(prev => ({
+        ...prev,
+        activeElement,
+        overlayRect: { top: rect.top, left: rect.left, width: rect.width, height: rect.height },
+        selectedElement: target
+      }));
+    };
+
+    document.addEventListener('mousemove', onMove, { capture: true, passive: true } as any);
+    document.addEventListener('click', onClick, true);
+    return () => {
+      document.removeEventListener('mousemove', onMove, { capture: true } as any);
+      document.removeEventListener('click', onClick, true);
+    };
+  }, [enabled, state.activeElement, design]);
+
+  // Keep overlay rect in sync with selected element while scrolling/resizing
+  React.useEffect(() => {
+    if (!enabled) return;
+
+    const updateRect = () => {
+      const el = state.selectedElement as HTMLElement | null;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      setState(prev => ({ ...prev, overlayRect: { top: rect.top, left: rect.left, width: rect.width, height: rect.height } }));
+    };
+
+    const onScroll = () => updateRect();
+    const onResize = () => updateRect();
+
+    // listen on window and the design container for scroll
+    window.addEventListener('scroll', onScroll, true);
+    const sc = state.scrollContainer;
+    if (sc) sc.addEventListener('scroll', onScroll, { capture: true, passive: true } as any);
+    window.addEventListener('resize', onResize, { capture: true, passive: true } as any);
+    return () => {
+      window.removeEventListener('scroll', onScroll, true);
+      const sc = state.scrollContainer;
+      if (sc) sc.removeEventListener('scroll', onScroll, { capture: true } as any);
+      window.removeEventListener('resize', onResize, { capture: true } as any);
+    };
+  }, [enabled, state.selectedElement, state.scrollContainer]);
+
   const value: EditorOverlayContextValue = React.useMemo(() => ({
     collapsed: state.collapsed,
     overlayRect: state.overlayRect,
     activeElement: state.activeElement,
     viewport: state.viewport,
+    selectedElement: state.selectedElement,
+    scrollContainer: state.scrollContainer,
+    enabled: state.enabled,
     toggleCollapse,
     setCollapsed,
     setOverlayRect,
