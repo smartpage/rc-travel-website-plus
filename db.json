@@ -563,11 +563,15 @@
     "typography": {
       "body": {
         "fontFamily": "Inter, sans-serif",
-        "fontSize": "1.875rem",
-        "fontWeight": "400",
-        "lineHeight": "1.75",
+        "fontSize": "1.5rem",
+        "fontWeight": "200",
+        "lineHeight": "1.375",
         "color": "white"
       },
+      "serviceCardTitle": { "fontFamily": "Inter, sans-serif", "fontSize": "1.5rem", "fontWeight": "300", "lineHeight": "1.2", "color": "white" },
+      "serviceCardDescription": { "fontFamily": "Inter, sans-serif", "fontSize": "1.125rem", "fontWeight": "300", "lineHeight": "1.6", "color": "#cbd5e1" },
+      "whyCardTitle": { "fontFamily": "Inter, sans-serif", "fontSize": "1.5rem", "fontWeight": "400", "lineHeight": "1.2", "color": "white" },
+      "whyCardDescription": { "fontFamily": "Inter, sans-serif", "fontSize": "1rem", "fontWeight": "300", "lineHeight": "1.6", "color": "#cbd5e1" },
       "cardBody": {
         "fontFamily": "Inter, sans-serif",
         "fontSize": "0.95rem",
@@ -620,11 +624,11 @@
       "fontFamily": "Inter, sans-serif",
       "fontSize": "4.1rem",
       "fontSizeMd": "6.5rem",
-      "fontSizeLg": "7rem",
+      "fontSizeLg": "8.375rem",
       "lineHeight": "1",
-      "fontWeight": "200",
+      "fontWeight": "400",
       "letterSpacing": "-0.025em",
-      "color": "orange",
+      "color": "white",
       "marginBottom": "1.5rem",
       "textAlign": "center"
     },
@@ -647,7 +651,7 @@
       "fontFamily": "Inter, sans-serif",
       "fontSize": "3rem",
       "fontSizeMd": "6.7rem",
-      "fontSizeLg": "6.7rem",
+      "fontSizeLg": "7.45rem",
       "lineHeight": "1",
       "fontWeight": "300",
       "letterSpacing": "-0.05em",

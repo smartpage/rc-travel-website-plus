@@ -79,7 +79,17 @@ const TravelPackageCard = ({ pkg, ctaText, moreDetailsText, onWhatsAppContact }:
           </div>
         </div>
         
-        <p className={`text-${colors.text} mb-4 text-sm leading-relaxed line-clamp-2`} style={{ fontFamily: fonts.body }}>
+        <p
+          data-typography="packageDescription"
+          className={`mb-4 line-clamp-2`}
+          style={{
+            fontFamily: design.typography?.packageDescription?.fontFamily || fonts.body,
+            fontSize: design.typography?.packageDescription?.fontSize || '1rem',
+            lineHeight: design.typography?.packageDescription?.lineHeight || '1.6',
+            fontWeight: design.typography?.packageDescription?.fontWeight || '400',
+            color: design.typography?.packageDescription?.color || `var(--text-color, white)`
+          }}
+        >
           {pkg.description}
         </p>
         

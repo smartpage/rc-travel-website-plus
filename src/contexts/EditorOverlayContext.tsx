@@ -135,8 +135,13 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
     if (!enabled) return;
 
     const onMove = (e: MouseEvent) => {
-      const target = e.target as HTMLElement | null;
-      if (!target) return;
+      const raw = e.target as HTMLElement | null;
+      if (!raw) return;
+      // Normalize target to nearest semantic element (heading/paragraph/button/link)
+      const target = (raw.closest('h1,h2,h3,h4,h5,h6') as HTMLElement) ||
+                     (raw.closest('p') as HTMLElement) ||
+                     (raw.closest('button,a') as HTMLElement) ||
+                     raw;
       // Ignore overlay UI and anything outside the content container
       if (target.closest('[data-overlay-ui="1"]')) return;
       if (!target.closest('[class~="@container"]')) return;
@@ -148,16 +153,21 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
     };
 
     const onClick = (e: MouseEvent) => {
-      const target = e.target as HTMLElement | null;
-      if (!target) return;
+      const raw = e.target as HTMLElement | null;
+      if (!raw) return;
+      // Normalize target as above
+      const target = (raw.closest('h1,h2,h3,h4,h5,h6') as HTMLElement) ||
+                     (raw.closest('p') as HTMLElement) ||
+                     (raw.closest('button,a') as HTMLElement) ||
+                     raw;
       if (target.closest('[data-overlay-ui="1"]')) return;
       if (!target.closest('[class~="@container"]')) return;
       // Find closest section id
       const sectionEl = target.closest('[data-section-id]') as HTMLElement | null;
       const sectionId = sectionEl?.getAttribute('data-section-id') || null;
       const snap = takeComputedSnapshot(target);
-      const tokenMatches = resolveGlobalTokens(snap, sectionId, design);
-      const label = `${snap.tagName.toLowerCase()}${sectionId ? ` · ${sectionId}` : ''}`;
+      const tokenMatches = resolveGlobalTokens(snap, sectionId, design, target);
+      const label = `${target.tagName.toLowerCase()}${sectionId ? ` · ${sectionId}` : ''}`;
       const activeElement = { label, sectionId, tokenMatches };
       const rect = target.getBoundingClientRect();
       setState(prev => ({

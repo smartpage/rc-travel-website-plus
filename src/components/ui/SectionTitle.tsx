@@ -144,13 +144,13 @@ const SectionTitle: React.FC<SectionTitleProps> = ({
         )}
         
         {/* Main Title */}
-        <h2 
+        <h1 
           id={uniqueId}
           style={titleStyles}
           className="mt-2"
         >
           {renderTitleContent()}
-        </h2>
+        </h1>
         
         {/* Description */}
         {description && (

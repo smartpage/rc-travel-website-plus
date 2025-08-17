@@ -69,9 +69,20 @@ const TravelDesigner = () => {
                 />
               </div>
               <div className="p-4 text-left">
-                <div className="space-y-2" style={{ fontFamily: design.fonts.body }}>
+                <div className="space-y-2">
                   {travelDesigner.originalCard.paragraphs.map((paragraph: string, index: number) => (
-                    <p key={index} className="text-sm text-gray-700" dangerouslySetInnerHTML={{ __html: paragraph }} />
+                    <p
+                      key={index}
+                      data-typography="travelDesignerCard"
+                      style={{
+                        fontFamily: design.typography?.travelDesignerCard?.fontFamily || design.fonts.body,
+                        fontSize: design.typography?.travelDesignerCard?.fontSize || '1rem',
+                        lineHeight: design.typography?.travelDesignerCard?.lineHeight || '1.6',
+                        fontWeight: design.typography?.travelDesignerCard?.fontWeight || '400',
+                        color: design.typography?.travelDesignerCard?.color || '#111827'
+                      }}
+                      dangerouslySetInnerHTML={{ __html: paragraph }}
+                    />
                   ))}
                 </div>
               </div>

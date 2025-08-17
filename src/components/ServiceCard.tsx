@@ -124,10 +124,31 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, iconMap }) => {
         )}
       </div>
       <div className="relative z-10 p-4 @md:p-8 @lg:p-12 pt-0">
-        <h3 className="text-2xl font-light text-white mb-6">
+        <h3
+          data-typography="serviceCard.title"
+          className="mb-6"
+          style={{
+            fontFamily: design.typography?.serviceCardTitle?.fontFamily || 'inherit',
+            fontSize: design.typography?.serviceCardTitle?.fontSize || '1.5rem',
+            fontWeight: design.typography?.serviceCardTitle?.fontWeight || '300',
+            lineHeight: design.typography?.serviceCardTitle?.lineHeight || '1.2',
+            letterSpacing: design.typography?.serviceCardTitle?.letterSpacing,
+            color: design.typography?.serviceCardTitle?.color || 'white'
+          }}
+        >
           {service.title}
         </h3>
-        <p className="text-lg text-gray-400 font-light leading-relaxed">
+        <p
+          data-typography="serviceCard.description"
+          style={{
+            fontFamily: design.typography?.serviceCardDescription?.fontFamily || 'inherit',
+            fontSize: design.typography?.serviceCardDescription?.fontSize || '1.125rem',
+            fontWeight: design.typography?.serviceCardDescription?.fontWeight || '300',
+            lineHeight: design.typography?.serviceCardDescription?.lineHeight || '1.6',
+            letterSpacing: design.typography?.serviceCardDescription?.letterSpacing,
+            color: design.typography?.serviceCardDescription?.color || '#cbd5e1'
+          }}
+        >
           {service.description}
         </p>
         

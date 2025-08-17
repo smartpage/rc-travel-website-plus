@@ -83,11 +83,33 @@ const WhyFeatureCards: React.FC = () => {
                     <div className={`w-16 h-16 rounded-full flex items-center justify-center text-2xl mb-6 mx-auto bg-${design.colors.primary} text-black`}>
                       <IconComponent className="w-7 h-7" />
                     </div>
-                    <CardTitle className={`text-center ${design.primaryCards.title.fontSize} ${design.primaryCards.title.base} ${design.primaryCards.title.fontWeight} mb-4`} style={{ fontFamily: design.fonts.title }}>
+                    <CardTitle
+                      data-typography="whyCard.title"
+                      className={`text-center mb-4`}
+                      style={{
+                        fontFamily: design.typography?.whyCardTitle?.fontFamily || design.fonts.title,
+                        fontSize: design.typography?.whyCardTitle?.fontSize || '1.5rem',
+                        fontWeight: design.typography?.whyCardTitle?.fontWeight || '400',
+                        lineHeight: design.typography?.whyCardTitle?.lineHeight || '1.2',
+                        letterSpacing: design.typography?.whyCardTitle?.letterSpacing,
+                        color: design.typography?.whyCardTitle?.color || 'white'
+                      }}
+                    >
                       {feature.title}
                     </CardTitle>
                     <CardContent className="px-6">
-                      <CardDescription className={`${design.primaryCards.description.fontSize} ${design.primaryCards.description.color} leading-relaxed text-center`} style={{ fontFamily: design.fonts.body }}>
+                      <CardDescription
+                        data-typography="whyCard.description"
+                        className={`leading-relaxed text-center`}
+                        style={{
+                          fontFamily: design.typography?.whyCardDescription?.fontFamily || design.fonts.body,
+                          fontSize: design.typography?.whyCardDescription?.fontSize || '1rem',
+                          fontWeight: design.typography?.whyCardDescription?.fontWeight || '300',
+                          lineHeight: design.typography?.whyCardDescription?.lineHeight || '1.6',
+                          letterSpacing: design.typography?.whyCardDescription?.letterSpacing,
+                          color: design.typography?.whyCardDescription?.color || '#cbd5e1'
+                        }}
+                      >
                         {feature.description}
                       </CardDescription>
                     </CardContent>

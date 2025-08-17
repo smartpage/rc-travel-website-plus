@@ -76,36 +76,52 @@ function detectBackgroundContext(element: Element): 'light' | 'dark' | 'unknown'
 export function resolveGlobalTokens(snapshot: ComputedSnapshot, sectionId: string | null, design: any, element?: Element): TokenMatch[] {
   const matches: TokenMatch[] = [];
   let hasSpecificMatch = false; // Track if we found a highly specific match
+  const bgContext: 'light' | 'dark' | 'unknown' = element ? detectBackgroundContext(element) : 'unknown';
+
+  // 1) Hard hints via data-typography attribute take absolute priority
+  if (element && (element as HTMLElement).dataset && (element as HTMLElement).dataset.typography) {
+    const hint = (element as HTMLElement).dataset.typography;
+    switch (hint) {
+      case 'serviceCard.title':
+        matches.push({ scope: 'global', tokenPath: 'typography.serviceCardTitle', label: 'Service Card Title', responsive: false });
+        hasSpecificMatch = true;
+        break;
+      case 'serviceCard.description':
+        matches.push({ scope: 'global', tokenPath: 'typography.serviceCardDescription', label: 'Service Card Description', responsive: false });
+        hasSpecificMatch = true;
+        break;
+      case 'whyCard.title':
+        matches.push({ scope: 'global', tokenPath: 'typography.whyCardTitle', label: 'Why Card Title', responsive: false });
+        hasSpecificMatch = true;
+        break;
+      case 'whyCard.description':
+        matches.push({ scope: 'global', tokenPath: 'typography.whyCardDescription', label: 'Why Card Description', responsive: false });
+        hasSpecificMatch = true;
+        break;
+      case 'travelDesignerCard':
+        matches.push({ scope: 'global', tokenPath: 'typography.travelDesignerCard', label: 'Travel Designer Card Text', responsive: false });
+        hasSpecificMatch = true;
+        break;
+      case 'packageDescription':
+        matches.push({ scope: 'global', tokenPath: 'typography.packageDescription', label: 'Package Description', responsive: false });
+        hasSpecificMatch = true;
+        break;
+    }
+  }
 
   // Text elements → headings / hero_headings / preTitle / titleDescription
   const isTextTag = ['H1','H2','H3','H4','H5','H6','P','SPAN','DIV'].includes(snapshot.tagName);
   const isHeadingTag = ['H1','H2','H3','H4','H5','H6'].includes(snapshot.tagName);
   
   if (isTextTag) {
-    // Hero-specific headings (priority over global headings)
-    if (sectionId === 'hero' && design?.hero_headings && isHeadingTag) {
-      const h = design.hero_headings;
-      if (
-        (snapshot.fontFamily && softContains(snapshot.fontFamily, h.fontFamily)) ||
-        (snapshot.letterSpacing && approxEq(snapshot.letterSpacing, h.letterSpacing)) ||
-        (snapshot.fontWeight && softContains(snapshot.fontWeight, h.fontWeight)) ||
-        (snapshot.fontSize && (softContains(snapshot.fontSize, h.fontSize) || softContains(snapshot.fontSize, h.fontSizeMd) || softContains(snapshot.fontSize, h.fontSizeLg))) ||
-        (snapshot.color && softContains(snapshot.color, h.color))
-      ) {
+    // Headings: always classify H1–H6 as headings. Prioritize hero headings inside hero section.
+    if (isHeadingTag) {
+      if (sectionId === 'hero' && design?.hero_headings) {
         matches.push({ scope: 'section', tokenPath: 'hero_headings', label: 'Hero Headings', responsive: true });
-        hasSpecificMatch = true; // Found specific match, deprioritize generic ones
-      }
-    }
-    
-    // Global headings match (only if no specific match found)
-    if (!hasSpecificMatch && design?.headings && isHeadingTag) {
-      const h = design.headings;
-      if (
-        (snapshot.fontFamily && softContains(snapshot.fontFamily, h.fontFamily)) ||
-        (snapshot.letterSpacing && approxEq(snapshot.letterSpacing, h.letterSpacing)) ||
-        (snapshot.fontWeight && softContains(snapshot.fontWeight, h.fontWeight))
-      ) {
+        hasSpecificMatch = true;
+      } else if (design?.headings) {
         matches.push({ scope: 'global', tokenPath: 'headings', label: 'Headings', responsive: true });
+        hasSpecificMatch = true;
       }
     }
     
@@ -119,30 +135,14 @@ export function resolveGlobalTokens(snapshot: ComputedSnapshot, sectionId: strin
     
     // Body text match (for paragraph elements) - context-aware
     if (snapshot.tagName === 'P') {
-      // Check for card body text (on light backgrounds)
-      if (design?.typography?.cardBody) {
-        const cb = design.typography.cardBody;
-        if (
-          (snapshot.color && softContains(snapshot.color, cb.color)) ||
-          (snapshot.fontSize && softContains(snapshot.fontSize, cb.fontSize))
-        ) {
-          matches.push({ scope: 'global', tokenPath: 'typography.cardBody', label: 'Card Body Text', responsive: false });
-          hasSpecificMatch = true;
-        }
+      // Prefer cardBody for light backgrounds; fallback to body
+      if (design?.typography?.cardBody && (bgContext === 'light')) {
+        matches.push({ scope: 'global', tokenPath: 'typography.cardBody', label: 'Card Body Text', responsive: false });
+        hasSpecificMatch = true;
       }
-      
-      // Check for general body text (fallback)
       if (!hasSpecificMatch && design?.typography?.body) {
-        const b = design.typography.body;
-        if (
-          (snapshot.fontFamily && softContains(snapshot.fontFamily, b.fontFamily)) ||
-          (snapshot.fontSize && softContains(snapshot.fontSize, b.fontSize)) ||
-          (snapshot.lineHeight && approxEq(snapshot.lineHeight, b.lineHeight)) ||
-          (snapshot.fontWeight && softContains(snapshot.fontWeight, b.fontWeight))
-        ) {
-          matches.push({ scope: 'global', tokenPath: 'typography.body', label: 'Body Text', responsive: false });
-          hasSpecificMatch = true;
-        }
+        matches.push({ scope: 'global', tokenPath: 'typography.body', label: 'Body Text', responsive: false });
+        hasSpecificMatch = true;
       }
     }
     

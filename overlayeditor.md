@@ -45,6 +45,7 @@ EditorOverlayContext (Provider-Only Architecture)
     - Prioritizes section-specific tokens (e.g., `hero_headings` over `headings`)
     - Enhanced matching: fontSize variants, color, fontWeight, fontFamily
     - Context-aware based on sectionId and element properties
+    - See “Token Resolver Specification” below for exact rules
   - Excludes overlay UI elements via `data-overlay-ui="1"` filtering
 
 - **SelectionOverlay**
@@ -81,6 +82,44 @@ EditorOverlayContext (Provider-Only Architecture)
 - Design tokens: local json‑server (`db.json`) while backend endpoints are pending.
   - GET uses `no-store` + timestamp to bypass caches.
   - Save tries PUT then PATCH (json‑server singleton pattern).
+
+### Token Resolver Specification
+
+The resolver translates a clicked DOM element into one or more design token targets.
+
+Selection snapshot:
+- Captures `tagName`, `fontFamily`, `fontSize`, `lineHeight`, `fontWeight`, `letterSpacing`, `color`, `backgroundColor` via `window.getComputedStyle`.
+- Walks ancestors to infer background context: `light`/`dark`/`unknown` (checks classes like `bg-white`, `bg-black` and computed RGB brightness).
+
+Priorities and rules:
+- Headings: if tag is H1–H6
+  - Inside `data-section-id="hero"` → target `hero_headings` (responsive).
+  - Else → target `headings` (responsive).
+- Paragraphs: if tag is `P`
+  - If background context is `light` → target `typography.cardBody`.
+  - Else → target `typography.body`.
+- PreTitle and TitleDescription are suggested only for non-heading, non-paragraph text elements.
+- Buttons/links: only for `BUTTON` and `A` tags → suggest `buttonStyles.primary|secondary|tab`.
+- Section layout tokens are excluded from element-level matches.
+
+Matching is heuristic but conservative:
+- We no longer require strict value matches for headings/paragraphs; tag type and context drive the primary decision.
+- For body text, font-size and line-height are applied globally via injected CSS with `!important` to ensure immediate visual feedback from the inspector.
+
+Returned structure for each match:
+```
+type TokenMatch = {
+  scope: 'global' | 'section';
+  tokenPath: string;   // e.g., 'headings', 'hero_headings', 'typography.body'
+  label: string;       // human friendly label
+  responsive?: boolean;// true for families with mobile/tablet/desktop values
+}
+```
+
+Limitations and next steps:
+- Local overrides per-element are planned (not yet enabled).
+- Improve background detection for complex overlays and images.
+- Add weighting/similarity scoring to rank multiple potential matches when applicable.
 
 ### Tokenization & dynamic CSS
 - Base section layout is centralized in `components/ui/Section.tsx`.

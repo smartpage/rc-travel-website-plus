@@ -75,6 +75,7 @@ const FAQ = () => {
       <div className="w-full max-w-5xl mx-auto h-full flex flex-col justify-center items-center text-center">
         {/* Header */}
         <div className="mb-12 :mb-16">
+          {/* Force heading semantics for resolver */}
           <SectionTitle
             variant="headings"
             useHtmlRendering={true}

@@ -543,31 +543,32 @@ export const DesignProvider: React.FC<DesignProviderProps> = ({
       {/* Smart contextual paragraph styling via design tokens */}
       <style>
         {design?.typography && `
-          /* Base paragraph styling (no color override) */
-          p {
-            font-family: ${design.typography.body?.fontFamily || 'Inter, sans-serif'};
-            font-size: ${design.typography.body?.fontSize || '1rem'};
-            font-weight: ${design.typography.body?.fontWeight || '400'};
-            line-height: ${design.typography.body?.lineHeight || '1.75'};
+          /* Base paragraph styling (exclude explicitly labeled typography nodes) */
+          p:not([data-typography]) {
+            font-family: ${design.typography.body?.fontFamily || 'Inter, sans-serif'} !important;
+            font-size: ${design.typography.body?.fontSize || '1rem'} !important;
+            font-weight: ${design.typography.body?.fontWeight || '400'} !important;
+            line-height: ${design.typography.body?.lineHeight || '1.75'} !important;
+            color: ${design.typography.body?.color || 'white'};
           }
           
           /* Context-specific paragraph styling */
-          [data-section-id="hero"] p {
+          [data-section-id="hero"] p:not([data-typography]) {
             color: ${design.typography.body?.color || 'white'};
           }
           
           /* Card body text (lighter color) */
-          .bg-white p, .bg-white\\/80 p, [class*="bg-white"] p {
+          .bg-white p:not([data-typography]), .bg-white\\/80 p:not([data-typography]), [class*="bg-white"] p:not([data-typography]) {
             color: ${design.typography.cardBody?.color || '#374151'} !important;
           }
           
           /* Dark background sections */
-          .bg-black p, .bg-black\\/80 p, [class*="bg-black"] p {
+          .bg-black p:not([data-typography]), .bg-black\\/80 p:not([data-typography]), [class*="bg-black"] p:not([data-typography]) {
             color: ${design.typography.body?.color || 'white'};
           }
           
           /* Light background sections */
-          .bg-slate-100 p, .bg-gray-100 p, [class*="bg-slate-1"] p {
+          .bg-slate-100 p:not([data-typography]), .bg-gray-100 p:not([data-typography]), [class*="bg-slate-1"] p:not([data-typography]) {
             color: ${design.typography.cardBody?.color || '#374151'};
           }
         `}
