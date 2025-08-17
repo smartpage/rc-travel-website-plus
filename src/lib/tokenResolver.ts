@@ -82,6 +82,14 @@ export function resolveGlobalTokens(snapshot: ComputedSnapshot, sectionId: strin
   if (element && (element as HTMLElement).dataset && (element as HTMLElement).dataset.typography) {
     const hint = (element as HTMLElement).dataset.typography;
     switch (hint) {
+      case 'preTitle':
+        matches.push({ scope: 'global', tokenPath: 'preTitle', label: 'Pre Title', responsive: false });
+        hasSpecificMatch = true;
+        break;
+      case 'titleDescription':
+        matches.push({ scope: 'global', tokenPath: 'titleDescription', label: 'Title Description', responsive: false });
+        hasSpecificMatch = true;
+        break;
       case 'serviceCard.title':
         matches.push({ scope: 'global', tokenPath: 'typography.serviceCardTitle', label: 'Service Card Title', responsive: false });
         hasSpecificMatch = true;

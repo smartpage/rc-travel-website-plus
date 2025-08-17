@@ -136,7 +136,8 @@ const SectionTitle: React.FC<SectionTitleProps> = ({
       <div className={`${centerAlign ? 'text-center' : ''} mb-12 md:mb-16 ${className}`}>
         {/* Subtitle */}
         {subtitle && (
-          <p 
+          <p
+            data-typography="preTitle"
             style={subtitleStyles}
           >
             {subtitle}
@@ -154,7 +155,8 @@ const SectionTitle: React.FC<SectionTitleProps> = ({
         
         {/* Description */}
         {description && (
-          <p 
+          <p
+            data-typography="titleDescription"
             className={`${centerAlign ? 'max-w-3xl mx-auto' : ''}`}
             style={descriptionStyles}
           >

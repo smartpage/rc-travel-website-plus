@@ -77,7 +77,17 @@ const HeroVariation = () => {
             </div>
           </div>
           
-          <p className="text-lg :text-xl text-white/90 :mx-auto leading-tight :leading-relaxed flex-1 text-left :text-center">
+          <p
+            data-typography="titleDescription"
+            className=":mx-auto leading-tight :leading-relaxed flex-1 text-left :text-center"
+            style={{
+              fontFamily: (design as any).titleDescription?.fontFamily || (design as any).typography?.description?.fontFamily,
+              fontSize: (design as any).titleDescription?.fontSize || (design as any).typography?.description?.fontSize,
+              fontWeight: (design as any).titleDescription?.fontWeight || (design as any).typography?.description?.fontWeight,
+              color: (design as any).titleDescription?.color || (design as any).typography?.description?.color,
+              lineHeight: (design as any).titleDescription?.lineHeight || (design as any).typography?.description?.lineHeight,
+            }}
+          >
             {hero.description}
           </p>
         </div>

@@ -96,14 +96,15 @@ const HeroSection = () => {
             </div>
           </div>
           
-          <p 
+          <p
+            data-typography="titleDescription"
             className="@md:mx-auto leading-tight @md:leading-relaxed flex-1 text-left @md:text-center"
             style={{
-              fontFamily: design.typography.subtitle.fontFamily,
-              fontSize: design.typography.subtitle.fontSize,
-              fontWeight: design.typography.subtitle.fontWeight,
-              color: design.typography.subtitle.color,
-              lineHeight: design.typography.subtitle.lineHeight,
+              fontFamily: design.titleDescription?.fontFamily || design.typography?.description?.fontFamily,
+              fontSize: design.titleDescription?.fontSize || design.typography?.description?.fontSize,
+              fontWeight: design.titleDescription?.fontWeight || design.typography?.description?.fontWeight,
+              color: design.titleDescription?.color || design.typography?.description?.color,
+              lineHeight: design.titleDescription?.lineHeight || design.typography?.description?.lineHeight,
             }}
           >
             {hero.description}
