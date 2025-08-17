@@ -41,7 +41,10 @@ EditorOverlayContext (Provider-Only Architecture)
 - **EditorOverlayProvider** (Provider-Only Architecture)
   - Centralized event handling: mousemove, click, scroll listeners
   - Automatic `?design=1` detection and overlay state management
-  - Dynamic token resolution: maps computed styles to design tokens
+  - **Smart token resolution**: context-aware mapping of computed styles to design tokens
+    - Prioritizes section-specific tokens (e.g., `hero_headings` over `headings`)
+    - Enhanced matching: fontSize variants, color, fontWeight, fontFamily
+    - Context-aware based on sectionId and element properties
   - Excludes overlay UI elements via `data-overlay-ui="1"` filtering
 
 - **SelectionOverlay**

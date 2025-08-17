@@ -47,6 +47,24 @@
 
 ---
 
+## Smart Section-Specific Token Detection (2025-01-XX)
+**Problem**: Token resolver was too simplistic - only detected global tokens, missing section-specific ones
+- Hero H2 elements mapped to generic "headings" instead of "hero_headings"
+- No context awareness based on sectionId
+- Limited matching criteria (only basic font properties)
+
+**Solution**: Enhanced token resolver with intelligent section-specific detection
+- Prioritizes section-specific tokens over global ones (hero_headings > headings)
+- Enhanced matching criteria: fontSize variants, color, improved font detection
+- Added hero_headings editing UI with responsive fontSize controls
+- Context-aware token resolution based on sectionId and element properties
+
+**Files Modified**:
+- `src/lib/tokenResolver.ts`: Enhanced resolution logic with section priority
+- `src/components/DesignInspectorContent.tsx`: Added hero_headings editing UI, fixed Provider-Only usage
+
+---
+
 ## Dynamic Element Highlight & Token Resolver (2025-01-XX)
 **Feature**: Click any element to dynamically identify and edit design tokens
 - Global event listeners for element selection
