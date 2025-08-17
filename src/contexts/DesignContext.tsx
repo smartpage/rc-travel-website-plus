@@ -540,6 +540,18 @@ export const DesignProvider: React.FC<DesignProviderProps> = ({
 
   return (
     <DesignContext.Provider value={value}>
+      {/* Global body text styling via design tokens */}
+      <style>
+        {design?.typography?.body && `
+          p {
+            font-family: ${design.typography.body.fontFamily} !important;
+            font-size: ${design.typography.body.fontSize} !important;
+            font-weight: ${design.typography.body.fontWeight} !important;
+            line-height: ${design.typography.body.lineHeight} !important;
+            color: ${design.typography.body.color} !important;
+          }
+        `}
+      </style>
       {children}
     </DesignContext.Provider>
   );

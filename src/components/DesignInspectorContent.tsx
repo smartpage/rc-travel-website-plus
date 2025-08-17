@@ -174,6 +174,79 @@ const DesignInspectorContent: React.FC = () => {
 									</PanelRow>
 								</div>
 							)}
+							{/* Minimal editors: body text */}
+							{m.tokenPath === 'typography.body' && (
+								<div style={{ display: 'grid', gap: 6 }}>
+									<PanelRow label="body.fontSize">
+										<input
+											value={design?.typography?.body?.fontSize || ''}
+											onChange={(e) => {
+												const val = e.target.value;
+												updateDesignLocal((prev: any) => {
+													const next = { ...prev };
+													next.typography = { ...next.typography };
+													next.typography.body = { ...next.typography.body };
+													next.typography.body.fontSize = val;
+													return next;
+												});
+											}}
+											placeholder="e.g. 1rem"
+											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+										/>
+									</PanelRow>
+									<PanelRow label="body.lineHeight">
+										<input
+											value={design?.typography?.body?.lineHeight || ''}
+											onChange={(e) => {
+												const val = e.target.value;
+												updateDesignLocal((prev: any) => {
+													const next = { ...prev };
+													next.typography = { ...next.typography };
+													next.typography.body = { ...next.typography.body };
+													next.typography.body.lineHeight = val;
+													return next;
+												});
+											}}
+											placeholder="e.g. 1.75"
+											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+										/>
+									</PanelRow>
+									<PanelRow label="body.color">
+										<input
+											value={design?.typography?.body?.color || ''}
+											onChange={(e) => {
+												const val = e.target.value;
+												updateDesignLocal((prev: any) => {
+													const next = { ...prev };
+													next.typography = { ...next.typography };
+													next.typography.body = { ...next.typography.body };
+													next.typography.body.color = val;
+													return next;
+												});
+											}}
+											placeholder="e.g. white"
+											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+										/>
+									</PanelRow>
+									<PanelRow label="body.fontWeight">
+										<input
+											value={design?.typography?.body?.fontWeight || ''}
+											onChange={(e) => {
+												const val = e.target.value;
+												updateDesignLocal((prev: any) => {
+													const next = { ...prev };
+													next.typography = { ...next.typography };
+													next.typography.body = { ...next.typography.body };
+													next.typography.body.fontWeight = val;
+													return next;
+												});
+											}}
+											placeholder="e.g. 400"
+											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+										/>
+									</PanelRow>
+								</div>
+							)}
 							{/* Minimal editors: headings */}
 							{m.tokenPath === 'headings' && (
 								<div style={{ display: 'grid', gap: 6 }}>
@@ -240,31 +313,16 @@ const DesignInspectorContent: React.FC = () => {
 					))}
 				</div>
 			)}
-			<div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-				<span style={{ fontSize: 11, color: '#facc15', letterSpacing: 0.2 as any }}>Section:</span>
-				<code style={{ background: '#161616', padding: '2px 6px', borderRadius: 4 }}>{activeSectionId}</code>
-				<span style={{ fontSize: 11, color: '#facc15', opacity: 0.8 }}>(click a section to focus)</span>
+			<div style={{ fontSize: 12, color: '#94a3b8', textAlign: 'center', padding: '1rem' }}>
+				Click any element to edit its design tokens
 			</div>
-			<PanelRow label="colors.primary">
-				<input value={primary} onChange={(e) => setPrimary(e.target.value)} style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }} />
-			</PanelRow>
-			<PanelRow label={`sections.${activeSectionId}.layout.padding.mobile`}>
-				<input value={padMobile} onChange={(e) => setPadMobile(e.target.value)} placeholder="e.g. 0.5rem 0" style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }} />
-			</PanelRow>
-			<PanelRow label={`sections.${activeSectionId}.layout.padding.desktop`}>
-				<input value={padDesktop} onChange={(e) => setPadDesktop(e.target.value)} placeholder="e.g. 5rem 2rem" style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }} />
-			</PanelRow>
-			<PanelRow label={`sections.${activeSectionId}.layout.inner.width`}>
-				<input value={innerWidth} onChange={(e) => setInnerWidth(e.target.value)} placeholder="e.g. 98%" style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }} />
-			</PanelRow>
-			<div style={{ display: 'flex', gap: 8 }}>
-				<button onClick={applyPreview} style={{ padding: '8px 10px', background: '#2b2b2b', color: '#fff', borderRadius: 6, border: '1px solid #3a3a3a' }}>Preview</button>
-				<button onClick={save} disabled={saving} style={{ padding: '8px 10px', background: '#2d6a4f', color: '#fff', borderRadius: 6, border: '1px solid #3a7' }}>{saving ? 'Saving…' : 'Save'}</button>
+			<div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
+				<button onClick={save} disabled={saving} style={{ padding: '8px 10px', background: '#2d6a4f', color: '#fff', borderRadius: 6, border: '1px solid #3a7' }}>{saving ? 'Saving…' : 'Save All Changes'}</button>
 				<button onClick={revert} style={{ padding: '8px 10px', background: '#5c2121', color: '#fff', borderRadius: 6, border: '1px solid #7a3a3a' }}>Revert</button>
 			</div>
-			{saved && <div style={{ fontSize: 12, color: '#7ee787' }}>Saved</div>}
-			{error && <div style={{ fontSize: 12, color: '#ff7b72' }}>{error}</div>}
-			<div style={{ fontSize: 11, opacity: 0.7 }}>Tip: append <code>?design=1</code> to any URL to toggle this panel.</div>
+			{saved && <div style={{ fontSize: 12, color: '#7ee787', textAlign: 'center' }}>Saved</div>}
+			{error && <div style={{ fontSize: 12, color: '#ff7b72', textAlign: 'center' }}>{error}</div>}
+			<div style={{ fontSize: 11, opacity: 0.7, textAlign: 'center' }}>Tip: append <code>?design=1</code> to any URL to toggle this panel.</div>
 		</div>
 	);
 };

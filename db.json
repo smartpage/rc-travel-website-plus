@@ -563,7 +563,7 @@
     "typography": {
       "body": {
         "fontFamily": "Inter, sans-serif",
-        "fontSize": "1rem",
+        "fontSize": "1.5rem",
         "fontWeight": "400",
         "lineHeight": "1.75",
         "color": "white"
@@ -624,7 +624,7 @@
       "lineHeight": "1",
       "fontWeight": "200",
       "letterSpacing": "-0.025em",
-      "color": "red",
+      "color": "orange",
       "marginBottom": "1.5rem",
       "textAlign": "center"
     },
@@ -645,13 +645,13 @@
     },
     "headings": {
       "fontFamily": "Inter, sans-serif",
-      "fontSize": "4rem",
+      "fontSize": "3rem",
       "fontSizeMd": "6.7rem",
-      "fontSizeLg": "9.7rem",
+      "fontSizeLg": "6.7rem",
       "lineHeight": "1",
       "fontWeight": "300",
       "letterSpacing": "-0.05em",
-      "color": "blue",
+      "color": "red",
       "marginBottom": "0.5rem",
       "textAlign": "center"
     },
