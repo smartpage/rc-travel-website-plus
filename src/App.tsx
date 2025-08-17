@@ -22,7 +22,22 @@ const App = () => {
   const isDesignMode = new URLSearchParams(window.location.search).get('design') === '1';
 
   return (
-    <QueryClientProvider client={queryClient}>
+    <>
+      {/* Global styles to remove ugly focus outlines */}
+      <style>
+        {`
+          input:focus, button:focus, textarea:focus, select:focus {
+            outline: none !important;
+            box-shadow: none !important;
+          }
+          
+          /* Remove browser default focus highlight */
+          *:focus {
+            outline: none !important;
+          }
+        `}
+      </style>
+      <QueryClientProvider client={queryClient}>
       <SettingsProvider>
         <SiteMetadata />
         <DesignProvider>
@@ -65,7 +80,8 @@ const App = () => {
           </SkeletonProvider>
         </DesignProvider>
       </SettingsProvider>
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </>
   );
 };
 

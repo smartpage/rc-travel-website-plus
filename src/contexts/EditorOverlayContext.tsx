@@ -51,8 +51,25 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
     return q.get('design') === '1' || q.get('design') === 'true';
   }, [location.search]);
 
+  // Load collapsed states from localStorage
+  const getInitialCollapsedState = (): Record<PanelId, boolean> => {
+    try {
+      const saved = localStorage.getItem('design_panel_collapsed');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        // Default: inspector open, navigator closed
+        return {
+          inspector: parsed.inspector ?? false,
+          navigator: parsed.navigator ?? true,
+        };
+      }
+    } catch {}
+    // Default: inspector open, navigator closed
+    return { inspector: false, navigator: true };
+  };
+
   const [state, setState] = React.useState<EditorOverlayState>({
-    collapsed: { inspector: false, navigator: false },
+    collapsed: getInitialCollapsedState(),
     overlayRect: null,
     activeElement: null,
     viewport: (sessionStorage.getItem('design_vp') as 'desktop' | 'mobile') || 'desktop',
@@ -62,14 +79,23 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
   });
 
   const toggleCollapse = (panel: PanelId) => {
-    setState(prev => ({
-      ...prev,
-      collapsed: { ...prev.collapsed, [panel]: !prev.collapsed[panel] },
-    }));
+    setState(prev => {
+      const newCollapsed = { ...prev.collapsed, [panel]: !prev.collapsed[panel] };
+      try {
+        localStorage.setItem('design_panel_collapsed', JSON.stringify(newCollapsed));
+      } catch {}
+      return { ...prev, collapsed: newCollapsed };
+    });
   };
 
   const setCollapsed = (panel: PanelId, value: boolean) => {
-    setState(prev => ({ ...prev, collapsed: { ...prev.collapsed, [panel]: value } }));
+    setState(prev => {
+      const newCollapsed = { ...prev.collapsed, [panel]: value };
+      try {
+        localStorage.setItem('design_panel_collapsed', JSON.stringify(newCollapsed));
+      } catch {}
+      return { ...prev, collapsed: newCollapsed };
+    });
   };
 
   const setOverlayRect = (rect: OverlayRect) => {

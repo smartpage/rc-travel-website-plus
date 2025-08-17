@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { useDesign } from '@/contexts/DesignContext';
 import { useEditorOverlay } from '@/contexts/EditorOverlayContext';
+import SmartInput from '@/components/SmartInput';
 
 const PanelRow: React.FC<{ label: string; children: React.ReactNode }> = ({ label, children }) => (
 	<label style={{ display: 'grid', gap: 4 }}>
@@ -125,10 +126,9 @@ const DesignInspectorContent: React.FC = () => {
 							{m.tokenPath === 'hero_headings' && (
 								<div style={{ display: 'grid', gap: 6 }}>
 									<PanelRow label={`hero_headings.fontSize (${viewport})`}>
-										<input
+										<SmartInput
 											value={viewport === 'mobile' ? (design?.hero_headings?.fontSize || '') : viewport === 'desktop' ? (design?.hero_headings?.fontSizeLg || '') : (design?.hero_headings?.fontSizeMd || '')}
-											onChange={(e) => {
-												const val = e.target.value;
+											onChange={(val) => {
 												updateDesignLocal((prev: any) => {
 													const next = { ...prev };
 													next.hero_headings = { ...next.hero_headings };
@@ -137,7 +137,8 @@ const DesignInspectorContent: React.FC = () => {
 												});
 											}}
 											placeholder="e.g. 3.5rem"
-											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+											label="hero_headings.fontSize"
+											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6 }}
 										/>
 									</PanelRow>
 									<PanelRow label="hero_headings.color">
@@ -157,10 +158,9 @@ const DesignInspectorContent: React.FC = () => {
 										/>
 									</PanelRow>
 									<PanelRow label="hero_headings.fontWeight">
-										<input
+										<SmartInput
 											value={design?.hero_headings?.fontWeight || ''}
-											onChange={(e) => {
-												const val = e.target.value;
+											onChange={(val) => {
 												updateDesignLocal((prev: any) => {
 													const next = { ...prev };
 													next.hero_headings = { ...next.hero_headings };
@@ -169,6 +169,7 @@ const DesignInspectorContent: React.FC = () => {
 												});
 											}}
 											placeholder="e.g. 700"
+											label="hero_headings.fontWeight"
 											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
 										/>
 									</PanelRow>
@@ -178,10 +179,9 @@ const DesignInspectorContent: React.FC = () => {
 							{m.tokenPath === 'typography.body' && (
 								<div style={{ display: 'grid', gap: 6 }}>
 									<PanelRow label="body.fontSize">
-										<input
+										<SmartInput
 											value={design?.typography?.body?.fontSize || ''}
-											onChange={(e) => {
-												const val = e.target.value;
+											onChange={(val) => {
 												updateDesignLocal((prev: any) => {
 													const next = { ...prev };
 													next.typography = { ...next.typography };
@@ -191,14 +191,14 @@ const DesignInspectorContent: React.FC = () => {
 												});
 											}}
 											placeholder="e.g. 1rem"
+											label="body.fontSize"
 											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
 										/>
 									</PanelRow>
 									<PanelRow label="body.lineHeight">
-										<input
+										<SmartInput
 											value={design?.typography?.body?.lineHeight || ''}
-											onChange={(e) => {
-												const val = e.target.value;
+											onChange={(val) => {
 												updateDesignLocal((prev: any) => {
 													const next = { ...prev };
 													next.typography = { ...next.typography };
@@ -208,6 +208,7 @@ const DesignInspectorContent: React.FC = () => {
 												});
 											}}
 											placeholder="e.g. 1.75"
+											label="body.lineHeight"
 											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
 										/>
 									</PanelRow>
@@ -229,10 +230,9 @@ const DesignInspectorContent: React.FC = () => {
 										/>
 									</PanelRow>
 									<PanelRow label="body.fontWeight">
-										<input
+										<SmartInput
 											value={design?.typography?.body?.fontWeight || ''}
-											onChange={(e) => {
-												const val = e.target.value;
+											onChange={(val) => {
 												updateDesignLocal((prev: any) => {
 													const next = { ...prev };
 													next.typography = { ...next.typography };
@@ -242,6 +242,7 @@ const DesignInspectorContent: React.FC = () => {
 												});
 											}}
 											placeholder="e.g. 400"
+											label="body.fontWeight"
 											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
 										/>
 									</PanelRow>
@@ -251,10 +252,9 @@ const DesignInspectorContent: React.FC = () => {
 							{m.tokenPath === 'headings' && (
 								<div style={{ display: 'grid', gap: 6 }}>
 									<PanelRow label={`headings.fontSize (${viewport})`}>
-										<input
+										<SmartInput
 											value={viewport === 'mobile' ? (design?.headings?.fontSize || '') : viewport === 'desktop' ? (design?.headings?.fontSizeLg || '') : (design?.headings?.fontSizeMd || '')}
-											onChange={(e) => {
-												const val = e.target.value;
+											onChange={(val) => {
 												updateDesignLocal((prev: any) => {
 													const next = { ...prev };
 													next.headings = { ...next.headings };
@@ -263,6 +263,7 @@ const DesignInspectorContent: React.FC = () => {
 												});
 											}}
 											placeholder="e.g. 2.5rem"
+											label="headings.fontSize"
 											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
 										/>
 									</PanelRow>

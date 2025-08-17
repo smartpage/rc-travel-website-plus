@@ -107,6 +107,15 @@
 
 ---
 
+## Panel State Persistence (2025-01-XX)
+**UX**: Panel states now persist across page refreshes
+- Design Inspector opens by default (navigator closed by default)
+- Panel collapse states saved to localStorage automatically
+- Improved default user experience on first load
+
+**Files Modified**:
+- `src/contexts/EditorOverlayContext.tsx`: Added localStorage persistence for panel states
+
 ## Unified Editor Panels (2025-01-XX)
 **UI**: Consolidated overlay editor interface
 - Reusable `EditorPanel` component with collapse states

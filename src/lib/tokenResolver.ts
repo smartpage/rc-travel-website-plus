@@ -39,7 +39,41 @@ function softContains(a?: string, b?: string): boolean {
   return a.toLowerCase().includes(b.toLowerCase()) || b.toLowerCase().includes(a.toLowerCase());
 }
 
-export function resolveGlobalTokens(snapshot: ComputedSnapshot, sectionId: string | null, design: any): TokenMatch[] {
+// Helper function to detect background context by traversing parent elements
+function detectBackgroundContext(element: Element): 'light' | 'dark' | 'unknown' {
+  let current = element.parentElement;
+  
+  while (current) {
+    const classes = current.className || '';
+    const computedStyle = window.getComputedStyle(current);
+    
+    // Check for explicit background classes
+    if (classes.includes('bg-white') || classes.includes('bg-gray-') || classes.includes('bg-slate-1') || classes.includes('bg-light')) {
+      return 'light';
+    }
+    if (classes.includes('bg-black') || classes.includes('bg-gray-9') || classes.includes('bg-dark')) {
+      return 'dark';
+    }
+    
+    // Check computed background color
+    const bgColor = computedStyle.backgroundColor;
+    if (bgColor && bgColor !== 'rgba(0, 0, 0, 0)' && bgColor !== 'transparent') {
+      // Parse RGB values to determine if light or dark
+      const rgb = bgColor.match(/\d+/g);
+      if (rgb && rgb.length >= 3) {
+        const [r, g, b] = rgb.map(Number);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        return brightness > 128 ? 'light' : 'dark';
+      }
+    }
+    
+    current = current.parentElement;
+  }
+  
+  return 'unknown';
+}
+
+export function resolveGlobalTokens(snapshot: ComputedSnapshot, sectionId: string | null, design: any, element?: Element): TokenMatch[] {
   const matches: TokenMatch[] = [];
   let hasSpecificMatch = false; // Track if we found a highly specific match
 
@@ -83,17 +117,32 @@ export function resolveGlobalTokens(snapshot: ComputedSnapshot, sectionId: strin
       }
     }
     
-    // Body text match (for paragraph elements)
-    if (snapshot.tagName === 'P' && design?.typography?.body) {
-      const b = design.typography.body;
-      if (
-        (snapshot.fontFamily && softContains(snapshot.fontFamily, b.fontFamily)) ||
-        (snapshot.fontSize && softContains(snapshot.fontSize, b.fontSize)) ||
-        (snapshot.lineHeight && approxEq(snapshot.lineHeight, b.lineHeight)) ||
-        (snapshot.fontWeight && softContains(snapshot.fontWeight, b.fontWeight))
-      ) {
-        matches.push({ scope: 'global', tokenPath: 'typography.body', label: 'Body Text', responsive: false });
-        hasSpecificMatch = true; // Body text is specific, don't show other text tokens
+    // Body text match (for paragraph elements) - context-aware
+    if (snapshot.tagName === 'P') {
+      // Check for card body text (on light backgrounds)
+      if (design?.typography?.cardBody) {
+        const cb = design.typography.cardBody;
+        if (
+          (snapshot.color && softContains(snapshot.color, cb.color)) ||
+          (snapshot.fontSize && softContains(snapshot.fontSize, cb.fontSize))
+        ) {
+          matches.push({ scope: 'global', tokenPath: 'typography.cardBody', label: 'Card Body Text', responsive: false });
+          hasSpecificMatch = true;
+        }
+      }
+      
+      // Check for general body text (fallback)
+      if (!hasSpecificMatch && design?.typography?.body) {
+        const b = design.typography.body;
+        if (
+          (snapshot.fontFamily && softContains(snapshot.fontFamily, b.fontFamily)) ||
+          (snapshot.fontSize && softContains(snapshot.fontSize, b.fontSize)) ||
+          (snapshot.lineHeight && approxEq(snapshot.lineHeight, b.lineHeight)) ||
+          (snapshot.fontWeight && softContains(snapshot.fontWeight, b.fontWeight))
+        ) {
+          matches.push({ scope: 'global', tokenPath: 'typography.body', label: 'Body Text', responsive: false });
+          hasSpecificMatch = true;
+        }
       }
     }
     
