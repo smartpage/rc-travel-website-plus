@@ -3,31 +3,34 @@ import { useLocation } from 'react-router-dom';
 import { Monitor, Smartphone } from 'lucide-react';
 import { createPortal } from 'react-dom';
 import { useDesign } from '@/contexts/DesignContext';
+import { useEditorOverlay } from '@/contexts/EditorOverlayContext';
 
 const ViewportToggleOverlay: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const location = useLocation();
   const { design } = useDesign();
+  const { viewport, setViewport, setScrollContainer } = useEditorOverlay();
   const enabled = React.useMemo(() => {
     const q = new URLSearchParams(location.search);
     return q.get('design') === '1' || q.get('design') === 'true';
   }, [location.search]);
-
-  const [vp, setVp] = React.useState<'desktop' | 'mobile'>(() => {
-    return (sessionStorage.getItem('design_vp') as 'desktop' | 'mobile') || 'desktop';
-  });
-
   const [containerRef, setContainerRef] = React.useState<HTMLDivElement | null>(null);
+
+  // Register design scroll container so scroll listeners are scoped
+  React.useEffect(() => {
+    if (!enabled) return;
+    setScrollContainer(containerRef);
+    return () => setScrollContainer(null);
+  }, [enabled, containerRef, setScrollContainer]);
 
   React.useEffect(() => {
     if (!enabled) return;
-    sessionStorage.setItem('design_vp', vp);
     try {
-      window.dispatchEvent(new CustomEvent('design-viewport-change', { detail: { vp } }));
+      window.dispatchEvent(new CustomEvent('design-viewport-change', { detail: { vp: viewport } }));
     } catch {}
-  }, [vp, enabled]);
+  }, [viewport, enabled]);
 
   // Animate the container width between desktop and mobile
-  const targetWidth = vp === 'mobile' ? 390 : undefined; // undefined => 100vw
+  const targetWidth = viewport === 'mobile' ? 390 : undefined; // undefined => 100vw
 
   if (!enabled) return null;
 
@@ -47,14 +50,14 @@ const ViewportToggleOverlay: React.FC<{ children?: React.ReactNode }> = ({ child
           padding: 8
         }}>
           <button
-            onClick={() => setVp('desktop')}
+            onClick={() => setViewport('desktop')}
             style={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               width: 48,
               height: 40,
-              background: vp === 'desktop' ? '#2a2a2a' : '#1a1a1a',
+              background: viewport === 'desktop' ? '#2a2a2a' : '#1a1a1a',
               border: '1px solid #3a3a3a',
               borderRadius: 6,
               color: '#fff',
@@ -62,24 +65,24 @@ const ViewportToggleOverlay: React.FC<{ children?: React.ReactNode }> = ({ child
               transition: 'all 0.2s ease'
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = vp === 'desktop' ? '#3a3a3a' : '#2a2a2a';
+              e.currentTarget.style.background = viewport === 'desktop' ? '#3a3a3a' : '#2a2a2a';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = vp === 'desktop' ? '#2a2a2a' : '#1a1a1a';
+              e.currentTarget.style.background = viewport === 'desktop' ? '#2a2a2a' : '#1a1a1a';
             }}
             aria-label="Desktop viewport"
           >
             <Monitor size={20} />
           </button>
           <button
-            onClick={() => setVp('mobile')}
+            onClick={() => setViewport('mobile')}
             style={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               width: 48,
               height: 40,
-              background: vp === 'mobile' ? '#2a2a2a' : '#1a1a1a',
+              background: viewport === 'mobile' ? '#2a2a2a' : '#1a1a1a',
               border: '1px solid #3a3a3a',
               borderRadius: 6,
               color: '#fff',
@@ -87,10 +90,10 @@ const ViewportToggleOverlay: React.FC<{ children?: React.ReactNode }> = ({ child
               transition: 'all 0.2s ease'
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = vp === 'mobile' ? '#3a3a3a' : '#2a2a2a';
+              e.currentTarget.style.background = viewport === 'mobile' ? '#3a3a3a' : '#2a2a2a';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = vp === 'mobile' ? '#2a2a2a' : '#1a1a1a';
+              e.currentTarget.style.background = viewport === 'mobile' ? '#2a2a2a' : '#1a1a1a';
             }}
             aria-label="Mobile viewport"
           >

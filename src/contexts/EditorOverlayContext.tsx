@@ -117,6 +117,16 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
   const prevViewportRef = React.useRef(state.viewport);
   React.useEffect(() => { prevViewportRef.current = state.viewport; }, [state.viewport]);
 
+  // Refs for stable, low-churn event handlers
+  const activeElementRef = React.useRef(state.activeElement);
+  const selectedElementRef = React.useRef(state.selectedElement);
+  const scrollContainerRef = React.useRef(state.scrollContainer);
+  const designRef = React.useRef(design);
+  React.useEffect(() => { activeElementRef.current = state.activeElement; }, [state.activeElement]);
+  React.useEffect(() => { selectedElementRef.current = state.selectedElement; }, [state.selectedElement]);
+  React.useEffect(() => { scrollContainerRef.current = state.scrollContainer; }, [state.scrollContainer]);
+  React.useEffect(() => { designRef.current = design; }, [design]);
+
   const setSelectedElement = (el: Element | null) => {
     setState(prev => ({ ...prev, selectedElement: el }));
   };
@@ -130,49 +140,68 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
     setState(prev => ({ ...prev, enabled }));
   }, [enabled]);
 
-  // Main event handling logic - moved from EditorPanelsWrapper
+  // Main event handling logic - gated by design mode, throttled with rAF
   React.useEffect(() => {
     if (!enabled) return;
+
+    let rafId: number | null = null;
+    let lastHoverEl: Element | null = null;
+
+    const updateOverlayRect = (el: Element) => {
+      const rect = (el as HTMLElement).getBoundingClientRect();
+      setState(prev => {
+        // Do not update hover rect when an element is selected
+        if (prev.activeElement) return prev;
+        const same =
+          prev.overlayRect &&
+          prev.overlayRect.top === rect.top &&
+          prev.overlayRect.left === rect.left &&
+          prev.overlayRect.width === rect.width &&
+          prev.overlayRect.height === rect.height;
+        if (same) return prev;
+        return { ...prev, overlayRect: { top: rect.top, left: rect.left, width: rect.width, height: rect.height } };
+      });
+    };
 
     const onMove = (e: MouseEvent) => {
       const raw = e.target as HTMLElement | null;
       if (!raw) return;
-      // Normalize target to nearest semantic element (heading/paragraph/button/link)
-      const target = (raw.closest('h1,h2,h3,h4,h5,h6') as HTMLElement) ||
-                     (raw.closest('p') as HTMLElement) ||
-                     (raw.closest('button,a') as HTMLElement) ||
-                     raw;
-      // Ignore overlay UI and anything outside the content container
+      const target =
+        (raw.closest('h1,h2,h3,h4,h5,h6') as HTMLElement) ||
+        (raw.closest('p') as HTMLElement) ||
+        (raw.closest('button,a') as HTMLElement) ||
+        raw;
       if (target.closest('[data-overlay-ui="1"]')) return;
       if (!target.closest('[class~="@container"]')) return;
-      // If there is an active selection, do not update hover rect
-      if (state.activeElement) return;
-      // compute rect relative to viewport
-      const rect = target.getBoundingClientRect();
-      setState(prev => ({ ...prev, overlayRect: { top: rect.top, left: rect.left, width: rect.width, height: rect.height } }));
+      if (activeElementRef.current) return;
+      if (lastHoverEl === target) return;
+      lastHoverEl = target;
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        updateOverlayRect(target);
+        rafId = null;
+      });
     };
 
     const onClick = (e: MouseEvent) => {
       const raw = e.target as HTMLElement | null;
       if (!raw) return;
-      // Normalize target as above
-      const target = (raw.closest('h1,h2,h3,h4,h5,h6') as HTMLElement) ||
-                     (raw.closest('p') as HTMLElement) ||
-                     (raw.closest('button,a') as HTMLElement) ||
-                     raw;
+      const target =
+        (raw.closest('h1,h2,h3,h4,h5,h6') as HTMLElement) ||
+        (raw.closest('p') as HTMLElement) ||
+        (raw.closest('button,a') as HTMLElement) ||
+        raw;
       if (target.closest('[data-overlay-ui="1"]')) return;
       if (!target.closest('[class~="@container"]')) return;
-      // Find closest section id
       const sectionEl = target.closest('[data-section-id]') as HTMLElement | null;
       const sectionId = sectionEl?.getAttribute('data-section-id') || null;
       const snap = takeComputedSnapshot(target);
-      const tokenMatches = resolveGlobalTokens(snap, sectionId, design, target);
+      const tokenMatches = resolveGlobalTokens(snap, sectionId, designRef.current, target);
       const label = `${target.tagName.toLowerCase()}${sectionId ? ` · ${sectionId}` : ''}`;
-      const activeElement = { label, sectionId, tokenMatches };
       const rect = target.getBoundingClientRect();
       setState(prev => ({
         ...prev,
-        activeElement,
+        activeElement: { label, sectionId, tokenMatches },
         overlayRect: { top: rect.top, left: rect.left, width: rect.width, height: rect.height },
         selectedElement: target
       }));
@@ -181,37 +210,91 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
     document.addEventListener('mousemove', onMove, { capture: true, passive: true } as any);
     document.addEventListener('click', onClick, true);
     return () => {
+      if (rafId) cancelAnimationFrame(rafId);
       document.removeEventListener('mousemove', onMove, { capture: true } as any);
       document.removeEventListener('click', onClick, true);
     };
-  }, [enabled, state.activeElement, design]);
+  }, [enabled]);
 
-  // Keep overlay rect in sync with selected element while scrolling/resizing
+  // Keep overlay rect in sync with selected element while scrolling/resizing (throttled)
   React.useEffect(() => {
     if (!enabled) return;
 
+    let rafId: number | null = null;
     const updateRect = () => {
-      const el = state.selectedElement as HTMLElement | null;
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      setState(prev => ({ ...prev, overlayRect: { top: rect.top, left: rect.left, width: rect.width, height: rect.height } }));
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        const el = selectedElementRef.current as HTMLElement | null;
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          setState(prev => {
+            const same =
+              prev.overlayRect &&
+              prev.overlayRect.top === rect.top &&
+              prev.overlayRect.left === rect.left &&
+              prev.overlayRect.width === rect.width &&
+              prev.overlayRect.height === rect.height;
+            return same ? prev : { ...prev, overlayRect: { top: rect.top, left: rect.left, width: rect.width, height: rect.height } };
+          });
+        }
+        rafId = null;
+      });
     };
 
     const onScroll = () => updateRect();
     const onResize = () => updateRect();
 
-    // listen on window and the design container for scroll
     window.addEventListener('scroll', onScroll, true);
+    window.addEventListener('resize', onResize, { passive: true } as any);
     const sc = state.scrollContainer;
     if (sc) sc.addEventListener('scroll', onScroll, { capture: true, passive: true } as any);
-    window.addEventListener('resize', onResize, { capture: true, passive: true } as any);
+
+    // Prime once in case we mounted with a selected element
+    updateRect();
+
     return () => {
+      if (rafId) cancelAnimationFrame(rafId);
       window.removeEventListener('scroll', onScroll, true);
-      const sc = state.scrollContainer;
+      window.removeEventListener('resize', onResize as any);
       if (sc) sc.removeEventListener('scroll', onScroll, { capture: true } as any);
-      window.removeEventListener('resize', onResize, { capture: true } as any);
     };
-  }, [enabled, state.selectedElement, state.scrollContainer]);
+  }, [enabled, state.scrollContainer]);
+
+  // Keep token matches in sync when the design changes while an element is selected.
+  // This ensures the inspector UI reflects the latest token mapping after edits.
+  React.useEffect(() => {
+    if (!enabled) return;
+    const el = selectedElementRef.current as HTMLElement | null;
+    if (!el || !state.activeElement) return;
+    // Respect same gating rules used on selection
+    if (el.closest('[data-overlay-ui="1"]')) return;
+    if (!el.closest('[class~="@container"]')) return;
+    const sectionEl = el.closest('[data-section-id]') as HTMLElement | null;
+    const sectionId = sectionEl?.getAttribute('data-section-id') || null;
+    const snap = takeComputedSnapshot(el);
+    const nextMatches = resolveGlobalTokens(snap, sectionId, design, el);
+    setState(prev => {
+      if (!prev.activeElement) return prev;
+      const prevMatches = prev.activeElement.tokenMatches;
+      const same =
+        prevMatches.length === nextMatches.length &&
+        prevMatches.every((m, i) =>
+          m.scope === nextMatches[i].scope &&
+          m.tokenPath === nextMatches[i].tokenPath &&
+          m.label === nextMatches[i].label &&
+          !!m.responsive === !!nextMatches[i].responsive
+        );
+      if (same && prev.activeElement.sectionId === sectionId) return prev;
+      return {
+        ...prev,
+        activeElement: {
+          ...prev.activeElement,
+          sectionId,
+          tokenMatches: nextMatches,
+        }
+      };
+    });
+  }, [enabled, design, state.selectedElement, state.activeElement]);
 
   const value: EditorOverlayContextValue = React.useMemo(() => ({
     collapsed: state.collapsed,

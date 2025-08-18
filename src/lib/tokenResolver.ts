@@ -163,13 +163,37 @@ export function resolveGlobalTokens(snapshot: ComputedSnapshot, sectionId: strin
     }
   }
 
-  // Buttons/links → buttonStyles (only for actual buttons/links)
+  // Buttons/links → buttonStyles and buttons (only for actual buttons/links)
   const isButtonLike = ['A','BUTTON'].includes(snapshot.tagName);
-  if (isButtonLike && design?.buttonStyles) {
-    // Only show button tokens for button elements, not text
-    matches.push({ scope: 'global', tokenPath: 'buttonStyles.primary', label: 'Button Primary', responsive: false });
-    matches.push({ scope: 'global', tokenPath: 'buttonStyles.secondary', label: 'Button Secondary', responsive: false });
-    matches.push({ scope: 'global', tokenPath: 'buttonStyles.tab', label: 'Button Tab', responsive: false });
+  if (isButtonLike) {
+    if (design?.buttonStyles) {
+      // Only show button styles for button elements, not text
+      matches.push({ scope: 'global', tokenPath: 'buttonStyles.primary', label: 'Button Primary', responsive: false });
+      matches.push({ scope: 'global', tokenPath: 'buttonStyles.secondary', label: 'Button Secondary', responsive: false });
+      matches.push({ scope: 'global', tokenPath: 'buttonStyles.tab', label: 'Button Tab', responsive: false });
+    }
+    if (design?.buttons) {
+      matches.push({ scope: 'global', tokenPath: 'buttons.primary', label: 'Buttons Primary', responsive: false });
+      matches.push({ scope: 'global', tokenPath: 'buttons.secondary', label: 'Buttons Secondary', responsive: false });
+      if (design?.buttons?.whatsapp) {
+        matches.push({ scope: 'global', tokenPath: 'buttons.whatsapp', label: 'Buttons WhatsApp', responsive: false });
+      }
+    }
+  }
+
+  // Travel package card parts → travelPackageCard (by inline style hints)
+  if (element && design?.travelPackageCard) {
+    const el = element as HTMLElement;
+    const s = el.style || ({} as CSSStyleDeclaration);
+    const tpc = design.travelPackageCard;
+    const looksLikeCardRoot =
+      (s.height && approxEq(s.height, tpc.maxHeight)) ||
+      (s.minHeight && approxEq(s.minHeight, tpc.minHeight));
+    const looksLikeHeader = s.height && approxEq(s.height, tpc.imageHeight);
+    const looksLikeContent = s.padding && approxEq(s.padding, tpc.contentPadding);
+    if (looksLikeCardRoot || looksLikeHeader || looksLikeContent) {
+      matches.push({ scope: 'global', tokenPath: 'travelPackageCard', label: 'Travel Package Card', responsive: false });
+    }
   }
 
   // Remove section container tokens - they're not useful for individual element editing

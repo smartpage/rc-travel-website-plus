@@ -1,3 +1,48 @@
+## TODO / PLAN – Class Override System (Reusable classes from single design JSON)
+
+- Add two structures to the single design JSON:
+  - `design.classes`: registry of reusable class sets with optional viewport variants and `extends` for composition.
+  - `design.classRules`: declarative rules that map element metadata → one or more named class sets (plus ad‑hoc utilities), with `mode` append|replace.
+- Centralize logic in `src/lib/tokenResolver.ts` by adding `resolveClassOverrides(design, meta, viewport)`:
+  - Expands named sets (handles `extends`) from `design.classes`.
+  - Matches rules by `sectionId | component | part | tag | elementId | index | dataTypography`.
+  - Returns the final class string for the current viewport and a merge `mode` (append/replace).
+- Minimal component changes: add stable data attributes and compose classes via a tiny helper:
+  - Roots: `data-section-id`, `data-component="..."`
+  - Subparts: `data-part="..."`
+  - Optional: `data-element-id`, keep `data-typography` where relevant
+  - Helper `useDesignClasses(meta, base)` → returns merged className
+- Editor extension (later): a "Local classes" editor in the inspector writes to `design.classRules` and may create named sets under `design.classes` to keep overrides reusable.
+
+Example JSON additions:
+
+```
+{
+  "classes": {
+    "headingXL": { "base": "font-bold tracking-tight", "mobile": "text-4xl", "desktop": "text-7xl" },
+    "mutedText": { "base": "text-slate-400" },
+    "cardSurface": { "base": "rounded-xl shadow-lg border border-white/10 bg-black/30" },
+    "containerPad": { "mobile": "px-4", "tablet": "px-6", "desktop": "px-8" },
+    "buttonBase": { "base": "inline-flex items-center justify-center rounded-md" },
+    "buttonPrimary": { "extends": ["buttonBase"], "base": "bg-yellow-500 text-black hover:bg-yellow-600" }
+  },
+  "classRules": [
+    { "match": { "component": "HeroSection", "part": "Wrapper" }, "use": ["containerPad","cardSurface"], "mode": "append" },
+    { "match": { "sectionId": "hero", "tag": "H1" }, "use": ["headingXL"], "mode": "append" },
+    { "match": { "component": "TravelPackages", "part": "CTAButton" }, "use": ["buttonPrimary"], "add": "text-base", "mode": "append" }
+  ]
+}
+```
+
+Integration snippet:
+
+```
+const { className, mode } = resolveClassOverrides(design, { sectionId, component: 'HeroSection', part: 'Wrapper', tag: 'DIV' }, viewport);
+const final = mode === 'append' ? clsx(existing, className) : className;
+```
+
+---
+
 ## Overlay Editor – Architecture & Usage
 
 ```
@@ -192,6 +237,15 @@ Usage:
 3) Add `SelectionOverlay` component to render highlight rects above content.
 4) Gradually migrate any remaining hardcoded styles to tokens.
 
-This document is the single reference for the Overlay Editor’s architecture and contracts. Keep it aligned with the code after each change.
+### Performance Optimizations
 
+The Overlay Editor implements several performance optimizations to ensure smooth interaction:
 
+- **RAF throttling for hover updates**: Mousemove events are throttled using `requestAnimationFrame` to prevent excessive DOM rect calculations during hover detection
+- **Stable refs to avoid effect churn**: Uses `React.useRef` for `activeElement`, `selectedElement`, `scrollContainer`, and `design` to maintain stable references and prevent unnecessary effect re-runs
+- **Memoized comparisons for overlay rect updates**: Compares rect coordinates before updating state to avoid unnecessary re-renders when overlay position hasn't changed
+- **Session storage for viewport persistence**: Viewport state (`desktop`/`mobile`) is persisted to `sessionStorage` to maintain user preference across page reloads
+
+These optimizations ensure the editor remains responsive even with complex layouts and frequent user interactions.
+
+This document is the single reference for the Overlay Editor's architecture and contracts. Keep it aligned with the code after each change.

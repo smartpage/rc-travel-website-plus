@@ -96,6 +96,242 @@ const DesignInspectorContent: React.FC = () => {
 		await refreshDesign();
 	};
 
+	// ---------------- Schema-driven token editor helpers -----------------
+	const getValueByPath = (root: any, path: string): any => {
+		const parts = path.split('.');
+		let obj: any = root;
+		for (const p of parts) {
+			if (!obj) return undefined;
+			obj = obj[p];
+		}
+		return obj;
+	};
+
+	const setValueByPath = (root: any, path: string, field: string, value: any) => {
+		const parts = path.split('.');
+		const next: any = { ...root };
+		let obj: any = next;
+		for (let i = 0; i < parts.length; i++) {
+			const key = parts[i];
+			obj[key] = obj[key] ? { ...obj[key] } : {};
+			obj = obj[key];
+		}
+		obj[field] = value;
+		return next;
+	};
+
+	const resolveDesignPath = (tokenPath: string): string => {
+		if (tokenPath.startsWith('typography.')) return tokenPath;
+		// Known top-level families that live directly under design
+		if (['headings', 'hero_headings', 'preTitle', 'titleDescription'].includes(tokenPath)) {
+			return tokenPath;
+		}
+		// Other known top-level namespaces
+		if (tokenPath.startsWith('buttonStyles.')) return tokenPath;
+		if (tokenPath.startsWith('buttons.')) return tokenPath;
+		if (tokenPath === 'travelPackageCard') return tokenPath;
+		// Fallback: assume typography bucket
+		return `typography.${tokenPath}`;
+	};
+
+	const renderTokenEditor = (tokenPath: string, niceLabel?: string) => {
+		const path = resolveDesignPath(tokenPath);
+		const token = getValueByPath(design, path) || {};
+
+		// Nothing to render if not an object (or empty)
+		if (!token || typeof token !== 'object') return null;
+
+		// Only treat as responsive if md/lg keys exist. If only fontSize exists, edit that directly.
+		const hasResponsive = ('fontSizeMd' in token) || ('fontSizeLg' in token);
+		const sizeKey = hasResponsive
+			? (viewport === 'desktop' ? 'fontSizeLg' : viewport === 'mobile' ? 'fontSize' : 'fontSizeMd')
+			: 'fontSize';
+
+		const isButtons = path.startsWith('buttons.');
+		const isTravelCard = path === 'travelPackageCard';
+
+		return (
+			<div style={{ display: 'grid', gap: 6 }}>
+				{'fontFamily' in token && (
+					<PanelRow label={`${niceLabel || tokenPath}.fontFamily`}>
+						<input
+							value={token.fontFamily || ''}
+							onChange={(e) => updateDesignLocal((prev: any) => setValueByPath(prev, path, 'fontFamily', e.target.value))}
+							placeholder="e.g. Inter, sans-serif"
+							style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+						/>
+					</PanelRow>
+				)}
+
+				{('fontSize' in token || 'fontSizeMd' in token || 'fontSizeLg' in token) && (
+					<PanelRow label={`${niceLabel || tokenPath}.fontSize${hasResponsive ? ` (${viewport})` : ''}`}>
+						<SmartInput
+							value={token[sizeKey] || ''}
+							onChange={(val) => updateDesignLocal((prev: any) => setValueByPath(prev, path, sizeKey, val))}
+							placeholder="e.g. 1rem"
+							label={`${niceLabel || tokenPath}.fontSize`}
+							style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+						/>
+					</PanelRow>
+				)}
+
+				{'lineHeight' in token && (
+					<PanelRow label={`${niceLabel || tokenPath}.lineHeight`}>
+						<SmartInput
+							value={token.lineHeight || ''}
+							onChange={(val) => updateDesignLocal((prev: any) => setValueByPath(prev, path, 'lineHeight', val))}
+							placeholder="e.g. 1.5"
+							label={`${niceLabel || tokenPath}.lineHeight`}
+							style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+						/>
+					</PanelRow>
+				)}
+
+				{'fontWeight' in token && (
+					<PanelRow label={`${niceLabel || tokenPath}.fontWeight`}>
+						<SmartInput
+							value={token.fontWeight || ''}
+							onChange={(val) => updateDesignLocal((prev: any) => setValueByPath(prev, path, 'fontWeight', val))}
+							placeholder="e.g. 400"
+							label={`${niceLabel || tokenPath}.fontWeight`}
+							style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+						/>
+					</PanelRow>
+				)}
+
+				{'letterSpacing' in token && (
+					<PanelRow label={`${niceLabel || tokenPath}.letterSpacing`}>
+						<SmartInput
+							value={token.letterSpacing || ''}
+							onChange={(val) => updateDesignLocal((prev: any) => setValueByPath(prev, path, 'letterSpacing', val))}
+							placeholder="e.g. -0.025em"
+							label={`${niceLabel || tokenPath}.letterSpacing`}
+							style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+						/>
+					</PanelRow>
+				)}
+
+				{'color' in token && (
+					<PanelRow label={`${niceLabel || tokenPath}.color`}>
+						<input
+							value={token.color || ''}
+							onChange={(e) => updateDesignLocal((prev: any) => setValueByPath(prev, path, 'color', e.target.value))}
+							placeholder="e.g. #ffffff"
+							style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+						/>
+					</PanelRow>
+				)}
+
+				{/* Travel Package Card layout tokens */}
+				{isTravelCard && (
+					<>
+						{'minHeight' in token && (
+							<PanelRow label={`${niceLabel || tokenPath}.minHeight`}>
+								<SmartInput
+									value={token.minHeight || ''}
+									onChange={(val) => updateDesignLocal((prev: any) => setValueByPath(prev, path, 'minHeight', val))}
+									placeholder="e.g. 70vh"
+									label={`${niceLabel || tokenPath}.minHeight`}
+									style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+								/>
+							</PanelRow>
+						)}
+						{'maxHeight' in token && (
+							<PanelRow label={`${niceLabel || tokenPath}.maxHeight`}>
+								<SmartInput
+									value={token.maxHeight || ''}
+									onChange={(val) => updateDesignLocal((prev: any) => setValueByPath(prev, path, 'maxHeight', val))}
+									placeholder="e.g. 70vh"
+									label={`${niceLabel || tokenPath}.maxHeight`}
+									style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+								/>
+							</PanelRow>
+						)}
+						{'imageHeight' in token && (
+							<PanelRow label={`${niceLabel || tokenPath}.imageHeight`}>
+								<SmartInput
+									value={token.imageHeight || ''}
+									onChange={(val) => updateDesignLocal((prev: any) => setValueByPath(prev, path, 'imageHeight', val))}
+									placeholder="e.g. 55%"
+									label={`${niceLabel || tokenPath}.imageHeight`}
+									style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+								/>
+							</PanelRow>
+						)}
+						{'contentPadding' in token && (
+							<PanelRow label={`${niceLabel || tokenPath}.contentPadding`}>
+								<SmartInput
+									value={token.contentPadding || ''}
+									onChange={(val) => updateDesignLocal((prev: any) => setValueByPath(prev, path, 'contentPadding', val))}
+									placeholder="e.g. .5rem"
+									label={`${niceLabel || tokenPath}.contentPadding`}
+									style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+								/>
+							</PanelRow>
+						)}
+					</>
+				)}
+
+				{/* Buttons token editors */}
+				{isButtons && (
+					<>
+						{'text' in token && (
+							<PanelRow label={`${niceLabel || tokenPath}.text`}>
+								<input
+									value={token.text || ''}
+									onChange={(e) => updateDesignLocal((prev: any) => setValueByPath(prev, path, 'text', e.target.value))}
+									placeholder="Button label"
+									style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+								/>
+							</PanelRow>
+						)}
+						{'bg' in token && (
+							<PanelRow label={`${niceLabel || tokenPath}.bg`}>
+								<input
+									value={token.bg || ''}
+									onChange={(e) => updateDesignLocal((prev: any) => setValueByPath(prev, path, 'bg', e.target.value))}
+									placeholder="e.g. bg-yellow-500 or #eab308"
+									style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+								/>
+							</PanelRow>
+						)}
+						{'hover' in token && (
+							<PanelRow label={`${niceLabel || tokenPath}.hover`}>
+								<input
+									value={token.hover || ''}
+									onChange={(e) => updateDesignLocal((prev: any) => setValueByPath(prev, path, 'hover', e.target.value))}
+									placeholder="e.g. hover:bg-yellow-600"
+									style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+								/>
+							</PanelRow>
+						)}
+						{'textColor' in token && (
+							<PanelRow label={`${niceLabel || tokenPath}.textColor`}>
+								<input
+									value={token.textColor || ''}
+									onChange={(e) => updateDesignLocal((prev: any) => setValueByPath(prev, path, 'textColor', e.target.value))}
+									placeholder="e.g. text-black or #000000"
+									style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+								/>
+							</PanelRow>
+						)}
+						{'fontWeight' in token && (
+							<PanelRow label={`${niceLabel || tokenPath}.fontWeight`}>
+								<SmartInput
+									value={token.fontWeight || ''}
+									onChange={(val) => updateDesignLocal((prev: any) => setValueByPath(prev, path, 'fontWeight', val))}
+									placeholder="e.g. font-normal or 400"
+									label={`${niceLabel || tokenPath}.fontWeight`}
+									style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+								/>
+							</PanelRow>
+						)}
+					</>
+				)}
+			</div>
+		);
+	};
+
 	return (
 		<div style={{ display: 'grid', gap: 10 }}>
 			{activeElement && (
@@ -251,32 +487,90 @@ const DesignInspectorContent: React.FC = () => {
 							{/* Minimal editors: headings */}
 							{m.tokenPath === 'headings' && (
 								<div style={{ display: 'grid', gap: 6 }}>
+									{/* fontFamily */}
+									<PanelRow label="headings.fontFamily">
+										<input
+											value={design?.headings?.fontFamily || ''}
+											onChange={(e) => updateDesignLocal((prev: any) => ({
+												...prev,
+												headings: { ...(prev.headings || {}), fontFamily: e.target.value }
+											}))}
+											placeholder="e.g. Inter, sans-serif"
+											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+										/>
+									</PanelRow>
+
+									{/* fontSize responsive */}
 									<PanelRow label={`headings.fontSize (${viewport})`}>
 										<SmartInput
 											value={viewport === 'mobile' ? (design?.headings?.fontSize || '') : viewport === 'desktop' ? (design?.headings?.fontSizeLg || '') : (design?.headings?.fontSizeMd || '')}
 											onChange={(val) => {
-												updateDesignLocal((prev: any) => {
-													const next = { ...prev };
-													next.headings = { ...next.headings };
-													if (viewport === 'mobile') next.headings.fontSize = val; else if (viewport === 'desktop') next.headings.fontSizeLg = val; else next.headings.fontSizeMd = val;
-													return next;
-												});
-											}}
-											placeholder="e.g. 2.5rem"
-											label="headings.fontSize"
+											updateDesignLocal((prev: any) => {
+												const next = { ...prev };
+												next.headings = { ...next.headings };
+												if (viewport === 'mobile') next.headings.fontSize = val; else if (viewport === 'desktop') next.headings.fontSizeLg = val; else next.headings.fontSizeMd = val;
+												return next;
+											});
+										}}
+										placeholder="e.g. 2.5rem"
+										label="headings.fontSize"
+										style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+										/>
+									</PanelRow>
+
+									{/* lineHeight */}
+									<PanelRow label="headings.lineHeight">
+										<SmartInput
+											value={design?.headings?.lineHeight || ''}
+											onChange={(val) => updateDesignLocal((prev: any) => ({
+												...prev,
+												headings: { ...(prev.headings || {}), lineHeight: val }
+											}))}
+											placeholder="e.g. 1.2"
+											label="headings.lineHeight"
 											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
 										/>
 									</PanelRow>
+
+									{/* fontWeight */}
+									<PanelRow label="headings.fontWeight">
+										<SmartInput
+											value={design?.headings?.fontWeight || ''}
+											onChange={(val) => updateDesignLocal((prev: any) => ({
+												...prev,
+												headings: { ...(prev.headings || {}), fontWeight: val }
+											}))}
+											placeholder="e.g. 700"
+											label="headings.fontWeight"
+											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+										/>
+									</PanelRow>
+
+									{/* letterSpacing */}
+									<PanelRow label="headings.letterSpacing">
+										<SmartInput
+											value={design?.headings?.letterSpacing || ''}
+											onChange={(val) => updateDesignLocal((prev: any) => ({
+												...prev,
+												headings: { ...(prev.headings || {}), letterSpacing: val }
+											}))}
+											placeholder="e.g. -0.02em"
+											label="headings.letterSpacing"
+											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+										/>
+									</PanelRow>
+
+									{/* color */}
 									<PanelRow label="headings.color">
 										<input
 											value={design?.headings?.color || ''}
 											onChange={(e) => {
-												const val = e.target.value;
-												updateDesignLocal((prev: any) => {
-													const next = { ...prev };
-													next.headings = { ...next.headings, color: val };
-													return next;
-												});
+											const val = e.target.value;
+											updateDesignLocal((prev: any) => {
+												const next = { ...prev };
+												next.headings = { ...next.headings, color: val };
+												return next;
+											});
 											}}
 											placeholder="#111827"
 											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
@@ -309,6 +603,13 @@ const DesignInspectorContent: React.FC = () => {
 										/>
 									</PanelRow>
 								</div>
+							)}
+							{/* Generic fallback editor for any matched tokenPath */}
+							{!(
+								['hero_headings', 'typography.body', 'headings'].includes(m.tokenPath) ||
+								(m.tokenPath.startsWith('sections.') && m.tokenPath.endsWith('.layout.padding'))
+							) && (
+								renderTokenEditor(m.tokenPath, m.label)
 							)}
 						</div>
 					))}

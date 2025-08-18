@@ -19,7 +19,8 @@ import { EditorOverlayProvider } from "@/contexts/EditorOverlayContext";
 const queryClient = new QueryClient();
 
 const App = () => {
-  const isDesignMode = new URLSearchParams(window.location.search).get('design') === '1';
+  const designParam = new URLSearchParams(window.location.search).get('design');
+  const isDesignMode = designParam === '1' || designParam === 'true';
 
   return (
     <>
