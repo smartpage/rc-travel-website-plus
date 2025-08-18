@@ -35,7 +35,6 @@ const EditorPanelsWrapper: React.FC = () => {
     maxHeight: 'calc(100vh - 24px)',
     display: 'flex',
     flexDirection: 'column',
-    gap: '0.5rem',
     alignItems: 'flex-start',
     background: design?.colors?.background,
     padding: 12,
@@ -98,7 +97,7 @@ const EditorPanelsWrapper: React.FC = () => {
         {isTop ? <ChevronDown size={12} /> : <ChevronUp size={12} />}
       </button>
       {/* Scrollable content wrapper to preserve scroll while chevrons sit outside */}
-      <div style={{ width: '100%', maxHeight: 'calc(100vh - 24px)', overflow: 'auto' }}>
+      <div style={{ width: '100%', maxHeight: 'calc(100vh - 24px)', overflow: 'auto', display: 'flex', flexDirection: 'column', gap: '2px' }}>
         {/* Selection Overlay */}
         <SelectionOverlay />
         {/* Design Inspector */}

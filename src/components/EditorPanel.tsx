@@ -30,7 +30,7 @@ const EditorPanel: React.FC<EditorPanelProps> = ({ id, title, subtitle, children
           justifyContent: 'space-between',
           alignItems: 'center',
           transition: 'all 0.2s ease',
-          marginBottom: isCollapsed ? 0 : 8
+          marginBottom: isCollapsed ? 0 : 2
         }}
         onMouseEnter={(e) => {
           e.currentTarget.style.background = isCollapsed ? '#2a2a2a' : '#3a3a3a';
@@ -48,7 +48,7 @@ const EditorPanel: React.FC<EditorPanelProps> = ({ id, title, subtitle, children
       
       {!isCollapsed && (
         <div style={{ 
-          padding: '0 0 12px 0',
+          padding: '0 2px 12px 2px',
           overflow: 'auto',
           flex: '1 1 auto',
           minHeight: 0

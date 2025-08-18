@@ -56,7 +56,7 @@ const SectionNavigatorContent: React.FC = () => {
 
   return (
     <>
-      <div style={{ display: 'grid', gap: 6 }}>
+      <div style={{ display: 'grid', gap: 2 }}>
         {navigableSections.map((section: any) => (
           <button
             key={section.id}
