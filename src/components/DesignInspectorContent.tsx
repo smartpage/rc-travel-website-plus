@@ -668,6 +668,52 @@ const DesignInspectorContent: React.FC = () => {
 									</PanelRow>
 								</div>
 							)}
+							{/* Inner width controls */}
+							{m.tokenPath.includes('.layout.inner.width') && activeSectionId && (
+								<div style={{ display: 'grid', gap: 6 }}>
+									<PanelRow label="Inner Width">
+										<input
+											type="text"
+											value={design?.sections?.[activeSectionId]?.layout?.inner?.width || ''}
+											onChange={(e) => {
+												const val = e.target.value;
+												updateDesignLocal((prev: any) => {
+													const next = { ...prev };
+													next.sections = next.sections || {};
+													next.sections[activeSectionId] = next.sections[activeSectionId] || { layout: { padding: { mobile: '', tablet: '', desktop: '' }, inner: { maxWidth: '100%', margin: '0 auto', padding: { mobile: '0', tablet: '0', desktop: '0' }, rounded: false, backgroundColor: 'transparent', overflow: 'visible', background: { type: 'color', value: 'transparent' }, display: 'block', flexDirection: 'column', alignItems: 'stretch', justifyContent: 'flex-start', width: '100%' } } };
+													next.sections[activeSectionId].layout.inner.width = val;
+													return next;
+												});
+											}}
+											placeholder="e.g. 100%, auto, 1280px"
+											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+										/>
+									</PanelRow>
+								</div>
+							)}
+							{/* Inner max-width controls */}
+							{m.tokenPath.includes('.layout.inner.maxWidth') && activeSectionId && (
+								<div style={{ display: 'grid', gap: 6 }}>
+									<PanelRow label="Inner Max Width">
+										<input
+											type="text"
+											value={design?.sections?.[activeSectionId]?.layout?.inner?.maxWidth || ''}
+											onChange={(e) => {
+												const val = e.target.value;
+												updateDesignLocal((prev: any) => {
+													const next = { ...prev };
+													next.sections = next.sections || {};
+													next.sections[activeSectionId] = next.sections[activeSectionId] || { layout: { padding: { mobile: '', tablet: '', desktop: '' }, inner: { maxWidth: '100%', margin: '0 auto', padding: { mobile: '0', tablet: '0', desktop: '0' }, rounded: false, backgroundColor: 'transparent', overflow: 'visible', background: { type: 'color', value: 'transparent' }, display: 'block', flexDirection: 'column', alignItems: 'stretch', justifyContent: 'flex-start', width: '100%' } } };
+													next.sections[activeSectionId].layout.inner.maxWidth = val;
+													return next;
+												});
+											}}
+											placeholder="e.g. 100%, 1280px, none"
+											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+										/>
+									</PanelRow>
+								</div>
+							)}
 							{/* Section background color controls */}
 							{m.tokenPath.includes('.layout.backgroundColor') && activeSectionId && (
 								<div style={{ display: 'grid', gap: 6 }}>

@@ -51,6 +51,7 @@ const Section: React.FC<SectionProps> = ({ children, sectionId, className, id, b
     height: (inner as any).height,
     border: (inner as any).border,
     borderColor: (inner as any).borderColor,
+    boxSizing: 'border-box', // Ensure proper box-sizing for width calculations
   };
 
   // --- Dynamic CSS Generation ---
@@ -63,6 +64,8 @@ const Section: React.FC<SectionProps> = ({ children, sectionId, className, id, b
       #${uniqueId} > .inner-section {
         padding: ${inner.padding.mobile};
         box-sizing: border-box;
+        max-width: 100%;
+        width: 100%;
         ${(inner as any).minHeight ? `min-height: ${(inner as any).minHeight};` : ''}
       }
 
@@ -73,6 +76,7 @@ const Section: React.FC<SectionProps> = ({ children, sectionId, className, id, b
         }
         #${uniqueId} > .inner-section {
           padding: ${inner.padding.tablet};
+          max-width: ${inner.maxWidth === '100%' ? '100%' : inner.maxWidth};
         }
       }
 
@@ -82,6 +86,7 @@ const Section: React.FC<SectionProps> = ({ children, sectionId, className, id, b
         }
         #${uniqueId} > .inner-section {
           padding: ${inner.padding.desktop};
+          max-width: ${inner.maxWidth === '100%' ? '100%' : inner.maxWidth};
         }
       }
     `;

@@ -441,7 +441,7 @@
             "desktop": "0rem 0rem"
           },
           "inner": {
-            "maxWidth": "1280px",
+            "maxWidth": "100%",
             "margin": "0 auto",
             "padding": {
               "mobile": "0",
@@ -455,7 +455,7 @@
               "type": "color",
               "value": "transparent"
             },
-            "width": "",
+            "width": "100%",
             "borderRadius": "5.5rem",
             "border": "2px solid blue",
             "borderColor": "blue",
