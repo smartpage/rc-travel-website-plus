@@ -142,11 +142,11 @@
         "layout": {
           "maxWidth": "100%",
           "minHeight": "100vh",
-          "backgroundColor": null,
+          "backgroundColor": "#ffffff",
           "padding": {
             "mobile": "0.5rem 0.5rem 4rem",
             "tablet": "0.5rem 0.5rem",
-            "desktop": "0.5rem .5rem"
+            "desktop": "2.5rem 5rem"
           },
           "inner": {
             "maxWidth": "100%",
@@ -158,7 +158,7 @@
               "desktop": "6rem 2rem"
             },
             "rounded": true,
-            "borderRadius": "1.5rem",
+            "borderRadius": "5rem",
             "backgroundColor": "transparent",
             "overflow": "hidden",
             "background": {
@@ -258,11 +258,11 @@
       "travelDesigner": {
         "layout": {
           "maxWidth": "100%",
-          "backgroundColor": null,
+          "backgroundColor": "#0d0808",
           "padding": {
             "mobile": "4rem 0rem",
             "tablet": "6rem 2rem",
-            "desktop": "17rem 2rem"
+            "desktop": "1rem 1rem"
           },
           "inner": {
             "maxWidth": "100%",
@@ -272,14 +272,17 @@
               "tablet": "0",
               "desktop": "2rem"
             },
-            "rounded": false,
-            "backgroundColor": "transparent",
+            "rounded": true,
+            "backgroundColor": "#696969",
             "overflow": "visible",
             "background": {
               "type": "color",
               "value": "transparent"
             },
-            "width": ""
+            "width": "",
+            "borderRadius": "5rem",
+            "border": "3px dashed",
+            "borderColor": "#e1ff00"
           }
         }
       },
@@ -431,11 +434,11 @@
       "travelPackages": {
         "layout": {
           "maxWidth": "100%",
-          "backgroundColor": "#00ff59",
+          "backgroundColor": "#ffffff",
           "padding": {
             "mobile": "5rem .5rem",
             "tablet": "8rem 1rem",
-            "desktop": "8rem 1rem"
+            "desktop": "0rem 0rem"
           },
           "inner": {
             "maxWidth": "1280px",
@@ -446,13 +449,19 @@
               "desktop": "0"
             },
             "rounded": false,
-            "backgroundColor": "transparent",
+            "backgroundColor": "#bd0000",
             "overflow": "visible",
             "background": {
               "type": "color",
               "value": "transparent"
             },
-            "width": ""
+            "width": "",
+            "borderRadius": "5.5rem",
+            "border": "2px solid blue",
+            "borderColor": "blue",
+            "display": "flex",
+            "flexDirection": "row",
+            "justifyContent": "space-between"
           }
         }
       },

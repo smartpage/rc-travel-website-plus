@@ -49,6 +49,8 @@ const Section: React.FC<SectionProps> = ({ children, sectionId, className, id, b
     justifyContent: (inner as any).justifyContent,
     minHeight: (inner as any).minHeight,
     height: (inner as any).height,
+    border: (inner as any).border,
+    borderColor: (inner as any).borderColor,
   };
 
   // --- Dynamic CSS Generation ---

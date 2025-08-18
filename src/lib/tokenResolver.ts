@@ -199,7 +199,8 @@ export function resolveGlobalTokens(snapshot: ComputedSnapshot, sectionId: strin
   // Section background tokens - detect when clicking on section container
   if (element && sectionId) {
     const sectionEl = element.closest('[data-section-id]') as HTMLElement | null;
-    const isDirectSectionClick = sectionEl === element || sectionEl?.querySelector('.inner-section') === element;
+    const innerSection = sectionEl?.querySelector('.inner-section') as HTMLElement | null;
+    const isDirectSectionClick = sectionEl === element || innerSection === element;
     
     if (isDirectSectionClick && design?.sections?.[sectionId]) {
       // Add section layout background tokens
@@ -243,6 +244,65 @@ export function resolveGlobalTokens(snapshot: ComputedSnapshot, sectionId: strin
         tokenPath: `sections.${sectionId}.layout.padding`, 
         label: 'Section Padding', 
         responsive: true 
+      });
+      
+      // Add inner section padding tokens (responsive)
+      matches.push({ 
+        scope: 'section', 
+        tokenPath: `sections.${sectionId}.layout.inner.padding`, 
+        label: 'Inner Padding', 
+        responsive: true 
+      });
+      
+      // Add flex layout tokens
+      matches.push({ 
+        scope: 'section', 
+        tokenPath: `sections.${sectionId}.layout.inner.display`, 
+        label: 'Display Type', 
+        responsive: false 
+      });
+      
+      matches.push({ 
+        scope: 'section', 
+        tokenPath: `sections.${sectionId}.layout.inner.flexDirection`, 
+        label: 'Flex Direction', 
+        responsive: false 
+      });
+      
+      matches.push({ 
+        scope: 'section', 
+        tokenPath: `sections.${sectionId}.layout.inner.alignItems`, 
+        label: 'Align Items (Vertical)', 
+        responsive: false 
+      });
+      
+      matches.push({ 
+        scope: 'section', 
+        tokenPath: `sections.${sectionId}.layout.inner.justifyContent`, 
+        label: 'Justify Content (Horizontal)', 
+        responsive: false 
+      });
+      
+      // Add border tokens
+      matches.push({ 
+        scope: 'section', 
+        tokenPath: `sections.${sectionId}.layout.inner.borderRadius`, 
+        label: 'Border Radius', 
+        responsive: false 
+      });
+      
+      matches.push({ 
+        scope: 'section', 
+        tokenPath: `sections.${sectionId}.layout.inner.border`, 
+        label: 'Border Style', 
+        responsive: false 
+      });
+      
+      matches.push({ 
+        scope: 'section', 
+        tokenPath: `sections.${sectionId}.layout.inner.borderColor`, 
+        label: 'Border Color', 
+        responsive: false 
       });
     }
   }

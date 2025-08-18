@@ -29,7 +29,7 @@ const EditorPanelsWrapper: React.FC = () => {
       top: 12,
       right: 12,
       zIndex: 1000,
-      width: 340,
+      width: 425,
       height: 'auto',
       maxHeight: 'calc(100vh - 24px)',
       display: 'flex',

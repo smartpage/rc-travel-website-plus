@@ -59,14 +59,17 @@ const ColorSwatch: React.FC<ColorSwatchProps> = ({ value, onChange, placeholder,
             height: 20,
             borderRadius: 3,
             border: '1px solid #3a3a3a',
-            backgroundColor: value || '#1a1a1a',
+            backgroundColor: value || 'transparent',
+            backgroundImage: !value ? 'linear-gradient(45deg, #2a2a2a 25%, transparent 25%), linear-gradient(-45deg, #2a2a2a 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #2a2a2a 75%), linear-gradient(-45deg, transparent 75%, #2a2a2a 75%)' : 'none',
+            backgroundSize: !value ? '4px 4px' : 'auto',
+            backgroundPosition: !value ? '0 0, 0 2px, 2px -2px, -2px 0px' : 'auto',
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
           }}
         >
-          {!value && <span style={{ fontSize: 8, color: '#666' }}>?</span>}
+          {!value && <span style={{ fontSize: 8, color: '#999', mixBlendMode: 'difference' }}>◯</span>}
         </div>
         
         {/* Palette toggle button */}

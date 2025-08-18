@@ -1,4 +1,5 @@
 import React from 'react';
+import { Trash2, Plus, Search, Palette, Monitor, Smartphone } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { useDesign } from '@/contexts/DesignContext';
 import { useEditorOverlay } from '@/contexts/EditorOverlayContext';
@@ -336,9 +337,8 @@ const DesignInspectorContent: React.FC = () => {
 				<div style={{ border: '1px solid #2a2a2a', borderRadius: 8, padding: 10, background: '#121212' }}>
 					<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
 						<div style={{ color: '#f8fafc', fontSize: 12 }}>Selected: <strong>{activeElement.label}</strong></div>
-						<div style={{ display: 'flex', gap: 6 }}>
-							<span style={{ fontSize: 11, color: '#a1a1aa' }}>Viewport:</span>
-							<code style={{ fontSize: 11, color: '#c084fc' }}>{viewport}</code>
+						<div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+							{viewport === 'desktop' ? <Monitor size={14} color="#a1a1aa" /> : <Smartphone size={14} color="#a1a1aa" />}
 						</div>
 					</div>
 					{activeElement.tokenMatches.length === 0 && (
@@ -607,15 +607,17 @@ const DesignInspectorContent: React.FC = () => {
 													return next;
 												});
 											}}
-											placeholder="#111827"
+											placeholder="e.g. #000000"
 										/>
 									</PanelRow>
 								</div>
 							)}
-							{m.tokenPath.startsWith('sections.') && m.tokenPath.endsWith('.layout.padding') && activeSectionId && (
+							{/* Section padding controls */}
+							{m.tokenPath.includes('.layout.padding') && !m.tokenPath.includes('.inner.padding') && activeSectionId && (
 								<div style={{ display: 'grid', gap: 6 }}>
-									<PanelRow label={`${m.tokenPath}.${viewport}`}>
+									<PanelRow label={`Section Padding (${viewport})`}>
 										<input
+											type="text"
 											value={
 												viewport === 'mobile' ? (design?.sections?.[activeSectionId]?.layout?.padding?.mobile || '')
 												: viewport === 'desktop' ? (design?.sections?.[activeSectionId]?.layout?.padding?.desktop || '')
@@ -626,13 +628,41 @@ const DesignInspectorContent: React.FC = () => {
 												updateDesignLocal((prev: any) => {
 													const next = { ...prev };
 													next.sections = next.sections || {};
-													next.sections[activeSectionId] = next.sections[activeSectionId] || { layout: { padding: { mobile: '', tablet: '', desktop: '' }, inner: { maxWidth: '100%', margin: '0 auto', padding: { mobile: '0', tablet: '0', desktop: '0' }, rounded: false, backgroundColor: 'transparent', overflow: 'visible', background: { type: 'color', value: 'transparent' } } } };
+													next.sections[activeSectionId] = next.sections[activeSectionId] || { layout: { padding: { mobile: '', tablet: '', desktop: '' }, inner: { maxWidth: '100%', margin: '0 auto', padding: { mobile: '0', tablet: '0', desktop: '0' }, rounded: false, backgroundColor: 'transparent', overflow: 'visible', background: { type: 'color', value: 'transparent' }, display: 'block', flexDirection: 'column', alignItems: 'stretch', justifyContent: 'flex-start' } } };
 													const pad = next.sections[activeSectionId].layout.padding;
 													if (viewport === 'mobile') pad.mobile = val; else if (viewport === 'desktop') pad.desktop = val; else pad.tablet = val;
 													return next;
 												});
 											}}
 											placeholder="e.g. 4rem 1rem"
+											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+										/>
+									</PanelRow>
+								</div>
+							)}
+							{/* Inner padding controls */}
+							{m.tokenPath.includes('.layout.inner.padding') && activeSectionId && (
+								<div style={{ display: 'grid', gap: 6 }}>
+									<PanelRow label={`Inner Padding (${viewport})`}>
+										<input
+											type="text"
+											value={
+												viewport === 'mobile' ? (design?.sections?.[activeSectionId]?.layout?.inner?.padding?.mobile || '')
+												: viewport === 'desktop' ? (design?.sections?.[activeSectionId]?.layout?.inner?.padding?.desktop || '')
+												: (design?.sections?.[activeSectionId]?.layout?.inner?.padding?.tablet || '')
+											}
+											onChange={(e) => {
+												const val = e.target.value;
+												updateDesignLocal((prev: any) => {
+													const next = { ...prev };
+													next.sections = next.sections || {};
+													next.sections[activeSectionId] = next.sections[activeSectionId] || { layout: { padding: { mobile: '', tablet: '', desktop: '' }, inner: { maxWidth: '100%', margin: '0 auto', padding: { mobile: '0', tablet: '0', desktop: '0' }, rounded: false, backgroundColor: 'transparent', overflow: 'visible', background: { type: 'color', value: 'transparent' }, display: 'block', flexDirection: 'column', alignItems: 'stretch', justifyContent: 'flex-start' } } };
+													const innerPad = next.sections[activeSectionId].layout.inner.padding;
+													if (viewport === 'mobile') innerPad.mobile = val; else if (viewport === 'desktop') innerPad.desktop = val; else innerPad.tablet = val;
+													return next;
+												});
+											}}
+											placeholder="e.g. 2rem 1rem"
 											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
 										/>
 									</PanelRow>
@@ -648,7 +678,7 @@ const DesignInspectorContent: React.FC = () => {
 												updateDesignLocal((prev: any) => {
 													const next = { ...prev };
 													next.sections = next.sections || {};
-													next.sections[activeSectionId] = next.sections[activeSectionId] || { layout: { padding: { mobile: '', tablet: '', desktop: '' }, inner: { maxWidth: '100%', margin: '0 auto', padding: { mobile: '0', tablet: '0', desktop: '0' }, rounded: false, backgroundColor: 'transparent', overflow: 'visible', background: { type: 'color', value: 'transparent' } } } };
+													next.sections[activeSectionId] = next.sections[activeSectionId] || { layout: { padding: { mobile: '', tablet: '', desktop: '' }, inner: { maxWidth: '100%', margin: '0 auto', padding: { mobile: '0', tablet: '0', desktop: '0' }, rounded: false, backgroundColor: 'transparent', overflow: 'visible', background: { type: 'color', value: 'transparent' }, display: 'block', flexDirection: 'column', alignItems: 'stretch', justifyContent: 'flex-start' } } };
 													next.sections[activeSectionId].layout.backgroundColor = val;
 													return next;
 												});
@@ -668,7 +698,7 @@ const DesignInspectorContent: React.FC = () => {
 												updateDesignLocal((prev: any) => {
 													const next = { ...prev };
 													next.sections = next.sections || {};
-													next.sections[activeSectionId] = next.sections[activeSectionId] || { layout: { padding: { mobile: '', tablet: '', desktop: '' }, inner: { maxWidth: '100%', margin: '0 auto', padding: { mobile: '0', tablet: '0', desktop: '0' }, rounded: false, backgroundColor: 'transparent', overflow: 'visible', background: { type: 'color', value: 'transparent' } } } };
+													next.sections[activeSectionId] = next.sections[activeSectionId] || { layout: { padding: { mobile: '', tablet: '', desktop: '' }, inner: { maxWidth: '100%', margin: '0 auto', padding: { mobile: '0', tablet: '0', desktop: '0' }, rounded: false, backgroundColor: 'transparent', overflow: 'visible', background: { type: 'color', value: 'transparent' }, display: 'block', flexDirection: 'column', alignItems: 'stretch', justifyContent: 'flex-start' } } };
 													next.sections[activeSectionId].layout.inner.backgroundColor = val;
 													return next;
 												});
@@ -715,7 +745,7 @@ const DesignInspectorContent: React.FC = () => {
 												updateDesignLocal((prev: any) => {
 													const next = { ...prev };
 													next.sections = next.sections || {};
-													next.sections[activeSectionId] = next.sections[activeSectionId] || { layout: { padding: { mobile: '', tablet: '', desktop: '' }, inner: { maxWidth: '100%', margin: '0 auto', padding: { mobile: '0', tablet: '0', desktop: '0' }, rounded: false, backgroundColor: 'transparent', overflow: 'visible', background: { type: 'color', value: 'transparent' } } } };
+													next.sections[activeSectionId] = next.sections[activeSectionId] || { layout: { padding: { mobile: '', tablet: '', desktop: '' }, inner: { maxWidth: '100%', margin: '0 auto', padding: { mobile: '0', tablet: '0', desktop: '0' }, rounded: false, backgroundColor: 'transparent', overflow: 'visible', background: { type: 'color', value: 'transparent' }, display: 'block', flexDirection: 'column', alignItems: 'stretch', justifyContent: 'flex-start' } } };
 													if (!next.sections[activeSectionId].layout.inner.background) {
 														next.sections[activeSectionId].layout.inner.background = { type: 'color', value: 'transparent' };
 													}
@@ -731,6 +761,175 @@ const DesignInspectorContent: React.FC = () => {
 									</PanelRow>
 								</div>
 							)}
+							{/* Flex layout controls */}
+							{m.tokenPath.includes('.layout.inner.display') && activeSectionId && (
+								<div style={{ display: 'grid', gap: 6 }}>
+									<PanelRow label="Display Type">
+										<select
+											value={design?.sections?.[activeSectionId]?.layout?.inner?.display || 'block'}
+											onChange={(e) => {
+												const val = e.target.value;
+												updateDesignLocal((prev: any) => {
+													const next = { ...prev };
+													next.sections = next.sections || {};
+													next.sections[activeSectionId] = next.sections[activeSectionId] || { layout: { padding: { mobile: '', tablet: '', desktop: '' }, inner: { maxWidth: '100%', margin: '0 auto', padding: { mobile: '0', tablet: '0', desktop: '0' }, rounded: false, backgroundColor: 'transparent', overflow: 'visible', background: { type: 'color', value: 'transparent' }, display: 'block', flexDirection: 'column', alignItems: 'stretch', justifyContent: 'flex-start' } } };
+													next.sections[activeSectionId].layout.inner.display = val;
+													return next;
+												});
+											}}
+											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+										>
+											<option value="block">Block</option>
+											<option value="flex">Flex</option>
+											<option value="grid">Grid</option>
+											<option value="inline-block">Inline Block</option>
+										</select>
+									</PanelRow>
+								</div>
+							)}
+							{m.tokenPath.includes('.layout.inner.flexDirection') && activeSectionId && (
+								<div style={{ display: 'grid', gap: 6 }}>
+									<PanelRow label="Flex Direction">
+										<select
+											value={design?.sections?.[activeSectionId]?.layout?.inner?.flexDirection || 'column'}
+											onChange={(e) => {
+												const val = e.target.value;
+												updateDesignLocal((prev: any) => {
+													const next = { ...prev };
+													next.sections = next.sections || {};
+													next.sections[activeSectionId] = next.sections[activeSectionId] || { layout: { padding: { mobile: '', tablet: '', desktop: '' }, inner: { maxWidth: '100%', margin: '0 auto', padding: { mobile: '0', tablet: '0', desktop: '0' }, rounded: false, backgroundColor: 'transparent', overflow: 'visible', background: { type: 'color', value: 'transparent' }, display: 'block', flexDirection: 'column', alignItems: 'stretch', justifyContent: 'flex-start' } } };
+													next.sections[activeSectionId].layout.inner.flexDirection = val;
+													return next;
+												});
+											}}
+											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+										>
+											<option value="row">Row</option>
+											<option value="column">Column</option>
+											<option value="row-reverse">Row Reverse</option>
+											<option value="column-reverse">Column Reverse</option>
+										</select>
+									</PanelRow>
+								</div>
+							)}
+							{m.tokenPath.includes('.layout.inner.alignItems') && activeSectionId && (
+								<div style={{ display: 'grid', gap: 6 }}>
+									<PanelRow label="Align Items (Vertical)">
+										<select
+											value={design?.sections?.[activeSectionId]?.layout?.inner?.alignItems || 'stretch'}
+											onChange={(e) => {
+												const val = e.target.value;
+												updateDesignLocal((prev: any) => {
+													const next = { ...prev };
+													next.sections = next.sections || {};
+													next.sections[activeSectionId] = next.sections[activeSectionId] || { layout: { padding: { mobile: '', tablet: '', desktop: '' }, inner: { maxWidth: '100%', margin: '0 auto', padding: { mobile: '0', tablet: '0', desktop: '0' }, rounded: false, backgroundColor: 'transparent', overflow: 'visible', background: { type: 'color', value: 'transparent' }, display: 'block', flexDirection: 'column', alignItems: 'stretch', justifyContent: 'flex-start' } } };
+													next.sections[activeSectionId].layout.inner.alignItems = val;
+													return next;
+												});
+											}}
+											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+										>
+											<option value="stretch">Stretch</option>
+											<option value="flex-start">Start</option>
+											<option value="center">Center</option>
+											<option value="flex-end">End</option>
+											<option value="baseline">Baseline</option>
+										</select>
+									</PanelRow>
+								</div>
+							)}
+							{m.tokenPath.includes('.layout.inner.justifyContent') && activeSectionId && (
+								<div style={{ display: 'grid', gap: 6 }}>
+									<PanelRow label="Justify Content (Horizontal)">
+										<select
+											value={design?.sections?.[activeSectionId]?.layout?.inner?.justifyContent || 'flex-start'}
+											onChange={(e) => {
+												const val = e.target.value;
+												updateDesignLocal((prev: any) => {
+													const next = { ...prev };
+													next.sections = next.sections || {};
+													next.sections[activeSectionId] = next.sections[activeSectionId] || { layout: { padding: { mobile: '', tablet: '', desktop: '' }, inner: { maxWidth: '100%', margin: '0 auto', padding: { mobile: '0', tablet: '0', desktop: '0' }, rounded: false, backgroundColor: 'transparent', overflow: 'visible', background: { type: 'color', value: 'transparent' }, display: 'block', flexDirection: 'column', alignItems: 'stretch', justifyContent: 'flex-start' } } };
+													next.sections[activeSectionId].layout.inner.justifyContent = val;
+													return next;
+												});
+											}}
+											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+										>
+											<option value="flex-start">Start</option>
+											<option value="center">Center</option>
+											<option value="flex-end">End</option>
+											<option value="space-between">Space Between</option>
+											<option value="space-around">Space Around</option>
+											<option value="space-evenly">Space Evenly</option>
+										</select>
+									</PanelRow>
+								</div>
+							)}
+							{/* Border controls */}
+							{m.tokenPath.includes('.layout.inner.borderRadius') && activeSectionId && (
+								<div style={{ display: 'grid', gap: 6 }}>
+									<PanelRow label="Border Radius">
+										<input
+											type="text"
+											value={design?.sections?.[activeSectionId]?.layout?.inner?.borderRadius || ''}
+											onChange={(e) => {
+												const val = e.target.value;
+												updateDesignLocal((prev: any) => {
+													const next = { ...prev };
+													next.sections = next.sections || {};
+													next.sections[activeSectionId] = next.sections[activeSectionId] || { layout: { padding: { mobile: '', tablet: '', desktop: '' }, inner: { maxWidth: '100%', margin: '0 auto', padding: { mobile: '0', tablet: '0', desktop: '0' }, rounded: false, backgroundColor: 'transparent', overflow: 'visible', background: { type: 'color', value: 'transparent' }, display: 'block', flexDirection: 'column', alignItems: 'stretch', justifyContent: 'flex-start' } } };
+													next.sections[activeSectionId].layout.inner.borderRadius = val;
+													next.sections[activeSectionId].layout.inner.rounded = val ? true : false;
+													return next;
+												});
+											}}
+											placeholder="e.g. 8px or 0.5rem"
+											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+										/>
+									</PanelRow>
+								</div>
+							)}
+							{m.tokenPath.includes('.layout.inner.border') && activeSectionId && (
+								<div style={{ display: 'grid', gap: 6 }}>
+									<PanelRow label="Border Style">
+										<input
+											type="text"
+											value={design?.sections?.[activeSectionId]?.layout?.inner?.border || ''}
+											onChange={(e) => {
+												const val = e.target.value;
+												updateDesignLocal((prev: any) => {
+													const next = { ...prev };
+													next.sections = next.sections || {};
+													next.sections[activeSectionId] = next.sections[activeSectionId] || { layout: { padding: { mobile: '', tablet: '', desktop: '' }, inner: { maxWidth: '100%', margin: '0 auto', padding: { mobile: '0', tablet: '0', desktop: '0' }, rounded: false, backgroundColor: 'transparent', overflow: 'visible', background: { type: 'color', value: 'transparent' }, display: 'block', flexDirection: 'column', alignItems: 'stretch', justifyContent: 'flex-start' } } };
+													next.sections[activeSectionId].layout.inner.border = val;
+													return next;
+												});
+											}}
+											placeholder="e.g. 1px solid or 2px dashed"
+											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+										/>
+									</PanelRow>
+								</div>
+							)}
+							{m.tokenPath.includes('.layout.inner.borderColor') && activeSectionId && (
+								<div style={{ display: 'grid', gap: 6 }}>
+									<PanelRow label="Border Color">
+										<ColorSwatch
+											value={design?.sections?.[activeSectionId]?.layout?.inner?.borderColor || ''}
+											onChange={(val) => {
+												updateDesignLocal((prev: any) => {
+													const next = { ...prev };
+													next.sections = next.sections || {};
+													next.sections[activeSectionId] = next.sections[activeSectionId] || { layout: { padding: { mobile: '', tablet: '', desktop: '' }, inner: { maxWidth: '100%', margin: '0 auto', padding: { mobile: '0', tablet: '0', desktop: '0' }, rounded: false, backgroundColor: 'transparent', overflow: 'visible', background: { type: 'color', value: 'transparent' }, display: 'block', flexDirection: 'column', alignItems: 'stretch', justifyContent: 'flex-start' } } };
+													next.sections[activeSectionId].layout.inner.borderColor = val;
+													return next;
+												});
+											}}
+											placeholder="e.g. #cccccc"
+										/>
+									</PanelRow>
+								</div>
+							)}
 							{/* Generic fallback editor for any matched tokenPath */}
 							{!(
 								['hero_headings', 'typography.body', 'headings'].includes(m.tokenPath) ||
@@ -738,7 +937,14 @@ const DesignInspectorContent: React.FC = () => {
 								(m.tokenPath.includes('.layout.backgroundColor')) ||
 								(m.tokenPath.includes('.layout.inner.backgroundColor')) ||
 								(m.tokenPath.includes('.background.value')) ||
-								(m.tokenPath.includes('.overlay.color'))
+								(m.tokenPath.includes('.overlay.color')) ||
+								(m.tokenPath.includes('.layout.inner.display')) ||
+								(m.tokenPath.includes('.layout.inner.flexDirection')) ||
+								(m.tokenPath.includes('.layout.inner.alignItems')) ||
+								(m.tokenPath.includes('.layout.inner.justifyContent')) ||
+								(m.tokenPath.includes('.layout.inner.borderRadius')) ||
+								(m.tokenPath.includes('.layout.inner.border')) ||
+								(m.tokenPath.includes('.layout.inner.borderColor'))
 							) && (
 								renderTokenEditor(m.tokenPath, m.label)
 							)}
