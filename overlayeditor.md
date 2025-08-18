@@ -232,10 +232,11 @@ Usage:
 - `db.json` – design tokens (local dev)
 
 ### Roadmap (incremental)
-1) Extend `EditorOverlayContext` to the “Overlay Editor Context” shape above.
+1) Extend `EditorOverlayContext` to the "Overlay Editor Context" shape above.
 2) Wire `ViewportToggleOverlay` to context for a single source of truth.
 3) Add `SelectionOverlay` component to render highlight rects above content.
-4) Gradually migrate any remaining hardcoded styles to tokens.
+4) **Color Picker Enhancement**: Implement brand palette with local storage.
+5) Gradually migrate any remaining hardcoded styles to tokens.
 
 ### Performance Optimizations
 

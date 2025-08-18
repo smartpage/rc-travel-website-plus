@@ -375,7 +375,7 @@
       "whyFeatureCards": {
         "layout": {
           "maxWidth": "none",
-          "backgroundColor": null,
+          "backgroundColor": "#ffffff",
           "padding": {
             "mobile": "5rem 0.5rem",
             "tablet": "5rem 2rem",
@@ -403,7 +403,7 @@
       "services": {
         "layout": {
           "maxWidth": "none",
-          "backgroundColor": null,
+          "backgroundColor": "#ffffff",
           "padding": {
             "mobile": "0.5rem .5rem",
             "tablet": "5rem 2rem",
@@ -423,14 +423,15 @@
             "background": {
               "type": "color",
               "value": "transparent"
-            }
+            },
+            "backgroundColor": ""
           }
         }
       },
       "travelPackages": {
         "layout": {
           "maxWidth": "100%",
-          "backgroundColor": null,
+          "backgroundColor": "#00ff59",
           "padding": {
             "mobile": "5rem .5rem",
             "tablet": "8rem 1rem",
@@ -648,11 +649,11 @@
       "fontFamily": "Inter, sans-serif",
       "fontSize": "4.1rem",
       "fontSizeMd": "6.5rem",
-      "fontSizeLg": "8.375rem",
+      "fontSizeLg": "7.875rem",
       "lineHeight": "1",
-      "fontWeight": "400",
-      "letterSpacing": "-0.025em",
-      "color": "white",
+      "fontWeight": "600",
+      "letterSpacing": "-0.1em",
+      "color": "#00ff59",
       "marginBottom": "1.5rem",
       "textAlign": "center"
     },
@@ -660,14 +661,14 @@
       "fontFamily": "Inter, sans-serif",
       "fontSize": "1rem",
       "fontWeight": "400",
-      "color": "#cbd5e1",
+      "color": "#000000",
       "marginBottom": "0.5rem"
     },
     "titleDescription": {
       "fontFamily": "Inter, sans-serif",
-      "fontSize": "1.125rem",
-      "fontWeight": "400",
-      "color": "#94a3b8",
+      "fontSize": "1.5rem",
+      "fontWeight": "500",
+      "color": "#00ff59",
       "lineHeight": "1.75",
       "marginTop": "1.5rem"
     },
@@ -679,7 +680,7 @@
       "lineHeight": "1.125",
       "fontWeight": "600",
       "letterSpacing": "-0.1em",
-      "color": "yellow",
+      "color": "#271b1b",
       "marginBottom": "0.5rem",
       "textAlign": "center"
     },

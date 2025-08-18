@@ -154,3 +154,44 @@ export default withContent(HeroSection);
 4. **Task 4 (Cleanup)** - Removes technical debt
 
 This order allows us to improve modularity incrementally while maintaining functionality.
+
+---
+
+## 🎨 Color Picker Enhancement (Overlay Editor)
+
+### ☐ **Task: Enhanced Color Input Component**
+
+**Problem**: Current color inputs are basic text fields without visual feedback or brand color management.
+
+**Solution**: Implement comprehensive color picker with brand palette:
+
+**Component Features**:
+- **Color swatch square**: Visual preview inside input (right side)
+- **Native color picker**: Click swatch to open browser color picker
+- **Brand palette slots**: 8 pre-saved color slots with management
+  - **Filled slots**: Show color + tiny X button (delete)
+  - **Empty slots**: Show placeholder + tiny disk button (save current color)
+
+**State Management**:
+```tsx
+// EditorOverlayContext extension
+interface EditorOverlayState {
+  // ... existing state
+  colorPalette: string[]; // ['#ff0000', '#00ff00', '', '', ...] max 8 slots
+}
+```
+
+**Storage Strategy**:
+- **Phase 1**: localStorage in EditorOverlayContext
+- **TODO**: Load from `db.json.design.brandPalette` structure  
+- **Future**: Per-site brand color management via API
+
+**Implementation Steps**:
+1. Extend EditorOverlayContext with colorPalette state
+2. Create ColorSwatch component with picker integration
+3. Create ColorPalette component with slot management
+4. Add localStorage persistence for palette
+5. Replace color inputs in DesignInspectorContent
+6. Add TODO for db.json integration
+
+**Impact**: Streamlined color management with brand consistency across design tokens.

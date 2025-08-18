@@ -1,6 +1,40 @@
-make the inner# Arquitetura do Projeto
+# Arquitetura do Projeto
 
 Este documento consolida toda a arquitetura do RC Travel Website, incluindo histórico de refatorações, migrações, decisões técnicas e fluxos de trabalho para manutenção e evolução do projeto.
+
+---
+
+## 1. Token Resolver & Design Parser System
+
+### 1.1 Overview
+The **Token Resolver** (located in `src/lib/tokenResolver.ts`) is a heuristic-based system that maps DOM element computed styles to design tokens in the overlay editor. It enables automatic detection and live editing of design tokens through the UI.
+
+### 1.2 Core Components
+- **`resolveGlobalTokens()`**: Main function that analyzes element styles and context to determine matching design tokens
+- **`EditorOverlayContext`**: React context managing the overlay editor state and token synchronization  
+- **`DesignInspectorContent`**: UI component that renders token editing controls based on resolved matches
+- **`ColorSwatch`**: Component providing color picker + brand palette integration for all color tokens
+
+### 1.3 Token Resolution Heuristics
+The resolver uses several strategies to map elements to tokens:
+- **Data Attributes**: Elements with `data-typography` hints (preTitle, hero_headings, etc.)
+- **Element Type Detection**: Automatic mapping for H1-H6, paragraphs, buttons, links
+- **Background Context**: Detects light/dark backgrounds to suggest appropriate text colors
+- **Section Context**: Uses `data-section-id` to resolve section-specific tokens
+- **Computed Style Analysis**: Examines font properties, colors, spacing to match token patterns
+
+### 1.4 Live Synchronization
+The system includes performance-optimized live sync:
+- **RAF Throttling**: Prevents excessive re-computation during rapid changes
+- **Stable References**: Memoized comparisons to avoid unnecessary re-renders  
+- **Effect-Based Updates**: React effect recomputes `activeElement.tokenMatches` when design changes
+- **Session Storage**: Persists viewport state and panel collapsed states
+
+### 1.5 Token Categories Supported
+- **Typography**: `hero_headings`, `headings`, `body`, `preTitle` with font properties and colors
+- **Button Tokens**: `bg`, `textColor`, `hover` states for interactive elements
+- **Section Layout**: Padding, spacing tokens scoped to section contexts
+- **Travel Card Layout**: Specialized tokens for travel package components (`minHeight`, `maxHeight`, `imageHeight`)
 
 ---
 

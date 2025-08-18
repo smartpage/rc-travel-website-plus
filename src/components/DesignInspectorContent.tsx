@@ -2,7 +2,8 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { useDesign } from '@/contexts/DesignContext';
 import { useEditorOverlay } from '@/contexts/EditorOverlayContext';
-import SmartInput from '@/components/SmartInput';
+import SmartInput from './SmartInput';
+import ColorSwatch from './ColorSwatch';
 
 const PanelRow: React.FC<{ label: string; children: React.ReactNode }> = ({ label, children }) => (
 	<label style={{ display: 'grid', gap: 4 }}>
@@ -213,11 +214,10 @@ const DesignInspectorContent: React.FC = () => {
 
 				{'color' in token && (
 					<PanelRow label={`${niceLabel || tokenPath}.color`}>
-						<input
+						<ColorSwatch
 							value={token.color || ''}
-							onChange={(e) => updateDesignLocal((prev: any) => setValueByPath(prev, path, 'color', e.target.value))}
+							onChange={(value) => updateDesignLocal((prev: any) => setValueByPath(prev, path, 'color', value))}
 							placeholder="e.g. #ffffff"
-							style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
 						/>
 					</PanelRow>
 				)}
@@ -287,11 +287,10 @@ const DesignInspectorContent: React.FC = () => {
 						)}
 						{'bg' in token && (
 							<PanelRow label={`${niceLabel || tokenPath}.bg`}>
-								<input
+								<ColorSwatch
 									value={token.bg || ''}
-									onChange={(e) => updateDesignLocal((prev: any) => setValueByPath(prev, path, 'bg', e.target.value))}
+									onChange={(value) => updateDesignLocal((prev: any) => setValueByPath(prev, path, 'bg', value))}
 									placeholder="e.g. bg-yellow-500 or #eab308"
-									style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
 								/>
 							</PanelRow>
 						)}
@@ -307,11 +306,10 @@ const DesignInspectorContent: React.FC = () => {
 						)}
 						{'textColor' in token && (
 							<PanelRow label={`${niceLabel || tokenPath}.textColor`}>
-								<input
+								<ColorSwatch
 									value={token.textColor || ''}
-									onChange={(e) => updateDesignLocal((prev: any) => setValueByPath(prev, path, 'textColor', e.target.value))}
+									onChange={(value) => updateDesignLocal((prev: any) => setValueByPath(prev, path, 'textColor', value))}
 									placeholder="e.g. text-black or #000000"
-									style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
 								/>
 							</PanelRow>
 						)}
@@ -361,6 +359,20 @@ const DesignInspectorContent: React.FC = () => {
 							{/* Minimal editors: hero_headings */}
 							{m.tokenPath === 'hero_headings' && (
 								<div style={{ display: 'grid', gap: 6 }}>
+									{/* fontFamily */}
+									<PanelRow label="hero_headings.fontFamily">
+										<input
+											value={design?.hero_headings?.fontFamily || ''}
+											onChange={(e) => updateDesignLocal((prev: any) => ({
+												...prev,
+												hero_headings: { ...(prev.hero_headings || {}), fontFamily: e.target.value }
+											}))}
+											placeholder="e.g. Inter, sans-serif"
+											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+										/>
+									</PanelRow>
+
+									{/* fontSize responsive */}
 									<PanelRow label={`hero_headings.fontSize (${viewport})`}>
 										<SmartInput
 											value={viewport === 'mobile' ? (design?.hero_headings?.fontSize || '') : viewport === 'desktop' ? (design?.hero_headings?.fontSizeLg || '') : (design?.hero_headings?.fontSizeMd || '')}
@@ -377,11 +389,54 @@ const DesignInspectorContent: React.FC = () => {
 											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6 }}
 										/>
 									</PanelRow>
+
+									{/* lineHeight */}
+									<PanelRow label="hero_headings.lineHeight">
+										<SmartInput
+											value={design?.hero_headings?.lineHeight || ''}
+											onChange={(val) => updateDesignLocal((prev: any) => ({
+												...prev,
+												hero_headings: { ...(prev.hero_headings || {}), lineHeight: val }
+											}))}
+											placeholder="e.g. 1"
+											label="hero_headings.lineHeight"
+											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+										/>
+									</PanelRow>
+
+									{/* fontWeight */}
+									<PanelRow label="hero_headings.fontWeight">
+										<SmartInput
+											value={design?.hero_headings?.fontWeight || ''}
+											onChange={(val) => updateDesignLocal((prev: any) => ({
+												...prev,
+												hero_headings: { ...(prev.hero_headings || {}), fontWeight: val }
+											}))}
+											placeholder="e.g. 400"
+											label="hero_headings.fontWeight"
+											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+										/>
+									</PanelRow>
+
+									{/* letterSpacing */}
+									<PanelRow label="hero_headings.letterSpacing">
+										<SmartInput
+											value={design?.hero_headings?.letterSpacing || ''}
+											onChange={(val) => updateDesignLocal((prev: any) => ({
+												...prev,
+												hero_headings: { ...(prev.hero_headings || {}), letterSpacing: val }
+											}))}
+											placeholder="e.g. -0.025em"
+											label="hero_headings.letterSpacing"
+											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+										/>
+									</PanelRow>
+
+									{/* color */}
 									<PanelRow label="hero_headings.color">
-										<input
+										<ColorSwatch
 											value={design?.hero_headings?.color || ''}
-											onChange={(e) => {
-												const val = e.target.value;
+											onChange={(val) => {
 												updateDesignLocal((prev: any) => {
 													const next = { ...prev };
 													next.hero_headings = { ...next.hero_headings };
@@ -389,24 +444,7 @@ const DesignInspectorContent: React.FC = () => {
 													return next;
 												});
 											}}
-											placeholder="e.g. #ffffff"
-											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
-										/>
-									</PanelRow>
-									<PanelRow label="hero_headings.fontWeight">
-										<SmartInput
-											value={design?.hero_headings?.fontWeight || ''}
-											onChange={(val) => {
-												updateDesignLocal((prev: any) => {
-													const next = { ...prev };
-													next.hero_headings = { ...next.hero_headings };
-													next.hero_headings.fontWeight = val;
-													return next;
-												});
-											}}
-											placeholder="e.g. 700"
-											label="hero_headings.fontWeight"
-											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+											placeholder="#111827"
 										/>
 									</PanelRow>
 								</div>
@@ -449,20 +487,18 @@ const DesignInspectorContent: React.FC = () => {
 										/>
 									</PanelRow>
 									<PanelRow label="body.color">
-										<input
+										<ColorSwatch
 											value={design?.typography?.body?.color || ''}
-											onChange={(e) => {
-												const val = e.target.value;
+											onChange={(val) => {
 												updateDesignLocal((prev: any) => {
 													const next = { ...prev };
-													next.typography = { ...next.typography };
-													next.typography.body = { ...next.typography.body };
+													if (!next.typography) next.typography = {};
+													if (!next.typography.body) next.typography.body = {};
 													next.typography.body.color = val;
 													return next;
 												});
 											}}
-											placeholder="e.g. white"
-											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+											placeholder="#111827"
 										/>
 									</PanelRow>
 									<PanelRow label="body.fontWeight">
@@ -562,18 +598,16 @@ const DesignInspectorContent: React.FC = () => {
 
 									{/* color */}
 									<PanelRow label="headings.color">
-										<input
+										<ColorSwatch
 											value={design?.headings?.color || ''}
-											onChange={(e) => {
-											const val = e.target.value;
-											updateDesignLocal((prev: any) => {
-												const next = { ...prev };
-												next.headings = { ...next.headings, color: val };
-												return next;
-											});
+											onChange={(val) => {
+												updateDesignLocal((prev: any) => {
+													const next = { ...prev };
+													next.headings = { ...next.headings, color: val };
+													return next;
+												});
 											}}
 											placeholder="#111827"
-											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
 										/>
 									</PanelRow>
 								</div>
@@ -604,10 +638,107 @@ const DesignInspectorContent: React.FC = () => {
 									</PanelRow>
 								</div>
 							)}
+							{/* Section background color controls */}
+							{m.tokenPath.includes('.layout.backgroundColor') && activeSectionId && (
+								<div style={{ display: 'grid', gap: 6 }}>
+									<PanelRow label="Section Background Color">
+										<ColorSwatch
+											value={design?.sections?.[activeSectionId]?.layout?.backgroundColor || ''}
+											onChange={(val) => {
+												updateDesignLocal((prev: any) => {
+													const next = { ...prev };
+													next.sections = next.sections || {};
+													next.sections[activeSectionId] = next.sections[activeSectionId] || { layout: { padding: { mobile: '', tablet: '', desktop: '' }, inner: { maxWidth: '100%', margin: '0 auto', padding: { mobile: '0', tablet: '0', desktop: '0' }, rounded: false, backgroundColor: 'transparent', overflow: 'visible', background: { type: 'color', value: 'transparent' } } } };
+													next.sections[activeSectionId].layout.backgroundColor = val;
+													return next;
+												});
+											}}
+											placeholder="e.g. #000000 or transparent"
+										/>
+									</PanelRow>
+								</div>
+							)}
+							{/* Inner section background color controls */}
+							{m.tokenPath.includes('.layout.inner.backgroundColor') && activeSectionId && (
+								<div style={{ display: 'grid', gap: 6 }}>
+									<PanelRow label="Inner Background Color">
+										<ColorSwatch
+											value={design?.sections?.[activeSectionId]?.layout?.inner?.backgroundColor || ''}
+											onChange={(val) => {
+												updateDesignLocal((prev: any) => {
+													const next = { ...prev };
+													next.sections = next.sections || {};
+													next.sections[activeSectionId] = next.sections[activeSectionId] || { layout: { padding: { mobile: '', tablet: '', desktop: '' }, inner: { maxWidth: '100%', margin: '0 auto', padding: { mobile: '0', tablet: '0', desktop: '0' }, rounded: false, backgroundColor: 'transparent', overflow: 'visible', background: { type: 'color', value: 'transparent' } } } };
+													next.sections[activeSectionId].layout.inner.backgroundColor = val;
+													return next;
+												});
+											}}
+											placeholder="e.g. #ffffff or transparent"
+										/>
+									</PanelRow>
+								</div>
+							)}
+							{/* Background image URL controls */}
+							{m.tokenPath.includes('.background.value') && activeSectionId && (
+								<div style={{ display: 'grid', gap: 6 }}>
+									<PanelRow label="Background Image URL">
+										<input
+											type="text"
+											value={design?.sections?.[activeSectionId]?.layout?.inner?.background?.value || ''}
+											onChange={(e) => {
+												const val = e.target.value;
+												updateDesignLocal((prev: any) => {
+													const next = { ...prev };
+													next.sections = next.sections || {};
+													next.sections[activeSectionId] = next.sections[activeSectionId] || { layout: { padding: { mobile: '', tablet: '', desktop: '' }, inner: { maxWidth: '100%', margin: '0 auto', padding: { mobile: '0', tablet: '0', desktop: '0' }, rounded: false, backgroundColor: 'transparent', overflow: 'visible', background: { type: 'image', value: '' } } } };
+													if (!next.sections[activeSectionId].layout.inner.background) {
+														next.sections[activeSectionId].layout.inner.background = { type: 'image', value: '' };
+													}
+													next.sections[activeSectionId].layout.inner.background.value = val;
+													next.sections[activeSectionId].layout.inner.background.type = val ? 'image' : 'color';
+													return next;
+												});
+											}}
+											placeholder="e.g. /hero_hugo.avif"
+											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+										/>
+									</PanelRow>
+								</div>
+							)}
+							{/* Background overlay color controls */}
+							{m.tokenPath.includes('.overlay.color') && activeSectionId && (
+								<div style={{ display: 'grid', gap: 6 }}>
+									<PanelRow label="Background Overlay Color">
+										<ColorSwatch
+											value={design?.sections?.[activeSectionId]?.layout?.inner?.background?.overlay?.color || ''}
+											onChange={(val) => {
+												updateDesignLocal((prev: any) => {
+													const next = { ...prev };
+													next.sections = next.sections || {};
+													next.sections[activeSectionId] = next.sections[activeSectionId] || { layout: { padding: { mobile: '', tablet: '', desktop: '' }, inner: { maxWidth: '100%', margin: '0 auto', padding: { mobile: '0', tablet: '0', desktop: '0' }, rounded: false, backgroundColor: 'transparent', overflow: 'visible', background: { type: 'color', value: 'transparent' } } } };
+													if (!next.sections[activeSectionId].layout.inner.background) {
+														next.sections[activeSectionId].layout.inner.background = { type: 'color', value: 'transparent' };
+													}
+													if (!next.sections[activeSectionId].layout.inner.background.overlay) {
+														next.sections[activeSectionId].layout.inner.background.overlay = { color: '' };
+													}
+													next.sections[activeSectionId].layout.inner.background.overlay.color = val;
+													return next;
+												});
+											}}
+											placeholder="e.g. rgba(0,0,0,0.5)"
+										/>
+									</PanelRow>
+								</div>
+							)}
 							{/* Generic fallback editor for any matched tokenPath */}
 							{!(
 								['hero_headings', 'typography.body', 'headings'].includes(m.tokenPath) ||
-								(m.tokenPath.startsWith('sections.') && m.tokenPath.endsWith('.layout.padding'))
+								(m.tokenPath.startsWith('sections.') && m.tokenPath.endsWith('.layout.padding')) ||
+								(m.tokenPath.includes('.layout.backgroundColor')) ||
+								(m.tokenPath.includes('.layout.inner.backgroundColor')) ||
+								(m.tokenPath.includes('.background.value')) ||
+								(m.tokenPath.includes('.overlay.color'))
 							) && (
 								renderTokenEditor(m.tokenPath, m.label)
 							)}

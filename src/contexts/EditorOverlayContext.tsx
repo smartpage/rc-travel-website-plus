@@ -28,6 +28,7 @@ interface EditorOverlayState {
   selectedElement: Element | null;
   scrollContainer: HTMLElement | null;
   enabled: boolean;
+  colorPalette: string[]; // 8 slots for brand colors, empty string = empty slot
 }
 
 interface EditorOverlayContextValue extends EditorOverlayState {
@@ -38,6 +39,8 @@ interface EditorOverlayContextValue extends EditorOverlayState {
   setViewport: (vp: 'desktop' | 'mobile') => void;
   setSelectedElement: (el: Element | null) => void;
   setScrollContainer: (el: HTMLElement | null) => void;
+  saveColorToSlot: (color: string, slotIndex: number) => void;
+  deleteColorFromSlot: (slotIndex: number) => void;
 }
 
 const EditorOverlayContext = React.createContext<EditorOverlayContextValue | undefined>(undefined);
@@ -68,6 +71,22 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
     return { inspector: false, navigator: true };
   };
 
+  // Load color palette from localStorage
+  // TODO: Load brand swatches from db.json.design.brandPalette structure
+  const getInitialColorPalette = (): string[] => {
+    try {
+      const saved = localStorage.getItem('design_color_palette');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length === 8) {
+          return parsed;
+        }
+      }
+    } catch {}
+    // Default: 8 empty slots
+    return ['', '', '', '', '', '', '', ''];
+  };
+
   const [state, setState] = React.useState<EditorOverlayState>({
     collapsed: getInitialCollapsedState(),
     overlayRect: null,
@@ -76,6 +95,7 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
     selectedElement: null,
     scrollContainer: null,
     enabled,
+    colorPalette: getInitialColorPalette(),
   });
 
   const toggleCollapse = (panel: PanelId) => {
@@ -133,6 +153,30 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const setScrollContainer = (el: HTMLElement | null) => {
     setState(prev => ({ ...prev, scrollContainer: el }));
+  };
+
+  const saveColorToSlot = (color: string, slotIndex: number) => {
+    if (slotIndex < 0 || slotIndex >= 8) return;
+    setState(prev => {
+      const newPalette = [...prev.colorPalette];
+      newPalette[slotIndex] = color;
+      try {
+        localStorage.setItem('design_color_palette', JSON.stringify(newPalette));
+      } catch {}
+      return { ...prev, colorPalette: newPalette };
+    });
+  };
+
+  const deleteColorFromSlot = (slotIndex: number) => {
+    if (slotIndex < 0 || slotIndex >= 8) return;
+    setState(prev => {
+      const newPalette = [...prev.colorPalette];
+      newPalette[slotIndex] = '';
+      try {
+        localStorage.setItem('design_color_palette', JSON.stringify(newPalette));
+      } catch {}
+      return { ...prev, colorPalette: newPalette };
+    });
   };
 
   // Update enabled state when location changes
@@ -304,6 +348,7 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
     selectedElement: state.selectedElement,
     scrollContainer: state.scrollContainer,
     enabled: state.enabled,
+    colorPalette: state.colorPalette,
     toggleCollapse,
     setCollapsed,
     setOverlayRect,
@@ -311,6 +356,8 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
     setViewport,
     setSelectedElement,
     setScrollContainer,
+    saveColorToSlot,
+    deleteColorFromSlot,
   }), [state]);
 
   return (

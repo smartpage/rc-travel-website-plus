@@ -48,7 +48,7 @@ const EditorPanel: React.FC<EditorPanelProps> = ({ id, title, subtitle, children
       
       {!isCollapsed && (
         <div style={{ 
-          padding: '0 12px 12px 12px',
+          padding: '0 0 12px 0',
           overflow: 'auto',
           flex: '1 1 auto',
           minHeight: 0

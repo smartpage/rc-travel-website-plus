@@ -196,8 +196,56 @@ export function resolveGlobalTokens(snapshot: ComputedSnapshot, sectionId: strin
     }
   }
 
-  // Remove section container tokens - they're not useful for individual element editing
-  // Users should edit section layouts through dedicated section controls, not individual elements
+  // Section background tokens - detect when clicking on section container
+  if (element && sectionId) {
+    const sectionEl = element.closest('[data-section-id]') as HTMLElement | null;
+    const isDirectSectionClick = sectionEl === element || sectionEl?.querySelector('.inner-section') === element;
+    
+    if (isDirectSectionClick && design?.sections?.[sectionId]) {
+      // Add section layout background tokens
+      matches.push({ 
+        scope: 'section', 
+        tokenPath: `sections.${sectionId}.layout.backgroundColor`, 
+        label: 'Section Background Color', 
+        responsive: false 
+      });
+      
+      // Add inner section background tokens
+      matches.push({ 
+        scope: 'section', 
+        tokenPath: `sections.${sectionId}.layout.inner.backgroundColor`, 
+        label: 'Inner Background Color', 
+        responsive: false 
+      });
+      
+      // Add background image token
+      matches.push({ 
+        scope: 'section', 
+        tokenPath: `sections.${sectionId}.layout.inner.background.value`, 
+        label: 'Background Image URL', 
+        responsive: false 
+      });
+      
+      // Add overlay color token if overlay exists
+      const sectionConfig = design.sections[sectionId];
+      if (sectionConfig?.layout?.inner?.background?.overlay) {
+        matches.push({ 
+          scope: 'section', 
+          tokenPath: `sections.${sectionId}.layout.inner.background.overlay.color`, 
+          label: 'Background Overlay Color', 
+          responsive: false 
+        });
+      }
+      
+      // Add section padding tokens (responsive)
+      matches.push({ 
+        scope: 'section', 
+        tokenPath: `sections.${sectionId}.layout.padding`, 
+        label: 'Section Padding', 
+        responsive: true 
+      });
+    }
+  }
 
   return matches;
 }
