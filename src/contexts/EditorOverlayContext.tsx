@@ -7,6 +7,9 @@ type PanelId = 'inspector' | 'navigator';
 
 type OverlayRect = { top: number; left: number; width: number; height: number } | null;
 
+// Docking position for the floating editor panels wrapper
+type PanelCorner = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
+
 export type TokenMatch = {
   scope: 'global' | 'section';
   tokenPath: string; // e.g., "headings.fontSize" or "sections.hero.layout.padding.mobile"
@@ -28,6 +31,7 @@ interface EditorOverlayState {
   selectedElement: Element | null;
   scrollContainer: HTMLElement | null;
   enabled: boolean;
+  panelCorner: PanelCorner;
   colorPalette: string[]; // 8 slots for brand colors, empty string = empty slot
 }
 
@@ -39,6 +43,9 @@ interface EditorOverlayContextValue extends EditorOverlayState {
   setViewport: (vp: 'desktop' | 'mobile') => void;
   setSelectedElement: (el: Element | null) => void;
   setScrollContainer: (el: HTMLElement | null) => void;
+  setPanelCorner: (corner: PanelCorner) => void;
+  togglePanelHorizontal: () => void; // swap left/right
+  togglePanelVertical: () => void;   // swap top/bottom
   saveColorToSlot: (color: string, slotIndex: number) => void;
   deleteColorFromSlot: (slotIndex: number) => void;
 }
@@ -87,6 +94,16 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
     return ['', '', '', '', '', '', '', ''];
   };
 
+  const getInitialPanelCorner = (): PanelCorner => {
+    try {
+      const saved = localStorage.getItem('design_panel_corner');
+      if (saved === 'top-right' || saved === 'top-left' || saved === 'bottom-right' || saved === 'bottom-left') {
+        return saved;
+      }
+    } catch {}
+    return 'top-right';
+  };
+
   const [state, setState] = React.useState<EditorOverlayState>({
     collapsed: getInitialCollapsedState(),
     overlayRect: null,
@@ -95,6 +112,7 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
     selectedElement: null,
     scrollContainer: null,
     enabled,
+    panelCorner: getInitialPanelCorner(),
     colorPalette: getInitialColorPalette(),
   });
 
@@ -153,6 +171,33 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const setScrollContainer = (el: HTMLElement | null) => {
     setState(prev => ({ ...prev, scrollContainer: el }));
+  };
+
+  const setPanelCorner = (corner: PanelCorner) => {
+    setState(prev => {
+      try { localStorage.setItem('design_panel_corner', corner); } catch {}
+      return { ...prev, panelCorner: corner };
+    });
+  };
+
+  const togglePanelHorizontal = () => {
+    setState(prev => {
+      const next: PanelCorner = prev.panelCorner.includes('left')
+        ? (prev.panelCorner.replace('left', 'right') as PanelCorner)
+        : (prev.panelCorner.replace('right', 'left') as PanelCorner);
+      try { localStorage.setItem('design_panel_corner', next); } catch {}
+      return { ...prev, panelCorner: next };
+    });
+  };
+
+  const togglePanelVertical = () => {
+    setState(prev => {
+      const next: PanelCorner = prev.panelCorner.includes('top')
+        ? (prev.panelCorner.replace('top', 'bottom') as PanelCorner)
+        : (prev.panelCorner.replace('bottom', 'top') as PanelCorner);
+      try { localStorage.setItem('design_panel_corner', next); } catch {}
+      return { ...prev, panelCorner: next };
+    });
   };
 
   const saveColorToSlot = (color: string, slotIndex: number) => {
@@ -348,6 +393,7 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
     selectedElement: state.selectedElement,
     scrollContainer: state.scrollContainer,
     enabled: state.enabled,
+    panelCorner: state.panelCorner,
     colorPalette: state.colorPalette,
     toggleCollapse,
     setCollapsed,
@@ -356,6 +402,9 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
     setViewport,
     setSelectedElement,
     setScrollContainer,
+    setPanelCorner,
+    togglePanelHorizontal,
+    togglePanelVertical,
     saveColorToSlot,
     deleteColorFromSlot,
   }), [state]);
