@@ -18,6 +18,7 @@ const ViewportToggleOverlay: React.FC<{ children?: React.ReactNode }> = ({ child
   // Register design scroll container so scroll listeners are scoped
   React.useEffect(() => {
     if (!enabled) return;
+    // Only update when the actual node reference changes
     setScrollContainer(containerRef);
     return () => setScrollContainer(null);
   }, [enabled, containerRef, setScrollContainer]);

@@ -3,10 +3,31 @@ import { useDesign } from '../contexts/DesignContext';
 
 // Available AI models
 const AI_MODELS = [
+  // OpenRouter (Fastest models first)
+  { provider: 'openrouter', id: 'anthropic/claude-3-haiku', name: 'Claude 3 Haiku (Fastest)' },
+  { provider: 'openrouter', id: 'meta-llama/llama-3.1-8b-instruct', name: 'Llama 3.1 8B (Fast)' },
+  // OpenAI
   { provider: 'openai', id: 'gpt-4o-mini', name: 'GPT-4o mini (Fast)' },
   { provider: 'openai', id: 'gpt-4o', name: 'GPT-4o (Better)' },
-  { provider: 'google', id: 'gemini-1.5-flash', name: 'Gemini 1.5 Flash' },
-  { provider: 'google', id: 'gemini-1.5-pro', name: 'Gemini 1.5 Pro' },
+  // Google Gemini (server expects provider: 'gemini')
+  { provider: 'gemini', id: 'gemini-1.5-flash-latest', name: 'Gemini 1.5 Flash' },
+  { provider: 'gemini', id: 'gemini-1.5-pro-latest', name: 'Gemini 1.5 Pro' },
+];
+
+// Quick suggestion prompts (replaceable/appendable)
+const AI_SUGGESTIONS: Array<{ label: string; prompt: string }> = [
+  { label: 'Primary btn → #00ff59', prompt: 'Set buttons.primary.backgroundColor to "#00ff59" and buttons.primary.borderColor to "#00ff59". Keep structure identical. Return full db JSON.' },
+  { label: 'Primary text → black', prompt: 'Set buttons.primary.textColor to "#000000" and buttons.primary.textColorHover to "#000000". Keep structure identical. Return full db JSON.' },
+  { label: 'Secondary btn subtle', prompt: 'Set buttons.secondary.backgroundColor to "transparent", buttons.secondary.backgroundColorHover to "rgba(255,255,255,0.08)", and buttons.secondary.textColor to "#ffffff". Return full db JSON.' },
+  { label: 'Headings → white', prompt: 'Set typography.headings.color to "white" and typography.hero_headings.color to "white". Return full db JSON.' },
+  { label: 'Body → lighter', prompt: 'Set typography.body.color to "#e5e7eb". Return full db JSON.' },
+  { label: 'Hero bigger', prompt: 'Increase hero_headings.fontSize by 10%, hero_headings.fontSizeMd by 10%, and hero_headings.fontSizeLg by 10%. Keep other fields unchanged. Return full db JSON.' },
+  { label: 'Tab pill bg', prompt: 'Set buttons.tab.container.backgroundColor to "#374151". Return full db JSON.' },
+  { label: 'Tab regular text', prompt: 'Set buttons.tab.regular.normal.textColor to "#cbd5e1" and buttons.tab.regular.hover.textColor to "#ffffff". Return full db JSON.' },
+  { label: 'FAQ colors', prompt: 'Set typography.faqQuestion.color to "white" and typography.faqAnswer.color to "#cbd5e1". Return full db JSON.' },
+  { label: 'Designer card text', prompt: 'Set typography.travelDesignerCard.color to "#cbd5e1". Return full db JSON.' },
+  { label: 'Primary = yellow', prompt: 'Set colors.primary to "yellow-500" and colors.primaryHover to "yellow-600"; also set buttons.primary.backgroundColor to "#eab308" and buttons.primary.backgroundColorHover to "#d97706". Return full db JSON.' },
+  { label: 'Slider dots → white', prompt: 'Set sliderOptions.colors.dotActive to "bg-white" and sliderOptions.colors.dotInactive to "bg-slate-500/60". Return full db JSON.' },
 ];
 
 const AIEnhancePanel: React.FC = () => {
@@ -17,6 +38,13 @@ const AIEnhancePanel: React.FC = () => {
   const [aiError, setAiError] = React.useState<string | null>(null);
   const [aiResult, setAiResult] = React.useState<any>(null);
   const [showPreview, setShowPreview] = React.useState<boolean>(false);
+  const [insertMode, setInsertMode] = React.useState<'replace' | 'append'>('replace');
+  const [previewActive, setPreviewActive] = React.useState<boolean>(false);
+  const previewBackupRef = React.useRef<any>(null);
+
+  const applySuggestion = (p: string) => {
+    setAiPrompt(prev => insertMode === 'append' && prev.trim() ? `${prev.trim()}\n${p}` : p);
+  };
 
   const aiEnhanceDesign = async () => {
     setAiLoading(true);
@@ -32,14 +60,20 @@ const AIEnhancePanel: React.FC = () => {
         currentTypography: design?.typography
       });
 
+      // Build a full DB-like payload. Today our db.json root only contains { design },
+      // but we keep the structure flexible so when more roots exist we can include them here.
+      // IMPORTANT: include current in-memory design state, not a stale file import.
+      const fullDbPayload: any = { design };
+
       const res = await fetch('https://login.intuitiva.pt/ai-enhance-content', {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          data: design, // Pass the entire db.json design object
+          // Send the ENTIRE db.json (current in-memory state). For now this equals { design }.
+          data: fullDbPayload,
           prompt: aiPrompt || 'Improve readability and consistency. Keep structure identical. Return full JSON.',
-          sectionType: 'design',
+          sectionType: 'db',
           aiModel: selectedModel
         })
       });
@@ -56,15 +90,26 @@ const AIEnhancePanel: React.FC = () => {
       }
       
       console.log('✨ AI Enhanced Data:', {
-        originalKeys: Object.keys(design || {}),
-        enhancedKeys: Object.keys(enhanced || {}),
-        originalTypography: design?.typography,
-        enhancedTypography: enhanced?.typography,
-        changes: enhanced !== design ? 'DETECTED' : 'NONE'
+        originalDbKeys: Object.keys(fullDbPayload || {}),
+        enhancedDbKeys: Object.keys(enhanced || {}),
+        originalDesignKeys: Object.keys((fullDbPayload?.design) || {}),
+        enhancedDesignKeys: Object.keys((enhanced?.design) || (enhanced || {})),
+        originalTypography: (fullDbPayload?.design || {}).typography,
+        enhancedTypography: (enhanced?.design || enhanced || {}).typography,
+        changes: JSON.stringify(enhanced) !== JSON.stringify(fullDbPayload) ? 'DETECTED' : 'NONE'
       });
       
       setAiResult(enhanced);
       setShowPreview(true);
+
+      // Instant preview apply (non-persistent): store backup and apply to local editor state
+      const nextDesign = (enhanced && typeof enhanced === 'object' && 'design' in enhanced)
+        ? (enhanced as any).design
+        : enhanced;
+      // Deep copy backup
+      previewBackupRef.current = JSON.parse(JSON.stringify(design));
+      updateDesignLocal(() => nextDesign);
+      setPreviewActive(true);
     } catch (e: any) {
       setAiError(e?.message || 'AI enhance failed');
     } finally {
@@ -76,11 +121,16 @@ const AIEnhancePanel: React.FC = () => {
     if (aiResult) {
       console.log('🎯 Applying AI Changes:', {
         before: design?.typography,
-        after: aiResult?.typography,
+        after: (aiResult?.design || aiResult)?.typography,
         fullResult: aiResult
       });
       
-      updateDesignLocal(() => aiResult);
+      // If the AI returned a full db object, extract its design node; otherwise assume it returned just the design.
+      const nextDesign = (aiResult && typeof aiResult === 'object' && 'design' in aiResult)
+        ? (aiResult as any).design
+        : aiResult;
+      updateDesignLocal(() => nextDesign);
+      setPreviewActive(false);
       setShowPreview(false);
       setAiResult(null);
       setAiPrompt('');
@@ -90,6 +140,11 @@ const AIEnhancePanel: React.FC = () => {
   };
 
   const rejectChanges = () => {
+    // Undo preview: restore backup design
+    if (previewActive && previewBackupRef.current) {
+      updateDesignLocal(() => previewBackupRef.current);
+    }
+    setPreviewActive(false);
     setShowPreview(false);
     setAiResult(null);
   };
@@ -130,6 +185,39 @@ const AIEnhancePanel: React.FC = () => {
       <div>
         <div style={{ color: '#e5e7eb', fontSize: 12, marginBottom: 6 }}>
           Enhancement Instructions
+        </div>
+        {/* Quick Suggestions */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 8 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <span style={{ fontSize: 11, color: '#94a3b8' }}>Insert:</span>
+            <button
+              onClick={() => setInsertMode('replace')}
+              style={{
+                padding: '4px 8px', fontSize: 11, borderRadius: 6,
+                background: insertMode === 'replace' ? '#2a2a2a' : '#1a1a1a',
+                border: '1px solid #3a3a3a', color: '#e5e7eb', cursor: 'pointer'
+              }}
+            >replace</button>
+            <button
+              onClick={() => setInsertMode('append')}
+              style={{
+                padding: '4px 8px', fontSize: 11, borderRadius: 6,
+                background: insertMode === 'append' ? '#2a2a2a' : '#1a1a1a',
+                border: '1px solid #3a3a3a', color: '#e5e7eb', cursor: 'pointer'
+              }}
+            >append</button>
+          </div>
+          {AI_SUGGESTIONS.map(s => (
+            <button
+              key={s.label}
+              onClick={() => applySuggestion(s.prompt)}
+              title={s.prompt}
+              style={{
+                padding: '4px 8px', fontSize: 11, borderRadius: 6,
+                background: '#1f2937', border: '1px solid #374151', color: '#e5e7eb', cursor: 'pointer'
+              }}
+            >{s.label}</button>
+          ))}
         </div>
         <textarea
           value={aiPrompt}

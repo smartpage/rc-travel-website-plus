@@ -170,9 +170,13 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
     setState(prev => ({ ...prev, selectedElement: el }));
   };
 
-  const setScrollContainer = (el: HTMLElement | null) => {
-    setState(prev => ({ ...prev, scrollContainer: el }));
-  };
+  const setScrollContainer = React.useCallback((el: HTMLElement | null) => {
+    setState(prev => {
+      // Avoid triggering a state update if the value did not actually change
+      if (prev.scrollContainer === el) return prev;
+      return { ...prev, scrollContainer: el };
+    });
+  }, []);
 
   const setPanelCorner = (corner: PanelCorner) => {
     setState(prev => {
@@ -394,7 +398,7 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
         }
       };
     });
-  }, [enabled, design, state.selectedElement, state.activeElement]);
+  }, [enabled, design, state.selectedElement]);
 
   const value: EditorOverlayContextValue = React.useMemo(() => ({
     collapsed: state.collapsed,
