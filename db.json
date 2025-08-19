@@ -636,6 +636,27 @@
         "fontWeight": "400",
         "lineHeight": "1.5",
         "color": "#94a3b8"
+      },
+      "faqQuestion": {
+        "fontFamily": "Inter, sans-serif",
+        "fontSize": "1.125rem",
+        "fontWeight": "600",
+        "lineHeight": "1.4",
+        "color": "white"
+      },
+      "faqAnswer": {
+        "fontFamily": "Inter, sans-serif",
+        "fontSize": "1rem",
+        "fontWeight": "400",
+        "lineHeight": "1.6",
+        "color": "#cbd5e1"
+      },
+      "faqAnswerStrong": {
+        "fontFamily": "Inter, sans-serif",
+        "fontSize": "1rem",
+        "fontWeight": "700",
+        "lineHeight": "1.6",
+        "color": "white"
       }
     },
     "travelPackageCard": {

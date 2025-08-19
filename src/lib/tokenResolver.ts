@@ -78,17 +78,7 @@ export function resolveGlobalTokens(snapshot: ComputedSnapshot, sectionId: strin
   let hasSpecificMatch = false; // Track if we found a highly specific match
   const bgContext: 'light' | 'dark' | 'unknown' = element ? detectBackgroundContext(element) : 'unknown';
 
-  // 0) Component-level matches by data-element wrappers
-  if (element && (element as HTMLElement).dataset && (element as HTMLElement).dataset.element === 'faqItem') {
-    // Provide common tokens that make sense at the FAQ item level
-    if (design?.typography?.faqQuestion) {
-      matches.push({ scope: 'global', tokenPath: 'typography.faqQuestion', label: 'FAQ Question', responsive: false });
-    }
-    if (design?.typography?.faqAnswer) {
-      matches.push({ scope: 'global', tokenPath: 'typography.faqAnswer', label: 'FAQ Answer', responsive: false });
-    }
-    hasSpecificMatch = true;
-  }
+  // 0) Component-level matches by data-element wrappers (removed faqItem to allow granular question/answer selection)
 
   // 1) Hard hints via data-typography attribute take absolute priority
   if (element && (element as HTMLElement).dataset && (element as HTMLElement).dataset.typography) {

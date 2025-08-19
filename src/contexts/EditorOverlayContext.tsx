@@ -256,7 +256,7 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
       const raw = e.target as HTMLElement | null;
       if (!raw) return;
       const target =
-        (raw.closest('[data-element="faqItem"]') as HTMLElement) ||
+        (raw.closest('[data-typography]') as HTMLElement) ||
         (raw.closest('h1,h2,h3,h4,h5,h6') as HTMLElement) ||
         (raw.closest('p') as HTMLElement) ||
         (raw.closest('button,a') as HTMLElement) ||
@@ -281,7 +281,7 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
       const raw = e.target as HTMLElement | null;
       if (!raw) return;
       const target =
-        (raw.closest('[data-element="faqItem"]') as HTMLElement) ||
+        (raw.closest('[data-typography]') as HTMLElement) ||
         (raw.closest('h1,h2,h3,h4,h5,h6') as HTMLElement) ||
         (raw.closest('p') as HTMLElement) ||
         (raw.closest('button,a') as HTMLElement) ||

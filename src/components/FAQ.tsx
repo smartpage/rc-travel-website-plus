@@ -104,7 +104,6 @@ const FAQ = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1, duration: 0.5 }}
                 className="rounded-xl overflow-hidden border-none transition-all duration-300 group"
-                data-element="faqItem"
                 style={{
                   backgroundColor: design.faq.card.backgroundColor,
                   transition: 'all 0.3s ease'
