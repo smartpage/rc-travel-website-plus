@@ -2,6 +2,8 @@ import React from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import { useDesign } from '@/contexts/DesignContext';
 import CardGrid from './CardGrid';
+import TravelPackageCard from './TravelPackageCard';
+import TestimonialCard from './TestimonialCard';
 
 // Minimal props to render a mobile-only Embla with grid fallback on @md+
 interface MobileEmblaCarouselProps {
@@ -33,9 +35,9 @@ const MobileEmblaCarousel: React.FC<MobileEmblaCarouselProps> = ({
   } as any);
 
   return (
-    <div className="w-full max-w-full min-w-0">
-      {/* Mobile-only slider */}
-      <div className="@md:hidden w-full">
+    <div className="w-full">
+      {/* Slider works on all screen sizes */}
+      <div className="w-full">
         <div className="overflow-hidden" ref={emblaRef}>
           <div className="flex">
             {cards.map((card) => (
@@ -57,18 +59,6 @@ const MobileEmblaCarousel: React.FC<MobileEmblaCarouselProps> = ({
             ))}
           </div>
         </div>
-      </div>
-
-      {/* Grid fallback for @md+ */}
-      <div className="hidden @md:block w-full">
-        <CardGrid
-          cards={cards as any}
-          cardType={cardType}
-          gridLayout={gridLayout}
-          ctaText={ctaText}
-          moreDetailsText={moreDetailsText}
-          onWhatsAppContact={onWhatsAppContact}
-        />
       </div>
     </div>
   );

@@ -23,7 +23,7 @@ interface CardGridProps {
 const CardGrid = ({ 
   cards, 
   cardType = 'travel', 
-  gridLayout = 'grid-cols-1 @md:grid-cols-2 @lg:grid-cols-3',
+  gridLayout = 'grid grid-cols-1 @md:grid-cols-2 @lg:grid-cols-3 gap-8',
   ctaText = 'Saber Mais', 
   moreDetailsText = 'mais detalhes', 
   onWhatsAppContact 
@@ -37,7 +37,7 @@ const CardGrid = ({
   }
 
   return (
-    <div className={`grid w-full max-w-full min-w-0 ${gridLayout} gap-8 h-full`}>
+    <div className={`${gridLayout} w-full`}>
       {cards.map((card, index) => {
         switch (cardType) {
           case 'testimonial':

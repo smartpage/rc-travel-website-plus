@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useContent } from "@/contexts/ContentContext";
+import { useDesign } from "@/contexts/DesignContext";
+import useEmblaCarousel from 'embla-carousel-react';
 import CardGrid from './CardGrid';
 import MobileEmblaCarousel from './MobileEmblaCarousel';
 import TabNavLess from './TabNavLess';
+import TravelPackageCard from './TravelPackageCard';
+import TestimonialCard from './TestimonialCard';
 
 interface Tab {
   id: string;
@@ -47,8 +51,17 @@ const TabGrid = ({
   onWhatsAppContact 
 }: TabGridProps) => {
   const { getSectionContent } = useContent();
+  const { design } = useDesign();
   const [activeTab, setActiveTab] = useState<string>('');
   const [content, setContent] = useState<TabGridContent | null>(null);
+
+  // Embla carousel setup for slider
+  const [emblaRef] = useEmblaCarousel({
+    align: 'start',
+    dragFree: true,
+    loop: false,
+    containScroll: false,
+  });
 
 
   useEffect(() => {
@@ -97,42 +110,80 @@ const TabGrid = ({
   // Render slider if useSlider is true
   if (useSlider) {
     return (
-      <div className="w-full max-w-full min-w-0 overflow-x-hidden">
+      <div>
         <TabNavLess
           tabs={tabs}
           activeTab={activeTab}
           onTabChange={setActiveTab}
           showNavigation={showTabsNavigation}
         />
-        <MobileEmblaCarousel
-          cards={activeCards as any}
-          cardType={cardType}
-          gridLayout={gridLayout}
-          ctaText={ctaText}
-          moreDetailsText={moreDetailsText}
-          onWhatsAppContact={onWhatsAppContact}
-        />
+        
+        {/* Working Embla Slider like the old version */}
+        <div className="relative mx-0 w-full">
+          <div className="overflow-hidden py-24 w-full" ref={emblaRef}>
+            <div className="flex items-stretch" style={{ marginLeft: `-${design.sliderOptions.gap || 16}px` }}>
+              {activeCards.map((card, index) => (
+                <div
+                  key={card.id}
+                  className="flex-none w-[var(--slide-mobile-width,90%)] @md:w-[45%] @lg:w-[30%] @xl:w-[23%] flex"
+                  style={{
+                    marginLeft: `${design.sliderOptions.gap || 16}px`,
+                    '--slide-mobile-width': (design as any)?.sliderOptions?.mobileCardWidth || '90%'
+                  } as React.CSSProperties}
+                >
+                  <CardGrid
+                    cards={[card]}
+                    cardType={cardType}
+                    gridLayout="grid-cols-1 h-full"
+                    ctaText={ctaText}
+                    moreDetailsText={moreDetailsText}
+                    onWhatsAppContact={onWhatsAppContact}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
   
   // Grid rendering with TabNav
   return (
-    <div className="w-full max-w-full min-w-0">
+    <div className="w-full">
       <TabNavLess
         tabs={tabs}
         activeTab={activeTab}
         onTabChange={setActiveTab}
         showNavigation={showTabsNavigation}
       />
-      <CardGrid
-        cards={activeCards}
-        cardType={cardType}
-        gridLayout={gridLayout}
-        ctaText={ctaText}
-        moreDetailsText={moreDetailsText}
-        onWhatsAppContact={onWhatsAppContact}
-      />
+      
+      {/* Direct grid like ServicesSection */}
+      <div className="grid grid-cols-1 @md:grid-cols-2 @lg:grid-cols-3 gap-8">
+        {activeCards.map((card, index) => {
+          switch (cardType) {
+            case 'testimonial':
+              return (
+                <TestimonialCard
+                  key={card.id || index}
+                  testimonial={card as any}
+                />
+              );
+              
+            case 'travel':
+            default:
+              return (
+                <TravelPackageCard
+                  key={card.id || index}
+                  pkg={card as any}
+                  ctaText={ctaText!}
+                  moreDetailsText={moreDetailsText!}
+                  onWhatsAppContact={onWhatsAppContact!}
+                />
+              );
+          }
+        })}
+      </div>
     </div>
   );
 };
