@@ -24,9 +24,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
   const [isAuthorized, setIsAuthorized] = useState(false);
 
-  // Single source of truth: login.intuitiva.pt
-  const AUTH_API_BASE = 'https://login.intuitiva.pt';
-  const LOGIN_UI_BASE = 'https://login.intuitiva.pt';
+  // Dynamic endpoints: localhost in dev, production in deploy
+  const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  const AUTH_API_BASE = isLocalhost ? 'http://localhost:5001' : 'https://login.intuitiva.pt';
+  const LOGIN_UI_BASE = isLocalhost ? 'http://localhost:5001' : 'https://login.intuitiva.pt';
 
   useEffect(() => {
     let cancelled = false;

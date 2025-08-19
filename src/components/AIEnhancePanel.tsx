@@ -5,6 +5,8 @@ import { useDesign } from '../contexts/DesignContext';
 const AI_MODELS = [
   // OpenRouter (Fastest models first)
   { provider: 'openrouter', id: 'anthropic/claude-3-haiku', name: 'Claude 3 Haiku (Fastest)' },
+  { provider: 'openrouter', id: 'x-ai/grok-3-mini', name: 'Grok 3 Mini (Fast)' },
+  { provider: 'openrouter', id: 'x-ai/grok-3', name: 'Grok 3 (Better)' },
   { provider: 'openrouter', id: 'meta-llama/llama-3.1-8b-instruct', name: 'Llama 3.1 8B (Fast)' },
   // OpenAI
   { provider: 'openai', id: 'gpt-4o-mini', name: 'GPT-4o mini (Fast)' },
@@ -42,6 +44,10 @@ const AIEnhancePanel: React.FC = () => {
   const [previewActive, setPreviewActive] = React.useState<boolean>(false);
   const previewBackupRef = React.useRef<any>(null);
 
+  // Dynamic API endpoint: localhost in dev, production in deploy
+  const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  const AI_API_BASE = isLocalhost ? 'http://localhost:5001' : 'https://login.intuitiva.pt';
+
   const applySuggestion = (p: string) => {
     setAiPrompt(prev => insertMode === 'append' && prev.trim() ? `${prev.trim()}\n${p}` : p);
   };
@@ -65,7 +71,7 @@ const AIEnhancePanel: React.FC = () => {
       // IMPORTANT: include current in-memory design state, not a stale file import.
       const fullDbPayload: any = { design };
 
-      const res = await fetch('https://login.intuitiva.pt/ai-enhance-content', {
+      const res = await fetch(`${AI_API_BASE}/ai-enhance-content`, {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
