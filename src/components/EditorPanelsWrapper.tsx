@@ -100,6 +100,21 @@ const EditorPanelsWrapper: React.FC = () => {
       {/* Scrollable content wrapper to preserve scroll while chevrons sit outside */}
       <div style={{ width: '100%', maxHeight: 'calc(100vh - 24px)', overflow: 'auto', display: 'flex', flexDirection: 'column', gap: '2px' }}>
 
+        {/* AI Enhancement Panel - First Priority */}
+        <div style={{ 
+          width: '100%', 
+          display: 'flex',
+          flexDirection: 'column',
+          transition: 'max-height 0.3s ease, opacity 0.2s ease',
+          maxHeight: collapsed['ai-enhance'] ? 60 : 9999,
+          opacity: collapsed['ai-enhance'] ? 0.7 : 1,
+          overflow: 'hidden'
+        }}>
+          <EditorPanel id="ai-enhance" title="AI Enhancement" subtitle="Server-side AI">
+            <AIEnhancePanel />
+          </EditorPanel>
+        </div>
+
         {/* Design Inspector */}
         <div style={{ 
           width: '100%', 
@@ -112,21 +127,6 @@ const EditorPanelsWrapper: React.FC = () => {
         }}>
           <EditorPanel id="inspector" title="Design Inspector" subtitle="Tokens & Styles">
             <DesignInspectorContent />
-          </EditorPanel>
-        </div>
-
-        {/* AI Enhancement Panel */}
-        <div style={{ 
-          width: '100%', 
-          display: 'flex',
-          flexDirection: 'column',
-          transition: 'max-height 0.3s ease, opacity 0.2s ease',
-          maxHeight: collapsed['ai-enhance'] ? 60 : 9999,
-          opacity: collapsed['ai-enhance'] ? 0.7 : 1,
-          overflow: 'hidden'
-        }}>
-          <EditorPanel id="ai-enhance" title="AI Enhancement" subtitle="Server-side AI">
-            <AIEnhancePanel />
           </EditorPanel>
         </div>
 

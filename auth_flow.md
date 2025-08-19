@@ -16,15 +16,20 @@
 - `src/App.tsx` — reads `design` URL param and wraps editor components with `LoginGate` when enabled.
 
 ### Endpoints (all on `https://login.intuitiva.pt`)
-- `POST /refreshSession`
+
+**Note**: The server uses two-tier CORS:
+- **Public API** (content, settings): All origins allowed
+- **Auth endpoints**: Credentials restricted to trusted origins only
+
+- `POST /refreshSession` (requires credentials)
   - Request: `credentials: 'include'`, `Content-Type: application/json`.
   - Response (200): `{ success: true, user: { userId, email, userName, isSuperAdmin, organizations } }`.
   - Effect: renews the HTTP-only session cookie if valid.
-- `POST /logout`
+- `POST /logout` (requires credentials)
   - Clears the session cookie.
-- `GET /login?redirect=<url>&siteId=<SITE_ID>&orgId=<ORG_ID>`
+- `GET /login?redirect=<url>&siteId=<SITE_ID>&orgId=<ORG_ID>` (no credentials needed)
   - UI route for magic-link login. After verification, sets the session cookie and redirects back.
-- `POST /ai-enhance-content` (AI raw enhancer)
+- `POST /ai-enhance-content` (requires credentials)
   - Requires a valid session (any authenticated user).
   - Body example:
     ```json
