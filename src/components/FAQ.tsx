@@ -12,8 +12,14 @@ interface FAQItem {
   answer: string;
 }
 
-// Safe function to parse <strong> and <p> tags
-const parseHtmlTags = (text: string): React.ReactNode[] => {
+// Safe function to parse <strong> and <p> tags and apply tokenized styles
+const parseHtmlTags = (
+  text: string,
+  paragraphStyle?: React.CSSProperties,
+  strongStyle?: React.CSSProperties,
+  paragraphDataAttr: string = 'faq.answer',
+  strongDataAttr: string = 'faq.answerStrong'
+): React.ReactNode[] => {
   // First handle <p> tags, then <strong> tags within them
   const paragraphParts = text.split(/(<p>.*?<\/p>)/gs);
   
@@ -26,19 +32,23 @@ const parseHtmlTags = (text: string): React.ReactNode[] => {
       const parsedPContent = strongParts.map((strongPart, sIndex) => {
         if (strongPart.startsWith('<strong>') && strongPart.endsWith('</strong>')) {
           const strongContent = strongPart.replace(/<\/?strong>/g, '');
-          return <strong key={sIndex}>{strongContent}</strong>;
+          return <strong key={sIndex} style={strongStyle}>{strongContent}</strong>;
         }
         return strongPart;
       });
-      
-      return <p key={pIndex} style={{ marginBottom: '1rem' }}>{parsedPContent}</p>;
+
+      return (
+        <p key={pIndex} style={{ marginBottom: '1rem', ...paragraphStyle }}>
+          {parsedPContent}
+        </p>
+      );
     } else {
       // Parse <strong> tags in non-paragraph content
       const strongParts = part.split(/(<strong>.*?<\/strong>)/g);
       return strongParts.map((strongPart, sIndex) => {
         if (strongPart.startsWith('<strong>') && strongPart.endsWith('</strong>')) {
           const strongContent = strongPart.replace(/<\/?strong>/g, '');
-          return <strong key={`${pIndex}-${sIndex}`}>{strongContent}</strong>;
+          return <strong key={`${pIndex}-${sIndex}`} style={strongStyle}>{strongContent}</strong>;
         }
         return strongPart;
       });
@@ -94,6 +104,7 @@ const FAQ = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1, duration: 0.5 }}
                 className="rounded-xl overflow-hidden border-none transition-all duration-300 group"
+                data-element="faqItem"
                 style={{
                   backgroundColor: design.faq.card.backgroundColor,
                   transition: 'all 0.3s ease'
@@ -111,9 +122,17 @@ const FAQ = () => {
                   }}
                   transition={{ duration: 0.2 }}
                 >
-                  <span 
-                    className="flex-1 pr-4 text-left font-semibold text-lg :text-xl"
-                    style={{ color: design.faq.card.questionColor }}
+                  <span
+                    data-typography="faq.question"
+                    className="flex-1 pr-4 text-left"
+                    style={{
+                      fontFamily: design.typography?.faqQuestion?.fontFamily || 'inherit',
+                      fontSize: design.typography?.faqQuestion?.fontSize || '1.125rem',
+                      fontWeight: design.typography?.faqQuestion?.fontWeight || 600,
+                      lineHeight: design.typography?.faqQuestion?.lineHeight || '1.4',
+                      letterSpacing: design.typography?.faqQuestion?.letterSpacing,
+                      color: design.typography?.faqQuestion?.color || design.faq.card.questionColor
+                    }}
                   >
                     {item.question}
                   </span>
@@ -145,14 +164,33 @@ const FAQ = () => {
                     >
                       <div 
                         className="px-6 :px-8 py-8 :py-10 text-left"
+                        data-typography="faq.answer"
                         style={{
-                          lineHeight: '1.6',
-                          fontSize: '1rem',
                           backgroundColor: design.faq.card.backgroundColor,
-                          color: design.faq.card.answerColor
+                          fontFamily: design.typography?.faqAnswer?.fontFamily || 'inherit',
+                          fontSize: design.typography?.faqAnswer?.fontSize || '1rem',
+                          fontWeight: design.typography?.faqAnswer?.fontWeight || 400,
+                          lineHeight: design.typography?.faqAnswer?.lineHeight || '1.6',
+                          letterSpacing: design.typography?.faqAnswer?.letterSpacing,
+                          color: design.typography?.faqAnswer?.color || design.faq.card.answerColor,
                         }}
                       >
-                        {parseHtmlTags(item.answer)}
+                        {parseHtmlTags(
+                          item.answer,
+                          {
+                            // Remove individual paragraph styling since it's now applied to the parent
+                          },
+                          {
+                            fontFamily: design.typography?.faqAnswerStrong?.fontFamily || 'inherit',
+                            fontSize: design.typography?.faqAnswerStrong?.fontSize,
+                            fontWeight: design.typography?.faqAnswerStrong?.fontWeight || 700,
+                            lineHeight: design.typography?.faqAnswerStrong?.lineHeight,
+                            letterSpacing: design.typography?.faqAnswerStrong?.letterSpacing,
+                            color: design.typography?.faqAnswerStrong?.color,
+                          },
+                          'faq.answer',
+                          'faq.answerStrong'
+                        )}
                       </div>
                     </motion.div>
                   )}

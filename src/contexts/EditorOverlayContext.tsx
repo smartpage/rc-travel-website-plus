@@ -256,9 +256,14 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
       const raw = e.target as HTMLElement | null;
       if (!raw) return;
       const target =
+        (raw.closest('[data-element="faqItem"]') as HTMLElement) ||
         (raw.closest('h1,h2,h3,h4,h5,h6') as HTMLElement) ||
         (raw.closest('p') as HTMLElement) ||
         (raw.closest('button,a') as HTMLElement) ||
+        // Fallback: if container clicked, try to pick a semantic child within
+        (raw.querySelector?.('h1,h2,h3,h4,h5,h6') as HTMLElement) ||
+        (raw.querySelector?.('p') as HTMLElement) ||
+        (raw.querySelector?.('button,a') as HTMLElement) ||
         raw;
       if (target.closest('[data-overlay-ui="1"]')) return;
       if (!target.closest('[class~="@container"]')) return;
@@ -276,9 +281,14 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
       const raw = e.target as HTMLElement | null;
       if (!raw) return;
       const target =
+        (raw.closest('[data-element="faqItem"]') as HTMLElement) ||
         (raw.closest('h1,h2,h3,h4,h5,h6') as HTMLElement) ||
         (raw.closest('p') as HTMLElement) ||
         (raw.closest('button,a') as HTMLElement) ||
+        // Fallback: if container clicked, drill into first semantic descendant
+        (raw.querySelector?.('h1,h2,h3,h4,h5,h6') as HTMLElement) ||
+        (raw.querySelector?.('p') as HTMLElement) ||
+        (raw.querySelector?.('button,a') as HTMLElement) ||
         raw;
       if (target.closest('[data-overlay-ui="1"]')) return;
       if (!target.closest('[class~="@container"]')) return;

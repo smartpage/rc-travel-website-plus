@@ -78,6 +78,18 @@ export function resolveGlobalTokens(snapshot: ComputedSnapshot, sectionId: strin
   let hasSpecificMatch = false; // Track if we found a highly specific match
   const bgContext: 'light' | 'dark' | 'unknown' = element ? detectBackgroundContext(element) : 'unknown';
 
+  // 0) Component-level matches by data-element wrappers
+  if (element && (element as HTMLElement).dataset && (element as HTMLElement).dataset.element === 'faqItem') {
+    // Provide common tokens that make sense at the FAQ item level
+    if (design?.typography?.faqQuestion) {
+      matches.push({ scope: 'global', tokenPath: 'typography.faqQuestion', label: 'FAQ Question', responsive: false });
+    }
+    if (design?.typography?.faqAnswer) {
+      matches.push({ scope: 'global', tokenPath: 'typography.faqAnswer', label: 'FAQ Answer', responsive: false });
+    }
+    hasSpecificMatch = true;
+  }
+
   // 1) Hard hints via data-typography attribute take absolute priority
   if (element && (element as HTMLElement).dataset && (element as HTMLElement).dataset.typography) {
     const hint = (element as HTMLElement).dataset.typography;
@@ -112,6 +124,18 @@ export function resolveGlobalTokens(snapshot: ComputedSnapshot, sectionId: strin
         break;
       case 'packageDescription':
         matches.push({ scope: 'global', tokenPath: 'typography.packageDescription', label: 'Package Description', responsive: false });
+        hasSpecificMatch = true;
+        break;
+      case 'faq.question':
+        matches.push({ scope: 'global', tokenPath: 'typography.faqQuestion', label: 'FAQ Question', responsive: false });
+        hasSpecificMatch = true;
+        break;
+      case 'faq.answer':
+        matches.push({ scope: 'global', tokenPath: 'typography.faqAnswer', label: 'FAQ Answer', responsive: false });
+        hasSpecificMatch = true;
+        break;
+      case 'faq.answerStrong':
+        matches.push({ scope: 'global', tokenPath: 'typography.faqAnswerStrong', label: 'FAQ Answer Strong', responsive: false });
         hasSpecificMatch = true;
         break;
     }

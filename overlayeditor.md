@@ -128,6 +128,94 @@ EditorOverlayContext (Provider-Only Architecture)
   - GET uses `no-store` + timestamp to bypass caches.
   - Save tries PUT then PATCH (json‑server singleton pattern).
 
+### Editor Parser Logic & Element Selection
+
+The editor uses a sophisticated priority-based selection system to determine which element should be selected when the user clicks on the page. This is critical for proper tokenization and editing.
+
+**Selection Priority Flow** (in `EditorOverlayContext.tsx`):
+```javascript
+const target =
+  (raw.closest('[data-element="faqItem"]') as HTMLElement) ||          // 1. Component wrappers first
+  (raw.closest('h1,h2,h3,h4,h5,h6') as HTMLElement) ||               // 2. Headings
+  (raw.closest('p') as HTMLElement) ||                                // 3. Paragraphs
+  (raw.closest('button,a') as HTMLElement) ||                         // 4. Interactive elements
+  // Fallback: if container clicked, drill into first semantic descendant
+  (raw.querySelector?.('h1,h2,h3,h4,h5,h6') as HTMLElement) ||
+  (raw.querySelector?.('p') as HTMLElement) ||
+  (raw.querySelector?.('button,a') as HTMLElement) ||
+  raw;                                                                 // 5. Raw element as last resort
+```
+
+**Key Design Decisions**:
+1. **Component-Level Selection First**: `data-element` attributes (like `faqItem`) take priority over semantic elements
+2. **Semantic Element Hierarchy**: Headings > Paragraphs > Interactive elements
+3. **Fallback Drilling**: If a container is clicked, try to find semantic children within it
+4. **Overlay UI Exclusion**: Elements with `data-overlay-ui="1"` are never selected
+
+**Component Integration Patterns**:
+
+1. **FAQ Component** (`src/components/FAQ.tsx`):
+   ```jsx
+   <motion.div data-element="faqItem">                    // Wrapper - gets selected
+     <motion.div>
+       <span data-typography="faq.question">Question</span>
+     </motion.div>
+     <motion.div>
+       <div data-typography="faq.answer">               // Container level styling
+         {parseHtmlTags(answer)}                        // No data attributes on children
+       </div>
+     </motion.div>
+   </motion.div>
+   ```
+
+2. **Service Cards** (`src/components/ServiceCard.tsx`):
+   ```jsx
+   <div>
+     <h3 data-typography="serviceCard.title">Title</h3>
+     <p data-typography="serviceCard.description">Description</p>
+   </div>
+   ```
+
+**Typography Tokenization Strategy**:
+- Use `data-typography` hints to guide token resolution
+- Apply styling at the appropriate container level to prevent over-granular selection
+- Avoid `data-typography` on individual paragraphs within complex components to prevent fragmented selection
+
+**Data Attribute Standards**:
+
+1. **`data-element`**: Used for component-level selection (highest priority)
+   - `data-element="faqItem"`: FAQ item wrapper
+   - `data-element="serviceCard"`: Service card wrapper
+   - These take precedence over semantic elements in selection logic
+
+2. **`data-typography`**: Used for typography token hints (processed by tokenResolver)
+   - `data-typography="faq.question"`: FAQ question text
+   - `data-typography="faq.answer"`: FAQ answer container
+   - `data-typography="serviceCard.title"`: Service card title
+   - `data-typography="serviceCard.description"`: Service card description
+   - These guide the token resolver to suggest specific typography tokens
+
+3. **`data-overlay-ui="1"`**: Used to exclude overlay UI elements from selection
+   - Applied to `SelectionOverlay`, `ViewportToggleOverlay`, `EditorPanelsWrapper`
+   - Prevents the editor from selecting its own UI elements
+
+4. **`data-section-id`**: Used for section identification and token scoping
+   - Applied by `Section.tsx` component automatically
+   - Used to determine section-specific token paths
+
+**Best Practices**:
+- Use `data-element` sparingly, only for components that need special selection behavior
+- Apply `data-typography` to the appropriate container level, not individual text nodes
+- Always test selection behavior in design mode (`?design=1`) after adding data attributes
+- Document any new `data-element` values in this file and in `tokenResolver.ts`
+
+**Files Involved in Editor Parser**:
+- `src/contexts/EditorOverlayContext.tsx`: Main selection logic and event handling
+- `src/lib/tokenResolver.ts`: Token matching based on selected elements and data attributes
+- `src/components/SelectionOverlay.tsx`: Visual feedback for selected elements
+- `src/components/ui/Section.tsx`: Automatic `data-section-id` application
+- Individual components: Add appropriate `data-element` and `data-typography` attributes
+
 ### Token Resolver Specification
 
 The resolver translates a clicked DOM element into one or more design token targets.

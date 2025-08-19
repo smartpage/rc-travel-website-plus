@@ -1,5 +1,57 @@
 # Major Architecture Changes
 
+## FAQ Component Editor Integration Fix (2025-01-XX)
+**Problem**: FAQ component had complex editor selection issues preventing proper tokenization
+- Individual `<p>` paragraphs inside FAQ answers were being selected instead of the entire FAQ item
+- Duplicate `data-element="faqItem"` attributes on nested divs caused confusion
+- Editor overlay context prioritized semantic elements (p, h1-h6) over component-level wrappers
+- FAQ question and answer content wasn't properly editable via design inspector
+
+**Root Cause**: Editor selection logic checked semantic elements BEFORE checking for `data-element` attributes, causing individual paragraphs to be selected instead of the intended FAQ item wrapper.
+
+**Solution**: Comprehensive FAQ component editor integration fixes
+1. **Selection Priority Fix**: Modified `EditorOverlayContext.tsx` to prioritize `data-element="faqItem"` over semantic elements in both `onClick` and `onMove` handlers
+2. **Clean Component Structure**: Removed duplicate `data-element` attributes from nested FAQ divs
+3. **Proper Typography Tokenization**: Applied `data-typography="faq.answer"` to the answer container div instead of individual paragraphs
+4. **Unified Styling**: Moved FAQ answer typography styles to the container level to prevent individual paragraph selection
+5. **Token Resolver Enhancement**: Enhanced `tokenResolver.ts` to recognize FAQ-specific `data-typography` hints
+
+**Files Modified**:
+- `src/components/FAQ.tsx`: 
+  - Removed duplicate `data-element="faqItem"` from inner motion.div
+  - Applied `data-typography="faq.answer"` to answer container instead of individual paragraphs
+  - Moved typography styles from `parseHtmlTags` function to container level
+  - Removed `data-typography` attributes from individual `<p>` and `<strong>` elements to prevent individual selection
+- `src/contexts/EditorOverlayContext.tsx`: 
+  - Modified `onClick` and `onMove` handlers to check `data-element="faqItem"` BEFORE semantic elements (h1-h6, p, button/a)
+  - This ensures entire FAQ items are selected instead of individual paragraphs
+- `src/lib/tokenResolver.ts`: 
+  - Added recognition for `data-typography="faq.question"`, `faq.answer`, `faq.answerStrong` hints
+  - Added `data-element="faqItem"` detection to propose FAQ-level tokens
+
+**Editor Selection Logic Flow**:
+```
+1. Check for data-element="faqItem" (FAQ wrapper)
+2. Check for semantic elements (h1-h6, p, button/a)
+3. Fallback to raw target element
+```
+
+**FAQ Component Structure**:
+```jsx
+<motion.div data-element="faqItem">
+  <motion.div> // Question container (no data-element)
+    <span data-typography="faq.question">Question text</span>
+  </motion.div>
+  <motion.div> // Answer container
+    <div data-typography="faq.answer">
+      {parseHtmlTags(answer)} // No data attributes on individual elements
+    </div>
+  </motion.div>
+</motion.div>
+```
+
+---
+
 ## Container Query Consistency (2025-01-XX)
 **Problem**: Normal mode vs Design mode (`?design=1`) had different responsive behavior
 - Normal mode: Standard viewport breakpoints
