@@ -622,6 +622,13 @@
         "lineHeight": "1.6",
         "color": "rgba(255, 255, 255, 0.8)"
       },
+      "travelDesignerCard": {
+        "fontFamily": "Inter, sans-serif",
+        "fontSize": "1rem",
+        "fontWeight": "400",
+        "lineHeight": "1.6",
+        "color": "rgba(255, 255, 255, 0.8)"
+      },
       "subtitle": {
         "fontFamily": "Inter, sans-serif",
         "fontSize": "1.125rem",
@@ -723,28 +730,7 @@
       "marginBottom": "0.5rem",
       "textAlign": "center"
     },
-    "buttons": {
-      "primary": {
-        "text": "Saber mais via WhatsApp",
-        "bg": "bg-yellow-500",
-        "hover": "hover:bg-yellow-600",
-        "textColor": "text-black",
-        "fontWeight": "font-normal"
-      },
-      "secondary": {
-        "text": "Enviar um Email",
-        "bg": "bg-yellow-500",
-        "hover": "hover:bg-yellow-600",
-        "textColor": "text-black"
-      },
-      "whatsapp": {
-        "text": "Iniciar no WhatsApp",
-        "bg": "bg-yellow-500",
-        "hover": "hover:bg-yellow-600",
-        "textColor": "text-black",
-        "fontWeight": "font-normal"
-      }
-    },
+
     "sliderOptions": {
       "loop": true,
       "dots": true,
@@ -787,28 +773,7 @@
           "accent": "yellow-500",
           "highlight": "yellow-600"
         },
-        "buttons": {
-          "primary": {
-            "text": "Saber mais via WhatsApp",
-            "bg": "bg-yellow-500",
-            "hover": "hover:bg-yellow-600",
-            "textColor": "text-black",
-            "fontWeight": "font-normal"
-          },
-          "secondary": {
-            "text": "Enviar um Email",
-            "bg": "bg-yellow-500",
-            "hover": "hover:bg-yellow-600",
-            "textColor": "text-black"
-          },
-          "whatsapp": {
-            "text": "Iniciar no WhatsApp",
-            "bg": "bg-yellow-500",
-            "hover": "hover:bg-yellow-600",
-            "textColor": "text-black",
-            "fontWeight": "font-normal"
-          }
-        },
+
         "sliderOptions": {
           "loop": true,
           "dots": true,

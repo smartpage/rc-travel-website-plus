@@ -27,11 +27,7 @@
    - Add new `data-element` or `data-typography` patterns to selection logic if needed
    - Usually auto-works if using standard `data-typography` attributes
 
-6. **`src/data/siteIndex.json`** - Register component in sections
-   - Add to `internalComponents` array: `{ "type": "YourNewComponent", "props": {...} }`
 
-7. **Restart json-server** - Load new tokens
-   - `kill <json-server-pid>` and restart to pick up `db.json` changes
 
 ### 🔍 Testing Checklist:
 - [ ] Element appears with correct styling from tokens
@@ -117,6 +113,15 @@ detectBackgroundContext() // determines if element is on light/dark background
 - `src/contexts/EditorOverlayContext.tsx` - Click handling/selection
 - `src/lib/tokenResolver.ts` - Element → token mapping
 - `src/components/DesignInspectorContent.tsx` - Editor UI
+
+## Security hardening (remote editor)
+- Client-side gate is UX only; server must enforce writes.
+- Server checks to enforce (tracked in Intuitiva docs):
+  - verifySession on all mutating endpoints
+  - Role check (now: super admin only)
+  - Origin/Referer allowlist for write requests
+  - Shorter session TTL with rotation, rate limiting, audit logs
+  - TODO: Auto-build Origin allowlist from Firebase websites and block writes from non-authorized origins
 
 ## 📋 Real-World Examples from FAQ Component Fix
 

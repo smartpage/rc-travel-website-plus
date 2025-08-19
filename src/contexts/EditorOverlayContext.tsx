@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useDesign } from '@/contexts/DesignContext';
 import { resolveGlobalTokens, takeComputedSnapshot } from '@/lib/tokenResolver';
 
-type PanelId = 'inspector' | 'navigator';
+type PanelId = 'inspector' | 'navigator' | 'ai-enhance';
 
 type OverlayRect = { top: number; left: number; width: number; height: number } | null;
 
@@ -67,15 +67,16 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
       const saved = localStorage.getItem('design_panel_collapsed');
       if (saved) {
         const parsed = JSON.parse(saved);
-        // Default: inspector open, navigator closed
+        // Default: inspector open, navigator closed, ai-enhance open
         return {
           inspector: parsed.inspector ?? false,
           navigator: parsed.navigator ?? true,
+          'ai-enhance': parsed['ai-enhance'] ?? false,
         };
       }
     } catch {}
-    // Default: inspector open, navigator closed
-    return { inspector: false, navigator: true };
+    // Default: inspector open, navigator closed, ai-enhance open
+    return { inspector: false, navigator: true, 'ai-enhance': false };
   };
 
   // Load color palette from localStorage

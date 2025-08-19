@@ -128,6 +128,13 @@ interface DesignConfig {
       lineHeight: string;
       color: string;
     };
+    travelDesignerCard?: {
+      fontFamily: string;
+      fontSize: string;
+      fontWeight: string;
+      lineHeight: string;
+      color: string;
+    };
     cardBody: {
       fontFamily: string;
       fontSize: string;

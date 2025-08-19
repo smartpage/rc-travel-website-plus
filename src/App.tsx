@@ -16,6 +16,8 @@ import ViewportToggleOverlay from "@/components/ViewportToggleOverlay";
 import EditorPanelsWrapper from "@/components/EditorPanelsWrapper";
 import SelectionOverlay from "@/components/SelectionOverlay";
 import { EditorOverlayProvider } from "@/contexts/EditorOverlayContext";
+import { AuthProvider } from "@/contexts/AuthContext";
+import LoginGate from "@/components/LoginGate";
 
 const queryClient = new QueryClient();
 
@@ -49,12 +51,15 @@ const App = () => {
                 <Toaster />
                 <Sonner />
                 <BrowserRouter>
+                  <AuthProvider>
                   <EditorOverlayProvider>
                     {isDesignMode ? (
                       // Design mode: overlays + site content in animated container
                       <>
-                        <SelectionOverlay />
-                        <EditorPanelsWrapper />
+                        <LoginGate>
+                          <SelectionOverlay />
+                          <EditorPanelsWrapper />
+                        </LoginGate>
                         <ViewportToggleOverlay>
                           {/* Site content will render inside ViewportToggleOverlay's container */}
                           <Routes>
@@ -77,6 +82,7 @@ const App = () => {
                       </div>
                     )}
                   </EditorOverlayProvider>
+                  </AuthProvider>
                 </BrowserRouter>
               </TooltipProvider>
             </ContentProvider>

@@ -4,6 +4,7 @@ import { useContent } from '@/contexts/ContentContext';
 import EditorPanel from './EditorPanel';
 import DesignInspectorContent from './DesignInspectorContent';
 import SectionNavigatorContent from './SectionNavigatorContent';
+import AIEnhancePanel from './AIEnhancePanel';
 import { useEditorOverlay } from '@/contexts/EditorOverlayContext';
 
 import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from 'lucide-react';
@@ -109,8 +110,23 @@ const EditorPanelsWrapper: React.FC = () => {
           opacity: collapsed.inspector ? 0.7 : 1,
           overflow: 'hidden'
         }}>
-          <EditorPanel id="inspector" title="Design Inspector" subtitle="API-only">
+          <EditorPanel id="inspector" title="Design Inspector" subtitle="Tokens & Styles">
             <DesignInspectorContent />
+          </EditorPanel>
+        </div>
+
+        {/* AI Enhancement Panel */}
+        <div style={{ 
+          width: '100%', 
+          display: 'flex',
+          flexDirection: 'column',
+          transition: 'max-height 0.3s ease, opacity 0.2s ease',
+          maxHeight: collapsed['ai-enhance'] ? 60 : 9999,
+          opacity: collapsed['ai-enhance'] ? 0.7 : 1,
+          overflow: 'hidden'
+        }}>
+          <EditorPanel id="ai-enhance" title="AI Enhancement" subtitle="Server-side AI">
+            <AIEnhancePanel />
           </EditorPanel>
         </div>
 

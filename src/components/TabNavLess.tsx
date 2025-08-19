@@ -163,7 +163,7 @@ const TabNavLess: React.FC<TabNavLessProps> = ({ tabs, activeTab, onTabChange, s
 
   if (!showNavigation || tabs.length <= 1) return null;
 
-  const containerBg = design.buttonStyles?.tab?.container?.backgroundColor;
+  const containerBg = design.buttons?.tab?.container?.backgroundColor || '#374151';
 
   return (
     <div className="mb-12 w-full overflow-hidden @container">
@@ -197,7 +197,22 @@ const TabNavLess: React.FC<TabNavLessProps> = ({ tabs, activeTab, onTabChange, s
             <div className="inline-flex items-stretch gap-2 w-max">
               {tabs.map((tab) => {
                 const isActive = activeTab === tab.id;
-                const buttonStyle = isActive ? design.buttons.tab.inverted : design.buttons.tab.regular;
+                const buttonStyle = isActive ? design.buttons?.tab?.inverted : design.buttons?.tab?.regular;
+                
+                // Fallback styles if tokens aren't loaded yet
+                const fallbackStyle = {
+                  normal: {
+                    backgroundColor: isActive ? '#eab308' : 'transparent',
+                    textColor: isActive ? '#000000' : '#cbd5e1'
+                  },
+                  hover: {
+                    backgroundColor: isActive ? '#d97706' : '#1f2937',
+                    textColor: isActive ? '#000000' : '#ffffff'
+                  }
+                };
+                
+                const finalStyle = buttonStyle || fallbackStyle;
+                
                 return (
                   <div key={tab.id} className="flex-shrink-0">
                     <div className="rounded-lg p-1" style={{ backgroundColor: containerBg }}>
@@ -213,18 +228,18 @@ const TabNavLess: React.FC<TabNavLessProps> = ({ tabs, activeTab, onTabChange, s
                         className="whitespace-nowrap px-3 py-2 text-sm font-medium rounded-md transition-all duration-200"
                         style={{
                           fontFamily: design.fonts.body,
-                          backgroundColor: buttonStyle.normal.backgroundColor,
-                          color: buttonStyle.normal.textColor,
+                          backgroundColor: finalStyle?.normal?.backgroundColor || (isActive ? '#eab308' : 'transparent'),
+                          color: finalStyle?.normal?.textColor || (isActive ? '#000000' : '#cbd5e1'),
                         }}
                         onMouseEnter={(e) => {
                           const target = e.target as HTMLElement;
-                          target.style.backgroundColor = buttonStyle.hover.backgroundColor;
-                          target.style.color = buttonStyle.hover.textColor;
+                          target.style.backgroundColor = finalStyle?.hover?.backgroundColor || (isActive ? '#d97706' : '#1f2937');
+                          target.style.color = finalStyle?.hover?.textColor || (isActive ? '#000000' : '#ffffff');
                         }}
                         onMouseLeave={(e) => {
                           const target = e.target as HTMLElement;
-                          target.style.backgroundColor = buttonStyle.normal.backgroundColor;
-                          target.style.color = buttonStyle.normal.textColor;
+                          target.style.backgroundColor = finalStyle?.normal?.backgroundColor || (isActive ? '#eab308' : 'transparent');
+                          target.style.color = finalStyle?.normal?.textColor || (isActive ? '#000000' : '#cbd5e1');
                         }}
                       >
                         {tab.name}
@@ -252,7 +267,21 @@ const TabNavLess: React.FC<TabNavLessProps> = ({ tabs, activeTab, onTabChange, s
         <div className="inline-flex rounded-lg p-1" style={{ backgroundColor: containerBg }}>
           {tabs.map((tab) => {
             const isActive = activeTab === tab.id;
-            const buttonStyle = isActive ? design.buttonStyles.tab.inverted : design.buttonStyles.tab.regular;
+            const buttonStyle = isActive ? design.buttons?.tab?.inverted : design.buttons?.tab?.regular;
+            
+            // Fallback styles if tokens aren't loaded yet
+            const fallbackStyle = {
+              normal: {
+                backgroundColor: isActive ? '#eab308' : 'transparent',
+                textColor: isActive ? '#000000' : '#cbd5e1'
+              },
+              hover: {
+                backgroundColor: isActive ? '#d97706' : '#1f2937',
+                textColor: isActive ? '#000000' : '#ffffff'
+              }
+            };
+            
+            const finalStyle = buttonStyle || fallbackStyle;
             return (
               <button
                 key={tab.id}
@@ -267,18 +296,18 @@ const TabNavLess: React.FC<TabNavLessProps> = ({ tabs, activeTab, onTabChange, s
                 className="px-6 py-3 text-sm font-medium rounded-md transition-all duration-200 shrink-0"
                 style={{
                   fontFamily: design.fonts.body,
-                  backgroundColor: buttonStyle.normal.backgroundColor,
-                  color: buttonStyle.normal.textColor,
+                  backgroundColor: finalStyle?.normal?.backgroundColor || (isActive ? '#eab308' : 'transparent'),
+                  color: finalStyle?.normal?.textColor || (isActive ? '#000000' : '#cbd5e1'),
                 }}
                 onMouseEnter={(e) => {
                   const target = e.target as HTMLElement;
-                  target.style.backgroundColor = buttonStyle.hover.backgroundColor;
-                  target.style.color = buttonStyle.hover.textColor;
+                  target.style.backgroundColor = finalStyle?.hover?.backgroundColor || (isActive ? '#d97706' : '#1f2937');
+                  target.style.color = finalStyle?.hover?.textColor || (isActive ? '#000000' : '#ffffff');
                 }}
                 onMouseLeave={(e) => {
                   const target = e.target as HTMLElement;
-                  target.style.backgroundColor = buttonStyle.normal.backgroundColor;
-                  target.style.color = buttonStyle.normal.textColor;
+                  target.style.backgroundColor = finalStyle?.normal?.backgroundColor || (isActive ? '#eab308' : 'transparent');
+                  target.style.color = finalStyle?.normal?.textColor || (isActive ? '#000000' : '#cbd5e1');
                 }}
               >
                 {tab.name}
