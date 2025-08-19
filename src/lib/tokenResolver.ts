@@ -253,7 +253,44 @@ export function resolveGlobalTokens(snapshot: ComputedSnapshot, sectionId: strin
         label: 'Inner Padding', 
         responsive: true 
       });
-      
+
+      // Add inner width tokens
+      matches.push({
+        scope: 'section',
+        tokenPath: `sections.${sectionId}.layout.inner.width`,
+        label: 'Inner Width',
+        responsive: false,
+      });
+
+      matches.push({
+        scope: 'section',
+        tokenPath: `sections.${sectionId}.layout.inner.maxWidth`,
+        label: 'Inner Max Width',
+        responsive: false,
+      });
+
+      matches.push({
+        scope: 'section',
+        tokenPath: `sections.${sectionId}.layout.inner.minWidth`,
+        label: 'Inner Min Width',
+        responsive: false,
+      });
+
+      // Add inner height tokens
+      matches.push({
+        scope: 'section',
+        tokenPath: `sections.${sectionId}.layout.inner.minHeight`,
+        label: 'Inner Min Height',
+        responsive: false,
+      });
+
+      matches.push({
+        scope: 'section',
+        tokenPath: `sections.${sectionId}.layout.inner.height`,
+        label: 'Inner Height',
+        responsive: false,
+      });
+
       // Add flex layout tokens
       matches.push({ 
         scope: 'section', 

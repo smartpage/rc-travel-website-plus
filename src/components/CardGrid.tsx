@@ -37,7 +37,7 @@ const CardGrid = ({
   }
 
   return (
-    <div className={`grid ${gridLayout} gap-8 h-full`}>
+    <div className={`grid w-full max-w-full min-w-0 ${gridLayout} gap-8 h-full`}>
       {cards.map((card, index) => {
         switch (cardType) {
           case 'testimonial':

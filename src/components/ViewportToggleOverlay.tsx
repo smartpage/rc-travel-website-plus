@@ -125,7 +125,7 @@ const ViewportToggleOverlay: React.FC<{ children?: React.ReactNode }> = ({ child
           top: 0,
           left: '50%',
           transform: 'translateX(-50%)',
-          width: targetWidth ? `${targetWidth}px` : '100vw',
+          width: targetWidth ? `${targetWidth}px` : '100%',
           height: '100vh',
           zIndex: 900,
           transition: 'width 300ms cubic-bezier(0.2, 0.8, 0.2, 1)',

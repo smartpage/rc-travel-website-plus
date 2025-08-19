@@ -65,7 +65,7 @@ const App = () => {
                       </>
                     ) : (
                       // Normal mode: regular site with consistent container wrapper
-                      <div className="@container" style={{ width: '100vw', height: '100vh', overflow: 'auto' }}>
+                      <div className="@container" style={{ width: '100%', height: '100vh', overflow: 'auto' }}>
                         <Routes>
                           <Route path="/" element={<Index />} />
                           <Route path="/test-zod-contexts" element={<ZodTestPage />} />

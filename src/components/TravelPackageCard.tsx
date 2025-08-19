@@ -32,14 +32,14 @@ const TravelPackageCard = ({ pkg, ctaText, moreDetailsText, onWhatsAppContact }:
 
   return (
     <motion.div
-      className="w-full h-full"
+      className="w-full max-w-full min-w-0 h-full"
       initial={{ opacity: 1 }}
       whileHover={{ y: -5 }}
       transition={{ duration: 0.3 }}
     >
     <Card 
-      className={`bg-${colors.cardBackground} rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col group`}
-      style={{ height: travelPackageCard.maxHeight, minHeight: travelPackageCard.minHeight }}
+      className={`w-full max-w-full bg-${colors.cardBackground} rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col group`}
+      style={{ height: travelPackageCard.maxHeight, minHeight: travelPackageCard.minHeight, boxSizing: 'border-box' }}
     >
       <CardHeader 
         className="p-0 relative overflow-hidden"

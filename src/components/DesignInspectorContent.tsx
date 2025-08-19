@@ -691,6 +691,29 @@ const DesignInspectorContent: React.FC = () => {
 									</PanelRow>
 								</div>
 							)}
+							{/* Inner min-width controls */}
+							{m.tokenPath.includes('.layout.inner.minWidth') && activeSectionId && (
+								<div style={{ display: 'grid', gap: 6 }}>
+									<PanelRow label="Inner Min Width">
+										<input
+											type="text"
+											value={(design?.sections?.[activeSectionId]?.layout?.inner as any)?.minWidth || ''}
+											onChange={(e) => {
+												const val = e.target.value;
+												updateDesignLocal((prev: any) => {
+													const next = { ...prev };
+													next.sections = next.sections || {};
+													next.sections[activeSectionId] = next.sections[activeSectionId] || { layout: { padding: { mobile: '', tablet: '', desktop: '' }, inner: { maxWidth: '100%', margin: '0 auto', padding: { mobile: '0', tablet: '0', desktop: '0' }, rounded: false, backgroundColor: 'transparent', overflow: 'visible', background: { type: 'color', value: 'transparent' }, display: 'block', flexDirection: 'column', alignItems: 'stretch', justifyContent: 'flex-start', width: '100%' } } };
+													(next.sections[activeSectionId].layout.inner as any).minWidth = val;
+													return next;
+												});
+											}}
+											placeholder="e.g. 320px"
+											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+										/>
+									</PanelRow>
+								</div>
+							)}
 							{/* Inner max-width controls */}
 							{m.tokenPath.includes('.layout.inner.maxWidth') && activeSectionId && (
 								<div style={{ display: 'grid', gap: 6 }}>
@@ -709,6 +732,52 @@ const DesignInspectorContent: React.FC = () => {
 												});
 											}}
 											placeholder="e.g. 100%, 1280px, none"
+											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+										/>
+									</PanelRow>
+								</div>
+							)}
+							{/* Inner min-height controls */}
+							{m.tokenPath.includes('.layout.inner.minHeight') && activeSectionId && (
+								<div style={{ display: 'grid', gap: 6 }}>
+									<PanelRow label="Inner Min Height">
+										<input
+											type="text"
+											value={(design?.sections?.[activeSectionId]?.layout?.inner as any)?.minHeight || ''}
+											onChange={(e) => {
+												const val = e.target.value;
+												updateDesignLocal((prev: any) => {
+													const next = { ...prev };
+													next.sections = next.sections || {};
+													next.sections[activeSectionId] = next.sections[activeSectionId] || { layout: { padding: { mobile: '', tablet: '', desktop: '' }, inner: { maxWidth: '100%', margin: '0 auto', padding: { mobile: '0', tablet: '0', desktop: '0' }, rounded: false, backgroundColor: 'transparent', overflow: 'visible', background: { type: 'color', value: 'transparent' }, display: 'block', flexDirection: 'column', alignItems: 'stretch', justifyContent: 'flex-start', width: '100%' } } };
+													(next.sections[activeSectionId].layout.inner as any).minHeight = val;
+													return next;
+												});
+											}}
+											placeholder="e.g. 60vh"
+											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+										/>
+									</PanelRow>
+								</div>
+							)}
+							{/* Inner height controls */}
+							{m.tokenPath.includes('.layout.inner.height') && activeSectionId && (
+								<div style={{ display: 'grid', gap: 6 }}>
+									<PanelRow label="Inner Height">
+										<input
+											type="text"
+											value={(design?.sections?.[activeSectionId]?.layout?.inner as any)?.height || ''}
+											onChange={(e) => {
+												const val = e.target.value;
+												updateDesignLocal((prev: any) => {
+													const next = { ...prev };
+													next.sections = next.sections || {};
+													next.sections[activeSectionId] = next.sections[activeSectionId] || { layout: { padding: { mobile: '', tablet: '', desktop: '' }, inner: { maxWidth: '100%', margin: '0 auto', padding: { mobile: '0', tablet: '0', desktop: '0' }, rounded: false, backgroundColor: 'transparent', overflow: 'visible', background: { type: 'color', value: 'transparent' }, display: 'block', flexDirection: 'column', alignItems: 'stretch', justifyContent: 'flex-start', width: '100%' } } };
+													(next.sections[activeSectionId].layout.inner as any).height = val;
+													return next;
+												});
+											}}
+											placeholder="e.g. auto, 80vh"
 											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
 										/>
 									</PanelRow>

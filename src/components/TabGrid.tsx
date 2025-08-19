@@ -1,11 +1,8 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useContent } from "@/contexts/ContentContext";
-import { useDesign } from "@/contexts/DesignContext";
-import useEmblaCarousel from 'embla-carousel-react';
-import { type EmblaOptionsType } from 'embla-carousel';
-import Autoplay from 'embla-carousel-autoplay';
-import TabNav from './TabNav';
 import CardGrid from './CardGrid';
+import MobileEmblaCarousel from './MobileEmblaCarousel';
+import TabNavLess from './TabNavLess';
 
 interface Tab {
   id: string;
@@ -50,56 +47,9 @@ const TabGrid = ({
   onWhatsAppContact 
 }: TabGridProps) => {
   const { getSectionContent } = useContent();
-  const { design } = useDesign();
   const [activeTab, setActiveTab] = useState<string>('');
   const [content, setContent] = useState<TabGridContent | null>(null);
-  
-  // Embla carousel setup
-  const emblaOptions: EmblaOptionsType = {
-    loop: true,
-    dragFree: design.sliderOptions.dragFree,
-    containScroll: false,
-    inViewThreshold: 0,
-    align: 'start'
-  };
-  
-  const [emblaRef, emblaApi] = useEmblaCarousel(
-    emblaOptions,
-    [design.sliderOptions.autoplay ? Autoplay({ delay: design.sliderOptions.autoplayDelay }) : undefined].filter(Boolean) as any
-  );
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
-  const [canScrollPrev, setCanScrollPrev] = useState(false);
-  const [canScrollNext, setCanScrollNext] = useState(false);
-  
-  // Embla callbacks
-  const onDotButtonClick = useCallback(
-    (index: number) => {
-      if (!emblaApi) return;
-      emblaApi.scrollTo(index);
-    },
-    [emblaApi]
-  );
-  
-  const onInit = useCallback((emblaApi: any) => {
-    setScrollSnaps(emblaApi.scrollSnapList());
-    setSelectedIndex(emblaApi.selectedScrollSnap());
-  }, []);
-  
-  const onSelect = useCallback((emblaApi: any) => {
-    setSelectedIndex(emblaApi.selectedScrollSnap());
-    setCanScrollPrev(emblaApi.canScrollPrev());
-    setCanScrollNext(emblaApi.canScrollNext());
-  }, []);
-  
-  useEffect(() => {
-    if (!emblaApi) return;
-    
-    onInit(emblaApi);
-    onSelect(emblaApi);
-    emblaApi.on('reInit', onInit);
-    emblaApi.on('select', onSelect);
-  }, [emblaApi, onInit, onSelect]);
+
 
   useEffect(() => {
     const loadTabGridContent = () => {
@@ -147,93 +97,34 @@ const TabGrid = ({
   // Render slider if useSlider is true
   if (useSlider) {
     return (
-      <div>
-        <TabNav
+      <div className="w-full max-w-full min-w-0 overflow-x-hidden">
+        <TabNavLess
           tabs={tabs}
           activeTab={activeTab}
           onTabChange={setActiveTab}
           showNavigation={showTabsNavigation}
         />
-        
-        {/* Embla Slider with Arrows */}
-        <div className="relative mx-0 w-full">
-          <button
-            className={`hidden :block absolute -left-12 top-1/2 -translate-y-1/2 z-10 p-2 transition-colors disabled:opacity-30 ${design.sliderOptions.colors.arrows} ${design.sliderOptions.colors.arrowsHover}`}
-            onClick={() => emblaApi?.scrollPrev()}
-            disabled={!canScrollPrev}
-            aria-label="Previous slide"
-          >
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
-          </button>
-          <button
-            className={`hidden :block absolute -right-12 top-1/2 -translate-y-1/2 z-10 p-2 transition-colors disabled:opacity-30 ${design.sliderOptions.colors.arrows} ${design.sliderOptions.colors.arrowsHover}`}
-            onClick={() => emblaApi?.scrollNext()}
-            disabled={!canScrollNext}
-            aria-label="Next slide"
-          >
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg>
-          </button>
-          <div className="overflow-hidden py-24 w-full" ref={emblaRef}>
-          <div className="flex" style={{ marginLeft: `-${design.sliderOptions.gap}px` }}>
-            {activeCards.map((card, index) => (
-              <div
-                key={card.id}
-                className="flex-none w-[var(--slide-mobile-width,98%)] @md:w-1/2 @lg:w-1/3 @xl:w-1/4"
-                style={{
-                  marginLeft: `${design.sliderOptions.gap}px`,
-                  // Allow tokenized control over mobile slide width
-                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                  // @ts-ignore
-                  '--slide-mobile-width': (design as any)?.sliderOptions?.mobileCardWidth || '98%'
-                } as React.CSSProperties}
-              >
-                <div className="h-full mx-auto">
-                  <CardGrid
-                    cards={[card]}
-                    cardType={cardType}
-                    gridLayout="grid-cols-1"
-                    ctaText={ctaText}
-                    moreDetailsText={moreDetailsText}
-                    onWhatsAppContact={onWhatsAppContact}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-        
-        {/* Dots Navigation */}
-        {design.sliderOptions.dots && scrollSnaps.length > 0 && (
-          <div className="flex justify-center mt-6 space-x-2">
-            {scrollSnaps.map((_, index) => (
-              <button
-                key={index}
-                className={`${(design as any)?.sliderOptions?.dotSizeClass || 'w-2.5 h-2.5'} rounded-full transition-all duration-300 ${
-                  index === selectedIndex
-                    ? design.sliderOptions.colors.dotActive
-                    : design.sliderOptions.colors.dotInactive
-                }`}
-                onClick={() => onDotButtonClick(index)}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
-          </div>
-        )}
+        <MobileEmblaCarousel
+          cards={activeCards as any}
+          cardType={cardType}
+          gridLayout={gridLayout}
+          ctaText={ctaText}
+          moreDetailsText={moreDetailsText}
+          onWhatsAppContact={onWhatsAppContact}
+        />
       </div>
     );
   }
   
-  // Default grid rendering
+  // Grid rendering with TabNav
   return (
-    <div>
-      <TabNav
+    <div className="w-full max-w-full min-w-0">
+      <TabNavLess
         tabs={tabs}
         activeTab={activeTab}
         onTabChange={setActiveTab}
         showNavigation={showTabsNavigation}
       />
-      
       <CardGrid
         cards={activeCards}
         cardType={cardType}

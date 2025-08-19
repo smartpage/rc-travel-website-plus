@@ -133,7 +133,7 @@ const SectionTitle: React.FC<SectionTitleProps> = ({
       {/* Injetar CSS responsivo */}
       <style dangerouslySetInnerHTML={{ __html: mediaQueryStyles }} />
       
-      <div className={`${centerAlign ? 'text-center' : ''} mb-12 md:mb-16 ${className}`}>
+      <div className={`${centerAlign ? 'text-center' : ''} mb-12 md:mb-16 max-w-full overflow-x-hidden ${className}`}>
         {/* Subtitle */}
         {subtitle && (
           <p
@@ -148,7 +148,7 @@ const SectionTitle: React.FC<SectionTitleProps> = ({
         <h1 
           id={uniqueId}
           style={titleStyles}
-          className="mt-2"
+          className="mt-2 break-words"
         >
           {renderTitleContent()}
         </h1>

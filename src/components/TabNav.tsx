@@ -19,7 +19,7 @@ interface TabNavProps {
 const TabNav = ({ tabs, activeTab, onTabChange, showNavigation = true }: TabNavProps) => {
   const { design } = useDesign();
   const [emblaRef, emblaApi] = useEmblaCarousel({ 
-    align: 'center', 
+    align: 'start', 
     containScroll: 'trimSnaps', 
     loop: false,
     slidesToScroll: 1,
@@ -60,10 +60,10 @@ const TabNav = ({ tabs, activeTab, onTabChange, showNavigation = true }: TabNavP
   }
 
   return (
-    <div className="mb-12">
+    <div className="mb-12 w-full max-w-full min-w-0 overflow-hidden box-border @container">
       {/* Mobile Layout */}
       <div className="@md:hidden">
-        <div className="relative">
+        <div className="relative w-full max-w-full min-w-0 box-border">
           <button
             onClick={scrollPrev}
             disabled={!canScrollPrev}
@@ -73,20 +73,20 @@ const TabNav = ({ tabs, activeTab, onTabChange, showNavigation = true }: TabNavP
             <ChevronLeft className="h-5 w-5" />
           </button>
 
-          <div className="overflow-hidden mx-12" ref={emblaRef}>
-            <div className="flex">
+          <div className="overflow-hidden w-full max-w-full min-w-0 px-4 box-border" ref={emblaRef}>
+            <div className="flex w-max">
               {tabs.map((tab) => {
                 const isActive = activeTab === tab.id;
                 const buttonStyle = isActive ? design.buttonStyles.tab.inverted : design.buttonStyles.tab.regular;
                 return (
-                  <div key={tab.id} className="flex-shrink-0 basis-4/5 mx-2">
+                  <div key={tab.id} className="flex-shrink-0 w-auto min-w-0 mx-1">
                     <div 
                       className="rounded-lg p-1" 
                       style={{ backgroundColor: design.buttonStyles.tab.container.backgroundColor }}
                     >
                       <button
                         onClick={() => onTabChange(tab.id)}
-                        className="w-full px-4 py-2 text-sm font-medium rounded-md transition-all duration-200"
+                        className="w-full max-w-full px-4 py-2 text-sm font-medium rounded-md transition-all duration-200"
                         style={{
                           fontFamily: design.fonts.body,
                           backgroundColor: buttonStyle.normal.backgroundColor,
@@ -124,7 +124,7 @@ const TabNav = ({ tabs, activeTab, onTabChange, showNavigation = true }: TabNavP
       </div>
 
       {/* Desktop Layout */}
-      <div className="hidden @md:flex @md:justify-center">
+      <div className="hidden @md:flex @md:justify-center w-full max-w-full min-w-0 overflow-hidden">
         <div 
           className="inline-flex rounded-lg p-1" 
           style={{ backgroundColor: design.buttonStyles.tab.container.backgroundColor }}

@@ -38,6 +38,7 @@ const Section: React.FC<SectionProps> = ({ children, sectionId, className, id, b
   const innerStyle: React.CSSProperties = {
     position: 'relative',
     width: (inner as any).width || '100%',
+    minWidth: (inner as any).minWidth,
     maxWidth: inner.maxWidth,
     margin: inner.margin,
     backgroundColor: inner.backgroundColor,
@@ -62,11 +63,14 @@ const Section: React.FC<SectionProps> = ({ children, sectionId, className, id, b
         box-sizing: border-box;
       }
       #${uniqueId} > .inner-section {
+        container-type: inline-size;
         padding: ${inner.padding.mobile};
         box-sizing: border-box;
         max-width: 100%;
         width: 100%;
+        ${(inner as any).minWidth ? `min-width: ${(inner as any).minWidth};` : ''}
         ${(inner as any).minHeight ? `min-height: ${(inner as any).minHeight};` : ''}
+        ${(inner as any).height ? `height: ${(inner as any).height};` : ''}
       }
 
       @container (min-width: 768px) {
@@ -77,6 +81,10 @@ const Section: React.FC<SectionProps> = ({ children, sectionId, className, id, b
         #${uniqueId} > .inner-section {
           padding: ${inner.padding.tablet};
           max-width: ${inner.maxWidth === '100%' ? '100%' : inner.maxWidth};
+          width: ${(inner as any).width || '100%'};
+          ${(inner as any).minWidth ? `min-width: ${(inner as any).minWidth};` : ''}
+          ${(inner as any).minHeight ? `min-height: ${(inner as any).minHeight};` : ''}
+          ${(inner as any).height ? `height: ${(inner as any).height};` : ''}
         }
       }
 
@@ -87,6 +95,10 @@ const Section: React.FC<SectionProps> = ({ children, sectionId, className, id, b
         #${uniqueId} > .inner-section {
           padding: ${inner.padding.desktop};
           max-width: ${inner.maxWidth === '100%' ? '100%' : inner.maxWidth};
+          width: ${(inner as any).width || '100%'};
+          ${(inner as any).minWidth ? `min-width: ${(inner as any).minWidth};` : ''}
+          ${(inner as any).minHeight ? `min-height: ${(inner as any).minHeight};` : ''}
+          ${(inner as any).height ? `height: ${(inner as any).height};` : ''}
         }
       }
     `;
