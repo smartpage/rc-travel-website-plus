@@ -14,6 +14,7 @@ import NotFound from "./pages/NotFound";
 import ZodTestPage from "./pages/ZodTestPage";
 import ViewportToggleOverlay from "@/components/ViewportToggleOverlay";
 import EditorPanelsWrapper from "@/components/EditorPanelsWrapper";
+import SelectionOverlay from "@/components/SelectionOverlay";
 import { EditorOverlayProvider } from "@/contexts/EditorOverlayContext";
 
 const queryClient = new QueryClient();
@@ -52,6 +53,7 @@ const App = () => {
                     {isDesignMode ? (
                       // Design mode: overlays + site content in animated container
                       <>
+                        <SelectionOverlay />
                         <EditorPanelsWrapper />
                         <ViewportToggleOverlay>
                           {/* Site content will render inside ViewportToggleOverlay's container */}

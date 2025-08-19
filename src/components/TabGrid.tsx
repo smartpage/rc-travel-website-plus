@@ -125,7 +125,7 @@ const TabGrid = ({
               {activeCards.map((card, index) => (
                 <div
                   key={card.id}
-                  className="flex-none w-[var(--slide-mobile-width,90%)] @md:w-[45%] @lg:w-[30%] @xl:w-[23%] flex"
+                  className="flex-none w-[var(--slide-mobile-width,90%)] @md:w-[45%] @lg:w-[60%] @xl:w-[45%] flex"
                   style={{
                     marginLeft: `${design.sliderOptions.gap || 16}px`,
                     '--slide-mobile-width': (design as any)?.sliderOptions?.mobileCardWidth || '90%'

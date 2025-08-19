@@ -458,7 +458,7 @@
             },
             "width": "",
             "borderRadius": "2rem",
-            "border": "2px solid blue",
+            "border": "0px solid blue",
             "borderColor": "blue",
             "display": "flex",
             "flexDirection": "column",

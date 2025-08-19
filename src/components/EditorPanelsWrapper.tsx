@@ -5,7 +5,7 @@ import EditorPanel from './EditorPanel';
 import DesignInspectorContent from './DesignInspectorContent';
 import SectionNavigatorContent from './SectionNavigatorContent';
 import { useEditorOverlay } from '@/contexts/EditorOverlayContext';
-import SelectionOverlay from '@/components/SelectionOverlay';
+
 import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from 'lucide-react';
 
 const EditorPanelsWrapper: React.FC = () => {
@@ -98,8 +98,7 @@ const EditorPanelsWrapper: React.FC = () => {
       </button>
       {/* Scrollable content wrapper to preserve scroll while chevrons sit outside */}
       <div style={{ width: '100%', maxHeight: 'calc(100vh - 24px)', overflow: 'auto', display: 'flex', flexDirection: 'column', gap: '2px' }}>
-        {/* Selection Overlay */}
-        <SelectionOverlay />
+
         {/* Design Inspector */}
         <div style={{ 
           width: '100%', 
