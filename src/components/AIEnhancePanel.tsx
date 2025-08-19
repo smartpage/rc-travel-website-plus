@@ -1,9 +1,18 @@
 import React from 'react';
 import { useDesign } from '../contexts/DesignContext';
 
+// Available AI models
+const AI_MODELS = [
+  { provider: 'openai', id: 'gpt-4o-mini', name: 'GPT-4o mini (Fast)' },
+  { provider: 'openai', id: 'gpt-4o', name: 'GPT-4o (Better)' },
+  { provider: 'google', id: 'gemini-1.5-flash', name: 'Gemini 1.5 Flash' },
+  { provider: 'google', id: 'gemini-1.5-pro', name: 'Gemini 1.5 Pro' },
+];
+
 const AIEnhancePanel: React.FC = () => {
   const { design, updateDesignLocal } = useDesign() as any;
   const [aiPrompt, setAiPrompt] = React.useState<string>('');
+  const [selectedModel, setSelectedModel] = React.useState(AI_MODELS[0]);
   const [aiLoading, setAiLoading] = React.useState<boolean>(false);
   const [aiError, setAiError] = React.useState<string | null>(null);
   const [aiResult, setAiResult] = React.useState<any>(null);
@@ -16,6 +25,13 @@ const AIEnhancePanel: React.FC = () => {
     setShowPreview(false);
     
     try {
+      console.log('🤖 AI Enhancement Request:', {
+        prompt: aiPrompt,
+        model: selectedModel,
+        designKeys: Object.keys(design || {}),
+        currentTypography: design?.typography
+      });
+
       const res = await fetch('https://login.intuitiva.pt/ai-enhance-content', {
         method: 'POST',
         credentials: 'include',
@@ -24,7 +40,7 @@ const AIEnhancePanel: React.FC = () => {
           data: design, // Pass the entire db.json design object
           prompt: aiPrompt || 'Improve readability and consistency. Keep structure identical. Return full JSON.',
           sectionType: 'design',
-          aiModel: { provider: 'openai', id: 'gpt-4o-mini', name: 'GPT-4o mini' }
+          aiModel: selectedModel
         })
       });
       
@@ -39,6 +55,14 @@ const AIEnhancePanel: React.FC = () => {
         throw new Error('AI returned invalid JSON');
       }
       
+      console.log('✨ AI Enhanced Data:', {
+        originalKeys: Object.keys(design || {}),
+        enhancedKeys: Object.keys(enhanced || {}),
+        originalTypography: design?.typography,
+        enhancedTypography: enhanced?.typography,
+        changes: enhanced !== design ? 'DETECTED' : 'NONE'
+      });
+      
       setAiResult(enhanced);
       setShowPreview(true);
     } catch (e: any) {
@@ -50,10 +74,18 @@ const AIEnhancePanel: React.FC = () => {
 
   const applyChanges = () => {
     if (aiResult) {
+      console.log('🎯 Applying AI Changes:', {
+        before: design?.typography,
+        after: aiResult?.typography,
+        fullResult: aiResult
+      });
+      
       updateDesignLocal(() => aiResult);
       setShowPreview(false);
       setAiResult(null);
       setAiPrompt('');
+      
+      console.log('✅ AI Changes Applied - Check design context');
     }
   };
 
@@ -64,15 +96,45 @@ const AIEnhancePanel: React.FC = () => {
 
   return (
     <div style={{ display: 'grid', gap: 12 }}>
+      {/* AI Model Selection */}
+      <div>
+        <div style={{ color: '#e5e7eb', fontSize: 12, marginBottom: 6 }}>
+          AI Model
+        </div>
+        <select
+          value={`${selectedModel.provider}:${selectedModel.id}`}
+          onChange={(e) => {
+            const [provider, id] = e.target.value.split(':');
+            const model = AI_MODELS.find(m => m.provider === provider && m.id === id);
+            if (model) setSelectedModel(model);
+          }}
+          style={{
+            width: '100%',
+            background: '#141414',
+            color: '#fff',
+            border: '1px solid #2a2a2a',
+            borderRadius: 6,
+            padding: 8,
+            fontSize: 12
+          }}
+        >
+          {AI_MODELS.map(model => (
+            <option key={`${model.provider}:${model.id}`} value={`${model.provider}:${model.id}`}>
+              {model.name}
+            </option>
+          ))}
+        </select>
+      </div>
+
       {/* AI Prompt Input */}
       <div>
         <div style={{ color: '#e5e7eb', fontSize: 12, marginBottom: 6 }}>
-          AI Design Enhancement
+          Enhancement Instructions
         </div>
         <textarea
           value={aiPrompt}
           onChange={(e) => setAiPrompt(e.target.value)}
-          placeholder="Describe what you want to change. Ex: Make headings bolder, increase hero font size, use lighter body colors, improve button contrast..."
+          placeholder="Describe what you want to change. Ex: Make all headings white, increase hero font size, use lighter body colors, improve button contrast..."
           rows={4}
           style={{
             width: '100%',
