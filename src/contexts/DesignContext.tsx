@@ -557,13 +557,17 @@ export const DesignProvider: React.FC<DesignProviderProps> = ({
             color: ${design.typography.body?.color || 'white'};
           }
           
-          /* Card body text (lighter color) */
-          .bg-white p:not([data-typography]), .bg-white\\/80 p:not([data-typography]), [class*="bg-white"] p:not([data-typography]) {
+          /* Card body text (lighter color) – apply full cardBody typography on light surfaces */
+          .bg-white p:not([data-typography]), .bg-white\/80 p:not([data-typography]), [class*="bg-white"] p:not([data-typography]) {
+            font-family: ${design.typography.cardBody?.fontFamily || design.typography.body?.fontFamily || 'Inter, sans-serif'} !important;
+            font-size: ${design.typography.cardBody?.fontSize || design.typography.body?.fontSize || '1rem'} !important;
+            font-weight: ${design.typography.cardBody?.fontWeight || design.typography.body?.fontWeight || '400'} !important;
+            line-height: ${design.typography.cardBody?.lineHeight || design.typography.body?.lineHeight || '1.75'} !important;
             color: ${design.typography.cardBody?.color || '#374151'} !important;
           }
           
           /* Dark background sections */
-          .bg-black p:not([data-typography]), .bg-black\\/80 p:not([data-typography]), [class*="bg-black"] p:not([data-typography]) {
+          .bg-black p:not([data-typography]), .bg-black\/80 p:not([data-typography]), [class*="bg-black"] p:not([data-typography]) {
             color: ${design.typography.body?.color || 'white'};
           }
           

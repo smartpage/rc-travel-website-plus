@@ -56,10 +56,32 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, iconMap }) => {
             {/* Yellow bar - using RC Travel's primary color */}
             <div className={`w-full h-1 bg-${design.colors.primary} mb-6`} />
             
-            <h3 className="text-2xl font-light text-white mb-6">
+            <h3
+              data-typography="serviceCard.title"
+              className={`${design.primaryCards.title.base} ${design.primaryCards.header.spacing}`}
+              style={{
+                fontFamily: design.typography?.serviceCardTitle?.fontFamily || design.fonts.title,
+                fontSize: design.typography?.serviceCardTitle?.fontSize || '1.5rem',
+                fontWeight: design.typography?.serviceCardTitle?.fontWeight || '300',
+                lineHeight: design.typography?.serviceCardTitle?.lineHeight || '1.2',
+                letterSpacing: design.typography?.serviceCardTitle?.letterSpacing,
+                color: design.typography?.serviceCardTitle?.color || 'white'
+              }}
+            >
               {service.title}
             </h3>
-            <p className="text-lg text-gray-200 font-light leading-relaxed mb-6">
+            <p
+              data-typography="serviceCard.description"
+              className={`${design.primaryCards.description.spacing}`}
+              style={{
+                fontFamily: design.typography?.serviceCardDescription?.fontFamily || design.fonts.body,
+                fontSize: design.typography?.serviceCardDescription?.fontSize || '1.125rem',
+                fontWeight: design.typography?.serviceCardDescription?.fontWeight || '300',
+                lineHeight: design.typography?.serviceCardDescription?.lineHeight || '1.6',
+                letterSpacing: design.typography?.serviceCardDescription?.letterSpacing,
+                color: design.typography?.serviceCardDescription?.color || '#cbd5e1'
+              }}
+            >
               {service.description}
             </p>
             {service.buttonText && service.buttonText.trim() !== '' && (
@@ -91,10 +113,32 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, iconMap }) => {
             {/* Black bar */}
             <div className="w-full h-1 bg-black mb-6" />
             
-            <h3 className="text-2xl font-light text-black mb-6">
+            <h3
+              data-typography="serviceCard.title"
+              className={`${design.primaryCards.header.spacing}`}
+              style={{
+                fontFamily: design.typography?.serviceCardTitle?.fontFamily || design.fonts.title,
+                fontSize: design.typography?.serviceCardTitle?.fontSize || '1.5rem',
+                fontWeight: design.typography?.serviceCardTitle?.fontWeight || '300',
+                lineHeight: design.typography?.serviceCardTitle?.lineHeight || '1.2',
+                letterSpacing: design.typography?.serviceCardTitle?.letterSpacing,
+                color: design.typography?.serviceCardTitle?.color || 'black'
+              }}
+            >
               {service.title}
             </h3>
-            <p className="text-lg text-black font-light leading-relaxed mb-6">
+            <p
+              data-typography="serviceCard.description"
+              className={`${design.primaryCards.description.spacing}`}
+              style={{
+                fontFamily: design.typography?.serviceCardDescription?.fontFamily || design.fonts.body,
+                fontSize: design.typography?.serviceCardDescription?.fontSize || '1.125rem',
+                fontWeight: design.typography?.serviceCardDescription?.fontWeight || '300',
+                lineHeight: design.typography?.serviceCardDescription?.lineHeight || '1.6',
+                letterSpacing: design.typography?.serviceCardDescription?.letterSpacing,
+                color: design.typography?.serviceCardDescription?.color || 'black'
+              }}
+            >
               {service.description}
             </p>
             
