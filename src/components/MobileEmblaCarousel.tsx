@@ -35,22 +35,15 @@ const MobileEmblaCarousel: React.FC<MobileEmblaCarouselProps> = ({
   return (
     <div className="w-full max-w-full min-w-0">
       {/* Mobile-only slider */}
-      <div className="@md:hidden w-full max-w-full min-w-0 overflow-hidden">
-        <div className="overflow-hidden w-full max-w-full min-w-0" ref={emblaRef}>
-          <div
-            className="flex w-full max-w-full min-w-0"
-            style={{ marginLeft: `-${gap}px` }}
-          >
+      <div className="@md:hidden w-full">
+        <div className="overflow-hidden" ref={emblaRef}>
+          <div className="flex">
             {cards.map((card) => (
               <div
                 key={card.id}
-                className="flex-none max-w-full min-w-0"
-                style={{
-                  marginLeft: `${gap}px`,
-                  width: `calc(100% - ${gap}px)`,
-                }}
+                className="flex-none w-full px-4"
               >
-                <div className="h-full mx-auto">
+                <div className="w-full max-w-sm mx-auto">
                   <CardGrid
                     cards={[card] as any}
                     cardType={cardType}
@@ -67,7 +60,7 @@ const MobileEmblaCarousel: React.FC<MobileEmblaCarouselProps> = ({
       </div>
 
       {/* Grid fallback for @md+ */}
-      <div className="hidden @md:block w-full max-w-full min-w-0">
+      <div className="hidden @md:block w-full">
         <CardGrid
           cards={cards as any}
           cardType={cardType}

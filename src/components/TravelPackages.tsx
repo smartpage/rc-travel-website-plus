@@ -116,7 +116,8 @@ const TravelPackages = () => {
               key={`${component.name}-${index}`}
               contentFile={component.contentFile}
               showTabsNavigation={component.showTabsNavigation}
-              useSlider={true}
+              gridLayout={component.gridLayout}
+              useSlider={false}
               ctaText={travelPackages.ctaText}
               moreDetailsText={travelPackages.moreDetailsText}
               onWhatsAppContact={handleWhatsAppContact}
