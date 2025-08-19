@@ -1,9 +1,11 @@
 import { MessageCircle } from "lucide-react";
 import { useState } from 'react';
 import { useSettings } from '@/contexts/SettingsContext';
+import { useDesign } from '@/contexts/DesignContext';
 
 const FloatingWhatsApp = () => {
   const { agentConfig } = useSettings();
+  const { design } = useDesign();
   const [isHovered, setIsHovered] = useState(false);
 
   const handleWhatsAppContact = () => {
@@ -23,7 +25,14 @@ const FloatingWhatsApp = () => {
       onClick={handleWhatsAppContact}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="fixed bottom-6 right-6 z-50 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl cursor-pointer transition-all duration-300 hover:scale-110 hover:shadow-[0_0_30px_rgba(34,197,94,0.5)]"
+      data-element="primaryButton"
+      className="fixed bottom-6 right-6 z-50 text-white p-4 rounded-full shadow-2xl cursor-pointer transition-all duration-300 hover:scale-110 hover:shadow-[0_0_30px_rgba(34,197,94,0.5)]"
+      style={{
+        backgroundColor: '#22c55e', // Keep WhatsApp green for brand recognition
+        borderColor: '#22c55e',
+        borderWidth: '2px',
+        borderStyle: 'solid'
+      }}
     >
       <div className="w-8 h-8 flex items-center justify-center">
         <MessageCircle className="w-6 h-6" />

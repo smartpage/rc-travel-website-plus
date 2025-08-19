@@ -226,6 +226,32 @@ interface DesignConfig {
       borderRadius: string;
       borderWidth: string;
     };
+    tab: {
+      regular: {
+        normal: {
+          backgroundColor: string;
+          textColor: string;
+          borderColor: string;
+        };
+        hover: {
+          backgroundColor: string;
+          textColor: string;
+          borderColor: string;
+        };
+      };
+      inverted: {
+        normal: {
+          backgroundColor: string;
+          textColor: string;
+          borderColor: string;
+        };
+        hover: {
+          backgroundColor: string;
+          textColor: string;
+          borderColor: string;
+        };
+      };
+    };
   };
   sliderOptions: {
     loop: boolean;

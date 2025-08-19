@@ -197,7 +197,7 @@ const TabNavLess: React.FC<TabNavLessProps> = ({ tabs, activeTab, onTabChange, s
             <div className="inline-flex items-stretch gap-2 w-max">
               {tabs.map((tab) => {
                 const isActive = activeTab === tab.id;
-                const buttonStyle = isActive ? design.buttonStyles.tab.inverted : design.buttonStyles.tab.regular;
+                const buttonStyle = isActive ? design.buttons.tab.inverted : design.buttons.tab.regular;
                 return (
                   <div key={tab.id} className="flex-shrink-0">
                     <div className="rounded-lg p-1" style={{ backgroundColor: containerBg }}>

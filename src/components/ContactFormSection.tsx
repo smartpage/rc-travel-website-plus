@@ -304,7 +304,36 @@ Esta mensagem foi enviada através do formulário de contato do website.
             <Button 
               type="submit"
               disabled={isSubmitting}
-              className={`bg-${design.colors.primary} text-black hover:bg-${design.colors.primaryHover} px-16 py-6 text-lg font-medium rounded-none transition-all duration-300`}
+              data-element="primaryButton"
+              className="transition-all duration-300"
+              style={{
+                backgroundColor: design.buttons.primary.backgroundColor,
+                color: design.buttons.primary.textColor,
+                borderColor: design.buttons.primary.borderColor,
+                fontFamily: design.buttons.primary.fontFamily,
+                fontSize: design.buttons.primary.fontSize,
+                fontWeight: design.buttons.primary.fontWeight,
+                padding: design.buttons.primary.padding,
+                borderRadius: design.buttons.primary.borderRadius,
+                borderWidth: design.buttons.primary.borderWidth,
+                borderStyle: 'solid',
+                opacity: isSubmitting ? 0.6 : 1,
+                cursor: isSubmitting ? 'not-allowed' : 'pointer'
+              }}
+              onMouseEnter={(e) => {
+                if (!isSubmitting) {
+                  e.currentTarget.style.backgroundColor = design.buttons.primary.backgroundColorHover;
+                  e.currentTarget.style.borderColor = design.buttons.primary.borderColorHover;
+                  e.currentTarget.style.color = design.buttons.primary.textColorHover;
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!isSubmitting) {
+                  e.currentTarget.style.backgroundColor = design.buttons.primary.backgroundColor;
+                  e.currentTarget.style.borderColor = design.buttons.primary.borderColor;
+                  e.currentTarget.style.color = design.buttons.primary.textColor;
+                }
+              }}
             >
               {isSubmitting ? (form.submitButton?.loadingText || 'A enviar...') : (form.submitButton?.text || 'Solicitar Orçamento')}
             </Button>

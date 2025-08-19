@@ -156,18 +156,30 @@ const ContactSection = () => {
             </p>
             <Button
               onClick={handleWhatsAppContact}
-              className={`
-                w-full
-                ${design.buttonStyles.primary.base}
-                ${design.buttonStyles.primary.hover}
-                ${design.buttonStyles.primary.border}
-                ${design.buttonStyles.primary.borderHover}
-                ${design.buttonStyles.primary.rounded}
-                ${design.buttonStyles.primary.padding}
-                ${design.buttonStyles.primary.fontSize}
-                ${design.buttonStyles.primary.transition}
-                ${design.buttonStyles.primary.shadow}
-              `}
+              data-element="primaryButton"
+              className="w-full transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
+              style={{
+                backgroundColor: design.buttons.primary.backgroundColor,
+                color: design.buttons.primary.textColor,
+                borderColor: design.buttons.primary.borderColor,
+                fontFamily: design.buttons.primary.fontFamily,
+                fontSize: design.buttons.primary.fontSize,
+                fontWeight: design.buttons.primary.fontWeight,
+                padding: design.buttons.primary.padding,
+                borderRadius: design.buttons.primary.borderRadius,
+                borderWidth: design.buttons.primary.borderWidth,
+                borderStyle: 'solid'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = design.buttons.primary.backgroundColorHover;
+                e.currentTarget.style.borderColor = design.buttons.primary.borderColorHover;
+                e.currentTarget.style.color = design.buttons.primary.textColorHover;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = design.buttons.primary.backgroundColor;
+                e.currentTarget.style.borderColor = design.buttons.primary.borderColor;
+                e.currentTarget.style.color = design.buttons.primary.textColor;
+              }}
             >
               {contact.ctaWhatsApp}
             </Button>
@@ -217,18 +229,30 @@ const ContactSection = () => {
             </p>
             <Button
               onClick={handleEmailContact}
-              className={`
-                w-full
-                ${design.buttonStyles.primary.base}
-                ${design.buttonStyles.primary.hover}
-                ${design.buttonStyles.primary.border}
-                ${design.buttonStyles.primary.borderHover}
-                ${design.buttonStyles.primary.rounded}
-                ${design.buttonStyles.primary.padding}
-                ${design.buttonStyles.primary.fontSize}
-                ${design.buttonStyles.primary.transition}
-                ${design.buttonStyles.primary.shadow}
-              `}
+              data-element="primaryButton"
+              className="w-full transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
+              style={{
+                backgroundColor: design.buttons.primary.backgroundColor,
+                color: design.buttons.primary.textColor,
+                borderColor: design.buttons.primary.borderColor,
+                fontFamily: design.buttons.primary.fontFamily,
+                fontSize: design.buttons.primary.fontSize,
+                fontWeight: design.buttons.primary.fontWeight,
+                padding: design.buttons.primary.padding,
+                borderRadius: design.buttons.primary.borderRadius,
+                borderWidth: design.buttons.primary.borderWidth,
+                borderStyle: 'solid'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = design.buttons.primary.backgroundColorHover;
+                e.currentTarget.style.borderColor = design.buttons.primary.borderColorHover;
+                e.currentTarget.style.color = design.buttons.primary.textColorHover;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = design.buttons.primary.backgroundColor;
+                e.currentTarget.style.borderColor = design.buttons.primary.borderColor;
+                e.currentTarget.style.color = design.buttons.primary.textColor;
+              }}
             >
               {contact.ctaEmail}
             </Button>
