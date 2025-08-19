@@ -116,8 +116,30 @@ const TravelPackageCard = ({ pkg, ctaText, moreDetailsText, onWhatsAppContact }:
           </div>
           <Button 
             onClick={() => onWhatsAppContact(pkg.name)}
-            className={`${buttons.primary.bg} ${buttons.primary.hover} ${buttons.primary.textColor} ${buttons.primary.fontWeight || 'font-normal'} py-3 px-5 rounded-lg text-sm shadow-lg hover:shadow-yellow-600/30 transition-all duration-300`}
-            style={{ fontFamily: fonts.body }}
+            data-element="primaryButton"
+            className="shadow-lg hover:shadow-yellow-600/30 transition-all duration-300"
+            style={{
+              backgroundColor: design.buttons.primary.backgroundColor,
+              color: design.buttons.primary.textColor,
+              borderColor: design.buttons.primary.borderColor,
+              fontFamily: design.buttons.primary.fontFamily,
+              fontSize: design.buttons.primary.fontSize,
+              fontWeight: design.buttons.primary.fontWeight,
+              padding: design.buttons.primary.padding,
+              borderRadius: design.buttons.primary.borderRadius,
+              borderWidth: design.buttons.primary.borderWidth,
+              borderStyle: 'solid'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = design.buttons.primary.backgroundColorHover;
+              e.currentTarget.style.borderColor = design.buttons.primary.borderColorHover;
+              e.currentTarget.style.color = design.buttons.primary.textColorHover;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = design.buttons.primary.backgroundColor;
+              e.currentTarget.style.borderColor = design.buttons.primary.borderColor;
+              e.currentTarget.style.color = design.buttons.primary.textColor;
+            }}
           >
             {ctaText}
           </Button>

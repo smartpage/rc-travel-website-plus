@@ -146,7 +146,30 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, iconMap }) => {
             {service.buttonText && (
               <button 
                 onClick={handleButtonClick}
-                className="bg-black text-yellow-500 px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-800 transition-colors duration-300"
+                data-element="primaryButton"
+                className="transition-all duration-300"
+                style={{
+                  backgroundColor: design.buttons.primary.backgroundColor,
+                  color: design.buttons.primary.textColor,
+                  borderColor: design.buttons.primary.borderColor,
+                  fontFamily: design.buttons.primary.fontFamily,
+                  fontSize: design.buttons.primary.fontSize,
+                  fontWeight: design.buttons.primary.fontWeight,
+                  padding: design.buttons.primary.padding,
+                  borderRadius: design.buttons.primary.borderRadius,
+                  borderWidth: design.buttons.primary.borderWidth,
+                  borderStyle: 'solid'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = design.buttons.primary.backgroundColorHover;
+                  e.currentTarget.style.borderColor = design.buttons.primary.borderColorHover;
+                  e.currentTarget.style.color = design.buttons.primary.textColorHover;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = design.buttons.primary.backgroundColor;
+                  e.currentTarget.style.borderColor = design.buttons.primary.borderColor;
+                  e.currentTarget.style.color = design.buttons.primary.textColor;
+                }}
               >
                 {service.buttonText}
               </button>

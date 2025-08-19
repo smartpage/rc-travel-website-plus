@@ -128,34 +128,60 @@ const HeroSection = () => {
         
         <div className="flex justify-center gap-4 mt-4 @md:mt-0">
           <Button 
-            onClick={scrollToPackages} 
-            className={`
-              ${design.buttonStyles.primary.base}
-              ${design.buttonStyles.primary.hover}
-              ${design.buttonStyles.primary.border}
-              ${design.buttonStyles.primary.borderHover}
-              ${design.buttonStyles.primary.rounded}
-              ${design.buttonStyles.primary.padding}
-              ${design.buttonStyles.primary.fontSize}
-              ${design.buttonStyles.primary.transition}
-              ${design.buttonStyles.primary.shadow}
-            `}
+            onClick={scrollToPackages}
+            data-element="primaryButton"
+            className="transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
+            style={{
+              backgroundColor: design.buttons.primary.backgroundColor,
+              color: design.buttons.primary.textColor,
+              borderColor: design.buttons.primary.borderColor,
+              fontFamily: design.buttons.primary.fontFamily,
+              fontSize: design.buttons.primary.fontSize,
+              fontWeight: design.buttons.primary.fontWeight,
+              padding: design.buttons.primary.padding,
+              borderRadius: design.buttons.primary.borderRadius,
+              borderWidth: design.buttons.primary.borderWidth,
+              borderStyle: 'solid'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = design.buttons.primary.backgroundColorHover;
+              e.currentTarget.style.borderColor = design.buttons.primary.borderColorHover;
+              e.currentTarget.style.color = design.buttons.primary.textColorHover;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = design.buttons.primary.backgroundColor;
+              e.currentTarget.style.borderColor = design.buttons.primary.borderColor;
+              e.currentTarget.style.color = design.buttons.primary.textColor;
+            }}
           >
             {hero.ctaText}
           </Button>
           <Button 
-            onClick={scrollToContact} 
-            className={`
-              ${design.buttonStyles.secondary.base}
-              ${design.buttonStyles.secondary.hover}
-              ${design.buttonStyles.secondary.border}
-              ${design.buttonStyles.secondary.borderHover}
-              ${design.buttonStyles.secondary.rounded}
-              ${design.buttonStyles.secondary.padding}
-              ${design.buttonStyles.secondary.fontSize}
-              ${design.buttonStyles.secondary.transition}
-              ${design.buttonStyles.secondary.shadow}
-            `}
+            onClick={scrollToContact}
+            data-element="secondaryButton"
+            className="transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
+            style={{
+              backgroundColor: design.buttons.secondary.backgroundColor,
+              color: design.buttons.secondary.textColor,
+              borderColor: design.buttons.secondary.borderColor,
+              fontFamily: design.buttons.secondary.fontFamily,
+              fontSize: design.buttons.secondary.fontSize,
+              fontWeight: design.buttons.secondary.fontWeight,
+              padding: design.buttons.secondary.padding,
+              borderRadius: design.buttons.secondary.borderRadius,
+              borderWidth: design.buttons.secondary.borderWidth,
+              borderStyle: 'solid'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = design.buttons.secondary.backgroundColorHover;
+              e.currentTarget.style.borderColor = design.buttons.secondary.borderColorHover;
+              e.currentTarget.style.color = design.buttons.secondary.textColorHover;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = design.buttons.secondary.backgroundColor;
+              e.currentTarget.style.borderColor = design.buttons.secondary.borderColor;
+              e.currentTarget.style.color = design.buttons.secondary.textColor;
+            }}
           >
             {hero.ctaSecondary}
           </Button>

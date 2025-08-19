@@ -57,28 +57,34 @@
         "objectFit": "contain"
       }
     },
-    "buttonStyles": {
+    "buttons": {
       "primary": {
-        "base": "bg-yellow-500 text-black font-normal transform",
-        "hover": "hover:bg-yellow-600 hover:scale-105",
-        "border": "border-2 border-yellow-500",
-        "borderHover": "hover:border-yellow-600",
-        "rounded": "rounded-xl",
-        "padding": "px-6 py-4 sm:px-8 sm:py-6",
-        "fontSize": "text-base sm:text-lg",
-        "transition": "transition-all duration-300",
-        "shadow": "shadow-lg hover:shadow-xl"
+        "backgroundColor": "#eab308",
+        "backgroundColorHover": "#d97706", 
+        "textColor": "#000000",
+        "textColorHover": "#000000",
+        "borderColor": "#eab308",
+        "borderColorHover": "#d97706",
+        "fontFamily": "Inter, sans-serif",
+        "fontSize": "1rem",
+        "fontWeight": "500",
+        "padding": "0.75rem 1.5rem",
+        "borderRadius": "0.75rem",
+        "borderWidth": "2px"
       },
       "secondary": {
-        "base": "bg-transparent text-white font-normal",
-        "hover": "hover:bg-white/10",
-        "border": "border-2 border-white/30",
-        "borderHover": "hover:border-white/50",
-        "rounded": "rounded-xl",
-        "padding": "px-6 py-4 sm:px-8 sm:py-6",
-        "fontSize": "text-base sm:text-lg",
-        "transition": "transition-all duration-300",
-        "shadow": "shadow-none hover:shadow-lg"
+        "backgroundColor": "transparent",
+        "backgroundColorHover": "rgba(255, 255, 255, 0.1)",
+        "textColor": "#ffffff", 
+        "textColorHover": "#ffffff",
+        "borderColor": "rgba(255, 255, 255, 0.3)",
+        "borderColorHover": "rgba(255, 255, 255, 0.5)",
+        "fontFamily": "Inter, sans-serif",
+        "fontSize": "1rem", 
+        "fontWeight": "500",
+        "padding": "0.75rem 1.5rem",
+        "borderRadius": "0.75rem",
+        "borderWidth": "2px"
       },
       "tab": {
         "regular": {

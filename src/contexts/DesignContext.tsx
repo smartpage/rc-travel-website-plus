@@ -199,24 +199,32 @@ interface DesignConfig {
   };
   buttons: {
     primary: {
-      text: string;
-      bg: string;
-      hover: string;
+      backgroundColor: string;
+      backgroundColorHover: string;
       textColor: string;
+      textColorHover: string;
+      borderColor: string;
+      borderColorHover: string;
+      fontFamily: string;
+      fontSize: string;
       fontWeight: string;
+      padding: string;
+      borderRadius: string;
+      borderWidth: string;
     };
     secondary: {
-      text: string;
-      bg: string;
-      hover: string;
+      backgroundColor: string;
+      backgroundColorHover: string;
       textColor: string;
-    };
-    whatsapp: {
-      text: string;
-      bg: string;
-      hover: string;
-      textColor: string;
+      textColorHover: string;
+      borderColor: string;
+      borderColorHover: string;
+      fontFamily: string;
+      fontSize: string;
       fontWeight: string;
+      padding: string;
+      borderRadius: string;
+      borderWidth: string;
     };
   };
   sliderOptions: {

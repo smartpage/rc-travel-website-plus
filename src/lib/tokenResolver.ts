@@ -78,7 +78,34 @@ export function resolveGlobalTokens(snapshot: ComputedSnapshot, sectionId: strin
   let hasSpecificMatch = false; // Track if we found a highly specific match
   const bgContext: 'light' | 'dark' | 'unknown' = element ? detectBackgroundContext(element) : 'unknown';
 
-  // 0) Component-level matches by data-element wrappers (removed faqItem to allow granular question/answer selection)
+  // 0) Component-level matches by data-element wrappers
+  if (element && (element as HTMLElement).dataset && (element as HTMLElement).dataset.element === 'primaryButton') {
+    // Primary button tokens
+    if (design?.buttons?.primary) {
+      matches.push({ scope: 'global', tokenPath: 'buttons.primary.backgroundColor', label: 'Primary Button Background', responsive: false });
+      matches.push({ scope: 'global', tokenPath: 'buttons.primary.textColor', label: 'Primary Button Text', responsive: false });
+      matches.push({ scope: 'global', tokenPath: 'buttons.primary.borderColor', label: 'Primary Button Border', responsive: false });
+      matches.push({ scope: 'global', tokenPath: 'buttons.primary.fontSize', label: 'Primary Button Font Size', responsive: false });
+      matches.push({ scope: 'global', tokenPath: 'buttons.primary.fontWeight', label: 'Primary Button Font Weight', responsive: false });
+      matches.push({ scope: 'global', tokenPath: 'buttons.primary.padding', label: 'Primary Button Padding', responsive: false });
+      matches.push({ scope: 'global', tokenPath: 'buttons.primary.borderRadius', label: 'Primary Button Border Radius', responsive: false });
+    }
+    hasSpecificMatch = true;
+  }
+  
+  if (element && (element as HTMLElement).dataset && (element as HTMLElement).dataset.element === 'secondaryButton') {
+    // Secondary button tokens
+    if (design?.buttons?.secondary) {
+      matches.push({ scope: 'global', tokenPath: 'buttons.secondary.backgroundColor', label: 'Secondary Button Background', responsive: false });
+      matches.push({ scope: 'global', tokenPath: 'buttons.secondary.textColor', label: 'Secondary Button Text', responsive: false });
+      matches.push({ scope: 'global', tokenPath: 'buttons.secondary.borderColor', label: 'Secondary Button Border', responsive: false });
+      matches.push({ scope: 'global', tokenPath: 'buttons.secondary.fontSize', label: 'Secondary Button Font Size', responsive: false });
+      matches.push({ scope: 'global', tokenPath: 'buttons.secondary.fontWeight', label: 'Secondary Button Font Weight', responsive: false });
+      matches.push({ scope: 'global', tokenPath: 'buttons.secondary.padding', label: 'Secondary Button Padding', responsive: false });
+      matches.push({ scope: 'global', tokenPath: 'buttons.secondary.borderRadius', label: 'Secondary Button Border Radius', responsive: false });
+    }
+    hasSpecificMatch = true;
+  }
 
   // 1) Hard hints via data-typography attribute take absolute priority
   if (element && (element as HTMLElement).dataset && (element as HTMLElement).dataset.typography) {
