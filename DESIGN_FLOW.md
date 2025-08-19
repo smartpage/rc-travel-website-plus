@@ -13,11 +13,20 @@
 - `takeComputedSnapshot()` captures element's computed CSS styles
 
 ## 3. Token Resolution (Editor Intelligence)
-- `tokenResolver.ts` analyzes clicked element + `data-typography` hints
+
+### `tokenResolver.ts` - Element to Token Mapping
+- Analyzes clicked element's computed styles + `data-typography` hints
+- **Priority Order**: `data-typography` hints → element type (h1-h6, p, button) → fallbacks
 - **FAQ Question**: `data-typography="faq.question"` → returns `typography.faqQuestion` token
-- **FAQ Answer**: `data-typography="faq.answer"` → returns `typography.faqAnswer` token
+- **FAQ Answer**: `data-typography="faq.answer"` → returns `typography.faqAnswer` token  
 - **Service Cards**: `data-typography="serviceCard.title"` → returns `typography.serviceCardTitle`
-- Design Inspector shows matching tokens for editing
+- **Background Context**: Detects light/dark backgrounds to suggest appropriate text colors
+
+### `EditorOverlayContext.tsx` - Click Handling & Selection
+- **Selection Priority**: `[data-typography]` → `h1-h6` → `p` → `button/a` → raw element
+- **Event Flow**: `onClick` → `takeComputedSnapshot()` → `resolveGlobalTokens()` → `setActiveElement()`
+- **RAF Throttling**: Mousemove events throttled with `requestAnimationFrame` for performance
+- **Overlay Positioning**: Purple highlight box follows selected element, syncs on scroll/resize
 
 ## 4. Live Updates (Editor → Page)
 - User changes color/font in Design Inspector
