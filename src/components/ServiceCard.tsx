@@ -54,32 +54,32 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, iconMap }) => {
           {/* Content at fixed position */}
           <div>
             {/* Yellow bar - using RC Travel's primary color */}
-            <div className={`w-full h-1 bg-${design.colors.primary} mb-6`} />
+            <div className={`w-full h-1 bg-${design.tokens?.colors?.primary} mb-6`} />
             
             <h3
               data-typography="serviceCard.title"
-              className={`${design.primaryCards.title.base} ${design.primaryCards.header.spacing}`}
+              className={`${design.components?.primaryCards?.title?.base || ''} ${design.components?.primaryCards?.header?.spacing || ''}`}
               style={{
-                fontFamily: design.typography?.serviceCardTitle?.fontFamily || design.fonts.title,
-                fontSize: design.typography?.serviceCardTitle?.fontSize || '1.5rem',
-                fontWeight: design.typography?.serviceCardTitle?.fontWeight || '300',
-                lineHeight: design.typography?.serviceCardTitle?.lineHeight || '1.2',
-                letterSpacing: design.typography?.serviceCardTitle?.letterSpacing,
-                color: design.typography?.serviceCardTitle?.color || 'white'
+                fontFamily: design.tokens?.typography?.serviceCardTitle?.fontFamily || design.tokens?.typography?.headings?.fontFamily,
+                fontSize: design.tokens?.typography?.serviceCardTitle?.fontSize || '1.5rem',
+                fontWeight: design.tokens?.typography?.serviceCardTitle?.fontWeight || '300',
+                lineHeight: design.tokens?.typography?.serviceCardTitle?.lineHeight || '1.2',
+                letterSpacing: design.tokens?.typography?.serviceCardTitle?.letterSpacing,
+                color: design.tokens?.typography?.serviceCardTitle?.color || 'white'
               }}
             >
               {service.title}
             </h3>
             <p
               data-typography="serviceCard.description"
-              className={`${design.primaryCards.description.spacing}`}
+              className={`${design.components?.primaryCards?.description?.spacing || ''}`}
               style={{
-                fontFamily: design.typography?.serviceCardDescription?.fontFamily || design.fonts.body,
-                fontSize: design.typography?.serviceCardDescription?.fontSize || '1.125rem',
-                fontWeight: design.typography?.serviceCardDescription?.fontWeight || '300',
-                lineHeight: design.typography?.serviceCardDescription?.lineHeight || '1.6',
-                letterSpacing: design.typography?.serviceCardDescription?.letterSpacing,
-                color: design.typography?.serviceCardDescription?.color || '#cbd5e1'
+                fontFamily: design.tokens?.typography?.serviceCardDescription?.fontFamily || design.tokens?.typography?.body?.fontFamily,
+                fontSize: design.tokens?.typography?.serviceCardDescription?.fontSize || '1.125rem',
+                fontWeight: design.tokens?.typography?.serviceCardDescription?.fontWeight || '300',
+                lineHeight: design.tokens?.typography?.serviceCardDescription?.lineHeight || '1.6',
+                letterSpacing: design.tokens?.typography?.serviceCardDescription?.letterSpacing,
+                color: design.tokens?.typography?.serviceCardDescription?.color || '#cbd5e1'
               }}
             >
               {service.description}
@@ -87,7 +87,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, iconMap }) => {
             {service.buttonText && service.buttonText.trim() !== '' && (
               <button 
                 onClick={handleButtonClick}
-                className={`bg-${design.colors.primary} text-black hover:bg-${design.colors.primaryHover} px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300`}
+                className={`bg-${design.tokens?.colors?.primary} text-black hover:bg-${design.tokens?.colors?.primaryHover} px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300`}
               >
                 {service.buttonText}
               </button>
@@ -115,7 +115,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, iconMap }) => {
             
             <h3
               data-typography="serviceCard.title"
-              className={`${design.primaryCards.header.spacing}`}
+              className={`${design.components?.primaryCards?.header?.spacing || ''}`}
               style={{
                 fontFamily: design.typography?.serviceCardTitle?.fontFamily || design.fonts.title,
                 fontSize: design.typography?.serviceCardTitle?.fontSize || '1.5rem',
@@ -129,7 +129,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, iconMap }) => {
             </h3>
             <p
               data-typography="serviceCard.description"
-              className={`${design.primaryCards.description.spacing}`}
+              className={`${design.components?.primaryCards?.description?.spacing || ''}`}
               style={{
                 fontFamily: design.typography?.serviceCardDescription?.fontFamily || design.fonts.body,
                 fontSize: design.typography?.serviceCardDescription?.fontSize || '1.125rem',
@@ -149,26 +149,26 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, iconMap }) => {
                 data-element="primaryButton"
                 className="transition-all duration-300"
                 style={{
-                  backgroundColor: design.buttons.primary.backgroundColor,
-                  color: design.buttons.primary.textColor,
-                  borderColor: design.buttons.primary.borderColor,
-                  fontFamily: design.buttons.primary.fontFamily,
-                  fontSize: design.buttons.primary.fontSize,
-                  fontWeight: design.buttons.primary.fontWeight,
-                  padding: design.buttons.primary.padding,
-                  borderRadius: design.buttons.primary.borderRadius,
-                  borderWidth: design.buttons.primary.borderWidth,
+                  backgroundColor: design.components?.button?.variants?.primary?.backgroundColor,
+                  color: design.components?.button?.variants?.primary?.textColor,
+                  borderColor: design.components?.button?.variants?.primary?.borderColor,
+                  fontFamily: design.components?.button?.variants?.primary?.fontFamily,
+                  fontSize: design.components?.button?.variants?.primary?.fontSize,
+                  fontWeight: design.components?.button?.variants?.primary?.fontWeight,
+                  padding: design.components?.button?.variants?.primary?.padding,
+                  borderRadius: design.components?.button?.variants?.primary?.borderRadius,
+                  borderWidth: design.components?.button?.variants?.primary?.borderWidth,
                   borderStyle: 'solid'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = design.buttons.primary.backgroundColorHover;
-                  e.currentTarget.style.borderColor = design.buttons.primary.borderColorHover;
-                  e.currentTarget.style.color = design.buttons.primary.textColorHover;
+                  e.currentTarget.style.backgroundColor = design.components?.button?.variants?.primary?.backgroundColorHover || '';
+                  e.currentTarget.style.borderColor = design.components?.button?.variants?.primary?.borderColorHover || '';
+                  e.currentTarget.style.color = design.components?.button?.variants?.primary?.textColorHover || '';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = design.buttons.primary.backgroundColor;
-                  e.currentTarget.style.borderColor = design.buttons.primary.borderColor;
-                  e.currentTarget.style.color = design.buttons.primary.textColor;
+                  e.currentTarget.style.backgroundColor = design.components?.button?.variants?.primary?.backgroundColor || '';
+                  e.currentTarget.style.borderColor = design.components?.button?.variants?.primary?.borderColor || '';
+                  e.currentTarget.style.color = design.components?.button?.variants?.primary?.textColor || '';
                 }}
               >
                 {service.buttonText}
@@ -187,7 +187,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, iconMap }) => {
       <div className="absolute inset-0 bg-black" style={{ backgroundImage: 'none' }} />
       <div className="relative z-10 p-4 @md:p-8 @lg:p-12 mb-12">
         {IconComponent && (
-          <IconComponent className={`w-12 h-12 text-gray-400 group-hover:text-${design.colors.primary} transition-colors duration-300`} />
+          <IconComponent className={`w-12 h-12 text-gray-400 group-hover:text-${design.tokens?.colors?.primary} transition-colors duration-300`} />
         )}
       </div>
       <div className="relative z-10 p-4 @md:p-8 @lg:p-12 pt-0">
@@ -195,12 +195,12 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, iconMap }) => {
           data-typography="serviceCard.title"
           className="mb-6"
           style={{
-            fontFamily: design.typography?.serviceCardTitle?.fontFamily || 'inherit',
-            fontSize: design.typography?.serviceCardTitle?.fontSize || '1.5rem',
-            fontWeight: design.typography?.serviceCardTitle?.fontWeight || '300',
-            lineHeight: design.typography?.serviceCardTitle?.lineHeight || '1.2',
-            letterSpacing: design.typography?.serviceCardTitle?.letterSpacing,
-            color: design.typography?.serviceCardTitle?.color || 'white'
+            fontFamily: design.tokens?.typography?.serviceCardTitle?.fontFamily || 'inherit',
+            fontSize: design.tokens?.typography?.serviceCardTitle?.fontSize || '1.5rem',
+            fontWeight: design.tokens?.typography?.serviceCardTitle?.fontWeight || '300',
+            lineHeight: design.tokens?.typography?.serviceCardTitle?.lineHeight || '1.2',
+            letterSpacing: design.tokens?.typography?.serviceCardTitle?.letterSpacing,
+            color: design.tokens?.typography?.serviceCardTitle?.color || 'white'
           }}
         >
           {service.title}
@@ -208,12 +208,12 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, iconMap }) => {
         <p
           data-typography="serviceCard.description"
           style={{
-            fontFamily: design.typography?.serviceCardDescription?.fontFamily || 'inherit',
-            fontSize: design.typography?.serviceCardDescription?.fontSize || '1.125rem',
-            fontWeight: design.typography?.serviceCardDescription?.fontWeight || '300',
-            lineHeight: design.typography?.serviceCardDescription?.lineHeight || '1.6',
-            letterSpacing: design.typography?.serviceCardDescription?.letterSpacing,
-            color: design.typography?.serviceCardDescription?.color || '#cbd5e1'
+            fontFamily: design.tokens?.typography?.serviceCardDescription?.fontFamily || 'inherit',
+            fontSize: design.tokens?.typography?.serviceCardDescription?.fontSize || '1.125rem',
+            fontWeight: design.tokens?.typography?.serviceCardDescription?.fontWeight || '300',
+            lineHeight: design.tokens?.typography?.serviceCardDescription?.lineHeight || '1.6',
+            letterSpacing: design.tokens?.typography?.serviceCardDescription?.letterSpacing,
+            color: design.tokens?.typography?.serviceCardDescription?.color || '#cbd5e1'
           }}
         >
           {service.description}

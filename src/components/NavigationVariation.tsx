@@ -21,18 +21,18 @@ const NavigationVariation = () => {
   // Media queries para o logo, usando as configurações de design
   const logoMediaQueries = `
     #${logoId} {
-      height: ${design.logos.main.height};
-      width: ${design.logos.main.width};
-      object-fit: ${design.logos.main.objectFit};
+      height: ${(design.components as any)?.logos?.main?.height};
+      width: ${(design.components as any)?.logos?.main?.width};
+      object-fit: ${(design.components as any)?.logos?.main?.objectFit};
     }
     @media (min-width: 768px) {
       #${logoId} {
-        height: ${design.logos.main.heightMd};
+        height: ${(design.components as any)?.logos?.main?.heightMd};
       }
     }
     @media (min-width: 1024px) {
       #${logoId} {
-        height: ${design.logos.main.heightLg};
+        height: ${(design.components as any)?.logos?.main?.heightLg};
       }
     }
   `;
@@ -112,7 +112,7 @@ const NavigationVariation = () => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
             className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-lg"
-            style={{ backgroundColor: design.navigation.menuOverlay.backgroundColor }}
+            style={{ backgroundColor: (design.components as any)?.navigation?.menuOverlay?.backgroundColor || (design.navigation as any)?.menuOverlay?.backgroundColor }}
             key="menu-overlay"
           >
             <nav className="text-center">
@@ -132,14 +132,14 @@ const NavigationVariation = () => {
                     <button
                       onClick={() => handleLinkClick(item.href)}
                       className="text-5xl :text-6xl font-light transition-colors duration-300"
-                      style={{ color: design.navigation.menuOverlay.linkColor }}
+                      style={{ color: (design.components as any)?.navigation?.menuOverlay?.linkColor || (design.navigation as any)?.menuOverlay?.linkColor }}
                       onMouseEnter={(e) => {
                         const target = e.target as HTMLElement;
-                        target.style.color = design.navigation.menuOverlay.linkHoverColor;
+                        target.style.color = (design.components as any)?.navigation?.menuOverlay?.linkHoverColor || (design.navigation as any)?.menuOverlay?.linkHoverColor;
                       }}
                       onMouseLeave={(e) => {
                         const target = e.target as HTMLElement;
-                        target.style.color = design.navigation.menuOverlay.linkColor;
+                        target.style.color = (design.components as any)?.navigation?.menuOverlay?.linkColor || (design.navigation as any)?.menuOverlay?.linkColor;
                       }}
                     >
                       {item.label}

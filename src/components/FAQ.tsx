@@ -105,7 +105,7 @@ const FAQ = () => {
                 transition={{ delay: index * 0.1, duration: 0.5 }}
                 className="rounded-xl overflow-hidden border-none transition-all duration-300 group"
                 style={{
-                  backgroundColor: design.faq.card.backgroundColor,
+                  backgroundColor: (design.components as any)?.faq?.card?.backgroundColor || 'transparent',
                   transition: 'all 0.3s ease'
                 }}
                 whileHover={{ 
@@ -116,8 +116,8 @@ const FAQ = () => {
                   onClick={() => toggleItem(index)}
                   className="p-6 :p-8 cursor-pointer flex justify-between items-center"
                   style={{
-                    backgroundColor: design.faq.card.backgroundColor,
-                    borderBottom: openIndex === index ? `2px solid ${design.colors.primary}` : 'none'
+                    backgroundColor: (design.components as any)?.faq?.card?.backgroundColor || 'transparent',
+                    borderBottom: openIndex === index ? `2px solid ${design.tokens?.colors?.primary || '#eab308'}` : 'none'
                   }}
                   transition={{ duration: 0.2 }}
                 >
@@ -125,12 +125,12 @@ const FAQ = () => {
                     data-typography="faq.question"
                     className="flex-1 pr-4 text-left"
                     style={{
-                      fontFamily: design.typography?.faqQuestion?.fontFamily || 'inherit',
-                      fontSize: design.typography?.faqQuestion?.fontSize || '1.125rem',
-                      fontWeight: design.typography?.faqQuestion?.fontWeight || 600,
-                      lineHeight: design.typography?.faqQuestion?.lineHeight || '1.4',
-                      letterSpacing: design.typography?.faqQuestion?.letterSpacing,
-                      color: design.typography?.faqQuestion?.color || design.faq.card.questionColor
+                      fontFamily: design.tokens?.typography?.faqQuestion?.fontFamily || 'inherit',
+                      fontSize: design.tokens?.typography?.faqQuestion?.fontSize || '1.125rem',
+                      fontWeight: design.tokens?.typography?.faqQuestion?.fontWeight || 600,
+                      lineHeight: design.tokens?.typography?.faqQuestion?.lineHeight || '1.4',
+                      letterSpacing: design.tokens?.typography?.faqQuestion?.letterSpacing,
+                      color: design.tokens?.typography?.faqQuestion?.color || ((design.components as any)?.faq?.card?.questionColor || '#ffffff')
                     }}
                   >
                     {item.question}
@@ -142,11 +142,11 @@ const FAQ = () => {
                   >
                     <div 
                       className="w-10 h-10 rounded-full flex items-center justify-center"
-                      style={{ backgroundColor: design.faq.arrow.backgroundColor }}
+                      style={{ backgroundColor: (design.components as any)?.faq?.arrow?.backgroundColor || '#eab308' }}
                     >
                       <ChevronDown 
                         className="w-5 h-5" 
-                        style={{ color: design.faq.arrow.iconColor }}
+                        style={{ color: (design.components as any)?.faq?.arrow?.iconColor || '#000000' }}
                       />
                     </div>
                   </motion.div>
@@ -165,13 +165,13 @@ const FAQ = () => {
                         className="px-6 :px-8 py-8 :py-10 text-left"
                         data-typography="faq.answer"
                         style={{
-                          backgroundColor: design.faq.card.backgroundColor,
-                          fontFamily: design.typography?.faqAnswer?.fontFamily || 'inherit',
-                          fontSize: design.typography?.faqAnswer?.fontSize || '1rem',
-                          fontWeight: design.typography?.faqAnswer?.fontWeight || 400,
-                          lineHeight: design.typography?.faqAnswer?.lineHeight || '1.6',
-                          letterSpacing: design.typography?.faqAnswer?.letterSpacing,
-                          color: design.typography?.faqAnswer?.color || design.faq.card.answerColor,
+                          backgroundColor: (design.components as any)?.faq?.card?.backgroundColor || 'transparent',
+                          fontFamily: design.tokens?.typography?.faqAnswer?.fontFamily || 'inherit',
+                          fontSize: design.tokens?.typography?.faqAnswer?.fontSize || '1rem',
+                          fontWeight: design.tokens?.typography?.faqAnswer?.fontWeight || 400,
+                          lineHeight: design.tokens?.typography?.faqAnswer?.lineHeight || '1.6',
+                          letterSpacing: design.tokens?.typography?.faqAnswer?.letterSpacing,
+                          color: design.tokens?.typography?.faqAnswer?.color || ((design.components as any)?.faq?.card?.answerColor || '#cbd5e1'),
                         }}
                       >
                         {parseHtmlTags(

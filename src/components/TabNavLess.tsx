@@ -163,7 +163,7 @@ const TabNavLess: React.FC<TabNavLessProps> = ({ tabs, activeTab, onTabChange, s
 
   if (!showNavigation || tabs.length <= 1) return null;
 
-  const containerBg = design.buttons?.tab?.container?.backgroundColor || '#374151';
+  const containerBg = design.components?.button?.variants?.tab?.container?.backgroundColor || '#374151';
 
   return (
     <div className="mb-12 w-full overflow-hidden @container">
@@ -173,7 +173,7 @@ const TabNavLess: React.FC<TabNavLessProps> = ({ tabs, activeTab, onTabChange, s
           <button
             onClick={() => scrollByAmount(-1)}
             disabled={!canScrollPrev}
-            className={`absolute left-1 top-1/2 -translate-y-1/2 z-10 p-1.5 transition-colors disabled:opacity-30 ${design.sliderOptions.colors.arrows} ${design.sliderOptions.colors.arrowsHover}`}
+            className={`absolute left-1 top-1/2 -translate-y-1/2 z-10 p-1.5 transition-colors disabled:opacity-30 ${design.components?.slider?.colors?.arrows || ''} ${design.components?.slider?.colors?.arrowsHover || ''}`}
             aria-label="Previous tab"
           >
             <ChevronLeft className="h-4 w-4" />
@@ -197,7 +197,7 @@ const TabNavLess: React.FC<TabNavLessProps> = ({ tabs, activeTab, onTabChange, s
             <div className="inline-flex items-stretch gap-2 w-max">
               {tabs.map((tab) => {
                 const isActive = activeTab === tab.id;
-                const buttonStyle = isActive ? design.buttons?.tab?.inverted : design.buttons?.tab?.regular;
+                const buttonStyle = isActive ? design.components?.button?.variants?.tab?.inverted : design.components?.button?.variants?.tab?.regular;
                 
                 // Fallback styles if tokens aren't loaded yet
                 const fallbackStyle = {
@@ -227,7 +227,7 @@ const TabNavLess: React.FC<TabNavLessProps> = ({ tabs, activeTab, onTabChange, s
                         }}
                         className="whitespace-nowrap px-3 py-2 text-sm font-medium rounded-md transition-all duration-200"
                         style={{
-                          fontFamily: design.fonts.body,
+                          fontFamily: design.tokens?.typography?.body?.fontFamily || 'Inter, sans-serif',
                           backgroundColor: finalStyle?.normal?.backgroundColor || (isActive ? '#eab308' : 'transparent'),
                           color: finalStyle?.normal?.textColor || (isActive ? '#000000' : '#cbd5e1'),
                         }}
@@ -254,7 +254,7 @@ const TabNavLess: React.FC<TabNavLessProps> = ({ tabs, activeTab, onTabChange, s
           <button
             onClick={() => scrollByAmount(1)}
             disabled={!canScrollNext}
-            className={`absolute right-1 top-1/2 -translate-y-1/2 z-10 p-1.5 transition-colors disabled:opacity-30 ${design.sliderOptions.colors.arrows} ${design.sliderOptions.colors.arrowsHover}`}
+            className={`absolute right-1 top-1/2 -translate-y-1/2 z-10 p-1.5 transition-colors disabled:opacity-30 ${design.components?.slider?.colors?.arrows || ''} ${design.components?.slider?.colors?.arrowsHover || ''}`}
             aria-label="Next tab"
           >
             <ChevronRight className="h-4 w-4" />
@@ -267,7 +267,7 @@ const TabNavLess: React.FC<TabNavLessProps> = ({ tabs, activeTab, onTabChange, s
         <div className="inline-flex rounded-lg p-1" style={{ backgroundColor: containerBg }}>
           {tabs.map((tab) => {
             const isActive = activeTab === tab.id;
-            const buttonStyle = isActive ? design.buttons?.tab?.inverted : design.buttons?.tab?.regular;
+            const buttonStyle = isActive ? design.components?.button?.variants?.tab?.inverted : design.components?.button?.variants?.tab?.regular;
             
             // Fallback styles if tokens aren't loaded yet
             const fallbackStyle = {
@@ -295,7 +295,7 @@ const TabNavLess: React.FC<TabNavLessProps> = ({ tabs, activeTab, onTabChange, s
                 }}
                 className="px-6 py-3 text-sm font-medium rounded-md transition-all duration-200 shrink-0"
                 style={{
-                  fontFamily: design.fonts.body,
+                  fontFamily: design.tokens?.typography?.body?.fontFamily || 'Inter, sans-serif',
                   backgroundColor: finalStyle?.normal?.backgroundColor || (isActive ? '#eab308' : 'transparent'),
                   color: finalStyle?.normal?.textColor || (isActive ? '#000000' : '#cbd5e1'),
                 }}

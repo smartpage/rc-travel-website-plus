@@ -23,18 +23,18 @@ const Navigation = () => {
   // Container queries for the logo, using design configurations
   const logoContainerQueries = `
     #${logoId} {
-      height: ${design.logos?.main?.height || '4.5rem'};
-      width: ${design.logos?.main?.width || 'auto'};
-      object-fit: ${design.logos?.main?.objectFit || 'contain'};
+      height: ${(design.components as any)?.logos?.main?.height || '4.5rem'};
+      width: ${(design.components as any)?.logos?.main?.width || 'auto'};
+      object-fit: ${(design.components as any)?.logos?.main?.objectFit || 'contain'};
     }
     @container (min-width: 768px) {
       #${logoId} {
-        height: ${design.logos?.main?.heightMd || '4.5rem'};
+        height: ${(design.components as any)?.logos?.main?.heightMd || '4.5rem'};
       }
     }
     @container (min-width: 1024px) {
       #${logoId} {
-        height: ${design.logos?.main?.heightLg || '4.5rem'};
+        height: ${(design.components as any)?.logos?.main?.heightLg || '4.5rem'};
       }
     }
   `;

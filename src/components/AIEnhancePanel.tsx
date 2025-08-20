@@ -69,7 +69,7 @@ const AIEnhancePanel: React.FC = () => {
       // Build a full DB-like payload. Today our db.json root only contains { design },
       // but we keep the structure flexible so when more roots exist we can include them here.
       // IMPORTANT: include current in-memory design state, not a stale file import.
-      const fullDbPayload: any = { design };
+      const fullDbPayload: any = { designV2: design };
 
       const res = await fetch(`${AI_API_BASE}/ai-enhance-content`, {
         method: 'POST',
@@ -79,7 +79,7 @@ const AIEnhancePanel: React.FC = () => {
           // Send the ENTIRE db.json (current in-memory state). For now this equals { design }.
           data: fullDbPayload,
           prompt: aiPrompt || 'Improve readability and consistency. Keep structure identical. Return full JSON.',
-          sectionType: 'db',
+          sectionType: 'dbV2',
           aiModel: selectedModel
         })
       });

@@ -137,26 +137,26 @@ const AboutSectionGallery = () => {
                   data-element="primaryButton"
                   className="transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
                   style={{
-                    backgroundColor: design.buttons.primary.backgroundColor,
-                    color: design.buttons.primary.textColor,
-                    borderColor: design.buttons.primary.borderColor,
-                    fontFamily: design.buttons.primary.fontFamily,
-                    fontSize: design.buttons.primary.fontSize,
-                    fontWeight: design.buttons.primary.fontWeight,
-                    padding: design.buttons.primary.padding,
-                    borderRadius: design.buttons.primary.borderRadius,
-                    borderWidth: design.buttons.primary.borderWidth,
+                    backgroundColor: design.components?.button?.variants?.primary?.backgroundColor,
+                    color: design.components?.button?.variants?.primary?.textColor,
+                    borderColor: design.components?.button?.variants?.primary?.borderColor,
+                    fontFamily: design.components?.button?.variants?.primary?.fontFamily,
+                    fontSize: design.components?.button?.variants?.primary?.fontSize,
+                    fontWeight: design.components?.button?.variants?.primary?.fontWeight,
+                    padding: design.components?.button?.variants?.primary?.padding,
+                    borderRadius: design.components?.button?.variants?.primary?.borderRadius,
+                    borderWidth: design.components?.button?.variants?.primary?.borderWidth,
                     borderStyle: 'solid'
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = design.buttons.primary.backgroundColorHover;
-                    e.currentTarget.style.borderColor = design.buttons.primary.borderColorHover;
-                    e.currentTarget.style.color = design.buttons.primary.textColorHover;
+                    e.currentTarget.style.backgroundColor = design.components?.button?.variants?.primary?.backgroundColorHover || '';
+                    e.currentTarget.style.borderColor = design.components?.button?.variants?.primary?.borderColorHover || '';
+                    e.currentTarget.style.color = design.components?.button?.variants?.primary?.textColorHover || '';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = design.buttons.primary.backgroundColor;
-                    e.currentTarget.style.borderColor = design.buttons.primary.borderColor;
-                    e.currentTarget.style.color = design.buttons.primary.textColor;
+                    e.currentTarget.style.backgroundColor = design.components?.button?.variants?.primary?.backgroundColor || '';
+                    e.currentTarget.style.borderColor = design.components?.button?.variants?.primary?.borderColor || '';
+                    e.currentTarget.style.color = design.components?.button?.variants?.primary?.textColor || '';
                   }}
                 >
                   {galleryContent.loadMoreText}

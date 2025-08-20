@@ -37,7 +37,7 @@ const EditorPanelsWrapper: React.FC = () => {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
-    background: design?.colors?.background,
+    background: 'rgba(0,0,0,0.90)',
     padding: 12,
     borderRadius: 8,
     boxShadow: '0 8px 24px rgba(0,0,0,0.5)',

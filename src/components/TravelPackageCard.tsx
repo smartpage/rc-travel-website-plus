@@ -28,7 +28,9 @@ interface TravelPackageCardProps {
 
 const TravelPackageCard = ({ pkg, ctaText, moreDetailsText, onWhatsAppContact }: TravelPackageCardProps) => {
   const { design } = useDesign();
-  const { travelPackageCard, colors, fonts, buttons } = design;
+  const travelPackageCard = (design.components as any)?.travelPackageCard || ({} as any);
+  const colors = design.tokens?.colors || ({} as any);
+  const fonts = design.tokens?.typography || ({} as any);
 
   return (
     <motion.div
@@ -82,11 +84,11 @@ const TravelPackageCard = ({ pkg, ctaText, moreDetailsText, onWhatsAppContact }:
           data-typography="packageDescription"
           className={`mb-4 line-clamp-2`}
           style={{
-            fontFamily: design.typography?.packageDescription?.fontFamily || fonts.body,
-            fontSize: design.typography?.packageDescription?.fontSize || '1rem',
-            lineHeight: design.typography?.packageDescription?.lineHeight || '1.6',
-            fontWeight: design.typography?.packageDescription?.fontWeight || '400',
-            color: design.typography?.packageDescription?.color || `var(--text-color, white)`
+            fontFamily: design.tokens?.typography?.packageDescription?.fontFamily || fonts.body?.fontFamily,
+            fontSize: design.tokens?.typography?.packageDescription?.fontSize || '1rem',
+            lineHeight: design.tokens?.typography?.packageDescription?.lineHeight || '1.6',
+            fontWeight: design.tokens?.typography?.packageDescription?.fontWeight || '400',
+            color: design.tokens?.typography?.packageDescription?.color || `var(--text-color, white)`
           }}
         >
           {pkg.description}
@@ -119,26 +121,26 @@ const TravelPackageCard = ({ pkg, ctaText, moreDetailsText, onWhatsAppContact }:
             data-element="primaryButton"
             className="shadow-lg hover:shadow-yellow-600/30 transition-all duration-300"
             style={{
-              backgroundColor: design.buttons.primary.backgroundColor,
-              color: design.buttons.primary.textColor,
-              borderColor: design.buttons.primary.borderColor,
-              fontFamily: design.buttons.primary.fontFamily,
-              fontSize: design.buttons.primary.fontSize,
-              fontWeight: design.buttons.primary.fontWeight,
-              padding: design.buttons.primary.padding,
-              borderRadius: design.buttons.primary.borderRadius,
-              borderWidth: design.buttons.primary.borderWidth,
+              backgroundColor: design.components?.button?.variants?.primary?.backgroundColor,
+              color: design.components?.button?.variants?.primary?.textColor,
+              borderColor: design.components?.button?.variants?.primary?.borderColor,
+              fontFamily: design.components?.button?.variants?.primary?.fontFamily,
+              fontSize: design.components?.button?.variants?.primary?.fontSize,
+              fontWeight: design.components?.button?.variants?.primary?.fontWeight,
+              padding: design.components?.button?.variants?.primary?.padding,
+              borderRadius: design.components?.button?.variants?.primary?.borderRadius,
+              borderWidth: design.components?.button?.variants?.primary?.borderWidth,
               borderStyle: 'solid'
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = design.buttons.primary.backgroundColorHover;
-              e.currentTarget.style.borderColor = design.buttons.primary.borderColorHover;
-              e.currentTarget.style.color = design.buttons.primary.textColorHover;
+              e.currentTarget.style.backgroundColor = design.components?.button?.variants?.primary?.backgroundColorHover || '';
+              e.currentTarget.style.borderColor = design.components?.button?.variants?.primary?.borderColorHover || '';
+              e.currentTarget.style.color = design.components?.button?.variants?.primary?.textColorHover || '';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = design.buttons.primary.backgroundColor;
-              e.currentTarget.style.borderColor = design.buttons.primary.borderColor;
-              e.currentTarget.style.color = design.buttons.primary.textColor;
+              e.currentTarget.style.backgroundColor = design.components?.button?.variants?.primary?.backgroundColor || '';
+              e.currentTarget.style.borderColor = design.components?.button?.variants?.primary?.borderColor || '';
+              e.currentTarget.style.color = design.components?.button?.variants?.primary?.textColor || '';
             }}
           >
             {ctaText}

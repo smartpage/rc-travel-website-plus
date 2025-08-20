@@ -121,14 +121,14 @@ const TabGrid = ({
         {/* Working Embla Slider like the old version */}
         <div className="relative mx-0 w-full">
           <div className="overflow-hidden py-24 w-full" ref={emblaRef}>
-            <div className="flex items-stretch" style={{ marginLeft: `-${design.sliderOptions.gap || 16}px` }}>
+            <div className="flex items-stretch" style={{ marginLeft: `-${design.components?.slider?.gap || 16}px` }}>
               {activeCards.map((card, index) => (
                 <div
                   key={card.id}
                   className="flex-none w-[var(--slide-mobile-width,90%)] @md:w-[45%] @lg:w-[60%] @xl:w-[45%] flex"
                   style={{
-                    marginLeft: `${design.sliderOptions.gap || 16}px`,
-                    '--slide-mobile-width': (design as any)?.sliderOptions?.mobileCardWidth || '90%'
+                    marginLeft: `${design.components?.slider?.gap || 16}px`,
+                    '--slide-mobile-width': (design as any)?.components?.slider?.mobileCardWidth || '90%'
                   } as React.CSSProperties}
                 >
                   <CardGrid

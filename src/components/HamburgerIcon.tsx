@@ -9,8 +9,8 @@ interface HamburgerIconProps {
 const HamburgerIcon = ({ isOpen }: HamburgerIconProps) => {
   const { design } = useDesign();
   const hamburgerStyle = {
-    backgroundColor: design.navigation.hamburger.barColor,
-    height: design.navigation.hamburger.barThickness
+    backgroundColor: (design.components as any)?.navigation?.hamburger?.barColor || (design.navigation as any)?.hamburger?.barColor,
+    height: (design.components as any)?.navigation?.hamburger?.barThickness || (design.navigation as any)?.hamburger?.barThickness
   };
 
   return (

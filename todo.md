@@ -157,6 +157,21 @@ This order allows us to improve modularity incrementally while maintaining funct
 
 ---
 
+## v2 Refactor (exp branch)
+
+- [ ] Replace runtime/editor to use `dbV2.json` only (no v1 adapter)
+- [ ] Update `DesignContext` types for `designV2` and load from `/dbV2.json`
+- [ ] Refactor all components to consume v2 paths:
+  - buttons → `components.button.variants.*`
+  - typography → `tokens.typography.*` (and legacy aliases like `hero_headings`, `headings`)
+  - sections → `sections.<id>.layout.*`
+  - tab nav pill → `components.button.variants.tab.container.backgroundColor`
+- [ ] Update `tokenResolver` to return v2 token/class paths (and class `locked`)
+- [ ] Update `DesignInspectorContent` to edit v2 tokens/classes and breakpoints
+- [ ] `AIEnhancePanel`: send `sectionType: 'dbV2'`; later: add scout metadata
+- [ ] Server: accept `dbV2` sectionType; validate v2 schema/whitelist; optional JSON Patch
+- [ ] Docs: add AI patch protocol (RFC‑6902/JSONPath) to `design_system_v2.md`
+
 ## 🎨 Color Picker Enhancement (Overlay Editor)
 
 ### ☐ **Task: Enhanced Color Input Component**

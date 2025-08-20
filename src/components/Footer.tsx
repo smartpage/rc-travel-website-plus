@@ -28,8 +28,8 @@ const Footer = () => {
         <p 
           className="text-sm" 
           style={{ 
-            fontFamily: design.fonts.body,
-            color: design.colors.textLight 
+            fontFamily: design.tokens?.typography?.body?.fontFamily,
+            color: design.tokens?.colors?.textLight 
           }}
         >
           {footer?.rnavt}
@@ -37,8 +37,8 @@ const Footer = () => {
         <p 
           className="text-xs mt-1" 
           style={{ 
-            fontFamily: design.fonts.body,
-            color: design.colors.textLight 
+            fontFamily: design.tokens?.typography?.body?.fontFamily,
+            color: design.tokens?.colors?.textLight 
           }}
         >
           {footer?.copyright.replace('{year}', new Date().getFullYear().toString()).replace('{agentName}', agentConfig?.fullName || '')}

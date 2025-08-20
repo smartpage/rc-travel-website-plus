@@ -67,7 +67,7 @@ const TabNav = ({ tabs, activeTab, onTabChange, showNavigation = true }: TabNavP
           <button
             onClick={scrollPrev}
             disabled={!canScrollPrev}
-            className={`absolute left-2 top-1/2 -translate-y-1/2 z-10 p-2 transition-colors disabled:opacity-30 ${design.sliderOptions.colors.arrows} ${design.sliderOptions.colors.arrowsHover}`}
+            className={`absolute left-2 top-1/2 -translate-y-1/2 z-10 p-2 transition-colors disabled:opacity-30 ${design.components?.slider?.colors?.arrows || ''} ${design.components?.slider?.colors?.arrowsHover || ''}`}
             aria-label="Previous tab"
           >
             <ChevronLeft className="h-5 w-5" />
@@ -77,30 +77,30 @@ const TabNav = ({ tabs, activeTab, onTabChange, showNavigation = true }: TabNavP
             <div className="flex w-max">
               {tabs.map((tab) => {
                 const isActive = activeTab === tab.id;
-                const buttonStyle = isActive ? design.buttonStyles.tab.inverted : design.buttonStyles.tab.regular;
+                const buttonStyle = isActive ? design.components?.button?.variants?.tab?.inverted : design.components?.button?.variants?.tab?.regular;
                 return (
                   <div key={tab.id} className="flex-shrink-0 w-auto min-w-0 mx-1">
                     <div 
                       className="rounded-lg p-1" 
-                      style={{ backgroundColor: design.buttonStyles.tab.container.backgroundColor }}
+                      style={{ backgroundColor: design.components?.button?.variants?.tab?.container?.backgroundColor || undefined }}
                     >
                       <button
                         onClick={() => onTabChange(tab.id)}
                         className="w-full max-w-full px-4 py-2 text-sm font-medium rounded-md transition-all duration-200"
                         style={{
-                          fontFamily: design.fonts.body,
-                          backgroundColor: buttonStyle.normal.backgroundColor,
-                          color: buttonStyle.normal.textColor,
+                          fontFamily: design.tokens?.typography?.body?.fontFamily || 'Inter, sans-serif',
+                          backgroundColor: buttonStyle?.normal?.backgroundColor,
+                          color: buttonStyle?.normal?.textColor,
                         }}
                         onMouseEnter={(e) => {
                           const target = e.target as HTMLElement;
-                          target.style.backgroundColor = buttonStyle.hover.backgroundColor;
-                          target.style.color = buttonStyle.hover.textColor;
+                          target.style.backgroundColor = buttonStyle?.hover?.backgroundColor || '';
+                          target.style.color = buttonStyle?.hover?.textColor || '';
                         }}
                         onMouseLeave={(e) => {
                           const target = e.target as HTMLElement;
-                          target.style.backgroundColor = buttonStyle.normal.backgroundColor;
-                          target.style.color = buttonStyle.normal.textColor;
+                          target.style.backgroundColor = buttonStyle?.normal?.backgroundColor || '';
+                          target.style.color = buttonStyle?.normal?.textColor || '';
                         }}
                       >
                         {tab.name}
@@ -115,7 +115,7 @@ const TabNav = ({ tabs, activeTab, onTabChange, showNavigation = true }: TabNavP
           <button
             onClick={scrollNext}
             disabled={!canScrollNext}
-            className={`absolute right-2 top-1/2 -translate-y-1/2 z-10 p-2 transition-colors disabled:opacity-30 ${design.sliderOptions.colors.arrows} ${design.sliderOptions.colors.arrowsHover}`}
+            className={`absolute right-2 top-1/2 -translate-y-1/2 z-10 p-2 transition-colors disabled:opacity-30 ${design.components?.slider?.colors?.arrows || ''} ${design.components?.slider?.colors?.arrowsHover || ''}`}
             aria-label="Next tab"
           >
             <ChevronRight className="h-5 w-5" />
@@ -127,30 +127,30 @@ const TabNav = ({ tabs, activeTab, onTabChange, showNavigation = true }: TabNavP
       <div className="hidden @md:flex @md:justify-center w-full max-w-full min-w-0 overflow-hidden">
         <div 
           className="inline-flex rounded-lg p-1" 
-          style={{ backgroundColor: design.buttonStyles.tab.container.backgroundColor }}
+          style={{ backgroundColor: design.components?.button?.variants?.tab?.container?.backgroundColor || undefined }}
         >
           {tabs.map((tab) => {
             const isActive = activeTab === tab.id;
-            const buttonStyle = isActive ? design.buttonStyles.tab.inverted : design.buttonStyles.tab.regular;
+            const buttonStyle = isActive ? design.components?.button?.variants?.tab?.inverted : design.components?.button?.variants?.tab?.regular;
             return (
               <button
                 key={tab.id}
                 onClick={() => onTabChange(tab.id)}
                 className="px-6 py-3 text-sm font-medium rounded-md transition-all duration-200"
                 style={{
-                  fontFamily: design.fonts.body,
-                  backgroundColor: buttonStyle.normal.backgroundColor,
-                  color: buttonStyle.normal.textColor,
+                  fontFamily: design.tokens?.typography?.body?.fontFamily || 'Inter, sans-serif',
+                  backgroundColor: buttonStyle?.normal?.backgroundColor,
+                  color: buttonStyle?.normal?.textColor,
                 }}
                 onMouseEnter={(e) => {
                   const target = e.target as HTMLElement;
-                  target.style.backgroundColor = buttonStyle.hover.backgroundColor;
-                  target.style.color = buttonStyle.hover.textColor;
+                  target.style.backgroundColor = buttonStyle?.hover?.backgroundColor || '';
+                  target.style.color = buttonStyle?.hover?.textColor || '';
                 }}
                 onMouseLeave={(e) => {
                   const target = e.target as HTMLElement;
-                  target.style.backgroundColor = buttonStyle.normal.backgroundColor;
-                  target.style.color = buttonStyle.normal.textColor;
+                  target.style.backgroundColor = buttonStyle?.normal?.backgroundColor || '';
+                  target.style.color = buttonStyle?.normal?.textColor || '';
                 }}
               >
                 {tab.name}

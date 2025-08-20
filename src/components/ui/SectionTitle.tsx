@@ -53,37 +53,37 @@ const SectionTitle: React.FC<SectionTitleProps> = ({
   const { design } = useDesign();
   
   // Get typography config from design based on variant
-  const headingConfig: HeadingConfig = (variant === 'hero_headings' && design.hero_headings)
-    ? design.hero_headings
-    : design.headings || {
-    fontFamily: design.fonts.title,
+  const headingConfig: HeadingConfig = (variant === 'hero_headings' && (design.tokens?.typography?.hero_headings as any))
+    ? (design.tokens?.typography?.hero_headings as any)
+    : (design.tokens?.typography?.headings as any) || {
+    fontFamily: design.tokens?.typography?.headings?.fontFamily,
     fontSize: '2.5rem',
     fontSizeMd: '3rem',
     fontSizeLg: '3.5rem',
     lineHeight: '1.2',
     fontWeight: '600',
     letterSpacing: 'normal',
-    color: design.colors.headingColor || '#111827',
+    color: design.tokens?.colors?.headingColor || '#111827',
     marginBottom: '1rem',
     textAlign: 'center'
   };
   
   // Estilos responsivos para o título
   const subtitleStyles: React.CSSProperties = {
-    fontFamily: design.preTitle?.fontFamily || design.fonts.body,
-    fontSize: design.preTitle?.fontSize,
-    fontWeight: design.preTitle?.fontWeight,
-    color: subtitleColor || design.preTitle?.color || design.colors.textLight,
-    marginBottom: design.preTitle?.marginBottom
+    fontFamily: design.tokens?.typography?.preTitle?.fontFamily || design.tokens?.typography?.body?.fontFamily,
+    fontSize: design.tokens?.typography?.preTitle?.fontSize,
+    fontWeight: design.tokens?.typography?.preTitle?.fontWeight,
+    color: subtitleColor || design.tokens?.typography?.preTitle?.color || design.tokens?.colors?.textLight,
+    marginBottom: design.tokens?.typography?.preTitle?.marginBottom
   };
 
   const descriptionStyles: React.CSSProperties = {
-    fontFamily: design.titleDescription?.fontFamily || design.fonts.body,
-    fontSize: design.titleDescription?.fontSize,
-    fontWeight: design.titleDescription?.fontWeight,
-    color: descriptionColor || design.titleDescription?.color || design.colors.textLight,
-    lineHeight: design.titleDescription?.lineHeight,
-    marginTop: design.titleDescription?.marginTop
+    fontFamily: design.tokens?.typography?.titleDescription?.fontFamily || design.tokens?.typography?.body?.fontFamily,
+    fontSize: design.tokens?.typography?.titleDescription?.fontSize,
+    fontWeight: design.tokens?.typography?.titleDescription?.fontWeight,
+    color: descriptionColor || design.tokens?.typography?.titleDescription?.color || design.tokens?.colors?.textLight,
+    lineHeight: design.tokens?.typography?.titleDescription?.lineHeight,
+    marginTop: design.tokens?.typography?.titleDescription?.marginTop
   };
 
   const titleStyles: React.CSSProperties = {

@@ -186,6 +186,32 @@ Notes:
 - Byte-size budgets enforced per request; split automatically if exceeded.
 - Audit trail: store request prompt, selected paths, and resulting patch.
 
+### AI Patch Editing Protocol (simple first, scout later)
+- TL;DR: Model returns a minimal patch; we validate and apply. No full JSON round-trips.
+- Supported patch formats:
+  - RFC‑6902 JSON Patch (op/add/remove/replace/move/copy/test)
+  - JSONPath ops (set/insert/delete) wrapped in `{ operations: [...] }`
+- Envelope example:
+```json
+{
+  "intent": "Make primary button green",
+  "operations": [
+    { "op": "replace", "path": "/designV2/components/button/variants/primary/backgroundColor", "value": "#00ff59" },
+    { "op": "replace", "path": "/designV2/components/button/variants/primary/borderColor", "value": "#00ff59" }
+  ],
+  "tests": ["assert $.designV2.components.button.variants.primary != null"]
+}
+```
+- Server flow:
+  1) Validate patch schema
+  2) Apply to a copy
+  3) Validate against `designV2` JSON Schema and invariants (whitelist paths, class lock rules)
+  4) If valid → return patched doc; else → return errors or auto‑repair proposal
+- Client flow:
+  - Preview result instantly; Undo/Reject; Save to persist
+- Models: GPT‑4o / Claude 3.5 Sonnet / Gemini 1.5 Pro; OpenRouter Llama for cost‑sensitive
+- Later: add the scout call on top to auto-restrict includePaths/includeClasses and breakpoints
+
 ### Implementation checklist
 - [ ] Add `designV2` skeleton (tokens/components/sections/classes/index/meta).
 - [ ] Build indexer to compute `index.paths` (ids, sizes) and `index.refs` (deps graph).

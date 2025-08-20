@@ -103,7 +103,7 @@ const ViewportToggleOverlay: React.FC<{ children?: React.ReactNode }> = ({ child
         </div>
       </div>
 
-      {/* Fullscreen background using design token (fills side whitespace) */}
+      {/* Fullscreen background for editor (fills side whitespace) - hardcoded */}
       <div
         style={{
           position: 'fixed',
@@ -111,7 +111,7 @@ const ViewportToggleOverlay: React.FC<{ children?: React.ReactNode }> = ({ child
           left: 0,
           right: 0,
           bottom: 0,
-          background: design?.colors?.background,
+          background: 'rgba(0,0,0,0.95)',
           zIndex: 800,
           pointerEvents: 'none',
         }}
@@ -131,7 +131,7 @@ const ViewportToggleOverlay: React.FC<{ children?: React.ReactNode }> = ({ child
           zIndex: 900,
           transition: 'width 300ms cubic-bezier(0.2, 0.8, 0.2, 1)',
           overflow: 'auto',
-          background: design?.colors?.background,
+          background: '#0b0b0b',
         }}
       >
         {/* Site content will be portaled here */}

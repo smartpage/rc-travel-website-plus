@@ -31,7 +31,7 @@ const Section: React.FC<SectionProps> = ({ children, sectionId, className, id, b
     width: layout.width || '100%',
     maxWidth: layout.maxWidth,
     margin: (layout as any).margin || '0 auto',
-    backgroundColor: layout.backgroundColor || design.colors.background,
+    backgroundColor: layout.backgroundColor || design.tokens?.colors?.background,
     overflow: (layout as any).overflow,
   };
 

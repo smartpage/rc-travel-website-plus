@@ -75,11 +75,11 @@ const TravelDesigner = () => {
                       key={index}
                       data-typography="travelDesignerCard"
                       style={{
-                        fontFamily: design.typography?.travelDesignerCard?.fontFamily || design.fonts.body,
-                        fontSize: design.typography?.travelDesignerCard?.fontSize || '1rem',
-                        lineHeight: design.typography?.travelDesignerCard?.lineHeight || '1.6',
-                        fontWeight: design.typography?.travelDesignerCard?.fontWeight || '400',
-                        color: design.typography?.travelDesignerCard?.color || '#111827'
+                        fontFamily: design.tokens?.typography?.travelDesignerCard?.fontFamily || design.tokens?.typography?.body?.fontFamily,
+                        fontSize: design.tokens?.typography?.travelDesignerCard?.fontSize || '1rem',
+                        lineHeight: design.tokens?.typography?.travelDesignerCard?.lineHeight || '1.6',
+                        fontWeight: design.tokens?.typography?.travelDesignerCard?.fontWeight || '400',
+                        color: design.tokens?.typography?.travelDesignerCard?.color || '#111827'
                       }}
                       dangerouslySetInnerHTML={{ __html: paragraph }}
                     />
@@ -108,10 +108,10 @@ const TravelDesigner = () => {
                 {/* Content over image */}
                 <div className="absolute inset-0 flex flex-col justify-end p-6">
                   <div className="text-white">
-                    <h3 className="text-2xl font-semibold mb-3" style={{ fontFamily: design.fonts.title }}>
+                    <h3 className="text-2xl font-semibold mb-3" style={{ fontFamily: design.tokens?.typography?.headings?.fontFamily }}>
                       {travelDesigner.overlayCard.title}
                     </h3>
-                    <p className="text-sm text-white/90 leading-relaxed" style={{ fontFamily: design.fonts.body }}>
+                    <p className="text-sm text-white/90 leading-relaxed" style={{ fontFamily: design.tokens?.typography?.body?.fontFamily }}>
                       {travelDesigner.overlayCard.description}
                     </p>
                   </div>
@@ -122,39 +122,39 @@ const TravelDesigner = () => {
         )}
 
         <div className="mt-16 text-center">
-            <h3 className="text-3xl font-semibold mb-6" style={{ fontFamily: design.fonts.title, color: design.colors.text }}>
+            <h3 className="text-3xl font-semibold mb-6" style={{ fontFamily: design.tokens?.typography?.headings?.fontFamily, color: design.tokens?.colors?.text }}>
             {travelDesigner.socialSection.title}
             </h3>
             <div className={`
-              ${design.socialIcons.container.base}
-              ${design.socialIcons.container.gap}
+              ${design.components?.socialIcons?.container?.base || ''}
+              ${design.components?.socialIcons?.container?.gap || ''}
             `}>
                 <a href={`https://instagram.com/${agentConfig?.instagramHandle?.replace('@', '') || ''}`} target="_blank" rel="noopener noreferrer" className={`
-                  ${design.socialIcons.icon.base}
-                  ${design.socialIcons.icon.hover}
-                  ${design.socialIcons.icon.border}
-                  ${design.socialIcons.icon.backdrop}
-                  ${design.socialIcons.icon.transition}
+                  ${design.components?.socialIcons?.icon?.base || ''}
+                  ${design.components?.socialIcons?.icon?.hover || ''}
+                  ${design.components?.socialIcons?.icon?.border || ''}
+                  ${design.components?.socialIcons?.icon?.backdrop || ''}
+                  ${design.components?.socialIcons?.icon?.transition || ''}
                 `}>
-                    <Instagram className={design.socialIcons.icon.size} />
+                    <Instagram className={design.components?.socialIcons?.icon?.size || ''} />
                 </a>
                 <a href={`https://facebook.com${agentConfig?.facebookHandle || ''}`} target="_blank" rel="noopener noreferrer" className={`
-                  ${design.socialIcons.icon.base}
-                  ${design.socialIcons.icon.hover}
-                  ${design.socialIcons.icon.border}
-                  ${design.socialIcons.icon.backdrop}
-                  ${design.socialIcons.icon.transition}
+                  ${design.components?.socialIcons?.icon?.base || ''}
+                  ${design.components?.socialIcons?.icon?.hover || ''}
+                  ${design.components?.socialIcons?.icon?.border || ''}
+                  ${design.components?.socialIcons?.icon?.backdrop || ''}
+                  ${design.components?.socialIcons?.icon?.transition || ''}
                 `}>
-                    <Facebook className={design.socialIcons.icon.size} />
+                    <Facebook className={design.components?.socialIcons?.icon?.size || ''} />
                 </a>
                 <a href={`https://linkedin.com${agentConfig?.linkedinHandle || ''}`} target="_blank" rel="noopener noreferrer" className={`
-                  ${design.socialIcons.icon.base}
-                  ${design.socialIcons.icon.hover}
-                  ${design.socialIcons.icon.border}
-                  ${design.socialIcons.icon.backdrop}
-                  ${design.socialIcons.icon.transition}
+                  ${design.components?.socialIcons?.icon?.base || ''}
+                  ${design.components?.socialIcons?.icon?.hover || ''}
+                  ${design.components?.socialIcons?.icon?.border || ''}
+                  ${design.components?.socialIcons?.icon?.backdrop || ''}
+                  ${design.components?.socialIcons?.icon?.transition || ''}
                 `}>
-                    <Linkedin className={design.socialIcons.icon.size} />
+                    <Linkedin className={design.components?.socialIcons?.icon?.size || ''} />
                 </a>
             </div>
         </div>

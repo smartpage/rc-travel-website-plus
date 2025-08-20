@@ -122,35 +122,35 @@ const ContactSection = () => {
           whileHover={{ y: -5 }}
         >
         <Card className={`
-          ${design.primaryCards.container.base}
-          ${design.primaryCards.container.border}
-          ${design.primaryCards.container.rounded}
-          ${design.primaryCards.container.shadow}
-          ${design.primaryCards.container.transition}
-          ${design.primaryCards.container.padding}
-          ${design.primaryCards.container.hover}
+          ${design.components?.primaryCards?.container?.base || ''}
+          ${design.components?.primaryCards?.container?.border || ''}
+          ${design.components?.primaryCards?.container?.rounded || ''}
+          ${design.components?.primaryCards?.container?.shadow || ''}
+          ${design.components?.primaryCards?.container?.transition || ''}
+          ${design.components?.primaryCards?.container?.padding || ''}
+          ${design.components?.primaryCards?.container?.hover || ''}
         `}>
-          <CardHeader className={design.primaryCards.header.spacing}>
+          <CardHeader className={design.components?.primaryCards?.header?.spacing || ''}>
             <CardTitle className={`
-              ${design.primaryCards.title.layout}
-              ${design.primaryCards.title.base}
-              ${design.primaryCards.title.fontSize}
-              ${design.primaryCards.title.fontWeight}
+              ${design.components?.primaryCards?.title?.layout || ''}
+              ${design.components?.primaryCards?.title?.base || ''}
+              ${design.components?.primaryCards?.title?.fontSize || ''}
+              ${design.components?.primaryCards?.title?.fontWeight || ''}
             `}>
               <Phone className={`
-                ${design.primaryCards.title.iconSize}
-                ${design.primaryCards.title.iconColor}
+                ${design.components?.primaryCards?.title?.iconSize || ''}
+                ${design.components?.primaryCards?.title?.iconColor || ''}
               `} />
               {contact.whatsappCard.title}
             </CardTitle>
           </CardHeader>
-          <CardContent className={design.primaryCards.content.spacing}>
+          <CardContent className={design.components?.primaryCards?.content?.spacing || ''}>
             <p className={`
-              ${design.primaryCards.description.color}
-              ${design.primaryCards.description.fontSize}
-              ${design.primaryCards.description.fontWeight}
-              ${design.primaryCards.description.lineHeight}
-              ${design.primaryCards.description.spacing}
+              ${design.components?.primaryCards?.description?.color || ''}
+              ${design.components?.primaryCards?.description?.fontSize || ''}
+              ${design.components?.primaryCards?.description?.fontWeight || ''}
+              ${design.components?.primaryCards?.description?.lineHeight || ''}
+              ${design.components?.primaryCards?.description?.spacing || ''}
             `}>
               {contact.whatsappCard.description}
             </p>
@@ -159,26 +159,26 @@ const ContactSection = () => {
               data-element="primaryButton"
               className="w-full transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
               style={{
-                backgroundColor: design.buttons.primary.backgroundColor,
-                color: design.buttons.primary.textColor,
-                borderColor: design.buttons.primary.borderColor,
-                fontFamily: design.buttons.primary.fontFamily,
-                fontSize: design.buttons.primary.fontSize,
-                fontWeight: design.buttons.primary.fontWeight,
-                padding: design.buttons.primary.padding,
-                borderRadius: design.buttons.primary.borderRadius,
-                borderWidth: design.buttons.primary.borderWidth,
+                backgroundColor: design.components?.button?.variants?.primary?.backgroundColor,
+                color: design.components?.button?.variants?.primary?.textColor,
+                borderColor: design.components?.button?.variants?.primary?.borderColor,
+                fontFamily: design.components?.button?.variants?.primary?.fontFamily,
+                fontSize: design.components?.button?.variants?.primary?.fontSize,
+                fontWeight: design.components?.button?.variants?.primary?.fontWeight,
+                padding: design.components?.button?.variants?.primary?.padding,
+                borderRadius: design.components?.button?.variants?.primary?.borderRadius,
+                borderWidth: design.components?.button?.variants?.primary?.borderWidth,
                 borderStyle: 'solid'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = design.buttons.primary.backgroundColorHover;
-                e.currentTarget.style.borderColor = design.buttons.primary.borderColorHover;
-                e.currentTarget.style.color = design.buttons.primary.textColorHover;
+                e.currentTarget.style.backgroundColor = design.components?.button?.variants?.primary?.backgroundColorHover || '';
+                e.currentTarget.style.borderColor = design.components?.button?.variants?.primary?.borderColorHover || '';
+                e.currentTarget.style.color = design.components?.button?.variants?.primary?.textColorHover || '';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = design.buttons.primary.backgroundColor;
-                e.currentTarget.style.borderColor = design.buttons.primary.borderColor;
-                e.currentTarget.style.color = design.buttons.primary.textColor;
+                e.currentTarget.style.backgroundColor = design.components?.button?.variants?.primary?.backgroundColor || '';
+                e.currentTarget.style.borderColor = design.components?.button?.variants?.primary?.borderColor || '';
+                e.currentTarget.style.color = design.components?.button?.variants?.primary?.textColor || '';
               }}
             >
               {contact.ctaWhatsApp}
@@ -195,35 +195,35 @@ const ContactSection = () => {
           whileHover={{ y: -5 }}
         >
         <Card className={`
-          ${design.primaryCards.container.base}
-          ${design.primaryCards.container.border}
-          ${design.primaryCards.container.rounded}
-          ${design.primaryCards.container.shadow}
-          ${design.primaryCards.container.transition}
-          ${design.primaryCards.container.padding}
-          ${design.primaryCards.container.hover}
+          ${design.components?.primaryCards?.container?.base || ''}
+          ${design.components?.primaryCards?.container?.border || ''}
+          ${design.components?.primaryCards?.container?.rounded || ''}
+          ${design.components?.primaryCards?.container?.shadow || ''}
+          ${design.components?.primaryCards?.container?.transition || ''}
+          ${design.components?.primaryCards?.container?.padding || ''}
+          ${design.components?.primaryCards?.container?.hover || ''}
         `}>
-          <CardHeader className={design.primaryCards.header.spacing}>
+          <CardHeader className={design.components?.primaryCards?.header?.spacing || ''}>
             <CardTitle className={`
-              ${design.primaryCards.title.layout}
-              ${design.primaryCards.title.base}
-              ${design.primaryCards.title.fontSize}
-              ${design.primaryCards.title.fontWeight}
+              ${design.components?.primaryCards?.title?.layout || ''}
+              ${design.components?.primaryCards?.title?.base || ''}
+              ${design.components?.primaryCards?.title?.fontSize || ''}
+              ${design.components?.primaryCards?.title?.fontWeight || ''}
             `}>
               <Mail className={`
-                ${design.primaryCards.title.iconSize}
-                ${design.primaryCards.title.iconColor}
+                ${design.components?.primaryCards?.title?.iconSize || ''}
+                ${design.components?.primaryCards?.title?.iconColor || ''}
               `} />
               {contact.emailCard.title}
             </CardTitle>
           </CardHeader>
-          <CardContent className={design.primaryCards.content.spacing}>
+          <CardContent className={design.components?.primaryCards?.content?.spacing || ''}>
             <p className={`
-              ${design.primaryCards.description.color}
-              ${design.primaryCards.description.fontSize}
-              ${design.primaryCards.description.fontWeight}
-              ${design.primaryCards.description.lineHeight}
-              ${design.primaryCards.description.spacing}
+              ${design.components?.primaryCards?.description?.color || ''}
+              ${design.components?.primaryCards?.description?.fontSize || ''}
+              ${design.components?.primaryCards?.description?.fontWeight || ''}
+              ${design.components?.primaryCards?.description?.lineHeight || ''}
+              ${design.components?.primaryCards?.description?.spacing || ''}
             `}>
               {contact.emailCard.description}
             </p>
@@ -232,26 +232,26 @@ const ContactSection = () => {
               data-element="primaryButton"
               className="w-full transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
               style={{
-                backgroundColor: design.buttons.primary.backgroundColor,
-                color: design.buttons.primary.textColor,
-                borderColor: design.buttons.primary.borderColor,
-                fontFamily: design.buttons.primary.fontFamily,
-                fontSize: design.buttons.primary.fontSize,
-                fontWeight: design.buttons.primary.fontWeight,
-                padding: design.buttons.primary.padding,
-                borderRadius: design.buttons.primary.borderRadius,
-                borderWidth: design.buttons.primary.borderWidth,
+                backgroundColor: design.components?.button?.variants?.primary?.backgroundColor,
+                color: design.components?.button?.variants?.primary?.textColor,
+                borderColor: design.components?.button?.variants?.primary?.borderColor,
+                fontFamily: design.components?.button?.variants?.primary?.fontFamily,
+                fontSize: design.components?.button?.variants?.primary?.fontSize,
+                fontWeight: design.components?.button?.variants?.primary?.fontWeight,
+                padding: design.components?.button?.variants?.primary?.padding,
+                borderRadius: design.components?.button?.variants?.primary?.borderRadius,
+                borderWidth: design.components?.button?.variants?.primary?.borderWidth,
                 borderStyle: 'solid'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = design.buttons.primary.backgroundColorHover;
-                e.currentTarget.style.borderColor = design.buttons.primary.borderColorHover;
-                e.currentTarget.style.color = design.buttons.primary.textColorHover;
+                e.currentTarget.style.backgroundColor = design.components?.button?.variants?.primary?.backgroundColorHover || '';
+                e.currentTarget.style.borderColor = design.components?.button?.variants?.primary?.borderColorHover || '';
+                e.currentTarget.style.color = design.components?.button?.variants?.primary?.textColorHover || '';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = design.buttons.primary.backgroundColor;
-                e.currentTarget.style.borderColor = design.buttons.primary.borderColor;
-                e.currentTarget.style.color = design.buttons.primary.textColor;
+                e.currentTarget.style.backgroundColor = design.components?.button?.variants?.primary?.backgroundColor || '';
+                e.currentTarget.style.borderColor = design.components?.button?.variants?.primary?.borderColor || '';
+                e.currentTarget.style.color = design.components?.button?.variants?.primary?.textColor || '';
               }}
             >
               {contact.ctaEmail}

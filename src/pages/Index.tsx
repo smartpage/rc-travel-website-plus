@@ -6,7 +6,7 @@ const Index = () => {
   const { design } = useDesign();
   
   return (
-    <div className={`min-h-screen bg-${design.colors.pageBackground}`}>
+    <div className={`min-h-screen bg-${design.tokens?.colors?.pageBackground || 'black'}`}>
       <DynamicRenderer />
       <FloatingWhatsApp />
     </div>

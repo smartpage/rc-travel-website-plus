@@ -24,7 +24,7 @@ const MobileEmblaCarousel: React.FC<MobileEmblaCarouselProps> = ({
   onWhatsAppContact,
 }) => {
   const { design } = useDesign();
-  const gap = design.sliderOptions.gap || 16;
+  const gap = design.components?.slider?.gap || 16;
 
   // Keep options untyped to avoid versioned type conflicts
   const [emblaRef] = useEmblaCarousel({

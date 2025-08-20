@@ -76,23 +76,23 @@ const WhyFeatureCards: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05, duration: 0.3 }}
-                whileHover={design.cardDefaults.motionWhileHover}
+                whileHover={design.components?.cardDefaults?.motionWhileHover}
               >
-                <Card className={`${design.cardDefaults.className} bg-${design.colors.background} `}>
-                  <div className={`text-center py-8 h-full ${design.primaryCards.container.border} ${design.primaryCards.container.rounded}`}>
-                    <div className={`w-16 h-16 rounded-full flex items-center justify-center text-2xl mb-6 mx-auto bg-${design.colors.primary} text-black`}>
+                <Card className={`${design.components?.cardDefaults?.className || ''} bg-${design.tokens?.colors?.background} `}>
+                  <div className={`text-center py-8 h-full ${design.components?.primaryCards?.container?.border || ''} ${design.components?.primaryCards?.container?.rounded || ''}`}>
+                    <div className={`w-16 h-16 rounded-full flex items-center justify-center text-2xl mb-6 mx-auto bg-${design.tokens?.colors?.primary} text-black`}>
                       <IconComponent className="w-7 h-7" />
                     </div>
                     <CardTitle
                       data-typography="whyCard.title"
                       className={`text-center mb-4`}
                       style={{
-                        fontFamily: design.typography?.whyCardTitle?.fontFamily || design.fonts.title,
-                        fontSize: design.typography?.whyCardTitle?.fontSize || '1.5rem',
-                        fontWeight: design.typography?.whyCardTitle?.fontWeight || '400',
-                        lineHeight: design.typography?.whyCardTitle?.lineHeight || '1.2',
-                        letterSpacing: design.typography?.whyCardTitle?.letterSpacing,
-                        color: design.typography?.whyCardTitle?.color || 'white'
+                        fontFamily: design.tokens?.typography?.whyCardTitle?.fontFamily || design.tokens?.typography?.headings?.fontFamily,
+                        fontSize: design.tokens?.typography?.whyCardTitle?.fontSize || '1.5rem',
+                        fontWeight: design.tokens?.typography?.whyCardTitle?.fontWeight || '400',
+                        lineHeight: design.tokens?.typography?.whyCardTitle?.lineHeight || '1.2',
+                        letterSpacing: design.tokens?.typography?.whyCardTitle?.letterSpacing,
+                        color: design.tokens?.typography?.whyCardTitle?.color || 'white'
                       }}
                     >
                       {feature.title}
@@ -102,12 +102,12 @@ const WhyFeatureCards: React.FC = () => {
                         data-typography="whyCard.description"
                         className={`leading-relaxed text-center`}
                         style={{
-                          fontFamily: design.typography?.whyCardDescription?.fontFamily || design.fonts.body,
-                          fontSize: design.typography?.whyCardDescription?.fontSize || '1rem',
-                          fontWeight: design.typography?.whyCardDescription?.fontWeight || '300',
-                          lineHeight: design.typography?.whyCardDescription?.lineHeight || '1.6',
-                          letterSpacing: design.typography?.whyCardDescription?.letterSpacing,
-                          color: design.typography?.whyCardDescription?.color || '#cbd5e1'
+                          fontFamily: design.tokens?.typography?.whyCardDescription?.fontFamily || design.tokens?.typography?.body?.fontFamily,
+                          fontSize: design.tokens?.typography?.whyCardDescription?.fontSize || '1rem',
+                          fontWeight: design.tokens?.typography?.whyCardDescription?.fontWeight || '300',
+                          lineHeight: design.tokens?.typography?.whyCardDescription?.lineHeight || '1.6',
+                          letterSpacing: design.tokens?.typography?.whyCardDescription?.letterSpacing,
+                          color: design.tokens?.typography?.whyCardDescription?.color || '#cbd5e1'
                         }}
                       >
                         {feature.description}

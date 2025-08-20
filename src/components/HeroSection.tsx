@@ -100,11 +100,11 @@ const HeroSection = () => {
             data-typography="titleDescription"
             className="@md:mx-auto leading-tight @md:leading-relaxed flex-1 text-left @md:text-center"
             style={{
-              fontFamily: design.titleDescription?.fontFamily || design.typography?.description?.fontFamily,
-              fontSize: design.titleDescription?.fontSize || design.typography?.description?.fontSize,
-              fontWeight: design.titleDescription?.fontWeight || design.typography?.description?.fontWeight,
-              color: design.titleDescription?.color || design.typography?.description?.color,
-              lineHeight: design.titleDescription?.lineHeight || design.typography?.description?.lineHeight,
+              fontFamily: design.tokens?.typography?.titleDescription?.fontFamily || design.tokens?.typography?.description?.fontFamily,
+              fontSize: design.tokens?.typography?.titleDescription?.fontSize || design.tokens?.typography?.description?.fontSize,
+              fontWeight: design.tokens?.typography?.titleDescription?.fontWeight || design.tokens?.typography?.description?.fontWeight,
+              color: design.tokens?.typography?.titleDescription?.color || design.tokens?.typography?.description?.color,
+              lineHeight: design.tokens?.typography?.titleDescription?.lineHeight || design.tokens?.typography?.description?.lineHeight,
             }}
           >
             {hero.description}
@@ -132,26 +132,26 @@ const HeroSection = () => {
             data-element="primaryButton"
             className="transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
             style={{
-              backgroundColor: design.buttons.primary.backgroundColor,
-              color: design.buttons.primary.textColor,
-              borderColor: design.buttons.primary.borderColor,
-              fontFamily: design.buttons.primary.fontFamily,
-              fontSize: design.buttons.primary.fontSize,
-              fontWeight: design.buttons.primary.fontWeight,
-              padding: design.buttons.primary.padding,
-              borderRadius: design.buttons.primary.borderRadius,
-              borderWidth: design.buttons.primary.borderWidth,
+              backgroundColor: design.components?.button?.variants?.primary?.backgroundColor,
+              color: design.components?.button?.variants?.primary?.textColor,
+              borderColor: design.components?.button?.variants?.primary?.borderColor,
+              fontFamily: design.components?.button?.variants?.primary?.fontFamily,
+              fontSize: design.components?.button?.variants?.primary?.fontSize,
+              fontWeight: design.components?.button?.variants?.primary?.fontWeight,
+              padding: design.components?.button?.variants?.primary?.padding,
+              borderRadius: design.components?.button?.variants?.primary?.borderRadius,
+              borderWidth: design.components?.button?.variants?.primary?.borderWidth,
               borderStyle: 'solid'
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = design.buttons.primary.backgroundColorHover;
-              e.currentTarget.style.borderColor = design.buttons.primary.borderColorHover;
-              e.currentTarget.style.color = design.buttons.primary.textColorHover;
+              e.currentTarget.style.backgroundColor = design.components?.button?.variants?.primary?.backgroundColorHover || '';
+              e.currentTarget.style.borderColor = design.components?.button?.variants?.primary?.borderColorHover || '';
+              e.currentTarget.style.color = design.components?.button?.variants?.primary?.textColorHover || '';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = design.buttons.primary.backgroundColor;
-              e.currentTarget.style.borderColor = design.buttons.primary.borderColor;
-              e.currentTarget.style.color = design.buttons.primary.textColor;
+              e.currentTarget.style.backgroundColor = design.components?.button?.variants?.primary?.backgroundColor || '';
+              e.currentTarget.style.borderColor = design.components?.button?.variants?.primary?.borderColor || '';
+              e.currentTarget.style.color = design.components?.button?.variants?.primary?.textColor || '';
             }}
           >
             {hero.ctaText}
@@ -161,26 +161,26 @@ const HeroSection = () => {
             data-element="secondaryButton"
             className="transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
             style={{
-              backgroundColor: design.buttons.secondary.backgroundColor,
-              color: design.buttons.secondary.textColor,
-              borderColor: design.buttons.secondary.borderColor,
-              fontFamily: design.buttons.secondary.fontFamily,
-              fontSize: design.buttons.secondary.fontSize,
-              fontWeight: design.buttons.secondary.fontWeight,
-              padding: design.buttons.secondary.padding,
-              borderRadius: design.buttons.secondary.borderRadius,
-              borderWidth: design.buttons.secondary.borderWidth,
+              backgroundColor: design.components?.button?.variants?.secondary?.backgroundColor,
+              color: design.components?.button?.variants?.secondary?.textColor,
+              borderColor: design.components?.button?.variants?.secondary?.borderColor,
+              fontFamily: design.components?.button?.variants?.secondary?.fontFamily,
+              fontSize: design.components?.button?.variants?.secondary?.fontSize,
+              fontWeight: design.components?.button?.variants?.secondary?.fontWeight,
+              padding: design.components?.button?.variants?.secondary?.padding,
+              borderRadius: design.components?.button?.variants?.secondary?.borderRadius,
+              borderWidth: design.components?.button?.variants?.secondary?.borderWidth,
               borderStyle: 'solid'
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = design.buttons.secondary.backgroundColorHover;
-              e.currentTarget.style.borderColor = design.buttons.secondary.borderColorHover;
-              e.currentTarget.style.color = design.buttons.secondary.textColorHover;
+              e.currentTarget.style.backgroundColor = design.components?.button?.variants?.secondary?.backgroundColorHover || '';
+              e.currentTarget.style.borderColor = design.components?.button?.variants?.secondary?.borderColorHover || '';
+              e.currentTarget.style.color = design.components?.button?.variants?.secondary?.textColorHover || '';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = design.buttons.secondary.backgroundColor;
-              e.currentTarget.style.borderColor = design.buttons.secondary.borderColor;
-              e.currentTarget.style.color = design.buttons.secondary.textColor;
+              e.currentTarget.style.backgroundColor = design.components?.button?.variants?.secondary?.backgroundColor || '';
+              e.currentTarget.style.borderColor = design.components?.button?.variants?.secondary?.borderColor || '';
+              e.currentTarget.style.color = design.components?.button?.variants?.secondary?.textColor || '';
             }}
           >
             {hero.ctaSecondary}
@@ -189,36 +189,36 @@ const HeroSection = () => {
 
         {/* Social Media Icons */}
         <div className={`
-          ${design.socialIcons.container.base}
-          ${design.socialIcons.container.gap}
-          ${design.socialIcons.container.spacing}
+          ${design.components?.socialIcons?.container?.base || 'flex justify-center items-center'}
+          ${design.components?.socialIcons?.container?.gap || 'gap-4'}
+          ${design.components?.socialIcons?.container?.spacing || 'mt-6 sm:mt-8'}
         `}>
           <a href={hero.socialLinks.instagram} target="_blank" rel="noopener noreferrer" className={`
-            ${design.socialIcons.icon.base}
-            ${design.socialIcons.icon.hover}
-            ${design.socialIcons.icon.border}
-            ${design.socialIcons.icon.backdrop}
-            ${design.socialIcons.icon.transition}
+            ${design.components?.socialIcons?.icon?.base || ''}
+            ${design.components?.socialIcons?.icon?.hover || ''}
+            ${design.components?.socialIcons?.icon?.border || ''}
+            ${design.components?.socialIcons?.icon?.backdrop || ''}
+            ${design.components?.socialIcons?.icon?.transition || ''}
           `}>
-              <Instagram className={design.socialIcons.icon.size} />
+              <Instagram className={design.components?.socialIcons?.icon?.size || ''} />
           </a>
           <a href={hero.socialLinks.facebook} target="_blank" rel="noopener noreferrer" className={`
-            ${design.socialIcons.icon.base}
-            ${design.socialIcons.icon.hover}
-            ${design.socialIcons.icon.border}
-            ${design.socialIcons.icon.backdrop}
-            ${design.socialIcons.icon.transition}
+            ${design.components?.socialIcons?.icon?.base || ''}
+            ${design.components?.socialIcons?.icon?.hover || ''}
+            ${design.components?.socialIcons?.icon?.border || ''}
+            ${design.components?.socialIcons?.icon?.backdrop || ''}
+            ${design.components?.socialIcons?.icon?.transition || ''}
           `}>
-              <Facebook className={design.socialIcons.icon.size} />
+              <Facebook className={design.components?.socialIcons?.icon?.size || ''} />
           </a>
           <a href={hero.socialLinks.linkedin} target="_blank" rel="noopener noreferrer" className={`
-            ${design.socialIcons.icon.base}
-            ${design.socialIcons.icon.hover}
-            ${design.socialIcons.icon.border}
-            ${design.socialIcons.icon.backdrop}
-            ${design.socialIcons.icon.transition}
+            ${design.components?.socialIcons?.icon?.base || ''}
+            ${design.components?.socialIcons?.icon?.hover || ''}
+            ${design.components?.socialIcons?.icon?.border || ''}
+            ${design.components?.socialIcons?.icon?.backdrop || ''}
+            ${design.components?.socialIcons?.icon?.transition || ''}
           `}>
-              <Linkedin className={design.socialIcons.icon.size} />
+              <Linkedin className={design.components?.socialIcons?.icon?.size || ''} />
           </a>
         </div>
       </div>

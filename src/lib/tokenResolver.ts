@@ -81,28 +81,30 @@ export function resolveGlobalTokens(snapshot: ComputedSnapshot, sectionId: strin
   // 0) Component-level matches by data-element wrappers
   if (element && (element as HTMLElement).dataset && (element as HTMLElement).dataset.element === 'primaryButton') {
     // Primary button tokens
-    if (design?.buttons?.primary) {
-      matches.push({ scope: 'global', tokenPath: 'buttons.primary.backgroundColor', label: 'Primary Button Background', responsive: false });
-      matches.push({ scope: 'global', tokenPath: 'buttons.primary.textColor', label: 'Primary Button Text', responsive: false });
-      matches.push({ scope: 'global', tokenPath: 'buttons.primary.borderColor', label: 'Primary Button Border', responsive: false });
-      matches.push({ scope: 'global', tokenPath: 'buttons.primary.fontSize', label: 'Primary Button Font Size', responsive: false });
-      matches.push({ scope: 'global', tokenPath: 'buttons.primary.fontWeight', label: 'Primary Button Font Weight', responsive: false });
-      matches.push({ scope: 'global', tokenPath: 'buttons.primary.padding', label: 'Primary Button Padding', responsive: false });
-      matches.push({ scope: 'global', tokenPath: 'buttons.primary.borderRadius', label: 'Primary Button Border Radius', responsive: false });
+    const btn = design?.components?.button?.variants?.primary;
+    if (btn) {
+      matches.push({ scope: 'global', tokenPath: 'components.button.variants.primary.backgroundColor', label: 'Primary Button Background', responsive: false });
+      matches.push({ scope: 'global', tokenPath: 'components.button.variants.primary.textColor', label: 'Primary Button Text', responsive: false });
+      matches.push({ scope: 'global', tokenPath: 'components.button.variants.primary.borderColor', label: 'Primary Button Border', responsive: false });
+      matches.push({ scope: 'global', tokenPath: 'components.button.variants.primary.fontSize', label: 'Primary Button Font Size', responsive: false });
+      matches.push({ scope: 'global', tokenPath: 'components.button.variants.primary.fontWeight', label: 'Primary Button Font Weight', responsive: false });
+      matches.push({ scope: 'global', tokenPath: 'components.button.variants.primary.padding', label: 'Primary Button Padding', responsive: false });
+      matches.push({ scope: 'global', tokenPath: 'components.button.variants.primary.borderRadius', label: 'Primary Button Border Radius', responsive: false });
     }
     hasSpecificMatch = true;
   }
   
   if (element && (element as HTMLElement).dataset && (element as HTMLElement).dataset.element === 'secondaryButton') {
     // Secondary button tokens
-    if (design?.buttons?.secondary) {
-      matches.push({ scope: 'global', tokenPath: 'buttons.secondary.backgroundColor', label: 'Secondary Button Background', responsive: false });
-      matches.push({ scope: 'global', tokenPath: 'buttons.secondary.textColor', label: 'Secondary Button Text', responsive: false });
-      matches.push({ scope: 'global', tokenPath: 'buttons.secondary.borderColor', label: 'Secondary Button Border', responsive: false });
-      matches.push({ scope: 'global', tokenPath: 'buttons.secondary.fontSize', label: 'Secondary Button Font Size', responsive: false });
-      matches.push({ scope: 'global', tokenPath: 'buttons.secondary.fontWeight', label: 'Secondary Button Font Weight', responsive: false });
-      matches.push({ scope: 'global', tokenPath: 'buttons.secondary.padding', label: 'Secondary Button Padding', responsive: false });
-      matches.push({ scope: 'global', tokenPath: 'buttons.secondary.borderRadius', label: 'Secondary Button Border Radius', responsive: false });
+    const btn = design?.components?.button?.variants?.secondary;
+    if (btn) {
+      matches.push({ scope: 'global', tokenPath: 'components.button.variants.secondary.backgroundColor', label: 'Secondary Button Background', responsive: false });
+      matches.push({ scope: 'global', tokenPath: 'components.button.variants.secondary.textColor', label: 'Secondary Button Text', responsive: false });
+      matches.push({ scope: 'global', tokenPath: 'components.button.variants.secondary.borderColor', label: 'Secondary Button Border', responsive: false });
+      matches.push({ scope: 'global', tokenPath: 'components.button.variants.secondary.fontSize', label: 'Secondary Button Font Size', responsive: false });
+      matches.push({ scope: 'global', tokenPath: 'components.button.variants.secondary.fontWeight', label: 'Secondary Button Font Weight', responsive: false });
+      matches.push({ scope: 'global', tokenPath: 'components.button.variants.secondary.padding', label: 'Secondary Button Padding', responsive: false });
+      matches.push({ scope: 'global', tokenPath: 'components.button.variants.secondary.borderRadius', label: 'Secondary Button Border Radius', responsive: false });
     }
     hasSpecificMatch = true;
   }
@@ -165,18 +167,18 @@ export function resolveGlobalTokens(snapshot: ComputedSnapshot, sectionId: strin
   if (isTextTag) {
     // Headings: always classify H1–H6 as headings. Prioritize hero headings inside hero section.
     if (isHeadingTag) {
-      if (sectionId === 'hero' && design?.hero_headings) {
-        matches.push({ scope: 'section', tokenPath: 'hero_headings', label: 'Hero Headings', responsive: true });
+      if (sectionId === 'hero' && design?.tokens?.typography?.hero_headings) {
+        matches.push({ scope: 'section', tokenPath: 'tokens.typography.hero_headings', label: 'Hero Headings', responsive: true });
         hasSpecificMatch = true;
-      } else if (design?.headings) {
-        matches.push({ scope: 'global', tokenPath: 'headings', label: 'Headings', responsive: true });
+      } else if (design?.tokens?.typography?.headings) {
+        matches.push({ scope: 'global', tokenPath: 'tokens.typography.headings', label: 'Headings', responsive: true });
         hasSpecificMatch = true;
       }
     }
     
     // PreTitle match (only for smaller text elements)
-    if (!isHeadingTag && design?.preTitle) {
-      const t = design.preTitle;
+    if (!isHeadingTag && design?.tokens?.typography?.preTitle) {
+      const t = design.tokens.typography.preTitle as any;
       if (snapshot.color && t.color && softContains(snapshot.color, t.color)) {
         matches.push({ scope: 'global', tokenPath: 'preTitle', label: 'PreTitle', responsive: false });
       }
@@ -185,19 +187,19 @@ export function resolveGlobalTokens(snapshot: ComputedSnapshot, sectionId: strin
     // Body text match (for paragraph elements) - context-aware
     if (snapshot.tagName === 'P') {
       // Prefer cardBody for light backgrounds; fallback to body
-      if (design?.typography?.cardBody && (bgContext === 'light')) {
-        matches.push({ scope: 'global', tokenPath: 'typography.cardBody', label: 'Card Body Text', responsive: false });
+      if (design?.tokens?.typography?.cardBody && (bgContext === 'light')) {
+        matches.push({ scope: 'global', tokenPath: 'tokens.typography.cardBody', label: 'Card Body Text', responsive: false });
         hasSpecificMatch = true;
       }
-      if (!hasSpecificMatch && design?.typography?.body) {
-        matches.push({ scope: 'global', tokenPath: 'typography.body', label: 'Body Text', responsive: false });
+      if (!hasSpecificMatch && design?.tokens?.typography?.body) {
+        matches.push({ scope: 'global', tokenPath: 'tokens.typography.body', label: 'Body Text', responsive: false });
         hasSpecificMatch = true;
       }
     }
     
     // Title Description match (only for non-heading, non-paragraph elements)
-    if (!isHeadingTag && snapshot.tagName !== 'P' && !hasSpecificMatch && design?.titleDescription) {
-      const d = design.titleDescription;
+    if (!isHeadingTag && snapshot.tagName !== 'P' && !hasSpecificMatch && design?.tokens?.typography?.titleDescription) {
+      const d = design.tokens.typography.titleDescription as any;
       if (snapshot.lineHeight && d.lineHeight && approxEq(snapshot.lineHeight, d.lineHeight)) {
         matches.push({ scope: 'global', tokenPath: 'titleDescription', label: 'Title Description', responsive: false });
       }
@@ -207,19 +209,10 @@ export function resolveGlobalTokens(snapshot: ComputedSnapshot, sectionId: strin
   // Buttons/links → buttonStyles and buttons (only for actual buttons/links)
   const isButtonLike = ['A','BUTTON'].includes(snapshot.tagName);
   if (isButtonLike) {
-    if (design?.buttonStyles) {
-      // Only show button styles for button elements, not text
-      matches.push({ scope: 'global', tokenPath: 'buttonStyles.primary', label: 'Button Primary', responsive: false });
-      matches.push({ scope: 'global', tokenPath: 'buttonStyles.secondary', label: 'Button Secondary', responsive: false });
-      matches.push({ scope: 'global', tokenPath: 'buttonStyles.tab', label: 'Button Tab', responsive: false });
-    }
-    if (design?.buttons) {
-      matches.push({ scope: 'global', tokenPath: 'buttons.primary', label: 'Buttons Primary', responsive: false });
-      matches.push({ scope: 'global', tokenPath: 'buttons.secondary', label: 'Buttons Secondary', responsive: false });
-      if (design?.buttons?.whatsapp) {
-        matches.push({ scope: 'global', tokenPath: 'buttons.whatsapp', label: 'Buttons WhatsApp', responsive: false });
-      }
-    }
+    const btn = design?.components?.button?.variants;
+    if (btn?.primary) matches.push({ scope: 'global', tokenPath: 'components.button.variants.primary', label: 'Buttons Primary', responsive: false });
+    if (btn?.secondary) matches.push({ scope: 'global', tokenPath: 'components.button.variants.secondary', label: 'Buttons Secondary', responsive: false });
+    if (btn?.tab) matches.push({ scope: 'global', tokenPath: 'components.button.variants.tab', label: 'Buttons Tab', responsive: false });
   }
 
   // Travel package card parts → travelPackageCard (by inline style hints)
