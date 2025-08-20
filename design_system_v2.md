@@ -102,6 +102,31 @@ Notes:
 - `index.paths` declares chunk boundaries and byte sizes.
 - `index.refs` is a dependency graph for transitive inclusion.
 
+### Editor selection model in v2 (bindings-first UI)
+- In v1, tokens for the same visual component were scattered and ambiguous.
+- In v2, selection resolves to canonical groups, shown first as a binding list; inputs appear below and edit the chosen group.
+
+How resolution works:
+1) User clicks an element on the page.
+2) Token resolver reads DOM hints like `data-element="primaryButton"` or `data-typography="headings"`.
+3) Each hint is looked up in `designV2.bindings` → returns class IDs (e.g., `classes.btn.primary`).
+4) Each class “extends” a canonical target (e.g., `designV2.components.button.variants.primary`).
+5) The inspector shows these canonical groups at the top; the form inputs below edit that target.
+
+Where edits are written:
+- Buttons Primary → `designV2.components.button.variants.primary.*`
+- Buttons Secondary → `designV2.components.button.variants.secondary.*`
+- Buttons Tab → `designV2.components.button.variants.tab.*`
+- Typography chips → `designV2.tokens.typography.*`
+- Section chips → `designV2.sections.<sectionId>.layout.*`
+
+Bindings explained:
+- `designV2.bindings` is the DOM→class link table. Keys like `dataElement.primaryButton` map to arrays of class IDs.
+- Classes (in `designV2.classes`) bundle reusable styles and extend canonical paths. We are not using per‑class overrides yet; edits currently go to canonical paths for global changes.
+
+UI rule:
+- Always show the binding list first; keep inputs beneath it. This preserves context and encourages editing canonical groups.
+
 ### Precedence rules
 `tokens` < `components.defaults` < `components.variants.*` < `classes.*` < `sections.*` < instance overrides.
 

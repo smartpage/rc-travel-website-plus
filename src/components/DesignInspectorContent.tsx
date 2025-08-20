@@ -123,25 +123,63 @@ const DesignInspectorContent: React.FC = () => {
 	};
 
 	const resolveDesignPath = (tokenPath: string): string => {
-		if (tokenPath.startsWith('typography.')) return tokenPath;
-		// Known top-level families that live directly under design
-		if (['headings', 'hero_headings', 'preTitle', 'titleDescription'].includes(tokenPath)) {
+		// v2 canonical namespaces: pass-through
+		if (
+			tokenPath.startsWith('tokens.') ||
+			tokenPath.startsWith('components.') ||
+			tokenPath.startsWith('sections.')
+		) {
 			return tokenPath;
 		}
-		// Other known top-level namespaces
+		// v1 shorthand → map to v2 tokens when appropriate
+		if (tokenPath === 'headings') return 'tokens.typography.headings';
+		if (tokenPath === 'hero_headings') return 'tokens.typography.hero_headings';
+		if (tokenPath === 'preTitle') return 'tokens.typography.preTitle';
+		if (tokenPath === 'titleDescription') return 'tokens.typography.titleDescription';
+		if (tokenPath.startsWith('typography.')) return `tokens.${tokenPath}`; // typography.* → tokens.typography.*
+		// legacy buckets left as-is
 		if (tokenPath.startsWith('buttonStyles.')) return tokenPath;
 		if (tokenPath.startsWith('buttons.')) return tokenPath;
 		if (tokenPath === 'travelPackageCard') return tokenPath;
-		// Fallback: assume typography bucket
-		return `typography.${tokenPath}`;
+		// fallback: assume typography token
+		return `tokens.typography.${tokenPath}`;
 	};
 
 	const renderTokenEditor = (tokenPath: string, niceLabel?: string) => {
 		const path = resolveDesignPath(tokenPath);
 		const token = getValueByPath(design, path) || {};
 
-		// Nothing to render if not an object (or empty)
-		if (!token || typeof token !== 'object') return null;
+		// Leaf value editor for direct paths like components.button.variants.primary.backgroundColor
+		if (!token || typeof token !== 'object') {
+			const lastDot = path.lastIndexOf('.');
+			if (lastDot === -1) return null;
+			const parent = path.substring(0, lastDot);
+			const field = path.substring(lastDot + 1);
+			const current = getValueByPath(design, path);
+			if (current === undefined) return null;
+			const isColor = /color$/i.test(field);
+			return (
+				<div style={{ display: 'grid', gap: 6 }}>
+					<PanelRow label={`${niceLabel || tokenPath}`}>
+						{isColor ? (
+							<ColorSwatch
+								value={current || ''}
+								onChange={(val) => updateDesignLocal((prev: any) => setValueByPath(prev, parent, field, val))}
+								placeholder="#ffffff"
+							/>
+						) : (
+							<SmartInput
+								value={current || ''}
+								onChange={(val) => updateDesignLocal((prev: any) => setValueByPath(prev, parent, field, val))}
+								placeholder="e.g. 1rem"
+								label={`${niceLabel || tokenPath}`}
+								style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
+							/>
+						)}
+					</PanelRow>
+				</div>
+			);
+		}
 
 		// Only treat as responsive if md/lg keys exist. If only fontSize exists, edit that directly.
 		const hasResponsive = ('fontSizeMd' in token) || ('fontSizeLg' in token);
@@ -149,7 +187,7 @@ const DesignInspectorContent: React.FC = () => {
 			? (viewport === 'desktop' ? 'fontSizeLg' : viewport === 'mobile' ? 'fontSize' : 'fontSizeMd')
 			: 'fontSize';
 
-		const isButtons = path.startsWith('buttons.');
+		const isButtons = path.startsWith('buttons.') || path.startsWith('components.button.variants');
 		const isTravelCard = path === 'travelPackageCard';
 
 		return (
