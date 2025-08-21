@@ -166,7 +166,7 @@
             "fontFamily": "Inter, sans-serif",
             "fontSize": "1rem",
             "fontWeight": "500",
-            "padding": "1.5rem 1.5rem",
+            "padding": "10rem 1.5rem",
             "borderRadius": "0.75rem",
             "borderWidth": "2px"
           },

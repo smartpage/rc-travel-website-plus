@@ -1,3 +1,28 @@
+## tokenResolver – SmartInput contract for numeric editing
+
+- SmartInput shows increment/decrement arrows only when it can reliably treat the value as numeric.
+- Numeric detection happens via two signals:
+  - Label hint: the SmartInput receives a `label` string and uses it to infer the property type (fontSize, lineHeight, borderRadius, width/height, etc.).
+  - Value tokens: if the current value already contains numeric tokens with optional units (e.g., `8px`, `0.5rem`, `60vh`, `55%`), SmartInput recognizes it regardless of label.
+- To guarantee arrows appear even when the value is empty, pass the canonical token path as the input `label`. Example: `sections.hero.layout.inner.borderRadius` instead of a human label like `Border Radius`.
+- Multi-value support: SmartInput parses multiple numeric segments in a single field (e.g., padding `"2rem 1rem"`). The arrows adjust only the numeric segment closest to the caret, preserving each segment's unit.
+- Unit preservation: Steps and formatting respect per-segment units (rem/em 0.25; px 10; % 5; vh/vw 1). Unknown units fall back to a safe default without dropping the suffix.
+- Practical rule: Always pass the canonical path as `label` for leaf editors in the inspector. Display the human title in the row label only.
+
+Example inspector usage for a leaf token:
+```
+<PanelRow label="Border Radius">
+  <SmartInput
+    value={current || ''}
+    onChange={(val) => updateDesignLocal((prev) => setValueByPath(prev, parent, field, val))}
+    placeholder="e.g. 8px or 0.5rem"
+    label={path}                  // canonical token path ensures arrows even on empty values
+  />
+</PanelRow>
+```
+
+---
+
 ## TODO / PLAN – Class Override System (Reusable classes from single design JSON)
 
 - Add two structures to the single design JSON:

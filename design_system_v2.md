@@ -1,3 +1,282 @@
+### Executive Summary
+- Unified the three design docs into a single, source‑of‑truth specification for RC Travel Website Plus, preserving all information and clearly marking v2 items that supersede earlier guidance.
+- Kept v1 runtime tokens and flows intact; integrated the additive v2 model (designV2) for chunking, bindings, and editor/AI workflows. No speculative content added.
+- Normalized terminology for tokens, theming, a11y, and component specs. Replacements are limited to sections explicitly marked as v2 or “additive”/new.
+
+### Consolidated Spec
+#### Foundations
+- Token stores
+  - v1 (runtime): design object (colors, typography, sections, components, buttons, sliderOptions, etc.) [DESIGN_SYSTEM.md L21–L39, L41–L95].
+  - v2 (additive): designV2 with tokens, components, sections, classes, bindings, index/meta for chunking and AI edits [design_system_v2.md L12–L26, L27–96].
+- Contexts and flow
+  - DesignContext loads and distributes design; editor applies local preview; save persists to DB [DESIGN_FLOW.md L39–L45, L98–L107; DESIGN_SYSTEM.md L98–129].
+  - Editor overlay: selection priority, token resolving, inspector inputs [DESIGN_FLOW.md L45–L57, L72–L87, L88–L97].
+- Selection/Resolution
+  - v1: element → token via data-typography, semantic tags, background heuristics [DESIGN_FLOW.md L53–L71].
+  - v2: DOM hints → bindings → classes → canonical targets (components/tokens/sections) [design_system_v2.md L105–L129].
+
+#### Theming
+- v1 theming scope (runtime)
+  - Colors (primary palettes and utility categories), navigation, logos, buttons, sections layout, typography variants, slider options [DESIGN_SYSTEM.md L41–L95, L56–L71, L75–L90, L91–95].
+- v2 additions (editor/AI)
+  - Explicit breakpoints in token families (fontSize/fontSizeMd/fontSizeLg) and binding‑first selection UI [design_system_v2.md L133–L139, L105–L121].
+
+#### Accessibility (a11y)
+- The three sources do not define explicit a11y tokens, roles, or contrast requirements. No normative a11y guidance found. Recommend tracking as an open item (see Open Questions).
+
+#### Components (with API tables)
+- Section (core wrapper) [DESIGN_SYSTEM.md L136–145]
+  - Responsibilities: wrapper structure; inject responsive CSS for padding/background/overlay; style scoping.
+  - Props:
+    - sectionId: string (key into design.sections)
+    - backgroundImageUrl?: string (override)
+- SectionTitle [DESIGN_SYSTEM.md L146–151]
+  - Props: subtitle, title, description, variant?
+- v2 Components structure [design_system_v2.md L27–38]
+  - components.button.{defaults, variants.primary|secondary|tab.{regular,inverted,container}}
+  - TabNav/Card analogous placeholders (no APIs in sources).
+
+Component API tables (compact)
+
+Section
+| Prop | Type | Description | Source |
+|---|---|---|---|
+| `sectionId` | string | Key in `design.sections` | DESIGN_SYSTEM.md L139–145 |
+| `backgroundImageUrl?` | string | URL override | DESIGN_SYSTEM.md L139–145 |
+
+SectionTitle
+| Prop | Type | Description | Source |
+|---|---|---|---|
+| `subtitle` | string | Subtitle text | DESIGN_SYSTEM.md L146–151 |
+| `title` | string | Title text | DESIGN_SYSTEM.md L146–151 |
+| `description` | string | Description text | DESIGN_SYSTEM.md L146–151 |
+
+Primary Button (v2 canonical target)
+| Path | Leafs (types) | Source |
+|---|---|---|
+| `designV2.components.button.variants.primary` | `backgroundColor`, `borderColor`, `textColor`, `fontSize`, `fontWeight`, `padding`, `borderRadius` (string) | design_system_v2.md L27–38, L117–121 |
+
+Editor/Flow API tables (compact)
+
+Token Resolver (v1)
+| API | Description | Source |
+|---|---|---|
+| `resolveGlobalTokens` | Map element → tokens (data‑typography, tags, background) | DESIGN_FLOW.md L53–L71 |
+
+EditorOverlay
+| Contract | Description | Source |
+|---|---|---|
+| Selection Priority | `data-element|data-typography` → `h1..h6` → `p` → `button,a` → fallback | DESIGN_FLOW.md L72–L80 |
+
+Inspector
+| API | Description | Source |
+|---|---|---|
+| `renderTokenEditor` | Path → read value → control → write back | DESIGN_FLOW.md L88–L97 |
+
+Bindings (v2)
+| API | Description | Source |
+|---|---|---|
+| `designV2.bindings` | DOM hint → class IDs → canonical target(s) | design_system_v2.md L111–121, L123–129 |
+
+### Planner/Executor (v2 additions)
+- Scope Evaluator: resolves local vs global from prompt + current selection (local is conservative default unless the prompt explicitly requests site‑wide changes).
+- BindMakerGod: planner may emit a `bindingPatch` with `classesToCreate` and `bindingsToAdd` so the executor can create precise, instance‑level bindings (selectors like `{ dataSection, dataTypography }`) before token edits. Executor validates and only accepts those locations, then processes planned token targets.
+
+### Replacements & Rationale
+| Replaced Item | Replacement | Rationale | Source Ref(s) |
+|---|---|---|---|
+| Ambiguous v1 selection grouping in editor | v2 “bindings-first UI” (classes extend canonical targets; inputs edit canonical groups) | design_system_v2 explicitly introduces binding-first selection to reduce ambiguity | design_system_v2.md L105–L129 |
+| Unstructured large JSON edits | v2 two-call AI flow with chunking (index.paths, refs, size budgets) | Enables targeted, validated patches; marked as the v2 model | design_system_v2.md L141–169, L65–96 |
+| Implicit precedence | v2 precedence (tokens < components.defaults < variants < classes < sections < instance) | Explicit precedence rules defined in v2 | design_system_v2.md L130–132 |
+
+Notes:
+- v2 is additive; v1 runtime remains the runtime source unless v2 is present (backward compatibility) [design_system_v2.md L202–206].
+
+### Source Coverage Map
+| File | Covered Lines | Notes |
+|---|---|---|
+| DESIGN_FLOW.md | L1–176 | Full: flow, selection, resolver, inspector, examples |
+| design_system_v2.md | L1–255 | Full: v2 data model, bindings, precedence, breakpoints, AI flow, guardrails |
+| DESIGN_SYSTEM.md | L1–189 | Full: v1 overview, tokens, components, context/hook, types |
+
+### Insights & Recommendations
+- Keep v1 as the runtime baseline; implement v2 structures progressively where editor/AI assistance is required (classes, bindings, index/meta).
+- Adopt binding-first selection in the editor to anchor users on canonical targets before exposing leaf edits (reduces drift and duplication) [design_system_v2.md L105–L129].
+- Define a11y tokens and policies (contrast thresholds, focus visible, motion preferences) as a dedicated token family to close current gap (no a11y content in sources).
+- Add JSON Schema for designV2; enforce allowed path whitelists and class lock semantics server-side (already suggested in v2) [design_system_v2.md L207–213].
+- Document Section and SectionTitle prop contracts in the codebase README of components to match this spec and prevent drift.
+
+### Pros & Cons
+- Pros
+  - v2 enables targeted, validated, and efficient AI/editor flows with clear precedence and binding model.
+  - v1 remains stable for runtime, reducing migration risk.
+- Cons
+  - Dual models increase mental overhead.
+  - a11y is unspecified; lacking normative guidance may cause inconsistencies.
+
+### Open Questions/TODOs
+- a11y: Define contrast, motion, focus, and ARIA guidance; add a11y token family (N/A in sources).
+- Classes/locks: Finalize class lock semantics and override normalization policy in editor UI [design_system_v2.md L185–188, L246–248].
+- Physical sharding vs single JSON with virtual chunks: decision pending [design_system_v2.md L251–252].
+- v2→v1 sync policy: auto vs manual mapping [design_system_v2.md L202–206, L250–253].
+- Extend component API tables for TabNav/Card when their contracts are documented (not in sources).
+
+Citings of replacements
+- Binding-first selection and canonical target editing adopted from design_system_v2.md L105–L129.
+- Two-call AI flow, chunking, and guardrails adopted from design_system_v2.md L141–169, L65–96, L207–213.
+- Precedence rules adopted from design_system_v2.md L130–132.
+
+---
+
+### Accessibility Tokens (A11y) – Additive, in‑file spec
+Namespace: `designV2.tokens.a11y`
+
+Token families and purpose
+- `colors.contrast.minimum`: string (WCAG ratio e.g., "4.5")
+- `focus.outline`: { color: string; width: string; offset: string; style: string }
+- `motion.reduced`: boolean | "respect"
+- `aria.landmarks`: { header: string; main: string; nav: string; footer: string }
+- `visibility.skipLink`: { enabled: boolean; text: string; className: string }
+
+Application rules
+- Components MUST respect `motion.reduced` by disabling nonessential animations.
+- Use `focus.outline` on interactive elements by default.
+- Validate color pairs against `colors.contrast.minimum`.
+
+Editor exposure
+- Inspector group: “A11y” with inputs for focus outline and motion.
+
+---
+
+### Bindings & Classes Catalog – Canonical list
+Bindings (`designV2.bindings`) map DOM hints to classes:
+
+| DOM Hint | Class IDs | Target |
+|---|---|---|
+| `dataElement.primaryButton` | `["classes.btn.primary"]` | `components.button.variants.primary` |
+| `dataElement.secondaryButton` | `["classes.btn.secondary"]` | `components.button.variants.secondary` |
+| `dataTypography.hero_headings` | `["classes.typo.hero"]` | `tokens.typography.hero_headings` |
+| `dataTypography.headings` | `["classes.typo.headings"]` | `tokens.typography.headings` |
+
+Reusable classes (`designV2.classes`)
+
+| Class | Extends | Overrides | Applies To |
+|---|---|---|---|
+| `classes.btn.primary` | `components.button.variants.primary` | `{}` | `components.button` |
+| `classes.btn.secondary` | `components.button.variants.secondary` | `{}` | `components.button` |
+| `classes.typo.hero` | `tokens.typography.hero_headings` | `{}` | `tokens.typography` |
+| `classes.typo.headings` | `tokens.typography.headings` | `{}` | `tokens.typography` |
+
+Lock/Normalization policy
+- `locked: true` prevents edits unless explicitly overridden by policy.
+- Normalize overrides: if a class override equals the updated canonical value, drop the override to inherit.
+
+---
+
+### v2 → v1 Sync Policy – Operational
+Scope: optional, executed on Save when `syncV2toV1 = true`.
+
+Mapping rules
+- tokens.typography.* → design.typography.*
+- components.button.variants.* → design.buttons.* and/or design.buttonStyles.* where applicable
+- sections.<id>.layout.* → design.sections.<id>.layout.*
+
+Procedure
+1) Compute diff in v2 paths changed during the session
+2) Map each changed path via the rules above
+3) Apply to v1 object; validate shape parity
+4) Persist both v2 and v1 in the same transaction
+
+Conflict handling
+- Last‑writer‑wins within the transaction; prompt user if v1 contains divergent manual changes outside the mapped set.
+
+---
+
+### JSON Schema (designV2) – In‑file baseline
+Root
+```
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/designV2",
+  "type": "object",
+  "properties": {
+    "tokens": { "$ref": "#/defs/tokens" },
+    "components": { "$ref": "#/defs/components" },
+    "sections": { "$ref": "#/defs/sections" },
+    "classes": { "$ref": "#/defs/classes" },
+    "bindings": { "$ref": "#/defs/bindings" },
+    "index": { "$ref": "#/defs/index" },
+    "meta": { "$ref": "#/defs/meta" }
+  },
+  "required": ["tokens","components","sections"],
+  "additionalProperties": false,
+  "defs": {
+    "tokens": {
+      "type": "object",
+      "properties": {
+        "colors": { "type": "object", "additionalProperties": { "type": "string" } },
+        "typography": { "type": "object", "additionalProperties": { "type": "object" } },
+        "a11y": { "type": "object", "additionalProperties": true }
+      },
+      "additionalProperties": true
+    },
+    "components": {
+      "type": "object",
+      "properties": {
+        "button": { "type": "object", "properties": { "variants": { "type": "object" } } }
+      },
+      "additionalProperties": true
+    },
+    "sections": { "type": "object", "additionalProperties": { "type": "object" } },
+    "classes": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "extends": { "type": "array", "items": { "type": "string" } },
+          "overrides": { "type": "object" },
+          "locked": { "type": "boolean" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "bindings": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": { "type": "string" }
+      }
+    },
+    "index": {
+      "type": "object",
+      "properties": {
+        "paths": { "type": "array", "items": { "type": "object", "properties": { "id": {"type":"string"}, "path": {"type":"string"}, "size": {"type":"number"} }, "required": ["id","path"] } },
+        "refs": { "type": "array", "items": { "type": "object", "properties": { "from": {"type":"string"}, "to": {"type":"array","items":{"type":"string"}} }, "required": ["from","to"] } }
+      },
+      "additionalProperties": true
+    },
+    "meta": { "type": "object", "additionalProperties": true }
+  }
+}
+```
+
+Validation & Guardrails
+- Enforce `additionalProperties: false` selectively in critical objects during CI.
+- Validate “allowed paths” from Scout output before applying patches.
+
+---
+
+### Versioning & Changelog
+- Spec version: v2 (this file). Maintain a changelog at the bottom of this file for future revisions.
+
+---
+
+### Test & Review Checklist (non‑UI)
+- Schema validation passes (designV2 root + changed subtrees)
+- Allowed paths whitelist enforced (scout → enhance)
+- Precedence respected (no hidden overrides)
+- v2→v1 sync dry‑run shows zero structural diffs
+- a11y tokens present and honored by components that opt‑in
 ## Design System v2 (additive, AI-friendly, chunkable)
 
 This spec defines an additive schema and workflow to enable fast AI-driven edits on very large design JSON. It keeps the current `design.*` intact for runtime and introduces `designV2.*` for indexing, classes, and targeted chunking.

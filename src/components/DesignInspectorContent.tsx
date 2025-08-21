@@ -172,7 +172,7 @@ const DesignInspectorContent: React.FC = () => {
 								value={current || ''}
 								onChange={(val) => updateDesignLocal((prev: any) => setValueByPath(prev, parent, field, val))}
 								placeholder="e.g. 1rem"
-								label={`${niceLabel || tokenPath}`}
+								label={path}
 								style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
 							/>
 						)}
@@ -710,11 +710,9 @@ const DesignInspectorContent: React.FC = () => {
 							{m.tokenPath.includes('.layout.inner.width') && activeSectionId && (
 								<div style={{ display: 'grid', gap: 6 }}>
 									<PanelRow label="Inner Width">
-										<input
-											type="text"
+										<SmartInput
 											value={design?.sections?.[activeSectionId]?.layout?.inner?.width || ''}
-											onChange={(e) => {
-												const val = e.target.value;
+											onChange={(val) => {
 												updateDesignLocal((prev: any) => {
 													const next = { ...prev };
 													next.sections = next.sections || {};
@@ -724,6 +722,7 @@ const DesignInspectorContent: React.FC = () => {
 												});
 											}}
 											placeholder="e.g. 100%, auto, 1280px"
+											label="inner.width"
 											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
 										/>
 									</PanelRow>
@@ -733,20 +732,19 @@ const DesignInspectorContent: React.FC = () => {
 							{m.tokenPath.includes('.layout.inner.minWidth') && activeSectionId && (
 								<div style={{ display: 'grid', gap: 6 }}>
 									<PanelRow label="Inner Min Width">
-										<input
-											type="text"
+										<SmartInput
 											value={(design?.sections?.[activeSectionId]?.layout?.inner as any)?.minWidth || ''}
-											onChange={(e) => {
-												const val = e.target.value;
+											onChange={(val) => {
 												updateDesignLocal((prev: any) => {
 													const next = { ...prev };
 													next.sections = next.sections || {};
-													next.sections[activeSectionId] = next.sections[activeSectionId] || { layout: { padding: { mobile: '', tablet: '', desktop: '' }, inner: { maxWidth: '100%', margin: '0 auto', padding: { mobile: '0', tablet: '0', desktop: '0' }, rounded: false, backgroundColor: 'transparent', overflow: 'visible', background: { type: 'color', value: 'transparent' }, display: 'block', flexDirection: 'column', alignItems: 'stretch', justifyContent: 'flex-start', width: '100%' } } };
+													(next.sections[activeSectionId] = next.sections[activeSectionId] || { layout: { padding: { mobile: '', tablet: '', desktop: '' }, inner: { maxWidth: '100%', margin: '0 auto', padding: { mobile: '0', tablet: '0', desktop: '0' }, rounded: false, backgroundColor: 'transparent', overflow: 'visible', background: { type: 'color', value: 'transparent' }, display: 'block', flexDirection: 'column', alignItems: 'stretch', justifyContent: 'flex-start', width: '100%' } } });
 													(next.sections[activeSectionId].layout.inner as any).minWidth = val;
 													return next;
 												});
 											}}
 											placeholder="e.g. 320px"
+											label="inner.minWidth"
 											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
 										/>
 									</PanelRow>
@@ -756,11 +754,9 @@ const DesignInspectorContent: React.FC = () => {
 							{m.tokenPath.includes('.layout.inner.maxWidth') && activeSectionId && (
 								<div style={{ display: 'grid', gap: 6 }}>
 									<PanelRow label="Inner Max Width">
-										<input
-											type="text"
+										<SmartInput
 											value={design?.sections?.[activeSectionId]?.layout?.inner?.maxWidth || ''}
-											onChange={(e) => {
-												const val = e.target.value;
+											onChange={(val) => {
 												updateDesignLocal((prev: any) => {
 													const next = { ...prev };
 													next.sections = next.sections || {};
@@ -770,6 +766,7 @@ const DesignInspectorContent: React.FC = () => {
 												});
 											}}
 											placeholder="e.g. 100%, 1280px, none"
+											label="inner.maxWidth"
 											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
 										/>
 									</PanelRow>
@@ -779,20 +776,19 @@ const DesignInspectorContent: React.FC = () => {
 							{m.tokenPath.includes('.layout.inner.minHeight') && activeSectionId && (
 								<div style={{ display: 'grid', gap: 6 }}>
 									<PanelRow label="Inner Min Height">
-										<input
-											type="text"
+										<SmartInput
 											value={(design?.sections?.[activeSectionId]?.layout?.inner as any)?.minHeight || ''}
-											onChange={(e) => {
-												const val = e.target.value;
+											onChange={(val) => {
 												updateDesignLocal((prev: any) => {
 													const next = { ...prev };
 													next.sections = next.sections || {};
-													next.sections[activeSectionId] = next.sections[activeSectionId] || { layout: { padding: { mobile: '', tablet: '', desktop: '' }, inner: { maxWidth: '100%', margin: '0 auto', padding: { mobile: '0', tablet: '0', desktop: '0' }, rounded: false, backgroundColor: 'transparent', overflow: 'visible', background: { type: 'color', value: 'transparent' }, display: 'block', flexDirection: 'column', alignItems: 'stretch', justifyContent: 'flex-start', width: '100%' } } };
+													(next.sections[activeSectionId] = next.sections[activeSectionId] || { layout: { padding: { mobile: '', tablet: '', desktop: '' }, inner: { maxWidth: '100%', margin: '0 auto', padding: { mobile: '0', tablet: '0', desktop: '0' }, rounded: false, backgroundColor: 'transparent', overflow: 'visible', background: { type: 'color', value: 'transparent' }, display: 'block', flexDirection: 'column', alignItems: 'stretch', justifyContent: 'flex-start', width: '100%' } } });
 													(next.sections[activeSectionId].layout.inner as any).minHeight = val;
 													return next;
 												});
 											}}
 											placeholder="e.g. 60vh"
+											label="inner.minHeight"
 											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
 										/>
 									</PanelRow>
@@ -802,20 +798,19 @@ const DesignInspectorContent: React.FC = () => {
 							{m.tokenPath.includes('.layout.inner.height') && activeSectionId && (
 								<div style={{ display: 'grid', gap: 6 }}>
 									<PanelRow label="Inner Height">
-										<input
-											type="text"
+										<SmartInput
 											value={(design?.sections?.[activeSectionId]?.layout?.inner as any)?.height || ''}
-											onChange={(e) => {
-												const val = e.target.value;
+											onChange={(val) => {
 												updateDesignLocal((prev: any) => {
 													const next = { ...prev };
 													next.sections = next.sections || {};
-													next.sections[activeSectionId] = next.sections[activeSectionId] || { layout: { padding: { mobile: '', tablet: '', desktop: '' }, inner: { maxWidth: '100%', margin: '0 auto', padding: { mobile: '0', tablet: '0', desktop: '0' }, rounded: false, backgroundColor: 'transparent', overflow: 'visible', background: { type: 'color', value: 'transparent' }, display: 'block', flexDirection: 'column', alignItems: 'stretch', justifyContent: 'flex-start', width: '100%' } } };
+													(next.sections[activeSectionId] = next.sections[activeSectionId] || { layout: { padding: { mobile: '', tablet: '', desktop: '' }, inner: { maxWidth: '100%', margin: '0 auto', padding: { mobile: '0', tablet: '0', desktop: '0' }, rounded: false, backgroundColor: 'transparent', overflow: 'visible', background: { type: 'color', value: 'transparent' }, display: 'block', flexDirection: 'column', alignItems: 'stretch', justifyContent: 'flex-start', width: '100%' } } });
 													(next.sections[activeSectionId].layout.inner as any).height = val;
 													return next;
 												});
 											}}
 											placeholder="e.g. auto, 80vh"
+											label="inner.height"
 											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
 										/>
 									</PanelRow>
@@ -1022,11 +1017,9 @@ const DesignInspectorContent: React.FC = () => {
 							{m.tokenPath.includes('.layout.inner.borderRadius') && activeSectionId && (
 								<div style={{ display: 'grid', gap: 6 }}>
 									<PanelRow label="Border Radius">
-										<input
-											type="text"
+										<SmartInput
 											value={design?.sections?.[activeSectionId]?.layout?.inner?.borderRadius || ''}
-											onChange={(e) => {
-												const val = e.target.value;
+											onChange={(val) => {
 												updateDesignLocal((prev: any) => {
 													const next = { ...prev };
 													next.sections = next.sections || {};
@@ -1037,6 +1030,7 @@ const DesignInspectorContent: React.FC = () => {
 												});
 											}}
 											placeholder="e.g. 8px or 0.5rem"
+											label="inner.borderRadius"
 											style={{ background: '#1b1b1b', color: '#fff', padding: 8, borderRadius: 6, border: '1px solid #2a2a2a' }}
 										/>
 									</PanelRow>

@@ -5,6 +5,7 @@ import EditorPanel from './EditorPanel';
 import DesignInspectorContent from './DesignInspectorContent';
 import SectionNavigatorContent from './SectionNavigatorContent';
 import AIEnhancePanel from './AIEnhancePanel';
+import { AIEnhanceProvider } from '@/contexts/AIEnhanceContext';
 import { useEditorOverlay } from '@/contexts/EditorOverlayContext';
 
 import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from 'lucide-react';
@@ -106,13 +107,15 @@ const EditorPanelsWrapper: React.FC = () => {
           display: 'flex',
           flexDirection: 'column',
           transition: 'max-height 0.3s ease, opacity 0.2s ease',
-          maxHeight: collapsed['ai-enhance'] ? 60 : 9999,
+          maxHeight: collapsed['ai-enhance'] ? 60 : 'none',
           opacity: collapsed['ai-enhance'] ? 0.7 : 1,
-          overflow: 'hidden'
+          overflow: collapsed['ai-enhance'] ? 'hidden' : 'visible'
         }}>
-          <EditorPanel id="ai-enhance" title="AI Enhancement" subtitle="Server-side AI">
-            <AIEnhancePanel />
-          </EditorPanel>
+          <AIEnhanceProvider>
+            <EditorPanel id="ai-enhance" title="AI Enhancement" subtitle="Server-side AI">
+              <AIEnhancePanel />
+            </EditorPanel>
+          </AIEnhanceProvider>
         </div>
 
         {/* Design Inspector */}
@@ -121,9 +124,9 @@ const EditorPanelsWrapper: React.FC = () => {
           display: 'flex',
           flexDirection: 'column',
           transition: 'max-height 0.3s ease, opacity 0.2s ease',
-          maxHeight: collapsed.inspector ? 60 : 9999,
+          maxHeight: collapsed.inspector ? 60 : 'none',
           opacity: collapsed.inspector ? 0.7 : 1,
-          overflow: 'hidden'
+          overflow: collapsed.inspector ? 'hidden' : 'visible'
         }}>
           <EditorPanel id="inspector" title="Design Inspector" subtitle="Tokens & Styles">
             <DesignInspectorContent />
@@ -136,9 +139,9 @@ const EditorPanelsWrapper: React.FC = () => {
           display: 'flex',
           flexDirection: 'column',
           transition: 'max-height 0.3s ease, opacity 0.2s ease',
-          maxHeight: collapsed.navigator ? 60 : 9999,
+          maxHeight: collapsed.navigator ? 60 : 'none',
           opacity: collapsed.navigator ? 0.7 : 1,
-          overflow: 'hidden'
+          overflow: collapsed.navigator ? 'hidden' : 'visible'
         }}>
           <EditorPanel id="navigator" title="Section Navigator" subtitle={`${navigableCount} sections`}>
             <SectionNavigatorContent />

@@ -22,7 +22,7 @@
           "fontSize": "1.5rem",
           "fontWeight": "200",
           "lineHeight": "1.375",
-          "color": "white"
+          "color": "black"
         },
         "serviceCardTitle": {
           "fontFamily": "Inter, sans-serif",
@@ -43,7 +43,7 @@
           "fontSize": "1.5rem",
           "fontWeight": "400",
           "lineHeight": "1.2",
-          "color": "white"
+          "color": "black"
         },
         "whyCardDescription": {
           "fontFamily": "Inter, sans-serif",
@@ -64,7 +64,7 @@
           "fontSize": "1rem",
           "fontWeight": "400",
           "lineHeight": "1.6",
-          "color": "#FFFFFF"
+          "color": "#000000"
         },
         "subtitle": {
           "fontFamily": "Inter, sans-serif",
@@ -117,7 +117,7 @@
           "fontWeight": "600",
           "letterSpacing": "-0.1em",
           "color": "#ffffff",
-          "marginBottom": "10rem",
+          "marginBottom": "1.5rem",
           "textAlign": "center"
         },
         "headings": {
@@ -137,7 +137,7 @@
           "fontSize": "1rem",
           "fontWeight": "400",
           "color": "#000000",
-          "marginBottom": "10rem"
+          "marginBottom": "0.5rem"
         },
         "titleDescription": {
           "fontFamily": "Inter, sans-serif",
@@ -166,7 +166,7 @@
             "fontFamily": "Inter, sans-serif",
             "fontSize": "1rem",
             "fontWeight": "500",
-            "padding": "1.5rem 1.5rem",
+            "padding": "0.75rem 1.5rem",
             "borderRadius": "0.75rem",
             "borderWidth": "2px"
           },
@@ -180,7 +180,7 @@
             "fontFamily": "Inter, sans-serif",
             "fontSize": "1rem",
             "fontWeight": "500",
-            "padding": "10rem 1.5rem",
+            "padding": "0.75rem 1.5rem",
             "borderRadius": "0.75rem",
             "borderWidth": "2px"
           },
@@ -188,7 +188,7 @@
             "regular": {
               "normal": {
                 "backgroundColor": "transparent",
-                "textColor": "#ffffff",
+                "textColor": "#cbd5e1",
                 "borderColor": "transparent"
               },
               "hover": {
@@ -200,12 +200,12 @@
             "inverted": {
               "normal": {
                 "backgroundColor": "#000000",
-                "textColor": "#ffffff",
+                "textColor": "#000000",
                 "borderColor": "transparent"
               },
               "hover": {
                 "backgroundColor": "#000000",
-                "textColor": "#ffffff",
+                "textColor": "#000000",
                 "borderColor": "transparent"
               }
             },
@@ -337,11 +337,11 @@
       "default": {
         "layout": {
           "maxWidth": "1280px",
-          "backgroundColor": "white",
+          "backgroundColor": "black",
           "padding": {
-            "mobile": "10rem 1rem",
-            "tablet": "10rem 2rem",
-            "desktop": "10rem 2rem"
+            "mobile": "2rem 1rem",
+            "tablet": "3rem 2rem",
+            "desktop": "4rem 2rem"
           },
           "inner": {
             "maxWidth": "1280px",
@@ -352,11 +352,11 @@
               "desktop": "0"
             },
             "rounded": false,
-            "backgroundColor": "white",
+            "backgroundColor": "black",
             "overflow": "visible",
             "background": {
               "type": "color",
-              "value": "white"
+              "value": "black"
             }
           }
         }
@@ -367,9 +367,9 @@
           "minHeight": "100vh",
           "backgroundColor": "#000000",
           "padding": {
-            "mobile": "10rem 0.5rem",
-            "tablet": "10rem 0.5rem",
-            "desktop": "10rem 0.5rem"
+            "mobile": "0.5rem 0.5rem 4rem",
+            "tablet": "0.5rem 0.5rem",
+            "desktop": ".5rem .5rem"
           },
           "inner": {
             "maxWidth": "100%",
@@ -382,7 +382,7 @@
             },
             "rounded": true,
             "borderRadius": "1rem",
-            "backgroundColor": "#ffffff",
+            "backgroundColor": "#000000",
             "overflow": "hidden",
             "background": {
               "type": "image",
@@ -400,11 +400,11 @@
       "packages": {
         "layout": {
           "maxWidth": "100%",
-          "backgroundColor": "white",
+          "backgroundColor": "black",
           "padding": {
-            "mobile": "10rem 1rem",
-            "tablet": "10rem 1rem",
-            "desktop": "10rem 1rem"
+            "mobile": "2rem 1rem",
+            "tablet": "4rem 1rem",
+            "desktop": "6rem 1rem"
           },
           "inner": {
             "maxWidth": "1200px",
@@ -415,11 +415,11 @@
               "desktop": "0"
             },
             "rounded": false,
-            "backgroundColor": "white",
+            "backgroundColor": "black",
             "overflow": "visible",
             "background": {
               "type": "color",
-              "value": "white"
+              "value": "black"
             }
           }
         }
@@ -427,11 +427,11 @@
       "whyTravel": {
         "layout": {
           "maxWidth": "100%",
-          "backgroundColor": "white",
+          "backgroundColor": "black",
           "padding": {
-            "mobile": "10rem 0.5rem",
-            "tablet": "10rem 0.5rem",
-            "desktop": "10rem 0.5rem"
+            "mobile": "6rem 0.5rem 4rem",
+            "tablet": "6rem 0.5rem",
+            "desktop": "6rem 0.5rem"
           },
           "inner": {
             "maxWidth": "1280px",
@@ -442,11 +442,11 @@
               "desktop": "0"
             },
             "rounded": false,
-            "backgroundColor": "white",
+            "backgroundColor": "black",
             "overflow": "visible",
             "background": {
               "type": "color",
-              "value": "white"
+              "value": "black"
             }
           }
         }
@@ -454,12 +454,12 @@
       "testimonials": {
         "layout": {
           "maxWidth": "100%",
-          "minHeight": "550px",
-          "backgroundColor": "#ffffff",
+          "minHeight": "450px",
+          "backgroundColor": "#000000",
           "padding": {
-            "mobile": "10rem 0",
-            "tablet": "10rem 0",
-            "desktop": "10rem 0"
+            "mobile": "4rem 0",
+            "tablet": "6rem 0",
+            "desktop": "7rem 0"
           },
           "inner": {
             "maxWidth": "100%",
@@ -470,11 +470,11 @@
               "desktop": "0"
             },
             "rounded": false,
-            "backgroundColor": "#ffffff",
+            "backgroundColor": "#000000",
             "overflow": "visible",
             "background": {
               "type": "color",
-              "value": "#ffffff"
+              "value": "#000000"
             }
           }
         }
@@ -482,11 +482,11 @@
       "travelDesigner": {
         "layout": {
           "maxWidth": "100%",
-          "backgroundColor": "#FFFFFF",
+          "backgroundColor": "#000000",
           "padding": {
-            "mobile": "10rem 0rem",
-            "tablet": "10rem 2rem",
-            "desktop": "10rem 1rem"
+            "mobile": "4rem 0rem",
+            "tablet": "6rem 2rem",
+            "desktop": "1rem 1rem"
           },
           "inner": {
             "maxWidth": "100%",
@@ -497,7 +497,7 @@
               "desktop": "2rem"
             },
             "rounded": true,
-            "backgroundColor": "#FFFFFF",
+            "backgroundColor": "#000000",
             "overflow": "visible",
             "background": {
               "type": "color",
@@ -513,11 +513,11 @@
       "about": {
         "layout": {
           "maxWidth": "100%",
-          "backgroundColor": "white",
+          "backgroundColor": "black",
           "padding": {
-            "mobile": "10rem 0.1rem",
-            "tablet": "10rem 0.5rem",
-            "desktop": "10rem 0.5rem"
+            "mobile": "6rem 0.1rem 4rem",
+            "tablet": "6rem 0.5rem",
+            "desktop": "6rem 0.5rem"
           },
           "inner": {
             "maxWidth": "100%",
@@ -535,7 +535,7 @@
               "type": "image",
               "value": "",
               "overlay": {
-                "color": "white",
+                "color": "black",
                 "opacity": 1
               }
             },
@@ -546,11 +546,11 @@
       "faq": {
         "layout": {
           "maxWidth": "100%",
-          "backgroundColor": "#FFFFFF",
+          "backgroundColor": "#000000",
           "padding": {
-            "mobile": "10rem 0rem",
-            "tablet": "10rem 2rem",
-            "desktop": "10rem 2rem"
+            "mobile": "4rem 0rem",
+            "tablet": "6rem 2rem",
+            "desktop": "6rem 2rem"
           },
           "inner": {
             "maxWidth": "auto",
@@ -561,11 +561,11 @@
               "desktop": "0"
             },
             "rounded": false,
-            "backgroundColor": "#FFFFFF",
+            "backgroundColor": "#000000",
             "overflow": "visible",
             "background": {
               "type": "color",
-              "value": "#FFFFFF"
+              "value": "#000000"
             },
             "width": "100%"
           }
@@ -574,11 +574,11 @@
       "contact": {
         "layout": {
           "maxWidth": "100%",
-          "backgroundColor": "white",
+          "backgroundColor": "black",
           "padding": {
-            "mobile": "10rem 0.5rem",
-            "tablet": "10rem 1rem",
-            "desktop": "10rem 1rem"
+            "mobile": "5rem 0.5rem",
+            "tablet": "8rem 1rem",
+            "desktop": "8rem 1rem"
           },
           "inner": {
             "maxWidth": "900px",
@@ -589,11 +589,11 @@
               "desktop": "0"
             },
             "rounded": false,
-            "backgroundColor": "white",
+            "backgroundColor": "black",
             "overflow": "visible",
             "background": {
               "type": "color",
-              "value": "white"
+              "value": "black"
             },
             "width": ""
           }
@@ -602,11 +602,11 @@
       "whyFeatureCards": {
         "layout": {
           "maxWidth": "none",
-          "backgroundColor": "#ffffff",
+          "backgroundColor": "#000000",
           "padding": {
-            "mobile": "10rem 0.5rem",
-            "tablet": "10rem 2rem",
-            "desktop": "10rem 2rem"
+            "mobile": "5rem 0.5rem",
+            "tablet": "5rem 2rem",
+            "desktop": "5rem 2rem"
           },
           "inner": {
             "maxWidth": "1280px",
@@ -617,11 +617,11 @@
               "desktop": "0"
             },
             "rounded": false,
-            "backgroundColor": "#ffffff",
+            "backgroundColor": "#000000",
             "overflow": "visible",
             "background": {
               "type": "color",
-              "value": "#ffffff"
+              "value": "#000000"
             },
             "width": ""
           }
@@ -630,11 +630,11 @@
       "services": {
         "layout": {
           "maxWidth": "none",
-          "backgroundColor": "#ffffff",
+          "backgroundColor": "#000000",
           "padding": {
-            "mobile": "10rem 0.5rem",
-            "tablet": "10rem 2rem",
-            "desktop": "10rem 2rem"
+            "mobile": "0.5rem .5rem",
+            "tablet": "5rem 2rem",
+            "desktop": "5rem 2rem"
           },
           "inner": {
             "maxWidth": "1280px",
@@ -651,14 +651,14 @@
               "type": "color",
               "value": "transparent"
             },
-            "backgroundColor": "#ffffff"
+            "backgroundColor": "#000000"
           }
         }
       },
       "travelPackages": {
         "layout": {
           "maxWidth": "100%",
-          "backgroundColor": "#ffffff",
+          "backgroundColor": "#000000",
           "padding": {
             "mobile": "5rem .5rem",
             "tablet": "8rem 1rem",
@@ -673,11 +673,11 @@
               "desktop": "5rem"
             },
             "rounded": true,
-            "backgroundColor": "#ffffff",
+            "backgroundColor": "#000000",
             "overflow": "visible",
             "background": {
               "type": "color",
-              "value": "#ffffff"
+              "value": "#000000"
             },
             "width": "",
             "borderRadius": "2rem",
@@ -694,7 +694,7 @@
       "footer": {
         "layout": {
           "maxWidth": "100%",
-          "backgroundColor": "white",
+          "backgroundColor": "black",
           "padding": {
             "mobile": "1.5rem 1rem",
             "tablet": "1.5rem 2rem",
@@ -709,11 +709,11 @@
               "desktop": "0"
             },
             "rounded": false,
-            "backgroundColor": "white",
+            "backgroundColor": "black",
             "overflow": "visible",
             "background": {
               "type": "color",
-              "value": "white"
+              "value": "black"
             }
           }
         }
@@ -734,11 +734,11 @@
               "desktop": "0"
             },
             "rounded": false,
-            "backgroundColor": "white",
+            "backgroundColor": "black",
             "overflow": "visible",
             "background": {
               "type": "color",
-              "value": "white"
+              "value": "black"
             },
             "width": ""
           }

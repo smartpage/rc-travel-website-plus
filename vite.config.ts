@@ -8,6 +8,13 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8080,
+    watch: {
+      // Prevent full page reloads when backend writes design snapshot files
+      ignored: [
+        '**/dbV2.json',
+        '**/dbV2.backup-*.json'
+      ]
+    },
     proxy: {
       '/design-api': {
         target: 'http://localhost:4010',

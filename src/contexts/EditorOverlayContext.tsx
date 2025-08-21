@@ -33,6 +33,12 @@ interface EditorOverlayState {
   enabled: boolean;
   panelCorner: PanelCorner;
   colorPalette: string[]; // 8 slots for brand colors, empty string = empty slot
+  aiTiming: {
+    lastGenerationTime: number | null; // milliseconds
+    lastGenerationDate: Date | null;
+    isGenerating: boolean;
+    generationStartTime: number | null;
+  };
 }
 
 interface EditorOverlayContextValue extends EditorOverlayState {
@@ -48,6 +54,8 @@ interface EditorOverlayContextValue extends EditorOverlayState {
   togglePanelVertical: () => void;   // swap top/bottom
   saveColorToSlot: (color: string, slotIndex: number) => void;
   deleteColorFromSlot: (slotIndex: number) => void;
+  startAiGeneration: () => void;
+  endAiGeneration: (durationMs: number) => void;
 }
 
 const EditorOverlayContext = React.createContext<EditorOverlayContextValue | undefined>(undefined);
@@ -115,6 +123,12 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
     enabled,
     panelCorner: getInitialPanelCorner(),
     colorPalette: getInitialColorPalette(),
+    aiTiming: {
+      lastGenerationTime: null,
+      lastGenerationDate: null,
+      isGenerating: false,
+      generationStartTime: null,
+    },
   });
 
   const toggleCollapse = (panel: PanelId) => {
@@ -408,6 +422,29 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
     });
   }, [enabled, design, state.selectedElement]);
 
+  const startAiGeneration = React.useCallback(() => {
+    setState(prev => ({
+      ...prev,
+      aiTiming: {
+        ...prev.aiTiming,
+        isGenerating: true,
+        generationStartTime: Date.now(),
+      }
+    }));
+  }, []);
+
+  const endAiGeneration = React.useCallback((durationMs: number) => {
+    setState(prev => ({
+      ...prev,
+      aiTiming: {
+        lastGenerationTime: durationMs,
+        lastGenerationDate: new Date(),
+        isGenerating: false,
+        generationStartTime: null,
+      }
+    }));
+  }, []);
+
   const value: EditorOverlayContextValue = React.useMemo(() => ({
     collapsed: state.collapsed,
     overlayRect: state.overlayRect,
@@ -418,6 +455,7 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
     enabled: state.enabled,
     panelCorner: state.panelCorner,
     colorPalette: state.colorPalette,
+    aiTiming: state.aiTiming,
     toggleCollapse,
     setCollapsed,
     setOverlayRect,
@@ -430,7 +468,9 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
     togglePanelVertical,
     saveColorToSlot,
     deleteColorFromSlot,
-  }), [state]);
+    startAiGeneration,
+    endAiGeneration,
+  }), [state, startAiGeneration, endAiGeneration]);
 
   return (
     <EditorOverlayContext.Provider value={value}>{children}</EditorOverlayContext.Provider>

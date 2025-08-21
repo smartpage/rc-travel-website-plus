@@ -29,14 +29,14 @@
           "fontSize": "1.5rem",
           "fontWeight": "300",
           "lineHeight": "1.2",
-          "color": "black"
+          "color": "white"
         },
         "serviceCardDescription": {
           "fontFamily": "Inter, sans-serif",
           "fontSize": "1.125rem",
           "fontWeight": "300",
           "lineHeight": "1.6",
-          "color": "#ffffff"
+          "color": "#cbd5e1"
         },
         "whyCardTitle": {
           "fontFamily": "Inter, sans-serif",
@@ -50,63 +50,63 @@
           "fontSize": "1rem",
           "fontWeight": "300",
           "lineHeight": "1.6",
-          "color": "#000000"
+          "color": "#cbd5e1"
         },
         "cardBody": {
           "fontFamily": "Inter, sans-serif",
           "fontSize": "0.95rem",
           "fontWeight": "400",
           "lineHeight": "1.6",
-          "color": "#000000"
+          "color": "rgba(255, 255, 255, 0.8)"
         },
         "travelDesignerCard": {
           "fontFamily": "Inter, sans-serif",
           "fontSize": "1rem",
           "fontWeight": "400",
           "lineHeight": "1.6",
-          "color": "#FFFFFF"
+          "color": "rgba(255, 255, 255, 0.8)"
         },
         "subtitle": {
           "fontFamily": "Inter, sans-serif",
           "fontSize": "1.125rem",
           "fontWeight": "500",
           "lineHeight": "1.5",
-          "color": "#000000"
+          "color": "#cbd5e1"
         },
         "description": {
           "fontFamily": "Inter, sans-serif",
           "fontSize": "1rem",
           "fontWeight": "400",
           "lineHeight": "1.6",
-          "color": "#ffffff"
+          "color": "#94a3b8"
         },
         "small": {
           "fontFamily": "Inter, sans-serif",
           "fontSize": "0.875rem",
           "fontWeight": "400",
           "lineHeight": "1.5",
-          "color": "#ffffff"
+          "color": "#94a3b8"
         },
         "faqQuestion": {
           "fontFamily": "Inter, sans-serif",
           "fontSize": "1.25rem",
-          "fontWeight": "400",
+          "fontWeight": "300",
           "lineHeight": "1.775",
-          "color": "#000000"
+          "color": "#e43a01"
         },
         "faqAnswer": {
           "fontFamily": "Inter, sans-serif",
           "fontSize": "1.375rem",
           "fontWeight": "400",
           "lineHeight": "1.6",
-          "color": "#000000"
+          "color": "#b87e19"
         },
         "faqAnswerStrong": {
           "fontFamily": "Inter, sans-serif",
           "fontSize": "1rem",
           "fontWeight": "700",
           "lineHeight": "1.6",
-          "color": "#000000"
+          "color": "white"
         },
         "hero_headings": {
           "fontFamily": "Inter, sans-serif",
@@ -116,8 +116,8 @@
           "lineHeight": "1",
           "fontWeight": "600",
           "letterSpacing": "-0.1em",
-          "color": "#ffffff",
-          "marginBottom": "10rem",
+          "color": "#00ff59",
+          "marginBottom": "1.5rem",
           "textAlign": "center"
         },
         "headings": {
@@ -128,7 +128,7 @@
           "lineHeight": "1.125",
           "fontWeight": "600",
           "letterSpacing": "-0.1em",
-          "color": "#000000",
+          "color": "#271b1b",
           "marginBottom": "0.5rem",
           "textAlign": "center"
         },
@@ -137,7 +137,7 @@
           "fontSize": "1rem",
           "fontWeight": "400",
           "color": "#000000",
-          "marginBottom": "10rem"
+          "marginBottom": "0.5rem"
         },
         "titleDescription": {
           "fontFamily": "Inter, sans-serif",
@@ -157,30 +157,30 @@
         "defaults": {},
         "variants": {
           "primary": {
-            "backgroundColor": "#000000",
-            "backgroundColorHover": "#000000",
-            "textColor": "#ffffff",
-            "textColorHover": "#ffffff",
-            "borderColor": "#000000",
-            "borderColorHover": "#000000",
+            "backgroundColor": "#eab308",
+            "backgroundColorHover": "#d97706",
+            "textColor": "#000000",
+            "textColorHover": "#000000",
+            "borderColor": "#eab308",
+            "borderColorHover": "#d97706",
             "fontFamily": "Inter, sans-serif",
             "fontSize": "1rem",
             "fontWeight": "500",
-            "padding": "1.5rem 1.5rem",
+            "padding": "0.75rem 1.5rem",
             "borderRadius": "0.75rem",
             "borderWidth": "2px"
           },
           "secondary": {
-            "backgroundColor": "#000000",
-            "backgroundColorHover": "#000000",
+            "backgroundColor": "transparent",
+            "backgroundColorHover": "rgba(255, 255, 255, 0.1)",
             "textColor": "#ffffff",
             "textColorHover": "#ffffff",
-            "borderColor": "#000000",
-            "borderColorHover": "#000000",
+            "borderColor": "rgba(255, 255, 255, 0.3)",
+            "borderColorHover": "rgba(255, 255, 255, 0.5)",
             "fontFamily": "Inter, sans-serif",
             "fontSize": "1rem",
             "fontWeight": "500",
-            "padding": "10rem 1.5rem",
+            "padding": "0.75rem 1.5rem",
             "borderRadius": "0.75rem",
             "borderWidth": "2px"
           },
@@ -188,29 +188,29 @@
             "regular": {
               "normal": {
                 "backgroundColor": "transparent",
-                "textColor": "#ffffff",
+                "textColor": "#cbd5e1",
                 "borderColor": "transparent"
               },
               "hover": {
-                "backgroundColor": "#000000",
+                "backgroundColor": "#1f2937",
                 "textColor": "#ffffff",
                 "borderColor": "transparent"
               }
             },
             "inverted": {
               "normal": {
-                "backgroundColor": "#000000",
-                "textColor": "#ffffff",
+                "backgroundColor": "#eab308",
+                "textColor": "#000000",
                 "borderColor": "transparent"
               },
               "hover": {
-                "backgroundColor": "#000000",
-                "textColor": "#ffffff",
+                "backgroundColor": "#d97706",
+                "textColor": "#000000",
                 "borderColor": "transparent"
               }
             },
             "container": {
-              "backgroundColor": "#000000"
+              "backgroundColor": "#374151"
             }
           }
         }
@@ -255,9 +255,7 @@
           "padding": "p-8",
           "hover": "hover:border-yellow-400 hover:bg-black/90"
         },
-        "header": {
-          "spacing": "mb-6"
-        },
+        "header": { "spacing": "mb-6" },
         "title": {
           "layout": "flex items-center gap-3",
           "base": "text-white",
@@ -266,9 +264,7 @@
           "iconColor": "text-yellow-500",
           "iconSize": "w-7 h-7"
         },
-        "content": {
-          "spacing": "space-y-6"
-        },
+        "content": { "spacing": "space-y-6" },
         "description": {
           "color": "text-white/80",
           "fontSize": "text-base",
@@ -307,20 +303,14 @@
       },
       "cardDefaults": {
         "className": "bg-white/80 backdrop-blur-sm border-none rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl h-full flex flex-col group",
-        "motionWhileHover": {
-          "y": -5
-        }
+        "motionWhileHover": { "y": -5 }
       },
       "slider": {
         "loop": true,
         "dots": true,
         "autoplay": true,
         "autoplayDelay": 4000,
-        "slidesToShow": {
-          "mobile": 1,
-          "tablet": 2,
-          "desktop": 3
-        },
+        "slidesToShow": { "mobile": 1, "tablet": 2, "desktop": 3 },
         "gap": 24,
         "dragFree": true,
         "mobileCardWidth": "98%",
@@ -337,27 +327,20 @@
       "default": {
         "layout": {
           "maxWidth": "1280px",
-          "backgroundColor": "white",
+          "backgroundColor": null,
           "padding": {
-            "mobile": "10rem 1rem",
-            "tablet": "10rem 2rem",
-            "desktop": "10rem 2rem"
+            "mobile": "2rem 1rem",
+            "tablet": "3rem 2rem",
+            "desktop": "4rem 2rem"
           },
           "inner": {
             "maxWidth": "1280px",
             "margin": "0 auto",
-            "padding": {
-              "mobile": "0",
-              "tablet": "0",
-              "desktop": "0"
-            },
+            "padding": { "mobile": "0", "tablet": "0", "desktop": "0" },
             "rounded": false,
-            "backgroundColor": "white",
+            "backgroundColor": "transparent",
             "overflow": "visible",
-            "background": {
-              "type": "color",
-              "value": "white"
-            }
+            "background": { "type": "color", "value": "transparent" }
           }
         }
       },
@@ -365,11 +348,11 @@
         "layout": {
           "maxWidth": "100%",
           "minHeight": "100vh",
-          "backgroundColor": "#000000",
+          "backgroundColor": "#100f0f",
           "padding": {
-            "mobile": "10rem 0.5rem",
-            "tablet": "10rem 0.5rem",
-            "desktop": "10rem 0.5rem"
+            "mobile": "0.5rem 0.5rem 4rem",
+            "tablet": "0.5rem 0.5rem",
+            "desktop": ".5rem .5rem"
           },
           "inner": {
             "maxWidth": "100%",
@@ -382,13 +365,13 @@
             },
             "rounded": true,
             "borderRadius": "1rem",
-            "backgroundColor": "#ffffff",
+            "backgroundColor": "transparent",
             "overflow": "hidden",
             "background": {
               "type": "image",
               "value": "",
               "overlay": {
-                "color": "#000000",
+                "color": "linear-gradient(to bottom, rgba(12, 36, 68, 0.9) 0%, rgba(12, 36, 68, 0.7) 50%, rgba(12, 36, 68, 0.2) 100%)",
                 "opacity": 1
               }
             },
@@ -400,124 +383,96 @@
       "packages": {
         "layout": {
           "maxWidth": "100%",
-          "backgroundColor": "white",
+          "backgroundColor": null,
           "padding": {
-            "mobile": "10rem 1rem",
-            "tablet": "10rem 1rem",
-            "desktop": "10rem 1rem"
+            "mobile": "2rem 1rem",
+            "tablet": "4rem 1rem",
+            "desktop": "6rem 1rem"
           },
           "inner": {
             "maxWidth": "1200px",
             "margin": "0 auto",
-            "padding": {
-              "mobile": "0",
-              "tablet": "0",
-              "desktop": "0"
-            },
+            "padding": { "mobile": "0", "tablet": "0", "desktop": "0" },
             "rounded": false,
-            "backgroundColor": "white",
+            "backgroundColor": "transparent",
             "overflow": "visible",
-            "background": {
-              "type": "color",
-              "value": "white"
-            }
+            "background": { "type": "color", "value": "transparent" }
           }
         }
       },
       "whyTravel": {
         "layout": {
           "maxWidth": "100%",
-          "backgroundColor": "white",
+          "backgroundColor": null,
           "padding": {
-            "mobile": "10rem 0.5rem",
-            "tablet": "10rem 0.5rem",
-            "desktop": "10rem 0.5rem"
+            "mobile": "6rem 0.5rem 4rem",
+            "tablet": "6rem 0.5rem",
+            "desktop": "6rem 0.5rem"
           },
           "inner": {
             "maxWidth": "1280px",
             "margin": "0 auto",
-            "padding": {
-              "mobile": "0",
-              "tablet": "0",
-              "desktop": "0"
-            },
+            "padding": { "mobile": "0", "tablet": "0", "desktop": "0" },
             "rounded": false,
-            "backgroundColor": "white",
+            "backgroundColor": "transparent",
             "overflow": "visible",
-            "background": {
-              "type": "color",
-              "value": "white"
-            }
+            "background": { "type": "color", "value": "transparent" }
           }
         }
       },
       "testimonials": {
         "layout": {
           "maxWidth": "100%",
-          "minHeight": "550px",
-          "backgroundColor": "#ffffff",
+          "minHeight": "450px",
+          "backgroundColor": null,
           "padding": {
-            "mobile": "10rem 0",
-            "tablet": "10rem 0",
-            "desktop": "10rem 0"
+            "mobile": "4rem 0",
+            "tablet": "6rem 0",
+            "desktop": "7rem 0"
           },
           "inner": {
             "maxWidth": "100%",
             "margin": "0 auto",
-            "padding": {
-              "mobile": "0",
-              "tablet": "0",
-              "desktop": "0"
-            },
+            "padding": { "mobile": "0", "tablet": "0", "desktop": "0" },
             "rounded": false,
-            "backgroundColor": "#ffffff",
+            "backgroundColor": "transparent",
             "overflow": "visible",
-            "background": {
-              "type": "color",
-              "value": "#ffffff"
-            }
+            "background": { "type": "color", "value": "transparent" }
           }
         }
       },
       "travelDesigner": {
         "layout": {
           "maxWidth": "100%",
-          "backgroundColor": "#FFFFFF",
+          "backgroundColor": "#0d0808",
           "padding": {
-            "mobile": "10rem 0rem",
-            "tablet": "10rem 2rem",
-            "desktop": "10rem 1rem"
+            "mobile": "4rem 0rem",
+            "tablet": "6rem 2rem",
+            "desktop": "1rem 1rem"
           },
           "inner": {
             "maxWidth": "100%",
             "margin": "0 auto",
-            "padding": {
-              "mobile": "0",
-              "tablet": "0",
-              "desktop": "2rem"
-            },
+            "padding": { "mobile": "0", "tablet": "0", "desktop": "2rem" },
             "rounded": true,
-            "backgroundColor": "#FFFFFF",
+            "backgroundColor": "#696969",
             "overflow": "visible",
-            "background": {
-              "type": "color",
-              "value": "transparent"
-            },
+            "background": { "type": "color", "value": "transparent" },
             "width": "",
             "borderRadius": "5rem",
-            "border": "",
-            "borderColor": ""
+            "border": "3px dashed",
+            "borderColor": "#e1ff00"
           }
         }
       },
       "about": {
         "layout": {
           "maxWidth": "100%",
-          "backgroundColor": "white",
+          "backgroundColor": null,
           "padding": {
-            "mobile": "10rem 0.1rem",
-            "tablet": "10rem 0.5rem",
-            "desktop": "10rem 0.5rem"
+            "mobile": "6rem 0.1rem 4rem",
+            "tablet": "6rem 0.5rem",
+            "desktop": "6rem 0.5rem"
           },
           "inner": {
             "maxWidth": "100%",
@@ -529,13 +484,13 @@
             },
             "rounded": true,
             "borderRadius": "1rem",
-            "backgroundColor": "black",
+            "backgroundColor": "transparent",
             "overflow": "hidden",
             "background": {
               "type": "image",
               "value": "",
               "overlay": {
-                "color": "white",
+                "color": "linear-gradient(to bottom, rgba(12, 36, 68, 0.9) 0%, rgba(12, 36, 68, 0.7) 50%, rgba(0, 0, 0, 0.8) 65%, rgba(0, 0, 0, 1) 80%)",
                 "opacity": 1
               }
             },
@@ -546,27 +501,20 @@
       "faq": {
         "layout": {
           "maxWidth": "100%",
-          "backgroundColor": "#FFFFFF",
+          "backgroundColor": null,
           "padding": {
-            "mobile": "10rem 0rem",
-            "tablet": "10rem 2rem",
-            "desktop": "10rem 2rem"
+            "mobile": "4rem 0rem",
+            "tablet": "6rem 2rem",
+            "desktop": "6rem 2rem"
           },
           "inner": {
             "maxWidth": "auto",
             "margin": "0 auto",
-            "padding": {
-              "mobile": "0",
-              "tablet": "0",
-              "desktop": "0"
-            },
+            "padding": { "mobile": "0", "tablet": "0", "desktop": "0" },
             "rounded": false,
-            "backgroundColor": "#FFFFFF",
+            "backgroundColor": "transparent",
             "overflow": "visible",
-            "background": {
-              "type": "color",
-              "value": "#FFFFFF"
-            },
+            "background": { "type": "color", "value": "transparent" },
             "width": "100%"
           }
         }
@@ -574,27 +522,20 @@
       "contact": {
         "layout": {
           "maxWidth": "100%",
-          "backgroundColor": "white",
+          "backgroundColor": null,
           "padding": {
-            "mobile": "10rem 0.5rem",
-            "tablet": "10rem 1rem",
-            "desktop": "10rem 1rem"
+            "mobile": "5rem 0.5rem",
+            "tablet": "8rem 1rem",
+            "desktop": "8rem 1rem"
           },
           "inner": {
             "maxWidth": "900px",
             "margin": "0 auto",
-            "padding": {
-              "mobile": "0",
-              "tablet": "0",
-              "desktop": "0"
-            },
+            "padding": { "mobile": "0", "tablet": "0", "desktop": "0" },
             "rounded": false,
-            "backgroundColor": "white",
+            "backgroundColor": "transparent",
             "overflow": "visible",
-            "background": {
-              "type": "color",
-              "value": "white"
-            },
+            "background": { "type": "color", "value": "transparent" },
             "width": ""
           }
         }
@@ -604,25 +545,18 @@
           "maxWidth": "none",
           "backgroundColor": "#ffffff",
           "padding": {
-            "mobile": "10rem 0.5rem",
-            "tablet": "10rem 2rem",
-            "desktop": "10rem 2rem"
+            "mobile": "5rem 0.5rem",
+            "tablet": "5rem 2rem",
+            "desktop": "5rem 2rem"
           },
           "inner": {
             "maxWidth": "1280px",
             "margin": "0 auto",
-            "padding": {
-              "mobile": "0",
-              "tablet": "0",
-              "desktop": "0"
-            },
+            "padding": { "mobile": "0", "tablet": "0", "desktop": "0" },
             "rounded": false,
-            "backgroundColor": "#ffffff",
+            "backgroundColor": "transparent",
             "overflow": "visible",
-            "background": {
-              "type": "color",
-              "value": "#ffffff"
-            },
+            "background": { "type": "color", "value": "transparent" },
             "width": ""
           }
         }
@@ -632,33 +566,26 @@
           "maxWidth": "none",
           "backgroundColor": "#ffffff",
           "padding": {
-            "mobile": "10rem 0.5rem",
-            "tablet": "10rem 2rem",
-            "desktop": "10rem 2rem"
+            "mobile": "0.5rem .5rem",
+            "tablet": "5rem 2rem",
+            "desktop": "5rem 2rem"
           },
           "inner": {
             "maxWidth": "1280px",
             "margin": "0 auto",
             "width": "98%",
-            "padding": {
-              "mobile": "0",
-              "tablet": "0",
-              "desktop": "0"
-            },
+            "padding": { "mobile": "0", "tablet": "0", "desktop": "0" },
             "rounded": false,
             "overflow": "visible",
-            "background": {
-              "type": "color",
-              "value": "transparent"
-            },
-            "backgroundColor": "#ffffff"
+            "background": { "type": "color", "value": "transparent" },
+            "backgroundColor": ""
           }
         }
       },
       "travelPackages": {
         "layout": {
           "maxWidth": "100%",
-          "backgroundColor": "#ffffff",
+          "backgroundColor": "#000000",
           "padding": {
             "mobile": "5rem .5rem",
             "tablet": "8rem 1rem",
@@ -667,18 +594,11 @@
           "inner": {
             "maxWidth": "",
             "margin": "0 auto",
-            "padding": {
-              "mobile": "0",
-              "tablet": "0",
-              "desktop": "5rem"
-            },
+            "padding": { "mobile": "0", "tablet": "0", "desktop": "5rem" },
             "rounded": true,
-            "backgroundColor": "#ffffff",
+            "backgroundColor": "#bd0000",
             "overflow": "visible",
-            "background": {
-              "type": "color",
-              "value": "#ffffff"
-            },
+            "background": { "type": "color", "value": "transparent" },
             "width": "",
             "borderRadius": "2rem",
             "border": "0px solid blue",
@@ -694,7 +614,7 @@
       "footer": {
         "layout": {
           "maxWidth": "100%",
-          "backgroundColor": "white",
+          "backgroundColor": null,
           "padding": {
             "mobile": "1.5rem 1rem",
             "tablet": "1.5rem 2rem",
@@ -703,18 +623,11 @@
           "inner": {
             "maxWidth": "1280px",
             "margin": "0 auto",
-            "padding": {
-              "mobile": "0",
-              "tablet": "0",
-              "desktop": "0"
-            },
+            "padding": { "mobile": "0", "tablet": "0", "desktop": "0" },
             "rounded": false,
-            "backgroundColor": "white",
+            "backgroundColor": "transparent",
             "overflow": "visible",
-            "background": {
-              "type": "color",
-              "value": "white"
-            }
+            "background": { "type": "color", "value": "transparent" }
           }
         }
       },
@@ -728,18 +641,11 @@
           "inner": {
             "maxWidth": "100%",
             "margin": "0 auto",
-            "padding": {
-              "mobile": "0",
-              "tablet": "0",
-              "desktop": "0"
-            },
+            "padding": { "mobile": "0", "tablet": "0", "desktop": "0" },
             "rounded": false,
-            "backgroundColor": "white",
+            "backgroundColor": "transparent",
             "overflow": "visible",
-            "background": {
-              "type": "color",
-              "value": "white"
-            },
+            "background": { "type": "color", "value": "transparent" },
             "width": ""
           }
         }
@@ -747,357 +653,157 @@
     },
     "classes": {
       "btn.primary": {
-        "appliesTo": [
-          "components.button"
-        ],
-        "extends": [
-          "components.button.variants.primary"
-        ],
+        "appliesTo": ["components.button"],
+        "extends": ["components.button.variants.primary"],
         "overrides": {},
         "locked": false,
-        "selectors": [
-          {
-            "dataElement": "primaryButton"
-          }
-        ]
+        "selectors": [ { "dataElement": "primaryButton" } ]
       },
       "btn.secondary": {
-        "appliesTo": [
-          "components.button"
-        ],
-        "extends": [
-          "components.button.variants.secondary"
-        ],
+        "appliesTo": ["components.button"],
+        "extends": ["components.button.variants.secondary"],
         "overrides": {},
         "locked": false,
-        "selectors": [
-          {
-            "dataElement": "secondaryButton"
-          }
-        ]
+        "selectors": [ { "dataElement": "secondaryButton" } ]
       },
       "typo.travelDesignerCard": {
-        "appliesTo": [
-          "tokens.typography"
-        ],
-        "extends": [
-          "tokens.typography.travelDesignerCard"
-        ],
+        "appliesTo": ["tokens.typography"],
+        "extends": ["tokens.typography.travelDesignerCard"],
         "overrides": {},
         "locked": false,
-        "selectors": [
-          {
-            "dataTypography": "travelDesignerCard"
-          }
-        ]
+        "selectors": [ { "dataTypography": "travelDesignerCard" } ]
       },
       "typo.faqQuestion": {
-        "appliesTo": [
-          "tokens.typography"
-        ],
-        "extends": [
-          "tokens.typography.faqQuestion"
-        ],
+        "appliesTo": ["tokens.typography"],
+        "extends": ["tokens.typography.faqQuestion"],
         "overrides": {},
         "locked": false,
-        "selectors": [
-          {
-            "dataTypography": "faqQuestion"
-          }
-        ]
+        "selectors": [ { "dataTypography": "faqQuestion" } ]
       },
       "typo.faqAnswer": {
-        "appliesTo": [
-          "tokens.typography"
-        ],
-        "extends": [
-          "tokens.typography.faqAnswer"
-        ],
+        "appliesTo": ["tokens.typography"],
+        "extends": ["tokens.typography.faqAnswer"],
         "overrides": {},
         "locked": false,
-        "selectors": [
-          {
-            "dataTypography": "faqAnswer"
-          }
-        ]
+        "selectors": [ { "dataTypography": "faqAnswer" } ]
       },
       "typo.faqAnswerStrong": {
-        "appliesTo": [
-          "tokens.typography"
-        ],
-        "extends": [
-          "tokens.typography.faqAnswerStrong"
-        ],
+        "appliesTo": ["tokens.typography"],
+        "extends": ["tokens.typography.faqAnswerStrong"],
         "overrides": {},
         "locked": false,
-        "selectors": [
-          {
-            "dataTypography": "faqAnswerStrong"
-          }
-        ]
+        "selectors": [ { "dataTypography": "faqAnswerStrong" } ]
       },
       "typo.body": {
-        "appliesTo": [
-          "tokens.typography"
-        ],
-        "extends": [
-          "tokens.typography.body"
-        ],
+        "appliesTo": ["tokens.typography"],
+        "extends": ["tokens.typography.body"],
         "overrides": {},
         "locked": false,
-        "selectors": [
-          {
-            "dataTypography": "body"
-          }
-        ]
+        "selectors": [ { "dataTypography": "body" } ]
       },
       "typo.subtitle": {
-        "appliesTo": [
-          "tokens.typography"
-        ],
-        "extends": [
-          "tokens.typography.subtitle"
-        ],
+        "appliesTo": ["tokens.typography"],
+        "extends": ["tokens.typography.subtitle"],
         "overrides": {},
         "locked": false,
-        "selectors": [
-          {
-            "dataTypography": "subtitle"
-          }
-        ]
+        "selectors": [ { "dataTypography": "subtitle" } ]
       },
       "typo.description": {
-        "appliesTo": [
-          "tokens.typography"
-        ],
-        "extends": [
-          "tokens.typography.description"
-        ],
+        "appliesTo": ["tokens.typography"],
+        "extends": ["tokens.typography.description"],
         "overrides": {},
         "locked": false,
-        "selectors": [
-          {
-            "dataTypography": "description"
-          }
-        ]
+        "selectors": [ { "dataTypography": "description" } ]
       },
       "typo.small": {
-        "appliesTo": [
-          "tokens.typography"
-        ],
-        "extends": [
-          "tokens.typography.small"
-        ],
+        "appliesTo": ["tokens.typography"],
+        "extends": ["tokens.typography.small"],
         "overrides": {},
         "locked": false,
-        "selectors": [
-          {
-            "dataTypography": "small"
-          }
-        ]
+        "selectors": [ { "dataTypography": "small" } ]
       },
       "typo.serviceCardTitle": {
-        "appliesTo": [
-          "tokens.typography"
-        ],
-        "extends": [
-          "tokens.typography.serviceCardTitle"
-        ],
+        "appliesTo": ["tokens.typography"],
+        "extends": ["tokens.typography.serviceCardTitle"],
         "overrides": {},
         "locked": false,
-        "selectors": [
-          {
-            "dataTypography": "serviceCardTitle"
-          }
-        ]
+        "selectors": [ { "dataTypography": "serviceCardTitle" } ]
       },
       "typo.serviceCardDescription": {
-        "appliesTo": [
-          "tokens.typography"
-        ],
-        "extends": [
-          "tokens.typography.serviceCardDescription"
-        ],
+        "appliesTo": ["tokens.typography"],
+        "extends": ["tokens.typography.serviceCardDescription"],
         "overrides": {},
         "locked": false,
-        "selectors": [
-          {
-            "dataTypography": "serviceCardDescription"
-          }
-        ]
+        "selectors": [ { "dataTypography": "serviceCardDescription" } ]
       },
       "typo.cardBody": {
-        "appliesTo": [
-          "tokens.typography"
-        ],
-        "extends": [
-          "tokens.typography.cardBody"
-        ],
+        "appliesTo": ["tokens.typography"],
+        "extends": ["tokens.typography.cardBody"],
         "overrides": {},
         "locked": false,
-        "selectors": [
-          {
-            "dataTypography": "cardBody"
-          }
-        ]
+        "selectors": [ { "dataTypography": "cardBody" } ]
       },
       "typo.hero_headings": {
-        "appliesTo": [
-          "tokens.typography"
-        ],
-        "extends": [
-          "tokens.typography.hero_headings"
-        ],
+        "appliesTo": ["tokens.typography"],
+        "extends": ["tokens.typography.hero_headings"],
         "overrides": {},
         "locked": false,
-        "selectors": [
-          {
-            "dataTypography": "hero_headings"
-          }
-        ]
+        "selectors": [ { "dataTypography": "hero_headings" } ]
       },
       "typo.headings": {
-        "appliesTo": [
-          "tokens.typography"
-        ],
-        "extends": [
-          "tokens.typography.headings"
-        ],
+        "appliesTo": ["tokens.typography"],
+        "extends": ["tokens.typography.headings"],
         "overrides": {},
         "locked": false,
-        "selectors": [
-          {
-            "dataTypography": "headings"
-          }
-        ]
+        "selectors": [ { "dataTypography": "headings" } ]
       },
       "typo.preTitle": {
-        "appliesTo": [
-          "tokens.typography"
-        ],
-        "extends": [
-          "tokens.typography.preTitle"
-        ],
+        "appliesTo": ["tokens.typography"],
+        "extends": ["tokens.typography.preTitle"],
         "overrides": {},
         "locked": false,
-        "selectors": [
-          {
-            "dataTypography": "preTitle"
-          }
-        ]
+        "selectors": [ { "dataTypography": "preTitle" } ]
       },
       "typo.titleDescription": {
-        "appliesTo": [
-          "tokens.typography"
-        ],
-        "extends": [
-          "tokens.typography.titleDescription"
-        ],
+        "appliesTo": ["tokens.typography"],
+        "extends": ["tokens.typography.titleDescription"],
         "overrides": {},
         "locked": false,
-        "selectors": [
-          {
-            "dataTypography": "titleDescription"
-          }
-        ]
+        "selectors": [ { "dataTypography": "titleDescription" } ]
       }
     },
     "bindings": {
-      "dataElement.primaryButton": [
-        "classes.btn.primary"
-      ],
-      "dataElement.secondaryButton": [
-        "classes.btn.secondary"
-      ],
-      "dataTypography.travelDesignerCard": [
-        "classes.typo.travelDesignerCard"
-      ],
-      "dataTypography.faqQuestion": [
-        "classes.typo.faqQuestion"
-      ],
-      "dataTypography.faqAnswer": [
-        "classes.typo.faqAnswer"
-      ],
-      "dataTypography.faqAnswerStrong": [
-        "classes.typo.faqAnswerStrong"
-      ],
-      "dataTypography.body": [
-        "classes.typo.body"
-      ],
-      "dataTypography.subtitle": [
-        "classes.typo.subtitle"
-      ],
-      "dataTypography.description": [
-        "classes.typo.description"
-      ],
-      "dataTypography.small": [
-        "classes.typo.small"
-      ],
-      "dataTypography.serviceCardTitle": [
-        "classes.typo.serviceCardTitle"
-      ],
-      "dataTypography.serviceCardDescription": [
-        "classes.typo.serviceCardDescription"
-      ],
-      "dataTypography.cardBody": [
-        "classes.typo.cardBody"
-      ],
-      "dataTypography.hero_headings": [
-        "classes.typo.hero_headings"
-      ],
-      "dataTypography.headings": [
-        "classes.typo.headings"
-      ],
-      "dataTypography.preTitle": [
-        "classes.typo.preTitle"
-      ],
-      "dataTypography.titleDescription": [
-        "classes.typo.titleDescription"
-      ]
+      "dataElement.primaryButton": ["classes.btn.primary"],
+      "dataElement.secondaryButton": ["classes.btn.secondary"],
+      "dataTypography.travelDesignerCard": ["classes.typo.travelDesignerCard"],
+      "dataTypography.faqQuestion": ["classes.typo.faqQuestion"],
+      "dataTypography.faqAnswer": ["classes.typo.faqAnswer"],
+      "dataTypography.faqAnswerStrong": ["classes.typo.faqAnswerStrong"],
+      "dataTypography.body": ["classes.typo.body"],
+      "dataTypography.subtitle": ["classes.typo.subtitle"],
+      "dataTypography.description": ["classes.typo.description"],
+      "dataTypography.small": ["classes.typo.small"],
+      "dataTypography.serviceCardTitle": ["classes.typo.serviceCardTitle"],
+      "dataTypography.serviceCardDescription": ["classes.typo.serviceCardDescription"],
+      "dataTypography.cardBody": ["classes.typo.cardBody"],
+      "dataTypography.hero_headings": ["classes.typo.hero_headings"],
+      "dataTypography.headings": ["classes.typo.headings"],
+      "dataTypography.preTitle": ["classes.typo.preTitle"],
+      "dataTypography.titleDescription": ["classes.typo.titleDescription"]
     },
     "index": {
       "version": 1,
       "paths": [
-        {
-          "id": "tokens.colors",
-          "path": "designV2.tokens.colors"
-        },
-        {
-          "id": "tokens.typography",
-          "path": "designV2.tokens.typography"
-        },
-        {
-          "id": "components.button.variants.primary",
-          "path": "designV2.components.button.variants.primary"
-        },
-        {
-          "id": "components.button.variants.secondary",
-          "path": "designV2.components.button.variants.secondary"
-        },
-        {
-          "id": "components.button.variants.tab",
-          "path": "designV2.components.button.variants.tab"
-        },
-        {
-          "id": "sections.hero.layout",
-          "path": "designV2.sections.hero.layout"
-        },
-        {
-          "id": "sections.packages.layout",
-          "path": "designV2.sections.packages.layout"
-        },
-        {
-          "id": "sections.faq.layout",
-          "path": "designV2.sections.faq.layout"
-        },
-        {
-          "id": "sections.contact.layout",
-          "path": "designV2.sections.contact.layout"
-        },
-        {
-          "id": "sections.travelPackages.layout",
-          "path": "designV2.sections.travelPackages.layout"
-        }
+        { "id": "tokens.colors", "path": "designV2.tokens.colors" },
+        { "id": "tokens.typography", "path": "designV2.tokens.typography" },
+        { "id": "components.button.variants.primary", "path": "designV2.components.button.variants.primary" },
+        { "id": "components.button.variants.secondary", "path": "designV2.components.button.variants.secondary" },
+        { "id": "components.button.variants.tab", "path": "designV2.components.button.variants.tab" },
+        { "id": "sections.hero.layout", "path": "designV2.sections.hero.layout" },
+        { "id": "sections.packages.layout", "path": "designV2.sections.packages.layout" },
+        { "id": "sections.faq.layout", "path": "designV2.sections.faq.layout" },
+        { "id": "sections.contact.layout", "path": "designV2.sections.contact.layout" },
+        { "id": "sections.travelPackages.layout", "path": "designV2.sections.travelPackages.layout" }
       ],
       "aliases": {
         "buttons.primary": "designV2.components.button.variants.primary",
@@ -1111,60 +817,20 @@
         "typography.hero_headings": "designV2.tokens.typography.hero_headings"
       },
       "refs": [
-        {
-          "from": "classes.btn.primary",
-          "to": [
-            "designV2.components.button.variants.primary",
-            "designV2.tokens.colors.primary"
-          ]
-        },
-        {
-          "from": "classes.btn.secondary",
-          "to": [
-            "designV2.components.button.variants.secondary"
-          ]
-        },
-        {
-          "from": "classes.typo.travelDesignerCard",
-          "to": [
-            "designV2.tokens.typography.travelDesignerCard"
-          ]
-        },
-        {
-          "from": "classes.typo.faqQuestion",
-          "to": [
-            "designV2.tokens.typography.faqQuestion"
-          ]
-        },
-        {
-          "from": "classes.typo.faqAnswer",
-          "to": [
-            "designV2.tokens.typography.faqAnswer"
-          ]
-        },
-        {
-          "from": "classes.typo.faqAnswerStrong",
-          "to": [
-            "designV2.tokens.typography.faqAnswerStrong"
-          ]
-        }
+        { "from": "classes.btn.primary", "to": ["designV2.components.button.variants.primary", "designV2.tokens.colors.primary"] },
+        { "from": "classes.btn.secondary", "to": ["designV2.components.button.variants.secondary"] },
+        { "from": "classes.typo.travelDesignerCard", "to": ["designV2.tokens.typography.travelDesignerCard"] },
+        { "from": "classes.typo.faqQuestion", "to": ["designV2.tokens.typography.faqQuestion"] },
+        { "from": "classes.typo.faqAnswer", "to": ["designV2.tokens.typography.faqAnswer"] },
+        { "from": "classes.typo.faqAnswerStrong", "to": ["designV2.tokens.typography.faqAnswerStrong"] }
       ],
       "checksums": {}
     },
     "meta": {
       "chunkHints": {
-        "buttons": [
-          "designV2.components.button",
-          "designV2.tokens.colors",
-          "designV2.tokens.typography"
-        ],
-        "typography": [
-          "designV2.tokens.typography",
-          "designV2.tokens.colors"
-        ],
-        "sections": [
-          "designV2.sections"
-        ]
+        "buttons": ["designV2.components.button", "designV2.tokens.colors", "designV2.tokens.typography"],
+        "typography": ["designV2.tokens.typography", "designV2.tokens.colors"],
+        "sections": ["designV2.sections"]
       },
       "sizeBudgets": {
         "scoutMaxBytes": 20000,
@@ -1173,3 +839,5 @@
     }
   }
 }
+
+

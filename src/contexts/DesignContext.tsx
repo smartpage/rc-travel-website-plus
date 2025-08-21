@@ -3,7 +3,6 @@ import { z } from 'zod';
 import { SITE_ID, ORG_ID, API_BASE_URL } from '../../db_connect';
 import { validateData } from '@/schemas/contextSchemas';
 import defaultDesign from '@/design-default.json';
-import dbV2File from '../../dbV2.json';
 
 // Types (v2)
 
@@ -195,7 +194,7 @@ export const DesignProvider: React.FC<DesignProviderProps> = ({
   children, 
   defaultSiteId = 'hugo-ramos-nomadwise' 
 }) => {
-  const [design, setDesign] = useState<DesignV2>((dbV2File as any)?.designV2 || (defaultDesign as unknown as DesignV2));
+  const [design, setDesign] = useState<DesignV2>((defaultDesign as unknown as DesignV2));
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [siteId, setSiteId] = useState(defaultSiteId);
@@ -212,8 +211,8 @@ export const DesignProvider: React.FC<DesignProviderProps> = ({
       clearTimeout(timeout);
 
       if (!response.ok) {
-        // Fallback to bundled file
-        setDesign(((dbV2File as any)?.designV2 || (dbV2File as any)) as DesignV2);
+        // Fallback to built-in default only (avoid HMR reload on dbV2.json writes)
+        setDesign((defaultDesign as unknown as DesignV2));
         return;
       }
 
@@ -224,8 +223,8 @@ export const DesignProvider: React.FC<DesignProviderProps> = ({
     } catch (err) {
       console.error('[DesignContext] Error loading design config:', err);
       setError(err instanceof Error ? err.message : 'Failed to load design config');
-      // Fallback to bundled v2 JSON for preview only
-      setDesign(((dbV2File as any)?.designV2 || (dbV2File as any)) as DesignV2);
+      // Fallback to built-in default for preview only
+      setDesign((defaultDesign as unknown as DesignV2));
     } finally {
       setLoading(false);
     }
@@ -244,8 +243,24 @@ export const DesignProvider: React.FC<DesignProviderProps> = ({
   };
 
   const saveDesignToAPI = async () => {
-    // TODO: Implement v2 persistence endpoint. For now, no-op to avoid corrupting v1 store.
-    console.warn('[DesignContext] saveDesignToAPI (v2) is not implemented yet. Skipping persistence.');
+    try {
+      const isLocalhost = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+      const API_BASE = isLocalhost ? 'http://localhost:5001' : 'https://login.intuitiva.pt';
+      const res = await fetch(`${API_BASE}/save-design-v2`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ designV2: design })
+      });
+      const json = await res.json();
+      if (!res.ok || !json?.success) {
+        throw new Error(json?.error || `save-design-v2 failed (${res.status})`);
+      }
+      console.log('[DesignContext] designV2 saved to file:', json.path, 'backup:', json.backupPath);
+    } catch (e) {
+      console.error('[DesignContext] saveDesignToAPI error:', e);
+      throw e;
+    }
   };
 
   const value: DesignContextType = {

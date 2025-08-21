@@ -113,8 +113,6 @@ const AboutSectionGallery = () => {
               title={galleryContent.title}
               description={galleryContent.description}
               centerAlign={true}
-              titleColor="#FFFFFF"
-              descriptionColor="rgba(255, 255, 255, 0.8)"
             />
           </div>
           {/* Masonry Gallery */}

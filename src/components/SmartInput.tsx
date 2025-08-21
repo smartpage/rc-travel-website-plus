@@ -62,6 +62,35 @@ const getStepConfig = (label: string) => {
       parser: (str: string) => parseFloat(str.replace('rem', '')) || 0
     };
   }
+
+  // Border radius → rem by default
+  if (labelLower.includes('borderradius') || labelLower.includes('border-radius') || labelLower === 'radius') {
+    return {
+      step: 0.25,
+      min: 0,
+      max: 20,
+      formatter: (val: number) => `${val}rem`,
+      parser: (str: string) => parseFloat(str.replace('rem', '')) || 0
+    };
+  }
+
+  // Width/Height family → px by default
+  if (
+    labelLower.includes('width') ||
+    labelLower.includes('height') ||
+    labelLower.includes('maxwidth') ||
+    labelLower.includes('minwidth') ||
+    labelLower.includes('maxheight') ||
+    labelLower.includes('minheight')
+  ) {
+    return {
+      step: 10,
+      min: 0,
+      max: 4000,
+      formatter: (val: number) => `${Math.round(val)}px`,
+      parser: (str: string) => parseFloat(str.replace('px', '')) || 0
+    };
+  }
   
   // Default for other numeric values
   return {
@@ -80,27 +109,94 @@ const SmartInput: React.FC<SmartInputProps> = ({
   label,
   style
 }) => {
-  const config = getStepConfig(label);
+  let config = getStepConfig(label);
+
+  // Helper: parse all numeric tokens (with optional units) with positions
+  const parseNumericTokens = (input: string) => {
+    const tokens: { start: number; end: number; num: number; unit: string }[] = [];
+    const re = /(-?\d+(?:\.\d+)?)([a-z%]*)/gi;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(input)) !== null) {
+      const num = parseFloat(m[1]);
+      const unit = m[2] || '';
+      if (!isNaN(num)) tokens.push({ start: m.index, end: m.index + m[0].length, num, unit });
+    }
+    return tokens;
+  };
+
+  const stepForUnit = (unit: string) => {
+    const u = unit.toLowerCase();
+    if (u === 'rem' || u === 'em') return { step: 0.25, min: -100, max: 100, format: (v: number) => `${v}${u}` };
+    if (u === 'px') return { step: 10, min: -10000, max: 10000, format: (v: number) => `${Math.round(v)}px` };
+    if (u === '%') return { step: 5, min: -1000, max: 1000, format: (v: number) => `${v}%` };
+    if (u === 'vh' || u === 'vw') return { step: 1, min: -1000, max: 1000, format: (v: number) => `${v}${u}` };
+    // Unknown/empty unit → fall back to numeric default preserving unit
+    return { step: config.step, min: -10000, max: 10000, format: (v: number) => `${v}${u}` };
+  };
+
+  // If value already contains a unit, adapt step/formatter to preserve it
+  const match = typeof value === 'string' ? value.trim().match(/^(-?\d+(?:\.\d+)?)([a-z%]+)$/) : null;
+  if (match) {
+    const unit = match[2];
+    const u = stepForUnit(unit);
+    config = {
+      step: u.step,
+      min: u.min,
+      max: u.max,
+      formatter: (val: number) => u.format(val),
+      parser: (str: string) => parseFloat(str.replace(unit, '')) || 0
+    } as any;
+  }
   
+  const inputRef = React.useRef<HTMLInputElement>(null);
+
   const increment = () => {
-    const currentValue = config.parser(value);
-    const newValue = Math.min(currentValue + config.step, config.max);
-    onChange(config.formatter(newValue));
+    const tokens = parseNumericTokens(value);
+    if (tokens.length === 0) {
+      const currentValue = config.parser(value);
+      const newValue = Math.min(currentValue + config.step, config.max);
+      onChange(config.formatter(newValue));
+      return;
+    }
+    const caret = inputRef.current ? inputRef.current.selectionStart ?? value.length : value.length;
+    let idx = tokens.findIndex(t => caret >= t.start && caret <= t.end);
+    if (idx < 0) idx = tokens.length - 1;
+    const t = tokens[idx];
+    const unitCfg = stepForUnit(t.unit);
+    const next = Math.min(t.num + unitCfg.step, unitCfg.max);
+    const formatted = unitCfg.format(next);
+    const updated = value.slice(0, t.start) + formatted + value.slice(t.end);
+    onChange(updated);
   };
   
   const decrement = () => {
-    const currentValue = config.parser(value);
-    const newValue = Math.max(currentValue - config.step, config.min);
-    onChange(config.formatter(newValue));
+    const tokens = parseNumericTokens(value);
+    if (tokens.length === 0) {
+      const currentValue = config.parser(value);
+      const newValue = Math.max(currentValue - config.step, config.min);
+      onChange(config.formatter(newValue));
+      return;
+    }
+    const caret = inputRef.current ? inputRef.current.selectionStart ?? value.length : value.length;
+    let idx = tokens.findIndex(t => caret >= t.start && caret <= t.end);
+    if (idx < 0) idx = tokens.length - 1;
+    const t = tokens[idx];
+    const unitCfg = stepForUnit(t.unit);
+    const next = Math.max(t.num - unitCfg.step, unitCfg.min);
+    const formatted = unitCfg.format(next);
+    const updated = value.slice(0, t.start) + formatted + value.slice(t.end);
+    onChange(updated);
   };
   
-  const isNumericField = ['fontweight', 'fontsize', 'lineheight', 'letterspacing', 'padding', 'margin'].some(
-    type => label.toLowerCase().includes(type)
-  );
+  // Show arrows if label suggests numeric OR value contains any numeric token
+  const numericLabelRegex = /(font(weight|size)|line(height)|letter(spacing)|padding|margin|border(radius|width|height)?|(^|\.)?(width|max|min|height|gap)|opacity|scale|translate|rotate|zindex)/i;
+  const hasNumericTokens = parseNumericTokens(value).length > 0;
+  const isNumericField = numericLabelRegex.test(label) || hasNumericTokens;
   
   return (
     <div style={{ position: 'relative', width: '100%' }}>
       <input
+        ref={inputRef}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
