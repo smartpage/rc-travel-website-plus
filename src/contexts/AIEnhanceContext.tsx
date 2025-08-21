@@ -26,6 +26,8 @@ interface AIEnhanceContextShape {
     executor?: { endpoint: string; totalMs?: number; chunksPlanned?: number; chunksSucceeded?: number; chunksFailed?: number; chunks?: JobState[] };
   } | null;
   error: string | null;
+  executorMode: 'single' | 'multipart';
+  setExecutorMode: (m: 'single' | 'multipart') => void;
   runPlanAndExecute: (args: {
     prompt: string;
     modelPlan?: ModelRef;
@@ -134,6 +136,7 @@ export const AIEnhanceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const [metadata, setMetadata] = React.useState<any | null>(null);
   const [error, setError] = React.useState<string | null>(null);
   const [lastRun, setLastRun] = React.useState<any | null>(null);
+  const [executorMode, setExecutorMode] = React.useState<'single' | 'multipart'>('single');
 
   const reset = React.useCallback(() => {
     setPlanning(false);
@@ -164,6 +167,7 @@ export const AIEnhanceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
     // 1) Planner
     setPlanning(true);
+    let plannerResponse: any = null;
     try {
       const res = await fetch(`${AI_API_BASE}/ai-plan-scope`, {
         method: 'POST',
@@ -173,12 +177,12 @@ export const AIEnhanceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       });
       const json = await res.json();
       if (!res.ok || !json?.success) throw new Error(json?.error || `Planner failed (${res.status})`);
-      const enriched = ensurePlanCoverage(prompt, index, json.plan);
-      setPlan(enriched);
+      plannerResponse = json; // Store for executor
+      setPlan(json); // Store the entire planner response
       setPlanTimeMs(json.planTimeMs || null);
       setLastRun((prev: any) => ({
         ...(prev || {}),
-        planner: { endpoint: `${AI_API_BASE}/ai-plan-scope`, modelId: (json.model?.id), ms: json.planTimeMs, plan: enriched }
+        planner: { endpoint: `${AI_API_BASE}/ai-plan-scope`, modelId: (json.model?.id), ms: json.planTimeMs, plan: json }
       }));
     } catch (e: any) {
       setPlanning(false);
@@ -195,8 +199,17 @@ export const AIEnhanceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         data: { designV2: currentDesign },
         prompt,
         aiModel: modelExec,
-        plannerOutput: ensurePlanCoverage(prompt, index, plan)
+        // Pass ENTIRE planner response (not just plan) so backend can extract all fields
+        plannerOutput: plannerResponse,
+        mode: executorMode
       };
+      
+      // Debug: log what we're sending to executor
+      console.log('🔍 Sending to executor:', {
+        promptLength: prompt?.length,
+        plannerOutput: plannerResponse,
+        hasData: !!currentDesign
+      });
       const res = await fetch(`${AI_API_BASE}/ai-enhance-content-multipart-stream`, {
         method: 'POST',
         credentials: 'include',
@@ -252,7 +265,7 @@ export const AIEnhanceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       setError(e?.message || 'Executor failed');
       setExecuting(false);
     }
-  }, [plan]);
+  }, []);
 
   const value: AIEnhanceContextShape = {
     planning,
@@ -264,6 +277,8 @@ export const AIEnhanceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     metadata,
     lastRun,
     error,
+    executorMode,
+    setExecutorMode,
     runPlanAndExecute,
     reset,
   };

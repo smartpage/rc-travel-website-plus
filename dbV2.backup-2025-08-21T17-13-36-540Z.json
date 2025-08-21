@@ -157,7 +157,7 @@
         "defaults": {},
         "variants": {
           "primary": {
-            "backgroundColor": "#fbff00",
+            "backgroundColor": "#000000",
             "backgroundColorHover": "#000000",
             "textColor": "#000000",
             "textColorHover": "#ffffff",
@@ -166,7 +166,7 @@
             "fontFamily": "Inter, sans-serif",
             "fontSize": "1rem",
             "fontWeight": "500",
-            "padding": "1rem 1rem",
+            "padding": "1.5rem 1.5rem",
             "borderRadius": "0.75rem",
             "borderWidth": "2px"
           },

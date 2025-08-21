@@ -29,7 +29,7 @@ const AI_SUGGESTIONS: Array<{ label: string; prompt: string }> = [
 const AIEnhancePanel: React.FC = () => {
   const { design, updateDesignLocal, saveDesignToAPI } = useDesign() as any;
   const { aiTiming, startAiGeneration, endAiGeneration, activeElement } = useEditorOverlay() as any;
-  const { planning, executing, planTimeMs, jobs, runPlanAndExecute, error: planExecError, result: streamedResult, metadata: streamedMeta, lastRun } = useAIEnhance();
+  const { planning, executing, planTimeMs, jobs, runPlanAndExecute, error: planExecError, result: streamedResult, metadata: streamedMeta, lastRun, executorMode, setExecutorMode } = useAIEnhance();
   const [showAllLastJobs, setShowAllLastJobs] = React.useState(false);
   const [showFailedOnly, setShowFailedOnly] = React.useState(false);
   const [showPlan, setShowPlan] = React.useState(false);
@@ -57,17 +57,42 @@ const AIEnhancePanel: React.FC = () => {
     setAiPrompt(prev => insertMode === 'append' && prev.trim() ? `${prev.trim()}\n${p}` : p);
   };
 
+  // Auto-apply streaming results for immediate preview
+  React.useEffect(() => {
+    if (streamedResult?.enhancedData && !previewActive) {
+      try {
+        console.log('🎨 Auto-applying AI result for preview');
+        
+        // Store backup for potential revert
+        previewBackupRef.current = JSON.parse(JSON.stringify(design));
+        
+        const enhanced = streamedResult.enhancedData;
+        const nextDesign = (enhanced && typeof enhanced === 'object' && 'designV2' in enhanced)
+          ? (enhanced as any).designV2
+          : (enhanced && typeof enhanced === 'object' && 'design' in enhanced)
+          ? (enhanced as any).design
+          : enhanced;
+        
+        // Apply preview immediately for visual feedback
+        updateDesignLocal(() => nextDesign);
+        setPreviewActive(true);
+      } catch (e: any) {
+        console.error('❌ Failed to auto-apply AI result:', e);
+      }
+    }
+  }, [streamedResult, previewActive, design, updateDesignLocal]);
+
   const aiEnhanceDesign = async () => {
     setAiLoading(true);
     setAiError(null);
     setAiResult(null);
     setShowPreview(false);
-    
+
     const startTime = Date.now();
     startAiGeneration();
-    
+
     try {
-      // New path: planner + streaming executor
+      // Planner + streaming executor (single source of truth)
       const selectionHint = activeElement ? {
         sectionId: activeElement.sectionId,
         tokenPaths: Array.isArray(activeElement.tokenMatches) ? activeElement.tokenMatches.map((m:any)=>m.tokenPath) : []
@@ -81,98 +106,11 @@ const AIEnhancePanel: React.FC = () => {
         scopeMode: 'auto',
         selectionHint
       });
-      setAiLoading(false);
-      // Auto-preview when streamed result arrives
-      if ((streamedResult as any)?.enhancedData) {
-        const enhanced = (streamedResult as any).enhancedData;
-        setAiResult({ enhancedData: enhanced, metadata: streamedMeta });
-        setShowPreview(true);
-        previewBackupRef.current = JSON.parse(JSON.stringify(design));
-        const nextDesign = (enhanced && typeof enhanced === 'object' && 'designV2' in enhanced)
-          ? (enhanced as any).designV2
-          : (enhanced && typeof enhanced === 'object' && 'design' in enhanced)
-          ? (enhanced as any).design
-          : enhanced;
-        updateDesignLocal(() => nextDesign);
-        setPreviewActive(true);
-      }
-      return;
-    } catch {}
-
-    try {
-      console.log('🤖 AI Enhancement Request:', {
-        prompt: aiPrompt,
-        model: selectedModel,
-        designKeys: Object.keys(design || {}),
-        currentTypography: design?.typography
-      });
-
-      // Build a full DB-like payload. Today our db.json root only contains { design },
-      // but we keep the structure flexible so when more roots exist we can include them here.
-      // IMPORTANT: include current in-memory design state, not a stale file import.
-      const fullDbPayload: any = { designV2: design };
-
-      const res = await fetch(`${AI_API_BASE}/ai-enhance-content-multipart`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          // Send the ENTIRE db.json (current in-memory state). For now this equals { design }.
-          data: fullDbPayload,
-          prompt: aiPrompt || 'Improve readability and consistency. Keep structure identical. Return full JSON.',
-          sectionType: 'dbV2',
-          aiModel: selectedModel
-        })
-      });
-      
-      const json = await res.json().catch(() => ({}));
-      
-      if (!res.ok || !json?.success) {
-        throw new Error(json?.error || `AI service failed (${res.status})`);
-      }
-      
-      const enhanced = json.enhancedData;
-      const metadata = json.metadata;
-      if (!enhanced || typeof enhanced !== 'object') {
-        throw new Error('AI returned invalid JSON');
-      }
-      
-      console.log('✨ AI Enhanced Data:', {
-        originalDbKeys: Object.keys(fullDbPayload || {}),
-        enhancedDbKeys: Object.keys(enhanced || {}),
-        originalDesignKeys: Object.keys((fullDbPayload?.design) || {}),
-        enhancedDesignKeys: Object.keys((enhanced?.design) || (enhanced || {})),
-        originalTypography: (fullDbPayload?.design || {}).typography,
-        enhancedTypography: (enhanced?.design || enhanced || {}).typography,
-        changes: JSON.stringify(enhanced) !== JSON.stringify(fullDbPayload) ? 'DETECTED' : 'NONE',
-        parallelMetadata: metadata
-      });
-      
-      const elapsedMs = Date.now() - startTime;
-      endAiGeneration(elapsedMs);
-      
-      setAiResult({ enhancedData: enhanced, metadata });
-      setShowPreview(true);
-
-      // Store backup for potential revert AND auto-apply preview for visual feedback
-      previewBackupRef.current = JSON.parse(JSON.stringify(design));
-      
-      // Extract design and apply as PREVIEW (visual only, not committed)
-      const nextDesign = (enhanced && typeof enhanced === 'object' && 'designV2' in enhanced)
-        ? (enhanced as any).designV2
-        : (enhanced && typeof enhanced === 'object' && 'design' in enhanced)
-        ? (enhanced as any).design
-        : enhanced;
-      
-      // Apply preview immediately for visual feedback
-      updateDesignLocal(() => nextDesign);
-      setPreviewActive(true);
     } catch (e: any) {
-      const errorMsg = e?.message || 'AI enhance failed';
-      setAiError(errorMsg);
-      endAiGeneration(Date.now() - startTime);
+      setAiError(e?.message || 'Planner/Executor failed');
     } finally {
       setAiLoading(false);
+      endAiGeneration(Date.now() - startTime);
     }
   };
 
@@ -216,16 +154,20 @@ const AIEnhancePanel: React.FC = () => {
   };
 
   const rejectChanges = () => {
-    // Revert preview: restore backup design
-    if (previewActive && previewBackupRef.current) {
-      console.log('🔄 Reverting AI preview to original state');
-      updateDesignLocal(() => previewBackupRef.current);
+    // Robust revert of preview to the backed-up design
+    try {
+      if (previewBackupRef.current) {
+        console.log('🔄 Reverting AI preview to original state');
+        const snapshot = JSON.parse(JSON.stringify(previewBackupRef.current));
+        updateDesignLocal(() => snapshot);
+      }
+    } finally {
+      setPreviewActive(false);
+      setShowPreview(false);
+      setAiResult(null);
+      setAiPrompt('');
+      console.log('❌ AI changes rejected - design reverted to original state');
     }
-    setPreviewActive(false);
-    setShowPreview(false);
-    setAiResult(null);
-    setAiPrompt(''); // Clear prompt when rejecting
-    console.log('❌ AI changes rejected - design reverted to original state');
   };
 
   return (
@@ -237,6 +179,15 @@ const AIEnhancePanel: React.FC = () => {
         </div>
         <div style={{ fontSize: 11, color: '#94a3b8' }}>
           Planner: {FIXED_MODELS.plan.name} • Executor: {FIXED_MODELS.exec.name}
+        </div>
+        <div style={{ marginTop: 6, display: 'flex', gap: 8, alignItems: 'center' }}>
+          <span style={{ fontSize: 11, color: '#94a3b8' }}>Mode:</span>
+          <label style={{ display:'flex', alignItems:'center', gap:6, fontSize:11, color:'#cbd5e1' }}>
+            <input type="radio" name="execMode" checked={executorMode === 'single'} onChange={() => setExecutorMode('single')} /> single-shot
+          </label>
+          <label style={{ display:'flex', alignItems:'center', gap:6, fontSize:11, color:'#cbd5e1' }}>
+            <input type="radio" name="execMode" checked={executorMode === 'multipart'} onChange={() => setExecutorMode('multipart')} /> multipart
+          </label>
         </div>
       </div>
 
@@ -336,30 +287,57 @@ const AIEnhancePanel: React.FC = () => {
       </div>
 
       {/* Live Feedback */}
-      {(planning || executing) && (
-        <div style={{ marginTop: 8, padding: 8, background: '#0f172a', border: '1px solid #1e293b', borderRadius: 6 }}>
-          <div style={{ color: '#94a3b8', fontSize: 11, marginBottom: 6, fontWeight: 'bold' }}>Live Progress</div>
-          {planning && (
-            <div style={{ color: '#e2e8f0', fontSize: 11 }}>Planner: running…</div>
-          )}
-          {!planning && typeof planTimeMs === 'number' && (
-            <div style={{ color: '#e2e8f0', fontSize: 11 }}>Planner: {(planTimeMs/1000).toFixed(1)}s</div>
-          )}
-          {executing && (
-            <div style={{ marginTop: 6 }}>
-              {(jobs || []).slice(0, 6).map(j => (
-                <div key={j.index} style={{ display: 'flex', justifyContent: 'space-between', color: j.status==='error' ? '#f87171' : j.status==='ok' ? '#22c55e' : '#e5e7eb', fontSize: 11 }}>
-                  <span>{j.status === 'running' ? '⏳' : j.status === 'ok' ? '✅' : (j.error && String(j.error).startsWith('skip:')) ? '⚪' : '❌'} {j.path}</span>
-                  <span>{typeof j.ms === 'number' ? `${(j.ms/1000).toFixed(1)}s` : ''}</span>
-                </div>
-              ))}
-              {jobs.length > 6 && (
-                <div style={{ color: '#94a3b8', fontSize: 10, marginTop: 4 }}>+{jobs.length - 6} more…</div>
-              )}
+      <div style={{ marginTop: 8, padding: 8, background: '#0f172a', border: '1px solid #1e293b', borderRadius: 6 }}>
+        <div style={{ display:'flex', gap:8, flexWrap:'wrap' }}>
+          {/* Planner pill */}
+          <div style={{ padding:'4px 8px', borderRadius:999, border:'1px solid #1e293b', background:'#0b1220', fontSize:10, color:'#cbd5e1' }}>
+            Planner: {planning ? 'running…' : (typeof planTimeMs==='number' ? `${(planTimeMs/1000).toFixed(1)}s` : 'idle')}
+          </div>
+          {/* Executor pill */}
+          <div style={{ padding:'4px 8px', borderRadius:999, border:'1px solid #1e293b', background:'#0b1220', fontSize:10, color:'#cbd5e1' }}>
+            Executor: {executing ? 'running…' : (lastRun?.executor ? `${lastRun.executor.chunksSucceeded}/${lastRun.executor.chunksPlanned} chunks` : 'idle')}
+          </div>
+          {/* Changed count */}
+          {lastRun?.executor && (
+            <div style={{ padding:'4px 8px', borderRadius:999, border:'1px solid #1e293b', background:'#0b1220', fontSize:10, color:'#cbd5e1' }}>
+              Changed: {Array.isArray(lastRun.executor.chunks) ? lastRun.executor.chunks.filter((c:any)=>c.status==='ok').length : 0}
             </div>
           )}
         </div>
-      )}
+        {/* Streaming list */}
+        {(planning || executing) && (
+          <div style={{ marginTop: 8 }}>
+            {(jobs || []).slice(0, 6).map(j => (
+              <div key={j.index} style={{ display: 'flex', justifyContent: 'space-between', color: j.status==='error' ? '#f87171' : j.status==='ok' ? '#22c55e' : (j.error && String(j.error).startsWith('skip:')) ? '#e5e7eb' : '#e5e7eb', fontSize: 11 }}>
+                <span>{j.status === 'running' ? '⏳' : j.status === 'ok' ? '✅' : (j.error && String(j.error).startsWith('skip:')) ? '⚪' : '❌'} {j.path}</span>
+                <span>{typeof j.ms === 'number' ? `${(j.ms/1000).toFixed(1)}s` : ''}</span>
+              </div>
+            ))}
+            {jobs.length > 6 && (
+              <div style={{ color: '#94a3b8', fontSize: 10, marginTop: 4 }}>+{jobs.length - 6} more…</div>
+            )}
+          </div>
+        )}
+        {/* Full prompts & replies (from lastRun) */}
+        {lastRun?.executor && (
+          <div style={{ marginTop:8 }}>
+            <div style={{ color:'#94a3b8', fontSize:11, fontWeight:'bold', marginBottom:4 }}>Executor Prompts</div>
+            <div style={{ maxHeight:160, overflow:'auto', border:'1px solid #1e293b', borderRadius:6 }}>
+              {(lastRun.executor.chunks || []).slice(0, 6).map((j:any, i:number)=> (
+                <div key={i} style={{ padding:8, borderBottom:'1px solid #0f172a' }}>
+                  <div style={{ fontSize:10, color:'#cbd5e1', marginBottom:4 }}>{j.path}</div>
+                  {j.systemMsg && (
+                    <pre style={{ whiteSpace:'pre-wrap', fontSize:10, color:'#94a3b8', margin:0 }}>SYSTEM: {j.systemMsg}</pre>
+                  )}
+                  {j.userMsg && (
+                    <pre style={{ whiteSpace:'pre-wrap', fontSize:10, color:'#e2e8f0', margin:0 }}>USER: {j.userMsg}</pre>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
 
       {/* Persistent Last Run Summary */}
       {lastRun && (
