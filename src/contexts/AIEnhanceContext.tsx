@@ -73,6 +73,31 @@ function buildIndexFromDesign(design: any) {
   return idx;
 }
 
+function getByPath(root: any, path: string) {
+  if (!root || !path) return undefined;
+  const parts = path.split('.');
+  let cur: any = root;
+  for (const p of parts) {
+    if (cur == null) return undefined;
+    cur = cur[p];
+  }
+  return cur;
+}
+
+function buildShapeHints(design: any, index: any) {
+  const hints: Record<string, string[]> = {};
+  try {
+    const rootWrapped = { designV2: design };
+    (index?.paths || []).forEach((e: any) => {
+      const obj = getByPath(rootWrapped, e.path);
+      if (obj && typeof obj === 'object' && !Array.isArray(obj)) {
+        hints[e.path] = Object.keys(obj);
+      }
+    });
+  } catch {}
+  return hints;
+}
+
 function ensurePlanCoverage(prompt: string, index: any, plan: any) {
   try {
     const p = (prompt || '').toLowerCase();
@@ -144,7 +169,7 @@ export const AIEnhanceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt, index, selectionHint, scopeMode, aiModelPlan: modelPlan || { provider: 'openrouter', id: 'anthropic/claude-3.5-sonnet' } })
+        body: JSON.stringify({ prompt, index, selectionHint, scopeMode, shapeHints: buildShapeHints(currentDesign, index), aiModelPlan: modelPlan || { provider: 'openrouter', id: 'anthropic/claude-3.5-sonnet' } })
       });
       const json = await res.json();
       if (!res.ok || !json?.success) throw new Error(json?.error || `Planner failed (${res.status})`);

@@ -3,20 +3,11 @@ import { useDesign } from '../contexts/DesignContext';
 import { useEditorOverlay } from '../contexts/EditorOverlayContext';
 import { useAIEnhance } from '../contexts/AIEnhanceContext';
 
-// Available AI models
-const AI_MODELS = [
-  // OpenRouter (Fastest models first)
-  { provider: 'openrouter', id: 'anthropic/claude-3-haiku', name: 'Claude 3 Haiku (Fastest)' },
-  { provider: 'openrouter', id: 'x-ai/grok-3-mini', name: 'Grok 3 Mini (Fast)' },
-  { provider: 'openrouter', id: 'x-ai/grok-3', name: 'Grok 3 (Better)' },
-  { provider: 'openrouter', id: 'meta-llama/llama-3.1-8b-instruct', name: 'Llama 3.1 8B (Fast)' },
-  // OpenAI
-  { provider: 'openai', id: 'gpt-4o-mini', name: 'GPT-4o mini (Fast)' },
-  { provider: 'openai', id: 'gpt-4o', name: 'GPT-4o (Better)' },
-  // Google Gemini (server expects provider: 'gemini')
-  { provider: 'gemini', id: 'gemini-1.5-flash-latest', name: 'Gemini 1.5 Flash' },
-  { provider: 'gemini', id: 'gemini-1.5-pro-latest', name: 'Gemini 1.5 Pro' },
-];
+// Fixed models: planner (Sonnet), executor (OpenRouter Gemini 2.5 Flash Lite)
+const FIXED_MODELS = {
+  plan: { provider: 'openrouter', id: 'anthropic/claude-3.5-sonnet', name: 'Claude 3.5 Sonnet' },
+  exec: { provider: 'openrouter', id: 'google/gemini-2.5-flash-lite', name: 'Gemini 2.5 Flash Lite' },
+};
 
 // Quick suggestion prompts (general, outcome-focused)
 const AI_SUGGESTIONS: Array<{ label: string; prompt: string }> = [
@@ -44,7 +35,8 @@ const AIEnhancePanel: React.FC = () => {
   const [showPlan, setShowPlan] = React.useState(false);
   const [aiPrompt, setAiPrompt] = React.useState<string>('');
   const [showSuggestions, setShowSuggestions] = React.useState<boolean>(false);
-  const [selectedModel, setSelectedModel] = React.useState(AI_MODELS[0]);
+  // Fixed executor model
+  const selectedModel = React.useMemo(() => FIXED_MODELS.exec, []);
   const [aiLoading, setAiLoading] = React.useState<boolean>(false);
   const [aiError, setAiError] = React.useState<string | null>(null);
   const [aiResult, setAiResult] = React.useState<any>(null);
@@ -83,7 +75,7 @@ const AIEnhancePanel: React.FC = () => {
 
       await runPlanAndExecute({
         prompt: aiPrompt || 'Improve readability and consistency. Keep structure identical.',
-        modelPlan: { provider: 'openrouter', id: 'anthropic/claude-3.5-sonnet', name: 'Claude 3.5 Sonnet' },
+        modelPlan: FIXED_MODELS.plan,
         modelExec: selectedModel,
         currentDesign: design,
         scopeMode: 'auto',
@@ -241,32 +233,11 @@ const AIEnhancePanel: React.FC = () => {
       {/* AI Model Selection */}
       <div>
         <div style={{ color: '#e5e7eb', fontSize: 12, marginBottom: 6 }}>
-          AI Model
+          AI Models
         </div>
-        <select
-          value={`${selectedModel.provider}:${selectedModel.id}`}
-          disabled={planning || executing}
-          onChange={(e) => {
-            const [provider, id] = e.target.value.split(':');
-            const model = AI_MODELS.find(m => m.provider === provider && m.id === id);
-            if (model) setSelectedModel(model);
-          }}
-          style={{
-            width: '100%',
-            background: '#141414',
-            color: '#fff',
-            border: '1px solid #2a2a2a',
-            borderRadius: 6,
-            padding: 8,
-            fontSize: 12
-          }}
-        >
-          {AI_MODELS.map(model => (
-            <option key={`${model.provider}:${model.id}`} value={`${model.provider}:${model.id}`}>
-              {model.name}
-            </option>
-          ))}
-        </select>
+        <div style={{ fontSize: 11, color: '#94a3b8' }}>
+          Planner: {FIXED_MODELS.plan.name} • Executor: {FIXED_MODELS.exec.name}
+        </div>
       </div>
 
       {/* AI Prompt Input */}
