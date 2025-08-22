@@ -116,7 +116,7 @@
           "lineHeight": "1",
           "fontWeight": "600",
           "letterSpacing": "-0.1em",
-          "color": "#ffffff",
+          "color": "#ec4899",
           "marginBottom": "10rem",
           "textAlign": "center"
         },
@@ -143,7 +143,7 @@
           "fontFamily": "Inter, sans-serif",
           "fontSize": "1.5rem",
           "fontWeight": "500",
-          "color": "#00ff59",
+          "color": "#ec4899",
           "lineHeight": "1.75",
           "marginTop": "1.5rem"
         }
@@ -365,7 +365,7 @@
         "layout": {
           "maxWidth": "100%",
           "minHeight": "100vh",
-          "backgroundColor": "#ffffff",
+          "backgroundColor": "#000000",
           "padding": {
             "mobile": "10rem 0.5rem",
             "tablet": "10rem 0.5rem",

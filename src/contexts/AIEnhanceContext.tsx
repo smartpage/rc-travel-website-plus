@@ -2,6 +2,9 @@ import React from 'react';
 
 type ModelRef = { provider: string; id: string; name?: string };
 
+// 2-stage manual workflow state machine
+type AIState = 'idle' | 'planning' | 'plan_ready' | 'executing' | 'results_ready' | 'applied' | 'error';
+
 type JobState = {
   index: number;
   path: string;
@@ -13,9 +16,26 @@ type JobState = {
   userMsg?: string;
 };
 
+// Enhanced error types with recovery actions
+type AIError = {
+  type: 'network' | 'auth' | 'planner' | 'executor' | 'validation';
+  message: string;
+  details?: string;
+  retryable: boolean;
+  suggestion?: string;
+};
+
 interface AIEnhanceContextShape {
-  planning: boolean;
-  executing: boolean;
+  // New simplified state machine
+  state: AIState;
+  setState: (state: AIState) => void;
+  
+  // Enhanced error handling
+  error: AIError | null;
+  setError: (error: AIError | null) => void;
+  retry: () => Promise<void>;
+  
+  // Core data
   planTimeMs: number | null;
   plan: any | null;
   jobs: JobState[];
@@ -25,9 +45,28 @@ interface AIEnhanceContextShape {
     planner?: { endpoint: string; modelId?: string; ms?: number; plan?: any };
     executor?: { endpoint: string; totalMs?: number; chunksPlanned?: number; chunksSucceeded?: number; chunksFailed?: number; chunks?: JobState[] };
   } | null;
-  error: string | null;
+  
+  // Configuration
   executorMode: 'single' | 'multipart';
   setExecutorMode: (m: 'single' | 'multipart') => void;
+  plannerModel: ModelRef;
+  setPlannerModel: (m: ModelRef) => void;
+  
+  // Actions - 2-stage manual workflow
+  runPlanner: (args: {
+    prompt: string;
+    modelPlan?: ModelRef;
+    currentDesign: any;
+    selectionHint?: any;
+    scopeMode?: 'auto' | 'selection' | 'global';
+  }) => Promise<void>;
+  
+  runExecutor: (args: {
+    modelExec: ModelRef;
+    currentDesign: any;
+  }) => Promise<void>;
+  
+  // Legacy compatibility
   runPlanAndExecute: (args: {
     prompt: string;
     modelPlan?: ModelRef;
@@ -36,6 +75,12 @@ interface AIEnhanceContextShape {
     selectionHint?: any;
     scopeMode?: 'auto' | 'selection' | 'global';
   }) => Promise<void>;
+  
+  // Preview management
+  applyPreview: () => void;
+  rejectPreview: () => void;
+  commitChanges: () => Promise<void>;
+  
   reset: () => void;
 }
 
@@ -45,33 +90,128 @@ const isLocalhost = typeof window !== 'undefined' && (window.location.hostname =
 const AI_API_BASE = isLocalhost ? 'http://localhost:5001' : 'https://login.intuitiva.pt';
 
 function buildIndexFromDesign(design: any) {
-  const idx: any = { version: 1, paths: [], aliases: {} };
+  const idx: any = { version: 2, paths: [], aliases: {}, relationships: {} };
   try {
     if (!design) return idx;
-    // tokens.colors
+    
+    // Enhanced semantic aliases for visual concepts
+    idx.aliases = {
+      // Background concepts
+      "cards background": [],
+      "section background": [],
+      "hero background": [],
+      "background": [],
+      
+      // Button concepts  
+      "button background": [],
+      "button color": [],
+      "primary button": [],
+      "secondary button": [],
+      "button": [],
+      
+      // Text concepts
+      "text color": [],
+      "heading color": [],
+      "body text": [],
+      "title color": [],
+      
+      // Layout concepts
+      "padding": [],
+      "spacing": [],
+      "hero section": [],
+      "cards section": [],
+    };
+    
+    // Build comprehensive path index
+    // 1. Tokens
     if (design.tokens?.colors) {
-      idx.paths.push({ id: 'tokens.colors', path: 'designV2.tokens.colors' });
+      idx.paths.push({ id: 'tokens.colors', path: 'designV2.tokens.colors', category: 'color' });
+      idx.aliases["background"].push('designV2.tokens.colors');
     }
-    // tokens.typography families
+    
     if (design.tokens?.typography) {
       Object.keys(design.tokens.typography).forEach((k) => {
-        idx.paths.push({ id: `tokens.typography.${k}`, path: `designV2.tokens.typography.${k}` });
+        const path = `designV2.tokens.typography.${k}`;
+        idx.paths.push({ id: `tokens.typography.${k}`, path, category: 'typography' });
+        
+        // Smart aliasing based on typography name
+        if (k.includes('heading') || k.includes('title')) {
+          idx.aliases["heading color"].push(path);
+          idx.aliases["title color"].push(path);
+        }
+        if (k.includes('body') || k.includes('text')) {
+          idx.aliases["body text"].push(path);
+          idx.aliases["text color"].push(path);
+        }
       });
     }
-    // components.button variants
+    
+    // 2. Components
     const variants = design.components?.button?.variants;
     if (variants) {
       Object.keys(variants).forEach((v) => {
-        idx.paths.push({ id: `components.button.variants.${v}`, path: `designV2.components.button.variants.${v}` });
+        const path = `designV2.components.button.variants.${v}`;
+        idx.paths.push({ id: `components.button.variants.${v}`, path, category: 'component' });
+        
+        // Smart button aliasing
+        idx.aliases["button"].push(path);
+        idx.aliases["button background"].push(path);
+        idx.aliases["button color"].push(path);
+        
+        if (v === 'primary') {
+          idx.aliases["primary button"].push(path);
+        }
+        if (v === 'secondary') {
+          idx.aliases["secondary button"].push(path);
+        }
       });
     }
-    // sections.*.layout
+    
+    // 3. Sections with enhanced background detection
     if (design.sections) {
       Object.keys(design.sections).forEach((s) => {
-        idx.paths.push({ id: `sections.${s}.layout`, path: `designV2.sections.${s}.layout` });
+        const layoutPath = `designV2.sections.${s}.layout`;
+        const innerPath = `designV2.sections.${s}.layout.inner`;
+        const backgroundPath = `designV2.sections.${s}.layout.inner.background`;
+        
+        idx.paths.push({ id: `sections.${s}.layout`, path: layoutPath, category: 'layout' });
+        
+        // Smart section aliasing
+        idx.aliases["section background"].push(backgroundPath);
+        idx.aliases["background"].push(backgroundPath);
+        idx.aliases["padding"].push(`${layoutPath}.padding`);
+        idx.aliases["spacing"].push(`${layoutPath}.padding`);
+        
+        // Section-specific aliases
+        if (s.includes('hero')) {
+          idx.aliases["hero section"].push(layoutPath);
+          idx.aliases["hero background"].push(backgroundPath);
+        }
+        if (s.includes('card') || s.includes('feature')) {
+          idx.aliases["cards background"].push(backgroundPath);
+          idx.aliases["cards section"].push(layoutPath);
+        }
+        if (s.includes('why') && s.includes('feature')) {
+          idx.aliases["cards background"].push(backgroundPath);
+        }
       });
     }
-  } catch {}
+    
+    // Build relationships for smart suggestions
+    idx.relationships = {
+      "background_affects_text": {
+        "designV2.sections.*.layout.inner.background": ["designV2.tokens.typography.*.color"],
+        "designV2.tokens.colors.background": ["designV2.tokens.typography.body.color"]
+      },
+      "button_variants": {
+        "designV2.components.button.variants.primary": ["backgroundColor", "textColor", "padding"],
+        "designV2.components.button.variants.secondary": ["backgroundColor", "textColor", "borderColor"]
+      }
+    };
+    
+  } catch (e) {
+    console.warn('Index building failed:', e);
+  }
   return idx;
 }
 
@@ -127,95 +267,199 @@ function ensurePlanCoverage(prompt: string, index: any, plan: any) {
 }
 
 export const AIEnhanceProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [planning, setPlanning] = React.useState(false);
-  const [executing, setExecuting] = React.useState(false);
+  // New simplified state machine
+  const [state, setState] = React.useState<AIState>('idle');
+  const [error, setError] = React.useState<AIError | null>(null);
+  
+  // Core data states
   const [planTimeMs, setPlanTimeMs] = React.useState<number | null>(null);
   const [plan, setPlan] = React.useState<any | null>(null);
   const [jobs, setJobs] = React.useState<JobState[]>([]);
   const [result, setResult] = React.useState<any | null>(null);
   const [metadata, setMetadata] = React.useState<any | null>(null);
-  const [error, setError] = React.useState<string | null>(null);
   const [lastRun, setLastRun] = React.useState<any | null>(null);
+  
+  // Configuration
   const [executorMode, setExecutorMode] = React.useState<'single' | 'multipart'>('single');
+  const [plannerModel, setPlannerModel] = React.useState<ModelRef>({ provider: 'openrouter', id: 'anthropic/claude-3.7-sonnet', name: 'Claude 3.7 Sonnet' });
+  
+  // Preview management
+  const [previewBackup, setPreviewBackup] = React.useState<any>(null);
+  const [lastPrompt, setLastPrompt] = React.useState<string>('');
+  const [lastArgs, setLastArgs] = React.useState<any>(null);
+  
+
 
   const reset = React.useCallback(() => {
-    setPlanning(false);
-    setExecuting(false);
+    setState('idle');
     setPlanTimeMs(null);
     setPlan(null);
     setJobs([]);
     setResult(null);
     setMetadata(null);
     setError(null);
+    setPreviewBackup(null);
+    setLastPrompt('');
+    setLastArgs(null);
   }, []);
+  
+  const createError = React.useCallback((type: AIError['type'], message: string, details?: string, retryable = true): AIError => ({
+    type,
+    message,
+    details,
+    retryable,
+    suggestion: type === 'network' ? 'Check your internet connection and try again' :
+               type === 'auth' ? 'Please refresh the page and log in again' :
+               type === 'planner' ? 'Try simplifying your prompt or check planner model' :
+               type === 'executor' ? 'Try reducing the scope or switching to single-shot mode' :
+               'Please try again or contact support'
+  }), []);
+  
+  const retry = React.useCallback(async () => {
+    if (!error?.retryable || !lastArgs) return;
+    setError(null);
+    await runPlanAndExecute(lastArgs);
+  }, [error, lastArgs]);
+  
+  const applyPreview = React.useCallback(() => {
+    if (state !== 'results_ready' || !result) return;
+    setState('applied');
+    console.log('✅ Preview applied to working copy');
+  }, [state, result]);
+  
+  const rejectPreview = React.useCallback(() => {
+    if (state !== 'results_ready' || !previewBackup) return;
+    // In a real implementation, this would revert the design
+    // For now, just reset state
+    setState('idle');
+    setResult(null);
+    setPreviewBackup(null);
+    console.log('❌ Preview rejected, reverted to original');
+  }, [state, previewBackup]);
+  
+  const commitChanges = React.useCallback(async () => {
+    if (state !== 'applied') return;
+    try {
+      // In a real implementation, this would save to API
+      console.log('💾 Committing changes to API...');
+      setState('idle');
+      setResult(null);
+      setPreviewBackup(null);
+    } catch (e: any) {
+      setError(createError('network', 'Failed to save changes', e.message));
+    }
+  }, [state, createError]);
 
-  const runPlanAndExecute = React.useCallback(async (args: {
+  // Split into 2 separate functions for manual control
+  const runPlanner = React.useCallback(async (args: {
     prompt: string;
     modelPlan?: ModelRef;
-    modelExec: ModelRef;
     currentDesign: any;
     selectionHint?: any;
     scopeMode?: 'auto' | 'selection' | 'global';
   }) => {
-    const { prompt, modelPlan, modelExec, currentDesign, selectionHint, scopeMode = 'auto' } = args;
+    const { prompt, modelPlan, currentDesign, selectionHint, scopeMode = 'auto' } = args;
+    
+    // Store for executor phase
+    setLastPrompt(prompt);
+    setLastArgs(args);
+    
     setError(null);
     setResult(null);
     setMetadata(null);
 
-    // Build index
+    // Build enhanced index with semantic aliases
     const index = buildIndexFromDesign(currentDesign);
+    console.log('🧠 Built enhanced index:', { 
+      pathCount: index.paths?.length, 
+      aliasCount: Object.keys(index.aliases || {}).length,
+      version: index.version 
+    });
 
-    // 1) Planner
-    setPlanning(true);
-    let plannerResponse: any = null;
+    // Planning phase only
+    setState('planning');
     try {
       const res = await fetch(`${AI_API_BASE}/ai-plan-scope`, {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt, index, selectionHint, scopeMode, shapeHints: buildShapeHints(currentDesign, index), aiModelPlan: modelPlan || { provider: 'openrouter', id: 'anthropic/claude-3.5-sonnet' } })
+        body: JSON.stringify({ 
+          prompt, 
+          index, 
+          selectionHint, 
+          scopeMode, 
+          shapeHints: buildShapeHints(currentDesign, index), 
+          aiModelPlan: modelPlan || plannerModel 
+        })
       });
+      
+      if (!res.ok) {
+        if (res.status === 401) {
+          throw new Error('Authentication required');
+        } else if (res.status >= 500) {
+          throw new Error('Server error - please try again');
+        }
+        throw new Error(`Request failed (${res.status})`);
+      }
+      
       const json = await res.json();
-      if (!res.ok || !json?.success) throw new Error(json?.error || `Planner failed (${res.status})`);
-      plannerResponse = json; // Store for executor
-      setPlan(json); // Store the entire planner response
+      if (!json?.success) {
+        throw new Error(json?.error || 'Planner returned unsuccessful response');
+      }
+      
+      setPlan(json);
       setPlanTimeMs(json.planTimeMs || null);
       setLastRun((prev: any) => ({
         ...(prev || {}),
         planner: { endpoint: `${AI_API_BASE}/ai-plan-scope`, modelId: (json.model?.id), ms: json.planTimeMs, plan: json }
       }));
+      
+      // Move to plan_ready state for user review
+      setState('plan_ready');
+      
     } catch (e: any) {
-      setPlanning(false);
-      setError(e?.message || 'Planner failed');
+      const errorType: AIError['type'] = e.message.includes('Authentication') ? 'auth' :
+                                         e.message.includes('network') ? 'network' : 'planner';
+      setError(createError(errorType, `Planner failed: ${e.message}`, e.stack));
+      setState('error');
+    }
+  }, [createError, plannerModel, AI_API_BASE]);
+
+  const runExecutor = React.useCallback(async (args: {
+    modelExec: ModelRef;
+    currentDesign: any;
+  }) => {
+    const { modelExec, currentDesign } = args;
+    
+    if (!plan || state !== 'plan_ready') {
+      setError(createError('validation', 'No plan available for execution'));
       return;
     }
-    setPlanning(false);
 
-    // 2) Executor (stream NDJSON)
-    setExecuting(true);
+    // Executor phase
+    setState('executing');
     setJobs([]);
     try {
       const body = {
         data: { designV2: currentDesign },
-        prompt,
+        prompt: lastPrompt,
         aiModel: modelExec,
-        // Pass ENTIRE planner response (not just plan) so backend can extract all fields
-        plannerOutput: plannerResponse,
-        mode: executorMode
+        plannerOutput: plan,
+        mode: 'single' // Always single-shot
       };
       
-      // Debug: log what we're sending to executor
-      console.log('🔍 Sending to executor:', {
-        promptLength: prompt?.length,
-        plannerOutput: plannerResponse,
-        hasData: !!currentDesign
-      });
       const res = await fetch(`${AI_API_BASE}/ai-enhance-content-multipart-stream`, {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
       });
+      
+      if (!res.ok) {
+        const errorText = await res.text();
+        throw new Error(`Executor failed (${res.status}): ${errorText}`);
+      }
+      
       if (!res.body) throw new Error('No stream body');
       const reader = res.body.getReader();
       const decoder = new TextDecoder('utf-8');
@@ -240,6 +484,10 @@ export const AIEnhanceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
             } else if (evt.type === 'result') {
               if (evt.success) {
                 setResult({ enhancedData: evt.enhancedData });
+                setState('results_ready'); // Move to results_ready for user review
+              } else {
+                setError(createError('executor', 'Execution failed', evt.error));
+                setState('error');
               }
               setMetadata(evt.metadata || null);
               setLastRun((prev: any) => ({
@@ -253,33 +501,74 @@ export const AIEnhanceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
                   chunks: [...(jobs || [])].map(j => ({...j}))
                 }
               }));
-              setExecuting(false);
             } else if (evt.type === 'error') {
-              setError(evt.message || 'Stream error');
-              setExecuting(false);
+              setError(createError('executor', evt.message || 'Stream error', evt.details));
+              setState('error');
             }
           } catch {}
         }
       }
     } catch (e: any) {
-      setError(e?.message || 'Executor failed');
-      setExecuting(false);
+      const errorType: AIError['type'] = e.message.includes('fetch') ? 'network' : 'executor';
+      setError(createError(errorType, `Executor failed: ${e.message}`, e.stack));
+      setState('error');
     }
-  }, []);
+  }, [createError, plan, state, lastPrompt, jobs, AI_API_BASE]);
+
+  // Legacy function for backward compatibility - now just calls the split functions
+  const runPlanAndExecute = React.useCallback(async (args: {
+    prompt: string;
+    modelPlan?: ModelRef;
+    modelExec: ModelRef;
+    currentDesign: any;
+    selectionHint?: any;
+    scopeMode?: 'auto' | 'selection' | 'global';
+  }) => {
+    const { prompt, modelPlan, modelExec, currentDesign, selectionHint, scopeMode = 'auto' } = args;
+    
+    // First run planner
+    await runPlanner({ prompt, modelPlan, currentDesign, selectionHint, scopeMode });
+    
+    // If planning succeeded, auto-execute (legacy behavior)
+    if (state === 'plan_ready') {
+      await runExecutor({ modelExec, currentDesign });
+    }
+  }, [runPlanner, runExecutor, state]);
 
   const value: AIEnhanceContextShape = {
-    planning,
-    executing,
+    // New state machine
+    state,
+    setState,
+    
+    // Enhanced error handling
+    error,
+    setError,
+    retry,
+    
+    // Core data
     planTimeMs,
     plan,
     jobs,
     result,
     metadata,
     lastRun,
-    error,
+    
+    // Configuration
     executorMode,
     setExecutorMode,
-    runPlanAndExecute,
+    plannerModel,
+    setPlannerModel,
+    
+    // Actions - 2-stage manual workflow
+    runPlanner,
+    runExecutor,
+    runPlanAndExecute, // Legacy compatibility
+    
+    // Preview management
+    applyPreview,
+    rejectPreview,
+    commitChanges,
+    
     reset,
   };
 

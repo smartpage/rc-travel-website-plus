@@ -244,19 +244,24 @@ export const DesignProvider: React.FC<DesignProviderProps> = ({
 
   const saveDesignToAPI = async () => {
     try {
-      const isLocalhost = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
-      const API_BASE = isLocalhost ? 'http://localhost:5001' : 'https://login.intuitiva.pt';
-      const res = await fetch(`${API_BASE}/save-design-v2`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ designV2: design })
-      });
-      const json = await res.json();
-      if (!res.ok || !json?.success) {
-        throw new Error(json?.error || `save-design-v2 failed (${res.status})`);
-      }
-      console.log('[DesignContext] designV2 saved to file:', json.path, 'backup:', json.backupPath);
+      // For now, save locally without server calls
+      // Later this will be replaced with external endpoint
+      const designToSave = { designV2: design };
+      const jsonString = JSON.stringify(designToSave, null, 2);
+      
+      // Create downloadable file as temporary solution
+      const blob = new Blob([jsonString], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'dbV2.json';
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      
+      console.log('[DesignContext] designV2 saved locally (download)', { designV2: design });
     } catch (e) {
       console.error('[DesignContext] saveDesignToAPI error:', e);
       throw e;
