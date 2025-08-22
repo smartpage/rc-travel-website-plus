@@ -15,7 +15,7 @@ const DesignInspectorOverlay: React.FC = () => {
   const query = React.useMemo(() => new URLSearchParams(location.search), [location.search]);
   const enabled = query.get('design') === '1' || query.get('design') === 'true';
 
-  const { design, updateDesignLocal, saveDesignToAPI, refreshDesign } = useDesign() as any;
+  const { design, updateDesignLocal, saveDesignToDBV2, refreshDesign } = useDesign() as any;
 
   const [primary, setPrimary] = React.useState<string>(design?.colors?.primary || '');
   const [activeSectionId, setActiveSectionId] = React.useState<string>('hero');
@@ -97,7 +97,7 @@ const DesignInspectorOverlay: React.FC = () => {
       setSaving(true);
       setSaved(false);
       setError(null);
-      await saveDesignToAPI();
+      await saveDesignToDBV2();
       setSaved(true);
     } catch (e: any) {
       setError(e?.message || 'Failed to save design');

@@ -397,4 +397,38 @@ if (state === 'applied' && sessionBackup) {
 - Used by: Reject functionality
 - Cleared: After commit or discard
 
+### **💾 SAVE IMPLEMENTATION - PROVISORY LOCAL API SERVER**
+
+✅ **COMPLETED**: Implemented provisory Express server for direct file system operations during development.
+
+**⚠️ PROVISORY SOLUTION** - For development only, will be replaced with external endpoint in production.
+
+**Server Setup:** `api/server.js`
+- **Port**: 3001 (separate from Vite dev server)
+- **Dependencies**: Express + CORS
+- **Endpoint**: `POST http://localhost:3001/api/save-dbv2`
+
+**File Operations (exactly as requested):**
+1. **Backup**: Duplicates current `public/dbV2.json` → `public/dbV2_backup_TIMESTAMP.json`
+2. **Delete**: Removes original `public/dbV2.json`
+3. **Save**: Writes new design data directly to `public/dbV2.json`
+
+**Development Workflow:**
+- **Command**: `npm run dev` (runs 3 services with concurrently)
+  - Vite dev server (port 5173)
+  - JSON server (port 4010) 
+  - **NEW**: Provisory API server (port 3001)
+
+**Frontend Integration:** `src/contexts/DesignContext.tsx`
+- **Function**: `saveDesignToDBV2()` 
+- **Calls**: `http://localhost:3001/api/save-dbv2`
+- **Result**: Direct file system operations, automatic backup
+
+**Benefits:**
+- ✅ Real file system operations (backup + delete + save)
+- ✅ No manual file replacement needed
+- ✅ Automatic timestamped backups in public/ folder
+- ✅ Seamless development experience
+- ✅ Easy to remove for production
+
 **Result:** Perfect discard behavior - always returns to previous usable state with original design restored! 🎯

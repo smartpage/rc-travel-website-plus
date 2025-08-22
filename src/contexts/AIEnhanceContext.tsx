@@ -55,6 +55,7 @@ interface AIEnhanceContextShape {
   // State access
   previewBackup: any;
   sessionBackup: any;
+  lastPrompt: string;
   
   // Actions - 2-stage manual workflow
   runPlanner: (args: {
@@ -286,7 +287,7 @@ export const AIEnhanceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   
   // Configuration
   const [executorMode, setExecutorMode] = React.useState<'single' | 'multipart'>('single');
-  const [plannerModel, setPlannerModel] = React.useState<ModelRef>({ provider: 'openrouter', id: 'google/gemini-2.5-flash', name: 'Gemini 2.5 Flash' });
+  const [plannerModel, setPlannerModel] = React.useState<ModelRef>({ provider: 'openrouter', id: 'google/gemini-2.5-flash-lite', name: 'Gemini 2.5 Flash Lite' });
   
   // Preview management
   const [previewBackup, setPreviewBackup] = React.useState<any>(null);
@@ -596,6 +597,7 @@ export const AIEnhanceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     // State access
     previewBackup,
     sessionBackup,
+    lastPrompt,
     
     // Actions - 2-stage manual workflow
     runPlanner,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Brain, Zap, Check, X, Save, RotateCcw, FileText, ChevronDown, ChevronUp, Trash2 } from 'lucide-react';
+import { Brain, Zap, Check, X, Save, RotateCcw, FileText, ChevronDown, ChevronUp, Trash2, Clock, CheckCircle, XCircle, Lightbulb, Cog, Sparkles, AlertCircle } from 'lucide-react';
 import { useDesign } from '../contexts/DesignContext';
 import { useEditorOverlay } from '../contexts/EditorOverlayContext';
 import { useAIEnhance } from '../contexts/AIEnhanceContext';
@@ -36,8 +36,75 @@ const AI_SUGGESTIONS: Array<{ label: string; prompt: string }> = [
   { label: 'Enhanced hover states', prompt: 'Improve button and interactive element hover states for better user feedback.' },
 ];
 
+// Info component for status display
+const AIStatusInfo: React.FC<{
+  state: string;
+  planTimeMs?: number;
+  lastRun?: any;
+  streamedMeta?: any;
+  aiTiming?: any;
+}> = ({ state, planTimeMs, lastRun, streamedMeta, aiTiming }) => {
+  const getStatusIcon = () => {
+    switch (state) {
+      case 'idle': return <Lightbulb size={14} />;
+      case 'planning': return <Cog size={14} className="animate-spin" />;
+      case 'plan_ready': return <FileText size={14} />;
+      case 'executing': return <Zap size={14} />;
+      case 'results_ready': return <Sparkles size={14} />;
+      case 'applied': return <CheckCircle size={14} />;
+      case 'error': return <AlertCircle size={14} />;
+      default: return <Clock size={14} />;
+    }
+  };
+
+  const getStatusText = () => {
+    switch (state) {
+      case 'idle': return 'Ready to plan enhancement';
+      case 'planning': return 'Analyzing prompt and design...';
+      case 'plan_ready': return 'Plan ready - review and execute';
+      case 'executing': return 'Applying changes to design...';
+      case 'results_ready': return 'Results ready for review';
+      case 'applied': return 'Changes applied - ready to save';
+      case 'error': return 'Error occurred - check details below';
+      default: return 'Ready';
+    }
+  };
+
+  return (
+    <div style={{ 
+      padding: '12px', 
+      background: '#0f172a', 
+      border: '1px solid #1e293b', 
+      borderRadius: 8,
+      marginBottom: 12
+    }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+        <div style={{ color: '#60a5fa' }}>
+          {getStatusIcon()}
+        </div>
+        <div style={{ color: '#e5e7eb', fontSize: 12, fontWeight: 500 }}>
+          {getStatusText()}
+        </div>
+      </div>
+      
+      {/* Timing info */}
+      <div style={{ display: 'flex', gap: 16, fontSize: 10, color: '#94a3b8' }}>
+        {planTimeMs && (
+          <span>Plan: {(planTimeMs/1000).toFixed(1)}s</span>
+        )}
+        {aiTiming?.lastGenerationTime && (
+          <span>Last: {(aiTiming.lastGenerationTime/1000).toFixed(1)}s</span>
+        )}
+        {streamedMeta && (
+          <span>Paths: {streamedMeta.chunksSucceeded}/{streamedMeta.chunksPlanned}</span>
+        )}
+      </div>
+    </div>
+  );
+};
+
 const AIEnhancePanel: React.FC = () => {
-  const { design, updateDesignLocal, saveDesignToAPI, refreshDesign } = useDesign() as any;
+  const { design, updateDesignLocal, saveDesignToDBV2, refreshDesign } = useDesign() as any;
   const { aiTiming, startAiGeneration, endAiGeneration, activeElement } = useEditorOverlay() as any;
   const { 
     state, 
@@ -55,10 +122,10 @@ const AIEnhancePanel: React.FC = () => {
     setPlannerModel,
     applyPreview,
     applyPreviewWithBackup,
-    rejectPreview,
     commitChanges,
     previewBackup,
     sessionBackup,
+    lastPrompt,
     setState,
     setError
   } = useAIEnhance();
@@ -70,13 +137,14 @@ const AIEnhancePanel: React.FC = () => {
   const [aiPrompt, setAiPrompt] = React.useState<string>('');
   const [showPlanJson, setShowPlanJson] = React.useState(false);
   const [showSuggestions, setShowSuggestions] = React.useState<boolean>(false);
-  const [insertMode, setInsertMode] = React.useState<'replace' | 'append'>('replace');
+  const [isSaving, setIsSaving] = React.useState(false);
+  const [saveSuccess, setSaveSuccess] = React.useState(false);
   
-  // Executor model state - default to Gemini 2.5 Flash
+  // Executor model state - default to Gemini 2.5 Flash Lite
   const [executorModel, setExecutorModel] = React.useState({ 
     provider: 'openrouter', 
-    id: 'google/gemini-2.5-flash', 
-    name: 'Gemini 2.5 Flash' 
+    id: 'google/gemini-2.5-flash-lite', 
+    name: 'Gemini 2.5 Flash Lite' 
   });
 
   // Dynamic API endpoint: localhost in dev, production in deploy
@@ -85,7 +153,7 @@ const AIEnhancePanel: React.FC = () => {
   // Use duplicated endpoint with same behavior (server must provide it)
 
   const applySuggestion = (p: string) => {
-    setAiPrompt(prev => insertMode === 'append' && prev.trim() ? `${prev.trim()}\n${p}` : p);
+    setAiPrompt(p);
   };
 
   // Stage 1: Generate Plan
@@ -156,27 +224,25 @@ const AIEnhancePanel: React.FC = () => {
 
   const handleCommitChanges = async () => {
     try {
-      await saveDesignToAPI();
+      setIsSaving(true);
+      setSaveSuccess(false);
+      
+      await saveDesignToDBV2();
       await commitChanges();
-      console.log('💾 Changes saved to API');
+      
+      setSaveSuccess(true);
+      setTimeout(() => setSaveSuccess(false), 2000); // Clear success after 2s
+      
+      console.log('💾 Changes saved to dbV2');
     } catch (e: any) {
       console.error('❌ Failed to save changes:', e);
+      setError({ type: 'network', message: 'Failed to save changes', details: e.message, retryable: true });
+    } finally {
+      setIsSaving(false);
     }
   };
 
-  const handleRejectChanges = () => {
-    // Get backup from AI context and restore it if available
-    const backupAvailable = state === 'results_ready' && previewBackup;
-    
-    if (backupAvailable) {
-      // Restore the backup design
-      updateDesignLocal(() => previewBackup);
-      console.log('🔄 Design reverted to backup');
-    }
-    
-    rejectPreview();
-    setAiPrompt(''); // Clear prompt after reject
-  };
+
 
   const handleDiscard = async () => {
     try {
@@ -186,6 +252,10 @@ const AIEnhancePanel: React.FC = () => {
         if (plan?.plan) {
           setState('plan_ready');
           setError(null);
+          // Restore last prompt when going back
+          if (lastPrompt && lastPrompt !== aiPrompt) {
+            setAiPrompt(lastPrompt);
+          }
           console.log('🗑️ Discarded results, returned to plan ready state');
           return;
         }
@@ -198,6 +268,10 @@ const AIEnhancePanel: React.FC = () => {
           updateDesignLocal(() => sessionBackup);
           setState('plan_ready');
           setError(null);
+          // Restore last prompt when going back
+          if (lastPrompt && lastPrompt !== aiPrompt) {
+            setAiPrompt(lastPrompt);
+          }
           console.log('🗑️ Discarded applied changes, restored original design, back to plan ready');
           return;
         } else if (previewBackup) {
@@ -205,6 +279,10 @@ const AIEnhancePanel: React.FC = () => {
           updateDesignLocal(() => previewBackup);
           setState('plan_ready');
           setError(null);
+          // Restore last prompt when going back
+          if (lastPrompt && lastPrompt !== aiPrompt) {
+            setAiPrompt(lastPrompt);
+          }
           console.log('🗑️ Discarded applied changes, restored from preview backup, back to plan ready');
           return;
         }
@@ -283,40 +361,8 @@ const AIEnhancePanel: React.FC = () => {
         </div>
       </div>
 
-      {/* AI Prompt Input */}
+      {/* AI Prompt Input - Clean, No Labels */}
       <div>
-        <div style={{ color: '#e5e7eb', fontSize: 12, marginBottom: 6 }}>
-          Enhancement Instructions
-        </div>
-        {/* Quick Suggestions */}
-        <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom: 6 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <span style={{ fontSize: 11, color: '#94a3b8' }}>Insert:</span>
-            <button
-              onClick={() => setInsertMode('replace')}
-              style={{ padding: '4px 8px', fontSize: 11, borderRadius: 6, background: insertMode === 'replace' ? '#2a2a2a' : '#1a1a1a', border: '1px solid #3a3a3a', color: '#e5e7eb', cursor: 'pointer' }}
-            >replace</button>
-            <button
-              onClick={() => setInsertMode('append')}
-              style={{ padding: '4px 8px', fontSize: 11, borderRadius: 6, background: insertMode === 'append' ? '#2a2a2a' : '#1a1a1a', border: '1px solid #3a3a3a', color: '#e5e7eb', cursor: 'pointer' }}
-            >append</button>
-          </div>
-          <button onClick={() => setShowSuggestions(s=>!s)} style={{ padding:'4px 8px', fontSize:11, borderRadius:6, background:'#0f172a', border:'1px solid #1e293b', color:'#e5e7eb', cursor:'pointer' }}>
-            {showSuggestions ? 'Hide suggestions' : 'Show suggestions'}
-          </button>
-        </div>
-        {showSuggestions && (
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 8 }}>
-            {AI_SUGGESTIONS.map(s => (
-              <button
-                key={s.label}
-                onClick={() => applySuggestion(s.prompt)}
-                title={s.prompt}
-                style={{ padding: '4px 8px', fontSize: 11, borderRadius: 6, background: '#1f2937', border: '1px solid #374151', color: '#e5e7eb', cursor: 'pointer' }}
-              >{s.label}</button>
-            ))}
-          </div>
-        )}
         <textarea
           value={aiPrompt}
           onChange={(e) => setAiPrompt(e.target.value)}
@@ -334,6 +380,59 @@ const AIEnhancePanel: React.FC = () => {
             resize: 'vertical'
           }}
         />
+        
+        {/* Suggestions Toggle - Neutral and Subtle */}
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: 8, marginBottom: 6 }}>
+          <button 
+            onClick={() => setShowSuggestions(s=>!s)} 
+            style={{ 
+              padding: '4px 8px', 
+              fontSize: 10, 
+              background: 'transparent', 
+              border: 'none', 
+              color: '#6b7280', 
+              cursor: 'pointer',
+              textDecoration: 'underline',
+              opacity: 0.7
+            }}
+          >
+            {showSuggestions ? 'Hide suggestions' : 'Show suggestions'}
+          </button>
+        </div>
+        
+        {/* Suggestions - Tag Cloud Style */}
+        {showSuggestions && (
+          <div style={{ 
+            display: 'flex', 
+            flexWrap: 'wrap', 
+            gap: 4, 
+            marginBottom: 8,
+            justifyContent: 'center'
+          }}>
+            {AI_SUGGESTIONS.map(s => (
+              <button
+                key={s.label}
+                onClick={() => applySuggestion(s.prompt)}
+                title={s.prompt}
+                style={{ 
+                  padding: '3px 6px', 
+                  fontSize: 10, 
+                  background: 'rgba(75, 85, 99, 0.3)', 
+                  border: 'none', 
+                  borderRadius: 12,
+                  color: '#9ca3af', 
+                  cursor: 'pointer',
+                  opacity: 0.8,
+                  transition: 'opacity 0.2s'
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.opacity = '1'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.opacity = '0.8'; }}
+              >
+                {s.label}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* 2-Stage Manual Actions */}
@@ -342,23 +441,40 @@ const AIEnhancePanel: React.FC = () => {
         {(state === 'idle' || state === 'error') && (
         <button
             onClick={generatePlan}
-            disabled={state === 'planning'}
           style={{
             padding: '8px 12px',
-              background: state === 'planning' ? '#374151' : '#1f3d7a',
+            background: '#1f3d7a',
             color: '#fff',
             borderRadius: 6,
             border: '1px solid #2a3a7a',
             fontSize: 12,
-              cursor: state === 'planning' ? 'not-allowed' : 'pointer'
+            cursor: 'pointer'
             }}
           >
-            {state === 'planning' ? 'Planning…' : (
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <Brain size={14} style={{ marginRight: 6 }} />
-                Generate Plan
-              </div>
-            )}
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <Brain size={14} style={{ marginRight: 6 }} />
+              Generate Plan
+            </div>
+          </button>
+        )}
+        
+        {state === 'planning' && (
+        <button
+            disabled
+          style={{
+            padding: '8px 12px',
+            background: '#374151',
+            color: '#fff',
+            borderRadius: 6,
+            border: '1px solid #2a3a7a',
+            fontSize: 12,
+            cursor: 'not-allowed'
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <Cog size={14} style={{ marginRight: 6, animation: 'spin 1s linear infinite' }} />
+              Planning...
+            </div>
           </button>
         )}
         
@@ -412,7 +528,7 @@ const AIEnhancePanel: React.FC = () => {
               }}
             >
               <Trash2 size={14} />
-            </button>
+        </button>
           </>
         )}
         
@@ -433,7 +549,7 @@ const AIEnhancePanel: React.FC = () => {
           </button>
         )}
         
-        {/* Results Actions */}
+                {/* Results Actions - Simplified */}
         {state === 'results_ready' && (
           <>
             <button
@@ -451,21 +567,7 @@ const AIEnhancePanel: React.FC = () => {
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <Check size={14} style={{ marginRight: 6 }} />
                 Apply
-              </div>
-            </button>
-            <button
-              onClick={handleRejectChanges}
-              style={{
-                padding: '8px 12px',
-                background: '#dc2626',
-                color: '#fff',
-                borderRadius: 6,
-                border: '1px solid #ef4444',
-                fontSize: 12,
-                cursor: 'pointer'
-              }}
-            >
-<><X size={14} style={{ marginRight: 6 }} />Reject</>
+          </div>
             </button>
             <button
               onClick={handleDiscard}
@@ -488,17 +590,31 @@ const AIEnhancePanel: React.FC = () => {
           <>
             <button
               onClick={handleCommitChanges}
+              disabled={isSaving}
               style={{
                 padding: '8px 12px',
-                background: '#0f766e',
+                background: saveSuccess ? '#16a34a' : isSaving ? '#6b7280' : '#0f766e',
                 color: '#fff',
                 borderRadius: 6,
-                border: '1px solid #0ea5a4',
+                border: saveSuccess ? '1px solid #22c55e' : isSaving ? '1px solid #9ca3af' : '1px solid #0ea5a4',
                 fontSize: 12,
-                cursor: 'pointer'
+                cursor: isSaving ? 'not-allowed' : 'pointer',
+                transition: 'all 0.2s'
               }}
             >
-              <Save size={16} />
+              {isSaving ? (
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <Cog size={14} style={{ marginRight: 6, animation: 'spin 1s linear infinite' }} />
+                  Saving...
+                </div>
+              ) : saveSuccess ? (
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <CheckCircle size={14} style={{ marginRight: 6 }} />
+                  Saved!
+                </div>
+              ) : (
+                <Save size={16} />
+              )}
             </button>
             <button
               onClick={handleDiscard}
@@ -534,34 +650,6 @@ const AIEnhancePanel: React.FC = () => {
         </button>
         )}
         
-        {/* Last Generation Time */}
-        {aiTiming.lastGenerationTime && (
-          <div style={{ 
-            fontSize: 10, 
-            color: '#94a3b8',
-            padding: '4px 8px',
-            background: '#0f172a',
-            borderRadius: 4,
-            border: '1px solid #1e293b'
-          }}>
-            ⏱️ Last: {(aiTiming.lastGenerationTime / 1000).toFixed(1)}s
-            {aiTiming.lastGenerationDate && (
-              <span style={{ marginLeft: 6, color: '#64748b' }}>
-                ({new Date(aiTiming.lastGenerationDate).toLocaleTimeString()})
-              </span>
-            )}
-          </div>
-        )}
-        
-        <div style={{ fontSize: 11, color: '#94a3b8', flex: 1 }}>
-          {state === 'idle' ? '💡 Ready to plan enhancement' :
-           state === 'planning' ? '🧠 Analyzing prompt and design...' :
-           state === 'plan_ready' ? '📋 Plan ready - review and execute' :
-           state === 'executing' ? '⚡ Applying changes to design...' :
-           state === 'results_ready' ? '✨ Results ready for review' :
-           state === 'applied' ? '💾 Changes applied - ready to save' :
-           state === 'error' ? '❌ Error occurred - check details below' : 'Ready'}
-        </div>
       </div>
 
       {/* Live Progress - Only when executing */}
@@ -747,6 +835,15 @@ const AIEnhancePanel: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Status Info Component - Moved to Bottom after buttons */}
+      <AIStatusInfo 
+        state={state}
+        planTimeMs={planTimeMs}
+        lastRun={lastRun}
+        streamedMeta={streamedMeta}
+        aiTiming={aiTiming}
+      />
     </div>
   );
 };

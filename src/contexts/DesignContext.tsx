@@ -180,7 +180,7 @@ interface DesignContextType {
   refreshDesign: () => Promise<void>;
   setSiteId: (id: string) => void;
   updateDesignLocal: (updater: (prev: DesignV2) => DesignV2) => void;
-  saveDesignToAPI: () => Promise<void>;
+  saveDesignToDBV2: () => Promise<void>;
 }
 
 const DesignContext = createContext<DesignContextType | undefined>(undefined);
@@ -242,28 +242,29 @@ export const DesignProvider: React.FC<DesignProviderProps> = ({
     return validateData(data, schema, 'Design');
   };
 
-  const saveDesignToAPI = async () => {
+  const saveDesignToDBV2 = async () => {
     try {
-      // For now, save locally without server calls
-      // Later this will be replaced with external endpoint
       const designToSave = { designV2: design };
       const jsonString = JSON.stringify(designToSave, null, 2);
       
-      // Create downloadable file as temporary solution
-      const blob = new Blob([jsonString], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'dbV2.json';
-      link.style.display = 'none';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
+      // Call provisory local API server to handle file operations
+      const response = await fetch('http://localhost:3001/api/save-dbv2', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ designData: jsonString })
+      });
       
-      console.log('[DesignContext] designV2 saved locally (download)', { designV2: design });
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
+      const result = await response.json();
+      console.log('[DesignContext] designV2 saved with backup:', result);
+      
     } catch (e) {
-      console.error('[DesignContext] saveDesignToAPI error:', e);
+      console.error('[DesignContext] saveDesignToDBV2 error:', e);
       throw e;
     }
   };
@@ -284,7 +285,7 @@ export const DesignProvider: React.FC<DesignProviderProps> = ({
         }
       });
     },
-    saveDesignToAPI,
+    saveDesignToDBV2,
   };
 
   return (

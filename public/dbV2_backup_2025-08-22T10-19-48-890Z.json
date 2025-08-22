@@ -116,7 +116,7 @@
           "lineHeight": "1",
           "fontWeight": "600",
           "letterSpacing": "-0.1em",
-          "color": "#e47a01",
+          "color": "#ffffff",
           "marginBottom": "10rem",
           "textAlign": "center"
         },
@@ -365,7 +365,7 @@
         "layout": {
           "maxWidth": "100%",
           "minHeight": "100vh",
-          "backgroundColor": "#171717",
+          "backgroundColor": "#ffffff",
           "padding": {
             "mobile": "10rem 0.5rem",
             "tablet": "10rem 0.5rem",
