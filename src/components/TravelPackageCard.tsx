@@ -40,8 +40,9 @@ const TravelPackageCard = ({ pkg, ctaText, moreDetailsText, onWhatsAppContact }:
       transition={{ duration: 0.3 }}
     >
     <Card 
-      className={`w-full max-w-full bg-${colors.cardBackground} rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col group`}
-      style={{ height: travelPackageCard.maxHeight, minHeight: travelPackageCard.minHeight, boxSizing: 'border-box' }}
+      className={`w-full max-w-full rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col group`}
+      style={{ height: travelPackageCard.maxHeight, minHeight: travelPackageCard.minHeight, boxSizing: 'border-box', backgroundColor: colors.cardBackground }}
+      data-card-type="travelPackageCard"
     >
       <CardHeader 
         className="p-0 relative overflow-hidden"
@@ -55,7 +56,7 @@ const TravelPackageCard = ({ pkg, ctaText, moreDetailsText, onWhatsAppContact }:
           />
           {/* Pills: duration and people (content token) */}
           <div className="absolute top-4 left-4 flex flex-col items-start">
-            <div className={`bg-${colors.accent} text-black text-xs font-semibold px-3 py-1.5 backdrop-blur-sm w-fit`} style={{ borderRadius: '12px 0px 12px 0px' }}>
+            <div className={`text-black text-xs font-semibold px-3 py-1.5 backdrop-blur-sm w-fit`} style={{ borderRadius: '12px 0px 12px 0px', backgroundColor: colors.accent }}>
               {pkg.duration}
             </div>
             {pkg.people && (
@@ -72,9 +73,19 @@ const TravelPackageCard = ({ pkg, ctaText, moreDetailsText, onWhatsAppContact }:
         style={{ flex: '1 1 auto', padding: travelPackageCard.contentPadding }}
       >
         <div className="flex items-start gap-2 mb-3">
-          <MapPin className={`w-4 h-4 text-${colors.accent} mt-1 flex-shrink-0`} />
+          <MapPin className={`w-4 h-4 mt-1 flex-shrink-0`} style={{ color: colors.accent }} />
           <div>
-            <CardTitle className={`text-xl font-bold text-${colors.text} leading-tight`} style={{ fontFamily: fonts.title }}>
+            <CardTitle
+              data-typography="travelPackageTitle"
+              className="leading-tight"
+              style={{
+                fontFamily: design.tokens?.typography?.travelPackageTitle?.fontFamily || fonts.title,
+                fontSize: design.tokens?.typography?.travelPackageTitle?.fontSize || '1.25rem',
+                fontWeight: design.tokens?.typography?.travelPackageTitle?.fontWeight || '700',
+                lineHeight: design.tokens?.typography?.travelPackageTitle?.lineHeight || '1.2',
+                color: design.tokens?.typography?.travelPackageTitle?.color || colors.text
+              }}
+            >
               {pkg.name}
             </CardTitle>
           </div>
@@ -97,13 +108,13 @@ const TravelPackageCard = ({ pkg, ctaText, moreDetailsText, onWhatsAppContact }:
         <div className="space-y-2 mb-4">
           {pkg.includes?.slice(0, 4).map((item, index) => (
             <div key={index} className="flex items-start">
-              <CheckCircle className={`w-4 h-4 text-${colors.accent} mr-2 mt-0.5 flex-shrink-0`} />
-              <span className={`text-${colors.text} text-sm`} style={{ fontFamily: fonts.body }}>{item}</span>
+              <CheckCircle className={`w-4 h-4 mr-2 mt-0.5 flex-shrink-0`} style={{ color: colors.accent }} />
+              <span className={`text-sm`} style={{ fontFamily: fonts.body, color: colors.text }}>{item}</span>
             </div>
           ))}
           <div className="flex items-start mt-2">
-            <MessageCircle className={`w-4 h-4 text-${colors.highlight} mr-2 mt-0.5 flex-shrink-0`} />
-            <span className={`text-${colors.highlight} text-sm font-normal`} style={{ fontFamily: fonts.body }}>{moreDetailsText}</span>
+            <MessageCircle className={`w-4 h-4 mr-2 mt-0.5 flex-shrink-0`} style={{ color: colors.highlight }} />
+            <span className={`text-sm font-normal`} style={{ fontFamily: fonts.body, color: colors.highlight }}>{moreDetailsText}</span>
           </div>
         </div>
       </CardContent>

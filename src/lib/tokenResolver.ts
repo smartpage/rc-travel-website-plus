@@ -142,7 +142,11 @@ export function resolveGlobalTokens(snapshot: ComputedSnapshot, sectionId: strin
         hasSpecificMatch = true;
         break;
       case 'packageDescription':
-        matches.push({ scope: 'global', tokenPath: 'typography.packageDescription', label: 'Package Description', responsive: false });
+        matches.push({ scope: 'global', tokenPath: 'tokens.typography.packageDescription', label: 'Package Description', responsive: false });
+        hasSpecificMatch = true;
+        break;
+      case 'travelPackageTitle':
+        matches.push({ scope: 'global', tokenPath: 'tokens.typography.travelPackageTitle', label: 'Travel Package Title', responsive: false });
         hasSpecificMatch = true;
         break;
       case 'faq.question':

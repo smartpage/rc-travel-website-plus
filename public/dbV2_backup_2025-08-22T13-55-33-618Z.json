@@ -50,11 +50,11 @@
           "fontSize": "1rem",
           "fontWeight": "300",
           "lineHeight": "1.6",
-          "color": "#ffffff"
+          "color": "#000000"
         },
         "cardBody": {
           "fontFamily": "Inter, sans-serif",
-          "fontSize": "1rem",
+          "fontSize": "0.95rem",
           "fontWeight": "400",
           "lineHeight": "1.6",
           "color": "#000000"
@@ -160,20 +160,6 @@
           "color": "#FF69B4",
           "lineHeight": "1.75",
           "marginTop": "1.5rem"
-        },
-        "travelPackageTitle": {
-          "fontFamily": "Inter, sans-serif",
-          "fontSize": "2.5rem",
-          "fontWeight": "700",
-          "lineHeight": "0.7",
-          "color": "#0a253d"
-        },
-        "packageDescription": {
-          "fontFamily": "Inter, sans-serif",
-          "fontSize": "1.25rem",
-          "fontWeight": "400",
-          "lineHeight": "1.6",
-          "color": "#111827"
         }
       },
       "spacing": {},
@@ -194,7 +180,7 @@
             "fontFamily": "Inter, sans-serif",
             "fontSize": "1rem",
             "fontWeight": "500",
-            "padding": "1.5rem 1.5rem",
+            "padding": ".5rem 0.75rem",
             "borderRadius": "0.75rem",
             "borderWidth": "2px"
           },
@@ -417,15 +403,6 @@
           "color": "transparent",
           "width": "0px",
           "style": "solid"
-        }
-      },
-      "card": {
-        "container": {
-          "backgroundColor": "transparent",
-          "borderWidth": "1px",
-          "borderRadius": "1rem",
-          "borderStyle": "solid",
-          "padding": "2rem"
         }
       }
     },
@@ -829,7 +806,7 @@
             "padding": {
               "mobile": "0",
               "tablet": "0",
-              "desktop": "10rem"
+              "desktop": "0"
             },
             "rounded": true,
             "backgroundColor": "white",
@@ -839,11 +816,7 @@
               "value": "white"
             },
             "width": "",
-            "borderRadius": "2rem",
-            "display": "flex",
-            "alignItems": "center",
-            "flexDirection": "column",
-            "justifyContent": "space-around"
+            "borderRadius": "2rem"
           }
         }
       }
@@ -1104,36 +1077,6 @@
           }
         ]
       },
-      "typo.travelPackageTitle": {
-        "appliesTo": [
-          "tokens.typography"
-        ],
-        "extends": [
-          "tokens.typography.travelPackageTitle"
-        ],
-        "overrides": {},
-        "locked": false,
-        "selectors": [
-          {
-            "dataTypography": "travelPackageTitle"
-          }
-        ]
-      },
-      "typo.packageDescription": {
-        "appliesTo": [
-          "tokens.typography"
-        ],
-        "extends": [
-          "tokens.typography.packageDescription"
-        ],
-        "overrides": {},
-        "locked": false,
-        "selectors": [
-          {
-            "dataTypography": "packageDescription"
-          }
-        ]
-      },
       "faq.arrow": {
         "appliesTo": [
           "components.faq"
@@ -1306,12 +1249,6 @@
       ],
       "dataTypography.titleDescription": [
         "classes.typo.titleDescription"
-      ],
-      "dataTypography.travelPackageTitle": [
-        "classes.typo.travelPackageTitle"
-      ],
-      "dataTypography.packageDescription": [
-        "classes.typo.packageDescription"
       ],
       "dataElement.faqArrow": [
         "classes.faq.arrow"
