@@ -52,6 +52,9 @@ interface AIEnhanceContextShape {
   plannerModel: ModelRef;
   setPlannerModel: (m: ModelRef) => void;
   
+  // State access
+  previewBackup: any;
+  
   // Actions - 2-stage manual workflow
   runPlanner: (args: {
     prompt: string;
@@ -78,6 +81,7 @@ interface AIEnhanceContextShape {
   
   // Preview management
   applyPreview: () => void;
+  applyPreviewWithBackup: (backup: any) => void;
   rejectPreview: () => void;
   commitChanges: () => Promise<void>;
   
@@ -281,7 +285,7 @@ export const AIEnhanceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   
   // Configuration
   const [executorMode, setExecutorMode] = React.useState<'single' | 'multipart'>('single');
-  const [plannerModel, setPlannerModel] = React.useState<ModelRef>({ provider: 'openrouter', id: 'anthropic/claude-3.7-sonnet', name: 'Claude 3.7 Sonnet' });
+  const [plannerModel, setPlannerModel] = React.useState<ModelRef>({ provider: 'openrouter', id: 'google/gemini-2.5-flash', name: 'Gemini 2.5 Flash' });
   
   // Preview management
   const [previewBackup, setPreviewBackup] = React.useState<any>(null);
@@ -327,14 +331,27 @@ export const AIEnhanceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     console.log('✅ Preview applied to working copy');
   }, [state, result]);
   
+  const applyPreviewWithBackup = React.useCallback((backup: any) => {
+    if (state !== 'results_ready' || !result) return;
+    setPreviewBackup(backup);
+    setState('applied');
+    console.log('✅ Preview applied to working copy with backup created');
+  }, [state, result]);
+  
   const rejectPreview = React.useCallback(() => {
-    if (state !== 'results_ready' || !previewBackup) return;
-    // In a real implementation, this would revert the design
-    // For now, just reset state
+    if (state !== 'results_ready') return;
+    
+    // If we have a backup, restore it
+    if (previewBackup) {
+      // This would need access to updateDesignLocal from DesignContext
+      // For now, we'll handle this in the component level
+      console.log('❌ Preview rejected, backup available for restoration');
+    }
+    
     setState('idle');
     setResult(null);
     setPreviewBackup(null);
-    console.log('❌ Preview rejected, reverted to original');
+    console.log('❌ Preview rejected, state reset');
   }, [state, previewBackup]);
   
   const commitChanges = React.useCallback(async () => {
@@ -559,6 +576,9 @@ export const AIEnhanceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     plannerModel,
     setPlannerModel,
     
+    // State access
+    previewBackup,
+    
     // Actions - 2-stage manual workflow
     runPlanner,
     runExecutor,
@@ -566,6 +586,7 @@ export const AIEnhanceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     
     // Preview management
     applyPreview,
+    applyPreviewWithBackup,
     rejectPreview,
     commitChanges,
     

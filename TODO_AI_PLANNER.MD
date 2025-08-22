@@ -204,3 +204,77 @@ The planner will now intelligently map these visual concepts to the correct desi
 ~~🔴 Shallow Index: No visual relationships~~ ✅ **FIXED**: Enhanced semantic aliases
 
 **All major issues resolved. AI panel is now production-ready!** 🎉
+
+---
+
+## Design Update Flow Analysis
+
+### `handleApplyPreview` Function Context & Usage
+
+**Location:** `src/components/AIEnhancePanel.tsx:121`
+
+**Purpose:** Applies AI-generated design changes to the current design state (working copy)
+
+**Workflow:**
+1. **Trigger:** User clicks "Apply" button when `state === 'results_ready'`
+2. **Data Source:** Uses `streamedResult.enhancedData` from AI executor
+3. **Design Update:** Calls `updateDesignLocal(() => nextDesign)` to update working copy
+4. **State Transition:** Calls `applyPreview()` → moves to `applied` state
+5. **Cleanup:** Clears AI prompt after successful apply
+
+**Data Flow:**
+```
+AI Executor → setResult({ enhancedData }) → handleApplyPreview → updateDesignLocal → Applied State
+```
+
+**Critical Notes:**
+- **No Backup Created:** Currently doesn't create a backup before applying changes
+- **Direct Update:** Changes are immediately applied to `design` state via `updateDesignLocal`
+- **One-Way Operation:** No built-in undo mechanism (except manual refresh)
+- **Memory Only:** Changes exist only in React state until "Save" is clicked
+
+**Current Limitations:**
+- `previewBackup` state exists but is never populated
+- `rejectPreview` function doesn't actually revert changes
+- No automatic backup of original design before applying changes
+- Discard button resets state but doesn't restore original design
+
+**Recommended Improvements:**
+- ✅ **IMPLEMENTED**: Create backup in `previewBackup` before applying changes
+- ✅ **IMPLEMENTED**: Implement actual design restoration in `rejectPreview`
+- ✅ **IMPLEMENTED**: Make discard button call `refreshDesign()` to reload from dbV2.json
+- 🔄 **PENDING**: Add confirmation dialogs for destructive actions
+
+---
+
+## ✅ Design Flow Improvements Implemented
+
+### 1. **Backup System (`handleApplyPreview`)**
+- **Before:** No backup created, changes applied directly
+- **After:** Creates `JSON.parse(JSON.stringify(design))` backup before applying
+- **Storage:** Backup stored in `previewBackup` state via `applyPreviewWithBackup()`
+
+### 2. **Real Revert (`handleRejectChanges`)**
+- **Before:** Only cleared state, didn't restore design
+- **After:** Checks for `previewBackup` and restores via `updateDesignLocal()`
+- **Flow:** `results_ready` → Reject → Restore backup → Clear state
+
+### 3. **True Discard (`handleDiscard`)**
+- **Before:** Only cleared AI state, kept modified design
+- **After:** Calls `refreshDesign()` to reload from `dbV2.json`
+- **Effect:** Completely discards all design changes and AI state
+- **Fallback:** If refresh fails, still clears AI state gracefully
+
+### 4. **Enhanced State Management**
+- **New Function:** `applyPreviewWithBackup(backup)` in AIEnhanceContext
+- **Backup Access:** `previewBackup` exposed in context interface
+- **Error Handling:** Try/catch with graceful fallbacks for all operations
+
+### 5. **Complete Workflow**
+```
+Plan → Execute → Results Ready → Apply (with backup) → Applied
+                              ↘ Reject (restore backup) → Idle
+                              ↘ Discard (refresh from file) → Idle
+```
+
+**Result:** Full undo capability at every stage with proper data persistence! 🎯

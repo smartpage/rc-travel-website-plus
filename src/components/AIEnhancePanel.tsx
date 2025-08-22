@@ -4,22 +4,20 @@ import { useDesign } from '../contexts/DesignContext';
 import { useEditorOverlay } from '../contexts/EditorOverlayContext';
 import { useAIEnhance } from '../contexts/AIEnhanceContext';
 
-// Available planner models
-const PLANNER_MODELS = [
-  { provider: 'openrouter', id: 'anthropic/claude-3.7-sonnet', name: 'Claude 3.7 Sonnet' },
-  { provider: 'openrouter', id: 'anthropic/claude-3.5-sonnet', name: 'Claude 3.5 Sonnet' },
+// Available AI models for both planner and executor
+const AI_MODELS = [
   { provider: 'openrouter', id: 'google/gemini-2.5-flash', name: 'Gemini 2.5 Flash' },
+  { provider: 'openrouter', id: 'google/gemini-2.5-flash-lite', name: 'Gemini 2.5 Flash Lite' },
   { provider: 'openrouter', id: 'google/gemini-2.0-flash', name: 'Gemini 2.0 Flash' },
   { provider: 'openrouter', id: 'google/gemini-2.5-pro', name: 'Gemini 2.5 Pro' },
+  { provider: 'openrouter', id: 'anthropic/claude-3.7-sonnet', name: 'Claude 3.7 Sonnet' },
+  { provider: 'openrouter', id: 'anthropic/claude-3.5-sonnet', name: 'Claude 3.5 Sonnet' },
   { provider: 'openrouter', id: 'deepseek/deepseek-v3-0324', name: 'DeepSeek V3' },
   { provider: 'openrouter', id: 'deepseek/deepseek-v3-0324-free', name: 'DeepSeek V3 (free)' },
   { provider: 'openrouter', id: 'deepseek/r1-0528-free', name: 'DeepSeek R1 (free)' },
   { provider: 'openrouter', id: 'qwen/qwen3-coder', name: 'Qwen 3 Coder' },
   { provider: 'openrouter', id: 'moonshotai/kimi-k2', name: 'Kimi K2' },
 ];
-
-// Fixed executor model
-const EXECUTOR_MODEL = { provider: 'openrouter', id: 'google/gemini-2.5-flash-lite', name: 'Gemini 2.5 Flash Lite' };
 
 // Quick suggestion prompts (general, outcome-focused)
 const AI_SUGGESTIONS: Array<{ label: string; prompt: string }> = [
@@ -39,7 +37,7 @@ const AI_SUGGESTIONS: Array<{ label: string; prompt: string }> = [
 ];
 
 const AIEnhancePanel: React.FC = () => {
-  const { design, updateDesignLocal, saveDesignToAPI } = useDesign() as any;
+  const { design, updateDesignLocal, saveDesignToAPI, refreshDesign } = useDesign() as any;
   const { aiTiming, startAiGeneration, endAiGeneration, activeElement } = useEditorOverlay() as any;
   const { 
     state, 
@@ -56,8 +54,10 @@ const AIEnhancePanel: React.FC = () => {
     plannerModel, 
     setPlannerModel,
     applyPreview,
+    applyPreviewWithBackup,
     rejectPreview,
-    commitChanges
+    commitChanges,
+    previewBackup
   } = useAIEnhance();
   
   // Simplified local state
@@ -68,6 +68,13 @@ const AIEnhancePanel: React.FC = () => {
   const [showPlanJson, setShowPlanJson] = React.useState(false);
   const [showSuggestions, setShowSuggestions] = React.useState<boolean>(false);
   const [insertMode, setInsertMode] = React.useState<'replace' | 'append'>('replace');
+  
+  // Executor model state - default to Gemini 2.5 Flash
+  const [executorModel, setExecutorModel] = React.useState({ 
+    provider: 'openrouter', 
+    id: 'google/gemini-2.5-flash', 
+    name: 'Gemini 2.5 Flash' 
+  });
 
   // Dynamic API endpoint: localhost in dev, production in deploy
   const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
@@ -110,7 +117,7 @@ const AIEnhancePanel: React.FC = () => {
 
     try {
       await runExecutor({
-        modelExec: EXECUTOR_MODEL,
+        modelExec: executorModel,
         currentDesign: design
       });
     } finally {
@@ -129,11 +136,15 @@ const AIEnhancePanel: React.FC = () => {
           ? (enhanced as any).design
           : enhanced;
         
+        // Create backup before applying changes
+        const currentDesignBackup = JSON.parse(JSON.stringify(design));
+        
         updateDesignLocal(() => nextDesign);
+        
+        // Store backup for potential revert
+        applyPreviewWithBackup(currentDesignBackup);
       }
       
-      // Move to committed state
-      applyPreview();
       setAiPrompt(''); // Clear prompt after successful apply
     } catch (e: any) {
       console.error('❌ Failed to apply preview:', e);
@@ -151,32 +162,48 @@ const AIEnhancePanel: React.FC = () => {
   };
 
   const handleRejectChanges = () => {
+    // Get backup from AI context and restore it if available
+    const backupAvailable = state === 'results_ready' && previewBackup;
+    
+    if (backupAvailable) {
+      // Restore the backup design
+      updateDesignLocal(() => previewBackup);
+      console.log('🔄 Design reverted to backup');
+    }
+    
     rejectPreview();
     setAiPrompt(''); // Clear prompt after reject
   };
 
-  const handleDiscard = () => {
-    // Reset to idle state, clear any pending plans/results
-    setState('idle');
-    setError(null);
-    console.log('🗑️ Discarded current AI session');
+  const handleDiscard = async () => {
+    try {
+      // Reload design from dbV2.json to discard all changes
+      await refreshDesign();
+      
+      // Reset AI state
+      setState('idle');
+      setError(null);
+      
+      console.log('🗑️ Discarded AI session and reloaded original design');
+    } catch (e: any) {
+      console.error('❌ Failed to refresh design:', e);
+      // Fallback to just clearing state
+      setState('idle');
+      setError(null);
+    }
   };
 
   return (
     <div style={{ display: 'grid', gap: 12 }}>
-      {/* AI Model Selection */}
-      <div>
-        <div style={{ color: '#e5e7eb', fontSize: 12, marginBottom: 6 }}>
-          AI Models
-        </div>
-        
-        {/* Planner Model Selection */}
-        <div style={{ marginBottom: 8 }}>
-          <div style={{ fontSize: 11, color: '#94a3b8', marginBottom: 4 }}>Planner:</div>
+      {/* Model Selection - Side by Side */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+        {/* Planner Model */}
+        <div>
+          <div style={{ color: '#94a3b8', fontSize: 11, marginBottom: 4 }}>Planner:</div>
           <select
             value={plannerModel.id}
             onChange={(e) => {
-              const selected = PLANNER_MODELS.find(m => m.id === e.target.value);
+              const selected = AI_MODELS.find(m => m.id === e.target.value);
               if (selected) setPlannerModel(selected);
             }}
             disabled={state === 'planning' || state === 'executing'}
@@ -191,15 +218,37 @@ const AIEnhancePanel: React.FC = () => {
               cursor: (state === 'planning' || state === 'executing') ? 'not-allowed' : 'pointer'
             }}
           >
-            {PLANNER_MODELS.map(model => (
+            {AI_MODELS.map(model => (
               <option key={model.id} value={model.id}>{model.name}</option>
             ))}
           </select>
         </div>
 
-        {/* Executor Model (Fixed) */}
-        <div style={{ fontSize: 11, color: '#94a3b8' }}>
-          Executor: {EXECUTOR_MODEL.name}
+        {/* Executor Model */}
+        <div>
+          <div style={{ color: '#94a3b8', fontSize: 11, marginBottom: 4 }}>Executor:</div>
+          <select
+            value={executorModel.id}
+            onChange={(e) => {
+              const selected = AI_MODELS.find(m => m.id === e.target.value);
+              if (selected) setExecutorModel(selected);
+            }}
+            disabled={state === 'planning' || state === 'executing'}
+            style={{
+              width: '100%',
+              background: '#141414',
+              color: '#fff',
+              border: '1px solid #2a2a2a',
+              borderRadius: 4,
+              padding: '4px 8px',
+              fontSize: 11,
+              cursor: (state === 'planning' || state === 'executing') ? 'not-allowed' : 'pointer'
+            }}
+          >
+            {AI_MODELS.map(model => (
+              <option key={model.id} value={model.id}>{model.name}</option>
+            ))}
+          </select>
         </div>
       </div>
 
@@ -260,20 +309,25 @@ const AIEnhancePanel: React.FC = () => {
       <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
         {/* Stage 1: Planning */}
         {(state === 'idle' || state === 'error') && (
-          <button
+        <button
             onClick={generatePlan}
             disabled={state === 'planning'}
-            style={{
-              padding: '8px 12px',
+          style={{
+            padding: '8px 12px',
               background: state === 'planning' ? '#374151' : '#1f3d7a',
-              color: '#fff',
-              borderRadius: 6,
-              border: '1px solid #2a3a7a',
-              fontSize: 12,
+            color: '#fff',
+            borderRadius: 6,
+            border: '1px solid #2a3a7a',
+            fontSize: 12,
               cursor: state === 'planning' ? 'not-allowed' : 'pointer'
             }}
           >
-            {state === 'planning' ? 'Planning…' : (<><Brain size={14} style={{ marginRight: 6 }} />Generate Plan</>)}
+            {state === 'planning' ? 'Planning…' : (
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <Brain size={14} style={{ marginRight: 6 }} />
+                Generate Plan
+              </div>
+            )}
           </button>
         )}
         
@@ -292,7 +346,10 @@ const AIEnhancePanel: React.FC = () => {
                 cursor: 'pointer'
               }}
             >
-              <><Brain size={14} style={{ marginRight: 6 }} />Re-plan</>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <Brain size={14} style={{ marginRight: 6 }} />
+                Re-plan
+              </div>
             </button>
             <button
               onClick={executePlan}
@@ -306,7 +363,10 @@ const AIEnhancePanel: React.FC = () => {
                 cursor: 'pointer'
               }}
             >
-              <><Zap size={14} style={{ marginRight: 6 }} />Execute Plan</>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <Zap size={14} style={{ marginRight: 6 }} />
+                Execute Plan
+              </div>
             </button>
             <button
               onClick={handleDiscard}
@@ -357,7 +417,10 @@ const AIEnhancePanel: React.FC = () => {
                 cursor: 'pointer'
               }}
             >
-<><Check size={14} style={{ marginRight: 6 }} />Apply</>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <Check size={14} style={{ marginRight: 6 }} />
+                Apply
+              </div>
             </button>
             <button
               onClick={handleRejectChanges}
@@ -437,7 +500,7 @@ const AIEnhancePanel: React.FC = () => {
             }}
           >
 <><RotateCcw size={14} style={{ marginRight: 6 }} />Retry</>
-          </button>
+        </button>
         )}
         
         {/* Last Generation Time */}
@@ -472,7 +535,7 @@ const AIEnhancePanel: React.FC = () => {
 
       {/* Live Progress - Only when executing */}
       {state === 'executing' && jobs.length > 0 && (
-        <div style={{ marginTop: 8, padding: 8, background: '#0f172a', border: '1px solid #1e293b', borderRadius: 6 }}>
+      <div style={{ marginTop: 8, padding: 8, background: '#0f172a', border: '1px solid #1e293b', borderRadius: 6 }}>
           <div style={{ color: '#94a3b8', fontSize: 11, marginBottom: 6 }}>Progress:</div>
           {jobs.slice(0, 4).map(j => (
             <div key={j.index} style={{ display: 'flex', justifyContent: 'space-between', color: j.status==='error' ? '#f87171' : j.status==='ok' ? '#22c55e' : '#e5e7eb', fontSize: 11, marginBottom: 2 }}>
@@ -498,8 +561,8 @@ const AIEnhancePanel: React.FC = () => {
             <div style={{ marginBottom: 8 }}>
               <div style={{ color: '#e5e7eb', fontSize: 11, marginBottom: 4 }}>Goal:</div>
               <div style={{ color: '#cbd5e1', fontSize: 11 }}>{plan.plan.goal.enhanced_goal || plan.plan.goal.user_goal}</div>
-            </div>
-          )}
+          </div>
+        )}
           
           {plan.plan.steps && plan.plan.steps.length > 0 && (
             <div style={{ marginBottom: 8 }}>
@@ -556,9 +619,9 @@ const AIEnhancePanel: React.FC = () => {
               }}>
                 {JSON.stringify(plan.plan, null, 2)}
               </pre>
-            </div>
-          )}
-        </div>
+          </div>
+        )}
+      </div>
       )}
 
       {/* Last Run Summary */}
@@ -625,9 +688,9 @@ const AIEnhancePanel: React.FC = () => {
           <div style={{ color: '#e5e7eb', fontSize: 11 }}>
             {streamedMeta && `${streamedMeta.chunksSucceeded}/${streamedMeta.chunksPlanned} paths updated successfully.`}
           </div>
-        </div>
-      )}
-      
+            </div>
+          )}
+
       {state === 'applied' && (
         <div style={{
           padding: 12,
