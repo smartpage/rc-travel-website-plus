@@ -6,6 +6,7 @@ import { useContent } from '@/contexts/ContentContext';
 import { useDesign } from '@/contexts/DesignContext';
 import Section from '@/components/ui/Section';
 import SectionTitle from '@/components/ui/SectionTitle';
+import { Card } from '@/components/ui/card';
 
 interface FAQItem {
   question: string;
@@ -115,12 +116,8 @@ const FAQ = () => {
         <div className="w-[98%] :w-full max-w-4xl mx-auto space-y-6">
           {faqContent.items.map((item, index) => {
             return (
-              <motion.div 
+              <Card 
                 key={index}
-                data-element="faqCard"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
                 className={design.components?.faqCard?.container?.className || "bg-white border border-gray-200 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"}
                 style={{
                   backgroundColor: design.components?.faqCard?.container?.backgroundColor,
@@ -130,13 +127,18 @@ const FAQ = () => {
                   boxShadow: design.components?.faqCard?.container?.shadow,
                   transition: design.components?.faqCard?.container?.transition || 'all 0.3s ease'
                 }}
-                whileHover={{ 
-                  y: -5
-                }}
+                asChild
               >
                 <motion.div
-                  onClick={() => toggleItem(index)}
-                  data-element="faqCardQuestion"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1, duration: 0.5 }}
+                  whileHover={{ 
+                    y: -5
+                  }}
+                >
+                  <motion.div
+                    onClick={() => toggleItem(index)}
                   className={design.components?.faqCard?.question?.className || "p-6 cursor-pointer flex justify-between items-center"}
                   style={{
                     backgroundColor: design.components?.faqCard?.question?.backgroundColor,
@@ -159,9 +161,8 @@ const FAQ = () => {
                   >
                     {item.question}
                   </span>
-                  <div className="flex-shrink-0">
-                    <div 
-                      data-element="faqCardChevron"
+                                      <div className="flex-shrink-0">
+                      <div
                       className={design.components?.faqCard?.chevron?.className || "w-10 h-10 rounded-full flex items-center justify-center ml-4"}
                       style={{ 
                         backgroundColor: design.components?.faqCard?.chevron?.backgroundColor || '#FF69B4',
@@ -192,7 +193,6 @@ const FAQ = () => {
                       className="overflow-hidden"
                     >
                       <div 
-                        data-element="faqCardAnswer"
                         data-typography="faqCardAnswer"
                         className={design.components?.faqCard?.answer?.className || "p-6"}
                         style={{
@@ -227,7 +227,8 @@ const FAQ = () => {
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </motion.div>
+                </motion.div>
+              </Card>
             );
           })}
         </div>

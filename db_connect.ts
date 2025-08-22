@@ -10,7 +10,7 @@
  * 
  * ID da organização no Firestore. Usado para estruturar a base de dados multi-tenant.
  */
-export const ORG_ID = 'org_rc_travel';
+export const ORG_ID = 'ORG_ID_AGENCIA_TESTE_1';
 
 /**
  * 🎯 SITE_ID - Identificador Único do Website
@@ -20,7 +20,7 @@ export const ORG_ID = 'org_rc_travel';
  * 
  * ⚠️ NÃO ALTERAR, a menos que o website seja migrado.
  */
-export const SITE_ID = 'site_rc_travel_website';
+export const SITE_ID = 'site-exemplo-teste-1';
 
 /**
  * 🔗 API_BASE_URL - Endpoint da API de Conteúdo

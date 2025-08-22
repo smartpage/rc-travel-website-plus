@@ -616,7 +616,7 @@ const AIEnhancePanel: React.FC = () => {
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   <CheckCircle size={14} style={{ marginRight: 6 }} />
                   Saved!
-                </div>
+        </div>
               ) : (
                 <Save size={16} />
               )}
@@ -679,7 +679,7 @@ const AIEnhancePanel: React.FC = () => {
           <div style={{ color: '#60a5fa', fontSize: 12, marginBottom: 8, fontWeight: 'bold', display: 'flex', alignItems: 'center' }}>
             <FileText size={14} style={{ marginRight: 6 }} />
             📋 Execution Plan Ready
-          </div>
+              </div>
           
           
           {plan.plan.goal && (

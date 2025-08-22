@@ -305,6 +305,7 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
       let target = raw as HTMLElement;
       if (!directSection) {
         target =
+          (raw.closest('[data-card]') as HTMLElement) ||
           (raw.closest('[data-typography]') as HTMLElement) ||
           (raw.closest('h1,h2,h3,h4,h5,h6') as HTMLElement) ||
           (raw.closest('p') as HTMLElement) ||
@@ -334,6 +335,7 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
       let target = raw as HTMLElement;
       if (!directSection) {
         target =
+          (raw.closest('[data-card]') as HTMLElement) ||
           (raw.closest('[data-typography]') as HTMLElement) ||
           (raw.closest('h1,h2,h3,h4,h5,h6') as HTMLElement) ||
           (raw.closest('p') as HTMLElement) ||

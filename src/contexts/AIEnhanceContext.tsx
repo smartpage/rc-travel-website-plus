@@ -688,7 +688,7 @@ export const AIEnhanceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       validStepCount: validatedSteps.length
     };
   }, []);
-  
+
   const retry = React.useCallback(async () => {
     if (!error?.retryable || !lastArgs) return;
     setError(null);
@@ -887,7 +887,7 @@ export const AIEnhanceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
             currentValue,
             instruction,
             context: step.context || 'design property',
-            modelExec
+        modelExec
           });
 
           changes.push({ path: step.path, newValue });
