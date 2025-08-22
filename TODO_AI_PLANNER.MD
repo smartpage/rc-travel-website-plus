@@ -278,3 +278,41 @@ Plan → Execute → Results Ready → Apply (with backup) → Applied
 ```
 
 **Result:** Full undo capability at every stage with proper data persistence! 🎯
+
+---
+
+## ✅ Latest UI & Model Selection Improvements
+
+### **Dual Model Selection (Latest Update)**
+- ✅ **COMPLETED**: Remove redundant "AI Models" label for cleaner UI
+- ✅ **COMPLETED**: Create side-by-side dropdowns for Planner and Executor
+- ✅ **COMPLETED**: Enable dynamic executor model selection (was hardcoded)
+- ✅ **COMPLETED**: Set both models to default to Gemini 2.5 Flash
+- ✅ **COMPLETED**: Share unified AI_MODELS array for consistency
+- ✅ **COMPLETED**: Maintain disabled state during operations
+
+### **Enhanced Model Flexibility**
+**Before:** 
+- Planner: Selectable dropdown
+- Executor: Hardcoded Gemini 2.5 Flash Lite
+
+**After:**
+- Planner: Full model selection (defaults to Gemini 2.5 Flash)
+- Executor: Full model selection (defaults to Gemini 2.5 Flash)
+- Both: Disabled during planning/executing for safety
+
+### **Backend Verification**
+- ✅ **CONFIRMED**: `ai-enhance-multipart.js` accepts `req.body.aiModel`
+- ✅ **CONFIRMED**: `ai-enhance-single-shot.js` accepts `req.body.aiModel`
+- ✅ **WORKING**: Dynamic model selection fully functional
+
+### **Current Status: Production Ready**
+All major features implemented and tested:
+- ✅ Manual 2-stage workflow (Plan → Review → Execute)
+- ✅ Real backup & restore system
+- ✅ Dual model selection with full flexibility
+- ✅ Clean UI with Lucide icons
+- ✅ Enhanced semantic planning with aliases
+- ✅ Robust error handling and state management
+
+**Next:** Only pending item is confirmation dialogs for destructive actions.
