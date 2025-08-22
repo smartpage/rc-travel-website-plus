@@ -285,7 +285,6 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
     const updateOverlayRect = (el: Element) => {
       const rect = (el as HTMLElement).getBoundingClientRect();
       setState(prev => {
-        // Do not update hover rect when an element is selected
         if (prev.activeElement) return prev;
         const same =
           prev.overlayRect &&
@@ -301,20 +300,38 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
     const onMove = (e: MouseEvent) => {
       const raw = e.target as HTMLElement | null;
       if (!raw) return;
+
+      // If hovering badge or its children, highlight its parent card
+      if (raw.matches('[data-card-selector], [data-card-selector] *')) {
+        const card = raw.closest('[data-card]') as HTMLElement | null;
+        if (card) {
+          updateOverlayRect(card);
+          return;
+        }
+      }
+
       const directSection = raw.matches?.('[data-section-id], .inner-section');
       let target = raw as HTMLElement;
       if (!directSection) {
-        target =
-          (raw.closest('[data-card]') as HTMLElement) ||
-          (raw.closest('[data-typography]') as HTMLElement) ||
-          (raw.closest('h1,h2,h3,h4,h5,h6') as HTMLElement) ||
-          (raw.closest('p') as HTMLElement) ||
-          (raw.closest('button,a') as HTMLElement) ||
-          // Fallback: if container clicked, try to pick a semantic child within
-          (raw.querySelector?.('h1,h2,h3,h4,h5,h6') as HTMLElement) ||
-          (raw.querySelector?.('p') as HTMLElement) ||
-          (raw.querySelector?.('button,a') as HTMLElement) ||
-          raw;
+        if (raw.matches('[data-card]')) {
+          // Do NOT select the card on generic hover; pick a semantic descendant instead
+          target =
+            (raw.querySelector?.('[data-typography]') as HTMLElement) ||
+            (raw.querySelector?.('h1,h2,h3,h4,h5,h6') as HTMLElement) ||
+            (raw.querySelector?.('p') as HTMLElement) ||
+            (raw.querySelector?.('button,a') as HTMLElement) ||
+            raw;
+        } else {
+          target =
+            (raw.closest('[data-typography]') as HTMLElement) ||
+            (raw.closest('h1,h2,h3,h4,h5,h6') as HTMLElement) ||
+            (raw.closest('p') as HTMLElement) ||
+            (raw.closest('button,a') as HTMLElement) ||
+            (raw.querySelector?.('h1,h2,h3,h4,h5,h6') as HTMLElement) ||
+            (raw.querySelector?.('p') as HTMLElement) ||
+            (raw.querySelector?.('button,a') as HTMLElement) ||
+            raw;
+        }
       }
       if (target.closest('[data-overlay-ui="1"]')) return;
       if (!target.closest('[class~="@container"]')) return;
@@ -331,20 +348,51 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
     const onClick = (e: MouseEvent) => {
       const raw = e.target as HTMLElement | null;
       if (!raw) return;
+
+      // If clicking badge or its children, select parent card
+      if (raw.matches('[data-card-selector], [data-card-selector] *')) {
+        const card = raw.closest('[data-card]') as HTMLElement | null;
+        if (card && card.closest('[class~="@container"]')) {
+          const sectionEl = card.closest('[data-section-id]') as HTMLElement | null;
+          const sectionId = sectionEl?.getAttribute('data-section-id') || null;
+          const snap = takeComputedSnapshot(card);
+          const tokenMatches = resolveGlobalTokens(snap, sectionId, designRef.current, card);
+          const label = `card${sectionId ? ` · ${sectionId}` : ''}`;
+          const rect = card.getBoundingClientRect();
+          setState(prev => ({
+            ...prev,
+            activeElement: { label, sectionId, tokenMatches },
+            overlayRect: { top: rect.top, left: rect.left, width: rect.width, height: rect.height },
+            selectedElement: card
+          }));
+          e.stopPropagation();
+          e.preventDefault();
+          return;
+        }
+      }
+
       const directSection = raw.matches?.('[data-section-id], .inner-section');
       let target = raw as HTMLElement;
       if (!directSection) {
-        target =
-          (raw.closest('[data-card]') as HTMLElement) ||
-          (raw.closest('[data-typography]') as HTMLElement) ||
-          (raw.closest('h1,h2,h3,h4,h5,h6') as HTMLElement) ||
-          (raw.closest('p') as HTMLElement) ||
-          (raw.closest('button,a') as HTMLElement) ||
-          // Fallback: if container clicked, drill into first semantic descendant
-          (raw.querySelector?.('h1,h2,h3,h4,h5,h6') as HTMLElement) ||
-          (raw.querySelector?.('p') as HTMLElement) ||
-          (raw.querySelector?.('button,a') as HTMLElement) ||
-          raw;
+        if (raw.matches('[data-card]')) {
+          // Do NOT select card via generic clicks; choose meaningful child
+          target =
+            (raw.querySelector?.('[data-typography]') as HTMLElement) ||
+            (raw.querySelector?.('h1,h2,h3,h4,h5,h6') as HTMLElement) ||
+            (raw.querySelector?.('p') as HTMLElement) ||
+            (raw.querySelector?.('button,a') as HTMLElement) ||
+            raw;
+        } else {
+          target =
+            (raw.closest('[data-typography]') as HTMLElement) ||
+            (raw.closest('h1,h2,h3,h4,h5,h6') as HTMLElement) ||
+            (raw.closest('p') as HTMLElement) ||
+            (raw.closest('button,a') as HTMLElement) ||
+            (raw.querySelector?.('h1,h2,h3,h4,h5,h6') as HTMLElement) ||
+            (raw.querySelector?.('p') as HTMLElement) ||
+            (raw.querySelector?.('button,a') as HTMLElement) ||
+            raw;
+        }
       }
       if (target.closest('[data-overlay-ui="1"]')) return;
       if (!target.closest('[class~="@container"]')) return;
@@ -352,7 +400,8 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
       const sectionId = sectionEl?.getAttribute('data-section-id') || null;
       const snap = takeComputedSnapshot(target);
       const tokenMatches = resolveGlobalTokens(snap, sectionId, designRef.current, target);
-      const label = `${target.tagName.toLowerCase()}${sectionId ? ` · ${sectionId}` : ''}`;
+      const isCard = (target as HTMLElement).hasAttribute('data-card');
+      const label = `${isCard ? 'card' : target.tagName.toLowerCase()}${sectionId ? ` · ${sectionId}` : ''}`;
       const rect = target.getBoundingClientRect();
       setState(prev => ({
         ...prev,
