@@ -20,7 +20,24 @@ const parseHtmlTags = (
   paragraphDataAttr: string = 'faq.answer',
   strongDataAttr: string = 'faq.answerStrong'
 ): React.ReactNode[] => {
-  // First handle <p> tags, then <strong> tags within them
+  // If no <p> tags are present, wrap the entire content in a single paragraph
+  if (!/<\s*p\s*>/i.test(text)) {
+    const strongParts = text.split(/(<strong>.*?<\/strong>)/g);
+    const parsed = strongParts.map((strongPart, sIndex) => {
+      if (strongPart.startsWith('<strong>') && strongPart.endsWith('</strong>')) {
+        const strongContent = strongPart.replace(/<\/?strong>/g, '');
+        return <strong key={`s-${sIndex}`} style={strongStyle} data-typography={strongDataAttr}>{strongContent}</strong>;
+      }
+      return strongPart;
+    });
+    return [
+      <p key={0} data-typography={paragraphDataAttr} style={{ marginBottom: '1rem', ...paragraphStyle }}>
+        {parsed}
+      </p>
+    ];
+  }
+
+  // Otherwise, handle existing <p> tags, then <strong> tags within them
   const paragraphParts = text.split(/(<p>.*?<\/p>)/gs);
   
   return paragraphParts.map((part, pIndex) => {
@@ -38,7 +55,7 @@ const parseHtmlTags = (
       });
 
       return (
-        <p key={pIndex} style={{ marginBottom: '1rem', ...paragraphStyle }}>
+        <p key={pIndex} data-typography={paragraphDataAttr} style={{ marginBottom: '1rem', ...paragraphStyle }}>
           {parsedPContent}
         </p>
       );
@@ -100,13 +117,18 @@ const FAQ = () => {
             return (
               <motion.div 
                 key={index}
+                data-element="faqCard"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1, duration: 0.5 }}
-                className="rounded-xl overflow-hidden border-none transition-all duration-300 group"
+                className={design.components?.faqCard?.container?.className || "bg-white border border-gray-200 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"}
                 style={{
-                  backgroundColor: (design.components as any)?.faq?.card?.backgroundColor || 'transparent',
-                  transition: 'all 0.3s ease'
+                  backgroundColor: design.components?.faqCard?.container?.backgroundColor,
+                  borderColor: design.components?.faqCard?.container?.borderColor,
+                  borderWidth: design.components?.faqCard?.container?.borderWidth,
+                  borderRadius: design.components?.faqCard?.container?.borderRadius,
+                  boxShadow: design.components?.faqCard?.container?.shadow,
+                  transition: design.components?.faqCard?.container?.transition || 'all 0.3s ease'
                 }}
                 whileHover={{ 
                   y: -5
@@ -114,44 +136,50 @@ const FAQ = () => {
               >
                 <motion.div
                   onClick={() => toggleItem(index)}
-                  data-element="faqBorder"
-                  className="p-6 :p-8 cursor-pointer flex justify-between items-center"
+                  data-element="faqCardQuestion"
+                  className={design.components?.faqCard?.question?.className || "p-6 cursor-pointer flex justify-between items-center"}
                   style={{
-                    backgroundColor: (design.components as any)?.faq?.card?.backgroundColor || 'transparent',
-                    borderBottom: openIndex === index ? `${design.components?.faq?.border?.width || '2px'} ${design.components?.faq?.border?.style || 'solid'} ${design.components?.faq?.border?.color || design.tokens?.colors?.primary || '#eab308'}` : 'none'
+                    backgroundColor: design.components?.faqCard?.question?.backgroundColor,
+                    padding: design.components?.faqCard?.question?.padding,
+                    borderBottom: openIndex === index ? `${design.components?.faqCard?.divider?.width || '2px'} ${design.components?.faqCard?.divider?.style || 'solid'} ${design.components?.faqCard?.divider?.color || design.tokens?.colors?.primary || '#FF69B4'}` : 'none'
                   }}
                   transition={{ duration: 0.2 }}
                 >
                   <span
-                    data-typography="faq.question"
+                    data-typography="faqCardQuestion"
                     className="flex-1 pr-4 text-left"
                     style={{
-                      fontFamily: design.tokens?.typography?.faqQuestion?.fontFamily || 'inherit',
-                      fontSize: design.tokens?.typography?.faqQuestion?.fontSize || '1.125rem',
-                      fontWeight: design.tokens?.typography?.faqQuestion?.fontWeight || 600,
-                      lineHeight: design.tokens?.typography?.faqQuestion?.lineHeight || '1.4',
-                      letterSpacing: design.tokens?.typography?.faqQuestion?.letterSpacing,
-                      color: design.tokens?.typography?.faqQuestion?.color || ((design.components as any)?.faq?.card?.questionColor || '#ffffff')
+                      fontFamily: design.tokens?.typography?.faqCardQuestion?.fontFamily || 'inherit',
+                      fontSize: design.tokens?.typography?.faqCardQuestion?.fontSize || '1.25rem',
+                      fontWeight: design.tokens?.typography?.faqCardQuestion?.fontWeight || 500,
+                      lineHeight: design.tokens?.typography?.faqCardQuestion?.lineHeight || '1.6',
+                      letterSpacing: design.tokens?.typography?.faqCardQuestion?.letterSpacing,
+                      color: design.tokens?.typography?.faqCardQuestion?.color || '#111827'
                     }}
                   >
                     {item.question}
                   </span>
-                  <motion.div
-                    animate={{ rotate: openIndex === index ? 180 : 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="flex-shrink-0 ml-4"
-                  >
+                  <div className="flex-shrink-0">
                     <div 
-                      data-element="faqArrow"
-                      className="w-10 h-10 rounded-full flex items-center justify-center"
-                      style={{ backgroundColor: design.components?.faq?.arrow?.backgroundColor || '#eab308' }}
+                      data-element="faqCardChevron"
+                      className={design.components?.faqCard?.chevron?.className || "w-10 h-10 rounded-full flex items-center justify-center ml-4"}
+                      style={{ 
+                        backgroundColor: design.components?.faqCard?.chevron?.backgroundColor || '#FF69B4',
+                        width: design.components?.faqCard?.chevron?.size || '2.5rem',
+                        height: design.components?.faqCard?.chevron?.size || '2.5rem'
+                      }}
                     >
-                      <ChevronDown 
-                        className="w-5 h-5" 
-                        style={{ color: design.components?.faq?.arrow?.iconColor || '#000000' }}
-                      />
+                      <motion.div
+                        animate={{ rotate: openIndex === index ? 180 : 0 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <ChevronDown 
+                          className={design.components?.faqCard?.chevron?.iconSize || "w-5 h-5"}
+                          style={{ color: design.components?.faqCard?.chevron?.iconColor || '#000000' }}
+                        />
+                      </motion.div>
                     </div>
-                  </motion.div>
+                  </div>
                 </motion.div>
                 
                 <AnimatePresence>
@@ -164,16 +192,19 @@ const FAQ = () => {
                       className="overflow-hidden"
                     >
                       <div 
-                        className="px-6 :px-8 py-8 :py-10 text-left"
-                        data-typography="faq.answer"
+                        data-element="faqCardAnswer"
+                        data-typography="faqCardAnswer"
+                        className={design.components?.faqCard?.answer?.className || "p-6"}
                         style={{
-                          backgroundColor: (design.components as any)?.faq?.card?.backgroundColor || 'transparent',
-                          fontFamily: design.tokens?.typography?.faqAnswer?.fontFamily || 'inherit',
-                          fontSize: design.tokens?.typography?.faqAnswer?.fontSize || '1rem',
-                          fontWeight: design.tokens?.typography?.faqAnswer?.fontWeight || 400,
-                          lineHeight: design.tokens?.typography?.faqAnswer?.lineHeight || '1.6',
-                          letterSpacing: design.tokens?.typography?.faqAnswer?.letterSpacing,
-                          color: design.tokens?.typography?.faqAnswer?.color || ((design.components as any)?.faq?.card?.answerColor || '#cbd5e1'),
+                          backgroundColor: design.components?.faqCard?.answer?.backgroundColor,
+                          padding: design.components?.faqCard?.answer?.padding,
+                          textAlign: design.components?.faqCard?.answer?.textAlign || 'left',
+                          fontFamily: design.tokens?.typography?.faqCardAnswer?.fontFamily || 'inherit',
+                          fontSize: design.tokens?.typography?.faqCardAnswer?.fontSize || '1rem',
+                          fontWeight: design.tokens?.typography?.faqCardAnswer?.fontWeight || 400,
+                          lineHeight: design.tokens?.typography?.faqCardAnswer?.lineHeight || '1.6',
+                          letterSpacing: design.tokens?.typography?.faqCardAnswer?.letterSpacing,
+                          color: design.components?.faqCard?.answer?.color || design.tokens?.typography?.faqCardAnswer?.color || '#374151',
                         }}
                       >
                         {parseHtmlTags(
@@ -189,7 +220,7 @@ const FAQ = () => {
                             letterSpacing: design.typography?.faqAnswerStrong?.letterSpacing,
                             color: design.typography?.faqAnswerStrong?.color,
                           },
-                          'faq.answer',
+                          'faqCardAnswer',
                           'faq.answerStrong'
                         )}
                       </div>

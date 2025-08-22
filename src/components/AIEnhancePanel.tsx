@@ -112,9 +112,11 @@ const AIEnhancePanel: React.FC = () => {
     retry,
     planTimeMs, 
     plan,
+    planValidation,
     jobs, 
     runPlanner,
     runExecutor,
+    runPathFinderExecution, // 🚀 NEW PathFinder
     result: streamedResult, 
     metadata: streamedMeta, 
     lastRun, 
@@ -500,19 +502,22 @@ const AIEnhancePanel: React.FC = () => {
             </button>
             <button
               onClick={executePlan}
+              disabled={!planValidation?.isExecutable}
               style={{
                 padding: '8px 12px',
-                background: '#16a34a',
+                background: planValidation?.isExecutable ? '#16a34a' : '#6b7280',
                 color: '#fff',
                 borderRadius: 6,
-                border: '1px solid #22c55e',
+                border: `1px solid ${planValidation?.isExecutable ? '#22c55e' : '#9ca3af'}`,
                 fontSize: 12,
-                cursor: 'pointer'
+                cursor: planValidation?.isExecutable ? 'pointer' : 'not-allowed',
+                opacity: planValidation?.isExecutable ? 1 : 0.6
               }}
+              title={!planValidation?.isExecutable ? 'Plan contains errors and cannot be executed' : 'Execute the plan'}
             >
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <Zap size={14} style={{ marginRight: 6 }} />
-                Execute Plan
+                {planValidation?.isExecutable === false ? 'Plan Not Executable' : 'Execute Plan'}
               </div>
             </button>
             <button
@@ -683,6 +688,28 @@ const AIEnhancePanel: React.FC = () => {
               <div style={{ color: '#cbd5e1', fontSize: 11 }}>{plan.plan.goal.enhanced_goal || plan.plan.goal.user_goal}</div>
           </div>
         )}
+
+          {/* PathFinder Validation Status */}
+          {planValidation && (
+            <div style={{ marginBottom: 8, padding: 6, borderRadius: 4, backgroundColor: planValidation.isExecutable ? '#064e3b' : '#7f1d1d' }}>
+              <div style={{ fontSize: 10, fontWeight: 500, color: planValidation.isExecutable ? '#10b981' : '#ef4444', marginBottom: 2 }}>
+                {planValidation.isExecutable ? '✅ Executable' : '❌ Not Executable'}
+              </div>
+              <div style={{ fontSize: 9, color: '#9ca3af' }}>
+                {planValidation.validSteps}/{planValidation.totalSteps} valid steps
+              </div>
+              {planValidation.errors.length > 0 && (
+                <div style={{ fontSize: 9, color: '#fca5a5', marginTop: 2 }}>
+                  {planValidation.errors.slice(0, 1).map((error, i) => (
+                    <div key={i}>• {error}</div>
+                  ))}
+                  {planValidation.errors.length > 1 && (
+                    <div>• +{planValidation.errors.length - 1} more errors</div>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
           
           
           <div style={{ color: '#94a3b8', fontSize: 10, marginBottom: 8 }}>

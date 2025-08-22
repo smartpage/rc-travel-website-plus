@@ -110,10 +110,10 @@
         },
         "faqCardQuestion": {
           "fontFamily": "Inter, sans-serif",
-          "fontSize": "1.75rem",
-          "fontWeight": "700",
-          "lineHeight": "1.1",
-          "color": "#1656df"
+          "fontSize": "1.25rem",
+          "fontWeight": "500",
+          "lineHeight": "1.6",
+          "color": "#111827"
         },
         "faqCardAnswer": {
           "fontFamily": "Inter, sans-serif",
@@ -776,7 +776,7 @@
           "padding": {
             "mobile": "0.5rem 0.5rem",
             "tablet": "",
-            "desktop": "2rem"
+            "desktop": ""
           },
           "inner": {
             "maxWidth": "100%",
@@ -786,15 +786,14 @@
               "tablet": "0",
               "desktop": "0"
             },
-            "rounded": true,
+            "rounded": false,
             "backgroundColor": "white",
             "overflow": "visible",
             "background": {
               "type": "color",
               "value": "white"
             },
-            "width": "",
-            "borderRadius": "2rem"
+            "width": ""
           }
         }
       }

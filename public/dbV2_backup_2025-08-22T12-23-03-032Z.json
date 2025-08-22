@@ -110,10 +110,10 @@
         },
         "faqCardQuestion": {
           "fontFamily": "Inter, sans-serif",
-          "fontSize": "1.75rem",
-          "fontWeight": "700",
-          "lineHeight": "1.1",
-          "color": "#1656df"
+          "fontSize": "1.25rem",
+          "fontWeight": "500",
+          "lineHeight": "1.6",
+          "color": "#111827"
         },
         "faqCardAnswer": {
           "fontFamily": "Inter, sans-serif",

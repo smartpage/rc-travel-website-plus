@@ -153,6 +153,14 @@ export function resolveGlobalTokens(snapshot: ComputedSnapshot, sectionId: strin
         matches.push({ scope: 'global', tokenPath: 'typography.faqAnswer', label: 'FAQ Answer', responsive: false });
         hasSpecificMatch = true;
         break;
+      case 'faqCardQuestion':
+        matches.push({ scope: 'global', tokenPath: 'tokens.typography.faqCardQuestion', label: 'FAQ Card Question', responsive: false });
+        hasSpecificMatch = true;
+        break;
+      case 'faqCardAnswer':
+        matches.push({ scope: 'global', tokenPath: 'tokens.typography.faqCardAnswer', label: 'FAQ Card Answer', responsive: false });
+        hasSpecificMatch = true;
+        break;
       case 'faq.answerStrong':
         matches.push({ scope: 'global', tokenPath: 'typography.faqAnswerStrong', label: 'FAQ Answer Strong', responsive: false });
         hasSpecificMatch = true;

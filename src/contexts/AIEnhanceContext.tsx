@@ -38,6 +38,13 @@ interface AIEnhanceContextShape {
   // Core data
   planTimeMs: number | null;
   plan: any | null;
+  planValidation: {
+    isExecutable: boolean;
+    validSteps: number;
+    totalSteps: number;
+    errors: string[];
+    warnings: string[];
+  } | null;
   jobs: JobState[];
   result: any | null;
   metadata: any | null;
@@ -67,6 +74,13 @@ interface AIEnhanceContextShape {
   }) => Promise<void>;
   
   runExecutor: (args: {
+    modelExec: ModelRef;
+    currentDesign: any;
+  }) => Promise<void>;
+
+  // 🚀 NEW: Fast PathFinder execution
+  runPathFinderExecution: (args: {
+    prompt: string;
     modelExec: ModelRef;
     currentDesign: any;
   }) => Promise<void>;
@@ -139,6 +153,20 @@ function buildIndexFromDesign(design: any) {
       "cards section": [],
       
       // FAQ components
+      "faq card": [],
+      "faq background": [],
+      "faq border card": [],
+      "faq shadow": [],
+      "faq question": [],
+      "faq question background": [],
+      "faq answer": [],
+      "faq answer background": [],
+      "faq answer text": [],
+      "faq answer align": [],
+      "faq body": [],
+      "faq body background": [],
+      "faq body text": [],
+      "faq body align": [],
       "faq chevron": [],
       "faq arrow": [],
       "faq chevron background": [],
@@ -259,31 +287,63 @@ function buildIndexFromDesign(design: any) {
       });
     }
     
-    // Add FAQ components to index
-    if (design.components?.faq?.arrow) {
-      const faqArrowPath = 'designV2.components.faq.arrow';
-      const faqArrowBgPath = 'designV2.components.faq.arrow.backgroundColor';
-      const faqArrowIconPath = 'designV2.components.faq.arrow.iconColor';
+    // Add FAQ Card components to index
+    if (design.components?.faqCard) {
+      // FAQ Card Container
+      if (design.components.faqCard.container) {
+        const faqCardPath = 'designV2.components.faqCard.container';
+        idx.paths.push({ id: 'components.faqCard.container', path: faqCardPath, category: 'component' });
+        idx.aliases["faq card"].push(faqCardPath);
+        idx.aliases["faq background"].push('designV2.components.faqCard.container.backgroundColor');
+        idx.aliases["faq border card"].push('designV2.components.faqCard.container.borderColor');
+        idx.aliases["faq shadow"].push('designV2.components.faqCard.container.shadow');
+      }
       
-      idx.paths.push({ id: 'components.faq.arrow', path: faqArrowPath, category: 'component' });
-      idx.aliases["faq chevron"].push(faqArrowPath);
-      idx.aliases["faq arrow"].push(faqArrowPath);
-      idx.aliases["faq chevron background"].push(faqArrowBgPath);
-      idx.aliases["faq arrow background"].push(faqArrowBgPath);
-      idx.aliases["faq chevron icon"].push(faqArrowIconPath);
-      idx.aliases["faq arrow icon"].push(faqArrowIconPath);
-    }
-    
-    if (design.components?.faq?.border) {
-      const faqBorderPath = 'designV2.components.faq.border';
-      const faqBorderColorPath = 'designV2.components.faq.border.color';
+      // FAQ Card Question
+      if (design.components.faqCard.question) {
+        const faqQuestionPath = 'designV2.components.faqCard.question';
+        idx.paths.push({ id: 'components.faqCard.question', path: faqQuestionPath, category: 'component' });
+        idx.aliases["faq question"].push(faqQuestionPath);
+        idx.aliases["faq question background"].push('designV2.components.faqCard.question.backgroundColor');
+      }
       
-      idx.paths.push({ id: 'components.faq.border', path: faqBorderPath, category: 'component' });
-      idx.aliases["faq border"].push(faqBorderPath);
-      idx.aliases["faq line"].push(faqBorderColorPath);
-      idx.aliases["faq inner line"].push(faqBorderColorPath);
-      idx.aliases["faq divider"].push(faqBorderColorPath);
-      idx.aliases["faq separator"].push(faqBorderColorPath);
+      // FAQ Card Answer
+      if (design.components.faqCard.answer) {
+        const faqAnswerPath = 'designV2.components.faqCard.answer';
+        idx.paths.push({ id: 'components.faqCard.answer', path: faqAnswerPath, category: 'component' });
+        idx.aliases["faq answer"].push(faqAnswerPath);
+        idx.aliases["faq answer background"].push('designV2.components.faqCard.answer.backgroundColor');
+        idx.aliases["faq body"].push(faqAnswerPath);
+        idx.aliases["faq body background"].push('designV2.components.faqCard.answer.backgroundColor');
+      }
+      
+      // FAQ Card Chevron
+      if (design.components.faqCard.chevron) {
+        const faqChevronPath = 'designV2.components.faqCard.chevron';
+        const faqChevronBgPath = 'designV2.components.faqCard.chevron.backgroundColor';
+        const faqChevronIconPath = 'designV2.components.faqCard.chevron.iconColor';
+        
+        idx.paths.push({ id: 'components.faqCard.chevron', path: faqChevronPath, category: 'component' });
+        idx.aliases["faq chevron"].push(faqChevronPath);
+        idx.aliases["faq arrow"].push(faqChevronPath);
+        idx.aliases["faq chevron background"].push(faqChevronBgPath);
+        idx.aliases["faq arrow background"].push(faqChevronBgPath);
+        idx.aliases["faq chevron icon"].push(faqChevronIconPath);
+        idx.aliases["faq arrow icon"].push(faqChevronIconPath);
+      }
+      
+      // FAQ Card Divider
+      if (design.components.faqCard.divider) {
+        const faqDividerPath = 'designV2.components.faqCard.divider';
+        const faqDividerColorPath = 'designV2.components.faqCard.divider.color';
+        
+        idx.paths.push({ id: 'components.faqCard.divider', path: faqDividerPath, category: 'component' });
+        idx.aliases["faq border"].push(faqDividerPath);
+        idx.aliases["faq line"].push(faqDividerColorPath);
+        idx.aliases["faq inner line"].push(faqDividerColorPath);
+        idx.aliases["faq divider"].push(faqDividerColorPath);
+        idx.aliases["faq separator"].push(faqDividerColorPath);
+      }
     }
     
     // Build relationships for smart suggestions
@@ -363,6 +423,13 @@ export const AIEnhanceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   // Core data states
   const [planTimeMs, setPlanTimeMs] = React.useState<number | null>(null);
   const [plan, setPlan] = React.useState<any | null>(null);
+  const [planValidation, setPlanValidation] = React.useState<{
+    isExecutable: boolean;
+    validSteps: number;
+    totalSteps: number;
+    errors: string[];
+    warnings: string[];
+  } | null>(null);
   const [jobs, setJobs] = React.useState<JobState[]>([]);
   const [result, setResult] = React.useState<any | null>(null);
   const [metadata, setMetadata] = React.useState<any | null>(null);
@@ -384,6 +451,7 @@ export const AIEnhanceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     setState('idle');
     setPlanTimeMs(null);
     setPlan(null);
+    setPlanValidation(null);
     setJobs([]);
     setResult(null);
     setMetadata(null);
@@ -394,7 +462,7 @@ export const AIEnhanceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     setLastArgs(null);
     console.log('🔄 AI context reset');
   }, []);
-  
+
   const createError = React.useCallback((type: AIError['type'], message: string, details?: string, retryable = true): AIError => ({
     type,
     message,
@@ -406,6 +474,220 @@ export const AIEnhanceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
                type === 'executor' ? 'Try reducing the scope or switching to single-shot mode' :
                'Please try again or contact support'
   }), []);
+
+  // 🔍 PathFinder: Validate plan executability
+  const validatePlanWithPathFinder = React.useCallback((plan: any, currentDesign: any) => {
+    if (!plan?.steps || !Array.isArray(plan.steps)) {
+      return {
+        isExecutable: false,
+        validSteps: 0,
+        totalSteps: 0,
+        errors: ['Plan has no steps array'],
+        warnings: []
+      };
+    }
+
+    const errors: string[] = [];
+    const warnings: string[] = [];
+    let validSteps = 0;
+
+    for (const [index, step] of plan.steps.entries()) {
+      if (!step.path) {
+        errors.push(`Step ${index + 1}: Missing path property`);
+        continue;
+      }
+
+      // Check if path exists in design
+      const currentValue = getValueAtPath(step.path, currentDesign);
+      if (currentValue === undefined) {
+        errors.push(`Step ${index + 1}: Invalid path "${step.path}"`);
+        continue;
+      }
+
+      // Check if we have instruction
+      if (!step.instruction && !step.description) {
+        warnings.push(`Step ${index + 1}: No clear instruction for path "${step.path}"`);
+      }
+
+      validSteps++;
+    }
+
+    const isExecutable = validSteps > 0 && errors.length === 0;
+
+    return {
+      isExecutable,
+      validSteps,
+      totalSteps: plan.steps.length,
+      errors,
+      warnings
+    };
+  }, []);
+
+  // 🔍 PathFinder: Smart semantic path resolution
+  const findPaths = React.useCallback((prompt: string, currentDesign: any) => {
+    const idx = buildIndexFromDesign(currentDesign);
+    const foundPaths: Array<{
+      path: string;
+      currentValue: any;
+      context: string;
+      confidence: number;
+    }> = [];
+
+    // Simple keyword matching for now (can be enhanced with AI later)
+    const keywords = prompt.toLowerCase().split(' ');
+    
+    // Check aliases for matches
+    for (const [alias, paths] of Object.entries(idx.aliases)) {
+      const aliasWords = alias.toLowerCase().split(' ');
+      const matchScore = aliasWords.filter(word => keywords.includes(word)).length / aliasWords.length;
+      
+      if (matchScore > 0.5) { // 50% keyword match threshold
+        for (const path of paths) {
+          const currentValue = getValueAtPath(path, currentDesign);
+          if (currentValue !== undefined) {
+            foundPaths.push({
+              path,
+              currentValue,
+              context: alias,
+              confidence: matchScore
+            });
+          }
+        }
+      }
+    }
+
+    // Sort by confidence score
+    return foundPaths.sort((a, b) => b.confidence - a.confidence);
+  }, []);
+
+  // Helper to get value at a specific path
+  const getValueAtPath = (path: string, obj: any): any => {
+    try {
+      const parts = path.replace('designV2.', '').split('.');
+      let current = obj;
+      
+      for (const part of parts) {
+        if (current && typeof current === 'object' && part in current) {
+          current = current[part];
+        } else {
+          return undefined;
+        }
+      }
+      return current;
+    } catch {
+      return undefined;
+    }
+  };
+
+  // 🎯 Micro-Executor: Process single property changes
+  const runMicroExecutor = React.useCallback(async (args: {
+    path: string;
+    currentValue: any;
+    instruction: string;
+    context: string;
+    modelExec: ModelRef;
+  }) => {
+    const { path, currentValue, instruction, context, modelExec } = args;
+
+    console.log(`🎯 Micro-executing: ${path}`);
+    
+    try {
+      const response = await fetch(`${AI_API_BASE}/ai-enhance-single-shot`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          designData: { [path]: currentValue }, // Only send the specific property
+          prompt: `Change ${context}: ${instruction}. Current value: ${JSON.stringify(currentValue)}. Return only the new value.`,
+          aiModel: modelExec.id || 'google/gemini-2.5-flash-lite'
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      const result = await response.json();
+      return result.enhancedData?.[path] || currentValue;
+    } catch (error) {
+      console.error(`❌ Micro-executor failed for ${path}:`, error);
+      throw error;
+    }
+  }, [AI_API_BASE]);
+
+  // 🔄 Apply path changes to design
+  const applyPathChanges = React.useCallback((currentDesign: any, changes: Array<{ path: string; newValue: any }>) => {
+    const newDesign = JSON.parse(JSON.stringify(currentDesign)); // Deep clone
+    
+    for (const { path, newValue } of changes) {
+      const parts = path.replace('designV2.', '').split('.');
+      let current = newDesign;
+      
+      // Navigate to parent of target property
+      for (let i = 0; i < parts.length - 1; i++) {
+        if (!current[parts[i]]) current[parts[i]] = {};
+        current = current[parts[i]];
+      }
+      
+      // Set the new value
+      current[parts[parts.length - 1]] = newValue;
+    }
+    
+    return newDesign;
+  }, []);
+
+  // Pre-validate paths in the plan before sending to executor
+  const validatePlanPaths = React.useCallback((plan: any, currentDesign: any) => {
+    // Helper to check if a path exists in the design object
+    const checkPathExists = (path: string, obj: any): boolean => {
+      try {
+        const parts = path.replace('designV2.', '').split('.');
+        let current = obj;
+        
+        for (const part of parts) {
+          if (current && typeof current === 'object' && part in current) {
+            current = current[part];
+          } else {
+            return false;
+          }
+        }
+        return true;
+      } catch {
+        return false;
+      }
+    };
+
+    if (!plan?.steps || !Array.isArray(plan.steps)) {
+      return { valid: false, errors: ['Plan has no steps array'] };
+    }
+
+    const errors: string[] = [];
+    const validatedSteps: any[] = [];
+
+    for (const step of plan.steps) {
+      if (!step.path) {
+        errors.push(`Step missing path: ${JSON.stringify(step)}`);
+        continue;
+      }
+
+      // Check if path exists in currentDesign
+      const pathExists = checkPathExists(step.path, currentDesign);
+      if (!pathExists) {
+        errors.push(`Invalid path: ${step.path}`);
+        continue;
+      }
+
+      validatedSteps.push(step);
+    }
+
+    return {
+      valid: errors.length === 0,
+      errors,
+      validatedSteps,
+      originalStepCount: plan.steps.length,
+      validStepCount: validatedSteps.length
+    };
+  }, []);
   
   const retry = React.useCallback(async () => {
     if (!error?.retryable || !lastArgs) return;
@@ -532,7 +814,22 @@ export const AIEnhanceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         planner: { endpoint: `${AI_API_BASE}/ai-plan-scope`, modelId: (json.model?.id), ms: json.planTimeMs, plan: json }
       }));
       
-      // Move to plan_ready state for user review
+      // 🔍 VALIDATE PLAN WITH PATHFINDER
+      console.log('🔍 Validating plan with PathFinder...');
+      const validation = validatePlanWithPathFinder(json, currentDesign);
+      setPlanValidation(validation);
+      
+      if (validation.isExecutable) {
+        console.log(`✅ Plan is executable: ${validation.validSteps}/${validation.totalSteps} steps valid`);
+        if (validation.warnings.length > 0) {
+          console.warn('⚠️ Plan warnings:', validation.warnings);
+        }
+      } else {
+        console.error(`❌ Plan is NOT executable: ${validation.errors.length} errors found`);
+        console.error('Errors:', validation.errors);
+      }
+      
+      // Move to plan_ready state for user review (regardless of validation)
       setState('plan_ready');
       
     } catch (e: any) {
@@ -541,7 +838,7 @@ export const AIEnhanceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       setError(createError(errorType, `Planner failed: ${e.message}`, e.stack));
       setState('error');
     }
-  }, [createError, plannerModel, AI_API_BASE]);
+  }, [createError, plannerModel, AI_API_BASE, validatePlanWithPathFinder]);
 
   const runExecutor = React.useCallback(async (args: {
     modelExec: ModelRef;
@@ -554,17 +851,76 @@ export const AIEnhanceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       return;
     }
 
-    // Executor phase
+    // 🔍 NEW PATHFINDER FLOW: Use micro-execution instead of full object processing
+    console.log('🔍 Starting PathFinder-powered execution...');
     setState('executing');
     setJobs([]);
+
     try {
-      const body = {
-        data: { designV2: currentDesign },
-        prompt: lastPrompt,
-        aiModel: modelExec,
-        plannerOutput: plan,
-        mode: 'single' // Always single-shot
-      };
+      if (!plan.steps || !Array.isArray(plan.steps)) {
+        throw new Error('Plan has no steps array');
+      }
+
+      const changes: Array<{ path: string; newValue: any }> = [];
+      let processedSteps = 0;
+
+      for (const step of plan.steps) {
+        if (!step.path) {
+          console.warn(`⚠️ Step missing path, skipping:`, step);
+          continue;
+        }
+
+        // Validate path exists using PathFinder
+        const currentValue = getValueAtPath(step.path, currentDesign);
+        if (currentValue === undefined) {
+          console.warn(`⚠️ Invalid path ${step.path}, skipping`);
+          continue;
+        }
+
+        console.log(`🎯 Processing step ${processedSteps + 1}: ${step.path}`);
+
+        // Use micro-executor for this specific path
+        try {
+          const instruction = step.instruction || step.description || lastPrompt;
+          const newValue = await runMicroExecutor({
+            path: step.path,
+            currentValue,
+            instruction,
+            context: step.context || 'design property',
+            modelExec
+          });
+
+          changes.push({ path: step.path, newValue });
+          processedSteps++;
+          
+        } catch (stepError: any) {
+          console.error(`❌ Failed to process ${step.path}:`, stepError);
+          // Continue with other steps instead of failing entirely
+        }
+      }
+
+      if (changes.length === 0) {
+        throw new Error('No valid changes could be processed');
+      }
+
+      // Apply all changes to design
+      const updatedDesign = applyPathChanges(currentDesign, changes);
+
+      console.log(`✅ PathFinder execution complete: ${changes.length} changes applied`);
+      console.log('📝 Changes:', changes.map(c => ({ path: c.path, newValue: c.newValue })));
+
+      // Update result and move to results_ready state
+      setResult({ enhancedData: updatedDesign });
+      setState('results_ready');
+
+      // Update metadata
+      setMetadata({
+        totalTimeMs: Date.now() - (new Date().getTime()),
+        chunksPlanned: plan.steps.length,
+        chunksSucceeded: changes.length,
+        chunksFailed: plan.steps.length - changes.length,
+        pathfinderMode: true
+      });
       
       const res = await fetch(`${AI_API_BASE}/ai-enhance-content-multipart-stream`, {
         method: 'POST',
@@ -631,7 +987,62 @@ export const AIEnhanceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       setError(createError(errorType, `Executor failed: ${e.message}`, e.stack));
       setState('error');
     }
-  }, [createError, plan, state, lastPrompt, jobs, AI_API_BASE]);
+  }, [createError, plan, state, lastPrompt, jobs, AI_API_BASE, validatePlanPaths]);
+
+  // 🚀 NEW: Fast PathFinder-based execution (bypasses traditional planner)
+  const runPathFinderExecution = React.useCallback(async (args: {
+    prompt: string;
+    modelExec: ModelRef;
+    currentDesign: any;
+  }) => {
+    const { prompt, modelExec, currentDesign } = args;
+
+    console.log('🔍 Starting PathFinder execution...');
+    setState('executing');
+    setError(null);
+
+    try {
+      // 1. Find relevant paths using PathFinder
+      const foundPaths = findPaths(prompt, currentDesign);
+      
+      if (foundPaths.length === 0) {
+        setError(createError('validation', 'No matching paths found for your request'));
+        setState('error');
+        return;
+      }
+
+      console.log(`🎯 Found ${foundPaths.length} potential paths:`, foundPaths.map(p => ({ path: p.path, confidence: p.confidence })));
+
+      // 2. Process changes using micro-executor (for now, just take top match)
+      const topPath = foundPaths[0];
+      console.log(`🎯 Processing top match: ${topPath.path} (confidence: ${topPath.confidence})`);
+
+      const newValue = await runMicroExecutor({
+        path: topPath.path,
+        currentValue: topPath.currentValue,
+        instruction: prompt,
+        context: topPath.context,
+        modelExec
+      });
+
+      // 3. Apply changes to design
+      const updatedDesign = applyPathChanges(currentDesign, [{ 
+        path: topPath.path, 
+        newValue 
+      }]);
+
+      console.log(`✅ PathFinder execution complete: ${topPath.path} = ${JSON.stringify(newValue)}`);
+
+      // Update result and move to results_ready state
+      setResult({ enhancedData: updatedDesign });
+      setState('results_ready');
+
+    } catch (error: any) {
+      console.error('❌ PathFinder execution failed:', error);
+      setError(createError('executor', `PathFinder execution failed: ${error.message}`));
+      setState('error');
+    }
+  }, [findPaths, runMicroExecutor, applyPathChanges, createError]);
 
   // Legacy function for backward compatibility - now just calls the split functions
   const runPlanAndExecute = React.useCallback(async (args: {
@@ -666,6 +1077,7 @@ export const AIEnhanceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     // Core data
     planTimeMs,
     plan,
+    planValidation,
     jobs,
     result,
     metadata,
@@ -685,6 +1097,7 @@ export const AIEnhanceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     // Actions - 2-stage manual workflow
     runPlanner,
     runExecutor,
+    runPathFinderExecution, // 🚀 NEW: Fast PathFinder execution
     runPlanAndExecute, // Legacy compatibility
     
     // Preview management

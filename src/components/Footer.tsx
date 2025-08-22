@@ -26,19 +26,27 @@ const Footer = () => {
     <Section sectionId="footer">
       <div className="text-center">
         <p 
+          data-typography="cardBody"
           className="text-sm" 
           style={{ 
-            fontFamily: design.tokens?.typography?.body?.fontFamily,
-            color: design.tokens?.colors?.textLight 
+            fontFamily: design.tokens?.typography?.cardBody?.fontFamily || design.tokens?.typography?.body?.fontFamily,
+            fontSize: design.tokens?.typography?.cardBody?.fontSize,
+            fontWeight: design.tokens?.typography?.cardBody?.fontWeight,
+            lineHeight: design.tokens?.typography?.cardBody?.lineHeight,
+            color: design.tokens?.typography?.cardBody?.color || design.tokens?.colors?.textLight 
           }}
         >
           {footer?.rnavt}
         </p>
         <p 
+          data-typography="cardBody"
           className="text-xs mt-1" 
           style={{ 
-            fontFamily: design.tokens?.typography?.body?.fontFamily,
-            color: design.tokens?.colors?.textLight 
+            fontFamily: design.tokens?.typography?.cardBody?.fontFamily || design.tokens?.typography?.body?.fontFamily,
+            fontSize: design.tokens?.typography?.cardBody?.fontSize,
+            fontWeight: design.tokens?.typography?.cardBody?.fontWeight,
+            lineHeight: design.tokens?.typography?.cardBody?.lineHeight,
+            color: design.tokens?.typography?.cardBody?.color || design.tokens?.colors?.textLight 
           }}
         >
           {footer?.copyright.replace('{year}', new Date().getFullYear().toString()).replace('{agentName}', agentConfig?.fullName || '')}
