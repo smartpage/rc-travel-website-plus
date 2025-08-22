@@ -137,6 +137,14 @@ function buildIndexFromDesign(design: any) {
       "spacing": [],
       "hero section": [],
       "cards section": [],
+      
+      // FAQ components
+      "faq chevron": [],
+      "faq arrow": [],
+      "faq chevron background": [],
+      "faq arrow background": [],
+      "faq chevron icon": [],
+      "faq arrow icon": [],
     };
     
     // Build comprehensive path index
@@ -244,6 +252,21 @@ function buildIndexFromDesign(design: any) {
           idx.aliases["cards background"].push(backgroundPath);
         }
       });
+    }
+    
+    // Add FAQ components to index
+    if (design.components?.faq?.arrow) {
+      const faqArrowPath = 'designV2.components.faq.arrow';
+      const faqArrowBgPath = 'designV2.components.faq.arrow.backgroundColor';
+      const faqArrowIconPath = 'designV2.components.faq.arrow.iconColor';
+      
+      idx.paths.push({ id: 'components.faq.arrow', path: faqArrowPath, category: 'component' });
+      idx.aliases["faq chevron"].push(faqArrowPath);
+      idx.aliases["faq arrow"].push(faqArrowPath);
+      idx.aliases["faq chevron background"].push(faqArrowBgPath);
+      idx.aliases["faq arrow background"].push(faqArrowBgPath);
+      idx.aliases["faq chevron icon"].push(faqArrowIconPath);
+      idx.aliases["faq arrow icon"].push(faqArrowIconPath);
     }
     
     // Build relationships for smart suggestions

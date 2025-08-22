@@ -331,6 +331,15 @@
           "arrows": "text-yellow-500",
           "arrowsHover": "hover:text-yellow-600"
         }
+      },
+      "faq": {
+        "arrow": {
+          "backgroundColor": "#FF69B4",
+          "iconColor": "#000000",
+          "size": "w-10 h-10",
+          "iconSize": "w-5 h-5",
+          "borderRadius": "rounded-full"
+        }
       }
     },
     "sections": {
@@ -1000,6 +1009,21 @@
             "dataTypography": "titleDescription"
           }
         ]
+      },
+      "faq.arrow": {
+        "appliesTo": [
+          "components.faq"
+        ],
+        "extends": [
+          "components.faq.arrow"
+        ],
+        "overrides": {},
+        "locked": false,
+        "selectors": [
+          {
+            "dataElement": "faqArrow"
+          }
+        ]
       }
     },
     "bindings": {
@@ -1053,6 +1077,9 @@
       ],
       "dataTypography.titleDescription": [
         "classes.typo.titleDescription"
+      ],
+      "dataElement.faqArrow": [
+        "classes.faq.arrow"
       ]
     },
     "index": {

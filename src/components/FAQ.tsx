@@ -141,12 +141,13 @@ const FAQ = () => {
                     className="flex-shrink-0 ml-4"
                   >
                     <div 
+                      data-element="faqArrow"
                       className="w-10 h-10 rounded-full flex items-center justify-center"
-                      style={{ backgroundColor: (design.components as any)?.faq?.arrow?.backgroundColor || '#eab308' }}
+                      style={{ backgroundColor: design.components?.faq?.arrow?.backgroundColor || '#eab308' }}
                     >
                       <ChevronDown 
                         className="w-5 h-5" 
-                        style={{ color: (design.components as any)?.faq?.arrow?.iconColor || '#000000' }}
+                        style={{ color: design.components?.faq?.arrow?.iconColor || '#000000' }}
                       />
                     </div>
                   </motion.div>
