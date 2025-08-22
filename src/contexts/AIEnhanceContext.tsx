@@ -54,6 +54,7 @@ interface AIEnhanceContextShape {
   
   // State access
   previewBackup: any;
+  sessionBackup: any;
   
   // Actions - 2-stage manual workflow
   runPlanner: (args: {
@@ -289,6 +290,7 @@ export const AIEnhanceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   
   // Preview management
   const [previewBackup, setPreviewBackup] = React.useState<any>(null);
+  const [sessionBackup, setSessionBackup] = React.useState<any>(null); // Backup created at start of AI session
   const [lastPrompt, setLastPrompt] = React.useState<string>('');
   const [lastArgs, setLastArgs] = React.useState<any>(null);
   
@@ -303,8 +305,10 @@ export const AIEnhanceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     setMetadata(null);
     setError(null);
     setPreviewBackup(null);
+    setSessionBackup(null);
     setLastPrompt('');
     setLastArgs(null);
+    console.log('🔄 AI context reset');
   }, []);
   
   const createError = React.useCallback((type: AIError['type'], message: string, details?: string, retryable = true): AIError => ({
@@ -382,6 +386,13 @@ export const AIEnhanceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     scopeMode?: 'auto' | 'selection' | 'global';
   }) => {
     const { prompt, modelPlan, currentDesign, selectionHint, scopeMode = 'auto' } = args;
+    
+    // Create session backup when starting AI process
+    if (!sessionBackup) {
+      const backup = JSON.parse(JSON.stringify(currentDesign));
+      setSessionBackup(backup);
+      console.log('💾 Session backup created');
+    }
     
     // Store for executor phase
     setLastPrompt(prompt);
@@ -584,6 +595,7 @@ export const AIEnhanceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     
     // State access
     previewBackup,
+    sessionBackup,
     
     // Actions - 2-stage manual workflow
     runPlanner,

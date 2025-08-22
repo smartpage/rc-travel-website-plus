@@ -316,3 +316,85 @@ All major features implemented and tested:
 - ✅ Robust error handling and state management
 
 **Next:** Only pending item is confirmation dialogs for destructive actions.
+
+---
+
+## ✅ Latest: Complete Backup & Discard System Fix
+
+### **🔧 PROBLEM IDENTIFIED & FIXED**
+
+**Original Issue:**
+- Discard button didn't restore original design properly
+- Only changed AI state but left design modifications in place
+- No proper session-level backup system
+
+**Root Cause Analysis:**
+1. **`results_ready` state**: Design still original (no backup needed)
+2. **`applied` state**: Design modified but only had preview backup
+3. **Missing session backup**: No backup created at AI process start
+
+### **✅ IMPLEMENTED SOLUTION**
+
+#### **1. Session-Level Backup System**
+```typescript
+// Created when AI process starts (in runPlanner)
+const [sessionBackup, setSessionBackup] = React.useState<any>(null);
+
+// Backup created automatically on first runPlanner call
+if (!sessionBackup) {
+  const backup = JSON.parse(JSON.stringify(currentDesign));
+  setSessionBackup(backup);
+}
+```
+
+#### **2. Smart Discard Logic**
+```typescript
+// State: results_ready → design still original
+if (state === 'results_ready' && plan?.plan) {
+  setState('plan_ready'); // No restore needed
+}
+
+// State: applied → design modified, restore needed  
+if (state === 'applied' && sessionBackup) {
+  updateDesignLocal(() => sessionBackup); // Restore original
+  setState('plan_ready');
+}
+```
+
+#### **3. Complete Backup Hierarchy**
+1. **Session Backup**: Created when AI starts (original design)
+2. **Preview Backup**: Created when applying changes (pre-apply design)  
+3. **File Refresh**: Last resort - reload from dbV2.json
+
+### **🎯 NEW DISCARD BEHAVIOR**
+
+**From `results_ready`:**
+- ✅ Returns to `plan_ready` (design already original)
+- ✅ Preserves plan for re-execution
+- ✅ No unnecessary design operations
+
+**From `applied`:**  
+- ✅ Restores original design from `sessionBackup`
+- ✅ Returns to `plan_ready` with plan intact
+- ✅ Fallback to `previewBackup` if session backup missing
+- ✅ Allows immediate re-execution
+
+**From other states:**
+- ✅ Reloads design from file and goes to `idle`
+- ✅ Complete session reset
+
+### **💾 BACKUP MANAGEMENT**
+
+**Session Backup:**
+- Created: First `runPlanner()` call
+- Contains: Original design at AI session start
+- Used by: Smart discard from `applied` state
+- Cleared: On `reset()` or new session
+
+**Preview Backup:**
+- Created: `handleApplyPreview()` call  
+- Contains: Design before applying AI changes
+- Used by: Reject functionality
+- Cleared: After commit or discard
+
+**Result:** Perfect discard behavior - always returns to previous usable state with original design restored! 🎯

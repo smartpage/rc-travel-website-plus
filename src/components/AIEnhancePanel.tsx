@@ -58,6 +58,7 @@ const AIEnhancePanel: React.FC = () => {
     rejectPreview,
     commitChanges,
     previewBackup,
+    sessionBackup,
     setState,
     setError
   } = useAIEnhance();
@@ -179,9 +180,9 @@ const AIEnhancePanel: React.FC = () => {
 
   const handleDiscard = async () => {
     try {
-      // Smart discard based on current state
-      if (state === 'results_ready' || state === 'applied') {
-        // If we have results/applied changes, go back to plan_ready to allow re-execution
+      // Smart discard with proper backup restoration
+      if (state === 'results_ready') {
+        // In results_ready, design is still original, just go back to plan_ready
         if (plan?.plan) {
           setState('plan_ready');
           setError(null);
@@ -190,14 +191,33 @@ const AIEnhancePanel: React.FC = () => {
         }
       }
       
-      // For other states or if no plan exists, reload design and go to idle
+      if (state === 'applied') {
+        // In applied state, design was modified, restore from backup
+        if (sessionBackup) {
+          // Restore original design from session backup
+          updateDesignLocal(() => sessionBackup);
+          setState('plan_ready');
+          setError(null);
+          console.log('🗑️ Discarded applied changes, restored original design, back to plan ready');
+          return;
+        } else if (previewBackup) {
+          // Fallback to preview backup if session backup missing
+          updateDesignLocal(() => previewBackup);
+          setState('plan_ready');
+          setError(null);
+          console.log('🗑️ Discarded applied changes, restored from preview backup, back to plan ready');
+          return;
+        }
+      }
+      
+      // For other states or if no backup exists, reload design from file and go to idle
       await refreshDesign();
       setState('idle');
       setError(null);
       
-      console.log('🗑️ Discarded AI session and reloaded original design');
+      console.log('🗑️ Discarded AI session and reloaded original design from file');
     } catch (e: any) {
-      console.error('❌ Failed to refresh design:', e);
+      console.error('❌ Failed to discard:', e);
       // Fallback to just clearing state
       setState('idle');
       setError(null);
@@ -209,7 +229,7 @@ const AIEnhancePanel: React.FC = () => {
       {/* Model Selection - Side by Side */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
         {/* Planner Model */}
-        <div>
+      <div>
           <div style={{ color: '#94a3b8', fontSize: 11, marginBottom: 4 }}>Planner:</div>
           <select
             value={plannerModel.id}
@@ -570,7 +590,7 @@ const AIEnhancePanel: React.FC = () => {
           
           <div style={{ color: '#94a3b8', fontSize: 10, marginBottom: 8 }}>
             ⚡ Execute to apply changes, 🧠 Re-plan to try different model, or 🗑️ Discard to start over
-          </div>
+              </div>
           
           {plan.plan.goal && (
             <div style={{ marginBottom: 8 }}>
@@ -705,9 +725,9 @@ const AIEnhancePanel: React.FC = () => {
           </div>
           <div style={{ color: '#94a3b8', fontSize: 10 }}>
             💡 Apply to see changes, Reject to revert, or Discard to retry execution
-          </div>
-        </div>
-      )}
+                    </div>
+            </div>
+          )}
 
       {state === 'applied' && (
         <div style={{
