@@ -382,13 +382,13 @@
             },
             "rounded": true,
             "borderRadius": "1rem",
-            "backgroundColor": "#e0b715",
+            "backgroundColor": "#FFF8DC",
             "overflow": "hidden",
             "background": {
               "type": "image",
-              "value": "https://images.pexels.com/photos/994605/pexels-photo-994605.jpeg",
+              "value": "",
               "overlay": {
-                "color": "",
+                "color": "#FFB6C1",
                 "opacity": 0.5
               }
             },
@@ -746,6 +746,35 @@
       }
     },
     "classes": {
+      "card.base": {
+        "appliesTo": [
+          "sections"
+        ],
+        "extends": [],
+        "overrides": {
+        },
+        "locked": false,
+        "selectors": [
+          {
+            "dataElement": "card"
+          }
+        ]
+      },
+      "badge.duration": {
+        "appliesTo": [
+          "sections"
+        ],
+        "extends": [],
+        "overrides": {
+        },
+        "locked": false,
+        "selectors": [
+          {
+            "dataElement": "pill",
+            "dataVariant": "duration"
+          }
+        ]
+      },
       "btn.primary": {
         "appliesTo": [
           "components.button"

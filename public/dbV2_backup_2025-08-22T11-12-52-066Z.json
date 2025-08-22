@@ -365,7 +365,7 @@
         "layout": {
           "maxWidth": "100%",
           "minHeight": "100vh",
-          "backgroundColor": "#ffb6c2",
+          "backgroundColor": "#F5F5DC",
           "padding": {
             "mobile": "10rem 0.5rem",
             "tablet": "10rem 0.5rem",
@@ -382,13 +382,13 @@
             },
             "rounded": true,
             "borderRadius": "1rem",
-            "backgroundColor": "#e0b715",
+            "backgroundColor": "#FFF8DC",
             "overflow": "hidden",
             "background": {
               "type": "image",
-              "value": "https://images.pexels.com/photos/994605/pexels-photo-994605.jpeg",
+              "value": "",
               "overlay": {
-                "color": "",
+                "color": "#FFB6C1",
                 "opacity": 0.5
               }
             },

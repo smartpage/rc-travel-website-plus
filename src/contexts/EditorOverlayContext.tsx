@@ -24,7 +24,8 @@ export interface ActiveElementInfo {
 }
 
 interface EditorOverlayState {
-  collapsed: Record<PanelId, boolean>;
+  collapsed: Record<PanelId, boolean>; // legacy (kept for compat)
+  activePanelId: PanelId | null;       // new accordion single-open state
   overlayRect: OverlayRect;
   activeElement: ActiveElementInfo | null;
   viewport: 'desktop' | 'mobile';
@@ -42,8 +43,12 @@ interface EditorOverlayState {
 }
 
 interface EditorOverlayContextValue extends EditorOverlayState {
+  // legacy collapse API (mapped to activePanelId)
   toggleCollapse: (panel: PanelId) => void;
   setCollapsed: (panel: PanelId, value: boolean) => void;
+  // new accordion API
+  setActivePanelId: (panel: PanelId | null) => void;
+  togglePanel: (panel: PanelId) => void;
   setOverlayRect: (rect: OverlayRect) => void;
   setActiveElement: (info: ActiveElementInfo | null) => void;
   setViewport: (vp: 'desktop' | 'mobile') => void;
@@ -113,8 +118,17 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
     return 'top-right';
   };
 
+  const getInitialActivePanelId = (): PanelId | null => {
+    try {
+      const saved = localStorage.getItem('design_active_panel');
+      if (saved === 'ai-enhance' || saved === 'inspector' || saved === 'navigator') return saved as PanelId;
+    } catch {}
+    return 'ai-enhance';
+  };
+
   const [state, setState] = React.useState<EditorOverlayState>({
     collapsed: getInitialCollapsedState(),
+    activePanelId: getInitialActivePanelId(),
     overlayRect: null,
     activeElement: null,
     viewport: (sessionStorage.getItem('design_vp') as 'desktop' | 'mobile') || 'desktop',
@@ -132,22 +146,35 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
   });
 
   const toggleCollapse = (panel: PanelId) => {
+    // Map legacy collapse toggle to single-open accordion behavior
     setState(prev => {
-      const newCollapsed = { ...prev.collapsed, [panel]: !prev.collapsed[panel] };
-      try {
-        localStorage.setItem('design_panel_collapsed', JSON.stringify(newCollapsed));
-      } catch {}
-      return { ...prev, collapsed: newCollapsed };
+      const nextActive = prev.activePanelId === panel ? null : panel;
+      try { localStorage.setItem('design_active_panel', String(nextActive || '')); } catch {}
+      return { ...prev, activePanelId: nextActive };
     });
   };
 
   const setCollapsed = (panel: PanelId, value: boolean) => {
+    // Legacy API: open/close maps to activePanelId
     setState(prev => {
-      const newCollapsed = { ...prev.collapsed, [panel]: value };
-      try {
-        localStorage.setItem('design_panel_collapsed', JSON.stringify(newCollapsed));
-      } catch {}
-      return { ...prev, collapsed: newCollapsed };
+      const nextActive = value ? (prev.activePanelId === panel ? null : prev.activePanelId) : panel;
+      try { localStorage.setItem('design_active_panel', String(nextActive || '')); } catch {}
+      return { ...prev, activePanelId: nextActive };
+    });
+  };
+
+  const setActivePanelId = (panel: PanelId | null) => {
+    setState(prev => {
+      try { localStorage.setItem('design_active_panel', String(panel || '')); } catch {}
+      return { ...prev, activePanelId: panel };
+    });
+  };
+
+  const togglePanel = (panel: PanelId) => {
+    setState(prev => {
+      const nextActive = prev.activePanelId === panel ? null : panel;
+      try { localStorage.setItem('design_active_panel', String(nextActive || '')); } catch {}
+      return { ...prev, activePanelId: nextActive };
     });
   };
 
@@ -447,6 +474,7 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const value: EditorOverlayContextValue = React.useMemo(() => ({
     collapsed: state.collapsed,
+    activePanelId: state.activePanelId,
     overlayRect: state.overlayRect,
     activeElement: state.activeElement,
     viewport: state.viewport,
@@ -458,6 +486,8 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
     aiTiming: state.aiTiming,
     toggleCollapse,
     setCollapsed,
+    setActivePanelId,
+    togglePanel,
     setOverlayRect,
     setActiveElement,
     setViewport,

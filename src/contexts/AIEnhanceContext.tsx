@@ -102,8 +102,17 @@ function buildIndexFromDesign(design: any) {
     
     // Enhanced semantic aliases for visual concepts
     idx.aliases = {
-      // Background concepts
+      // Card-specific concepts (distinct from sections)
+      "card background": [],
       "cards background": [],
+      "card background (elements not section)": [],
+      "travel card": [],
+      "service card": [],
+      "feature card": [],
+      "why card": [],
+      "card": [],
+      
+      // Section background concepts
       "section background": [],
       "hero background": [],
       "background": [],
@@ -120,6 +129,8 @@ function buildIndexFromDesign(design: any) {
       "heading color": [],
       "body text": [],
       "title color": [],
+      "card title": [],
+      "card text": [],
       
       // Layout concepts
       "padding": [],
@@ -149,7 +160,29 @@ function buildIndexFromDesign(design: any) {
           idx.aliases["body text"].push(path);
           idx.aliases["text color"].push(path);
         }
+        
+        // Card typography mapping
+        if (k.includes('Card') || k.includes('card')) {
+          idx.aliases["card title"].push(path);
+          idx.aliases["card text"].push(path);
+          idx.aliases["card"].push(path);
+          
+          // Specific card types
+          if (k.includes('service')) idx.aliases["service card"].push(path);
+          if (k.includes('travel')) idx.aliases["travel card"].push(path);
+          if (k.includes('why')) idx.aliases["why card"].push(path);
+        }
       });
+    }
+    
+    // Special handling for card background token
+    if (design.tokens?.colors?.cardBackground) {
+      const cardBgPath = 'designV2.tokens.colors.cardBackground';
+      idx.paths.push({ id: 'tokens.colors.cardBackground', path: cardBgPath, category: 'color' });
+      idx.aliases["card background"].push(cardBgPath);
+      idx.aliases["cards background"].push(cardBgPath);
+      idx.aliases["card"].push(cardBgPath);
+      idx.aliases["card background (elements not section)"].push(cardBgPath);
     }
     
     // 2. Components
@@ -193,11 +226,21 @@ function buildIndexFromDesign(design: any) {
           idx.aliases["hero section"].push(layoutPath);
           idx.aliases["hero background"].push(backgroundPath);
         }
-        if (s.includes('card') || s.includes('feature')) {
+        
+        // Card-specific sections mapping
+        if (s === 'whyFeatureCards') {
+          idx.aliases["feature card"].push(backgroundPath);
+          idx.aliases["why card"].push(backgroundPath);
+          idx.aliases["card background"].push(backgroundPath);
+          idx.aliases["card background (elements not section)"].push(backgroundPath);
           idx.aliases["cards background"].push(backgroundPath);
+          idx.aliases["card"].push(backgroundPath);
           idx.aliases["cards section"].push(layoutPath);
-        }
-        if (s.includes('why') && s.includes('feature')) {
+        } else if (s.includes('card') || s.includes('feature')) {
+          // Generic card sections (less specific)
+          idx.aliases["cards section"].push(layoutPath);
+          idx.aliases["card background"].push(backgroundPath);
+          idx.aliases["card background (elements not section)"].push(backgroundPath);
           idx.aliases["cards background"].push(backgroundPath);
         }
       });

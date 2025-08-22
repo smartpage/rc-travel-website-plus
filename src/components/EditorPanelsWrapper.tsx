@@ -105,11 +105,7 @@ const EditorPanelsWrapper: React.FC = () => {
         <div style={{ 
           width: '100%', 
           display: 'flex',
-          flexDirection: 'column',
-          transition: 'max-height 0.3s ease, opacity 0.2s ease',
-          maxHeight: collapsed['ai-enhance'] ? 60 : 'none',
-          opacity: collapsed['ai-enhance'] ? 0.7 : 1,
-          overflow: collapsed['ai-enhance'] ? 'hidden' : 'visible'
+          flexDirection: 'column'
         }}>
           <AIEnhanceProvider>
             <EditorPanel id="ai-enhance" title="AI Enhancement" subtitle="Server-side AI">
@@ -122,11 +118,7 @@ const EditorPanelsWrapper: React.FC = () => {
         <div style={{ 
           width: '100%', 
           display: 'flex',
-          flexDirection: 'column',
-          transition: 'max-height 0.3s ease, opacity 0.2s ease',
-          maxHeight: collapsed.inspector ? 60 : 'none',
-          opacity: collapsed.inspector ? 0.7 : 1,
-          overflow: collapsed.inspector ? 'hidden' : 'visible'
+          flexDirection: 'column'
         }}>
           <EditorPanel id="inspector" title="Design Inspector" subtitle="Tokens & Styles">
             <DesignInspectorContent />
@@ -137,11 +129,7 @@ const EditorPanelsWrapper: React.FC = () => {
         <div style={{ 
           width: '100%', 
           display: 'flex',
-          flexDirection: 'column',
-          transition: 'max-height 0.3s ease, opacity 0.2s ease',
-          maxHeight: collapsed.navigator ? 60 : 'none',
-          opacity: collapsed.navigator ? 0.7 : 1,
-          overflow: collapsed.navigator ? 'hidden' : 'visible'
+          flexDirection: 'column'
         }}>
           <EditorPanel id="navigator" title="Section Navigator" subtitle={`${navigableCount} sections`}>
             <SectionNavigatorContent />

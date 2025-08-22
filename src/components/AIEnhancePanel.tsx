@@ -676,9 +676,6 @@ const AIEnhancePanel: React.FC = () => {
             📋 Execution Plan Ready
           </div>
           
-          <div style={{ color: '#94a3b8', fontSize: 10, marginBottom: 8 }}>
-            ⚡ Execute to apply changes, 🧠 Re-plan to try different model, or 🗑️ Discard to start over
-              </div>
           
           {plan.plan.goal && (
             <div style={{ marginBottom: 8 }}>
@@ -687,19 +684,6 @@ const AIEnhancePanel: React.FC = () => {
           </div>
         )}
           
-          {plan.plan.steps && plan.plan.steps.length > 0 && (
-            <div style={{ marginBottom: 8 }}>
-              <div style={{ color: '#e5e7eb', fontSize: 11, marginBottom: 4 }}>Steps:</div>
-              {plan.plan.steps.slice(0, 3).map((step: string, i: number) => (
-                <div key={i} style={{ color: '#cbd5e1', fontSize: 10, marginBottom: 2 }}>
-                  {i + 1}. {step}
-                </div>
-              ))}
-              {plan.plan.steps.length > 3 && (
-                <div style={{ color: '#94a3b8', fontSize: 10 }}>+{plan.plan.steps.length - 3} more steps</div>
-              )}
-            </div>
-          )}
           
           <div style={{ color: '#94a3b8', fontSize: 10, marginBottom: 8 }}>
             Targets: {plan.plan.primary?.length || 0} primary paths | {planTimeMs ? `${(planTimeMs/1000).toFixed(1)}s` : ''}

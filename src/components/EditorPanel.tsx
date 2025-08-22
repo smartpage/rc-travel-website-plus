@@ -9,13 +9,13 @@ interface EditorPanelProps {
 }
 
 const EditorPanel: React.FC<EditorPanelProps> = ({ id, title, subtitle, children }) => {
-  const { collapsed, toggleCollapse } = useEditorOverlay();
-  const isCollapsed = collapsed[id];
+  const { activePanelId, togglePanel } = useEditorOverlay();
+  const isCollapsed = activePanelId !== id;
 
   return (
     <>
       <button
-        onClick={() => toggleCollapse(id)}
+        onClick={() => togglePanel(id)}
         style={{
           width: '100%',
           background: isCollapsed ? '#1a1a1a' : '#2a2a2a',
@@ -30,7 +30,9 @@ const EditorPanel: React.FC<EditorPanelProps> = ({ id, title, subtitle, children
           justifyContent: 'space-between',
           alignItems: 'center',
           transition: 'all 0.2s ease',
-          marginBottom: isCollapsed ? 0 : 2
+          marginBottom: isCollapsed ? 0 : 2,
+          position: 'relative',
+          zIndex: 2
         }}
         onMouseEnter={(e) => {
           e.currentTarget.style.background = isCollapsed ? '#2a2a2a' : '#3a3a3a';
@@ -38,6 +40,8 @@ const EditorPanel: React.FC<EditorPanelProps> = ({ id, title, subtitle, children
         onMouseLeave={(e) => {
           e.currentTarget.style.background = isCollapsed ? '#1a1a1a' : '#2a2a2a';
         }}
+        aria-expanded={!isCollapsed}
+        aria-controls={`panel-${id}`}
       >
         <span>{title}</span>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -47,11 +51,13 @@ const EditorPanel: React.FC<EditorPanelProps> = ({ id, title, subtitle, children
       </button>
       
       {!isCollapsed && (
-        <div style={{ 
+        <div id={`panel-${id}`} style={{ 
           padding: '0 2px 12px 2px',
           overflow: 'visible',
           display: 'flex',
-          flexDirection: 'column'
+          flexDirection: 'column',
+          position: 'relative',
+          zIndex: 1
         }}>
           {children}
         </div>

@@ -2,8 +2,8 @@
   "designV2": {
     "tokens": {
       "colors": {
-        "primary": "#FF69B4",
-        "primaryHover": "#FF1493",
+        "primary": "red-500",
+        "primaryHover": "yellow-600",
         "secondary": "slate-800",
         "secondaryHover": "slate-900",
         "text": "white",
@@ -12,9 +12,9 @@
         "headingColor": "white",
         "background": "black",
         "pageBackground": "black",
-        "cardBackground": "#FFC0CB",
-        "accent": "#FF69B4",
-        "highlight": "#FF69B4"
+        "cardBackground": "black",
+        "accent": "yellow-500",
+        "highlight": "yellow-600"
       },
       "typography": {
         "body": {
@@ -157,12 +157,12 @@
         "defaults": {},
         "variants": {
           "primary": {
-            "backgroundColor": "#FF69B4",
-            "backgroundColorHover": "#FF1493",
+            "backgroundColor": "#000000",
+            "backgroundColorHover": "#000000",
             "textColor": "#ffffff",
             "textColorHover": "#ffffff",
-            "borderColor": "#FF69B4",
-            "borderColorHover": "#FF1493",
+            "borderColor": "#000000",
+            "borderColorHover": "#000000",
             "fontFamily": "Inter, sans-serif",
             "fontSize": "1rem",
             "fontWeight": "500",
@@ -339,7 +339,7 @@
           "maxWidth": "1280px",
           "backgroundColor": "white",
           "padding": {
-            "mobile": "10rem 0rem",
+            "mobile": "10rem 1rem",
             "tablet": "10rem 2rem",
             "desktop": "10rem 2rem"
           },
@@ -365,7 +365,7 @@
         "layout": {
           "maxWidth": "100%",
           "minHeight": "100vh",
-          "backgroundColor": "#ffb6c2",
+          "backgroundColor": "#F5F5DC",
           "padding": {
             "mobile": "10rem 0.5rem",
             "tablet": "10rem 0.5rem",
@@ -382,13 +382,13 @@
             },
             "rounded": true,
             "borderRadius": "1rem",
-            "backgroundColor": "#e0b715",
+            "backgroundColor": "#FFF8DC",
             "overflow": "hidden",
             "background": {
               "type": "image",
-              "value": "https://images.pexels.com/photos/994605/pexels-photo-994605.jpeg",
+              "value": "",
               "overlay": {
-                "color": "",
+                "color": "#FFB6C1",
                 "opacity": 0.5
               }
             },
@@ -673,11 +673,11 @@
               "desktop": "5rem"
             },
             "rounded": true,
-            "backgroundColor": "#FFC0CB",
+            "backgroundColor": "#ffffff",
             "overflow": "visible",
             "background": {
               "type": "color",
-              "value": "#FFC0CB"
+              "value": "#ffffff"
             },
             "width": "",
             "borderRadius": "2rem",
