@@ -349,7 +349,7 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
       const raw = e.target as HTMLElement | null;
       if (!raw) return;
 
-      // If clicking badge or its children, select parent card
+      // If clicking badge or its children, select parent card and open inspector
       if (raw.matches('[data-card-selector], [data-card-selector] *')) {
         const card = raw.closest('[data-card]') as HTMLElement | null;
         if (card && card.closest('[class~="@container"]')) {
@@ -359,8 +359,10 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
           const tokenMatches = resolveGlobalTokens(snap, sectionId, designRef.current, card);
           const label = `card${sectionId ? ` · ${sectionId}` : ''}`;
           const rect = card.getBoundingClientRect();
+          try { localStorage.setItem('design_active_panel', 'inspector'); } catch {}
           setState(prev => ({
             ...prev,
+            activePanelId: 'inspector',
             activeElement: { label, sectionId, tokenMatches },
             overlayRect: { top: rect.top, left: rect.left, width: rect.width, height: rect.height },
             selectedElement: card
