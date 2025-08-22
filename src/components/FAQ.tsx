@@ -114,10 +114,11 @@ const FAQ = () => {
               >
                 <motion.div
                   onClick={() => toggleItem(index)}
+                  data-element="faqBorder"
                   className="p-6 :p-8 cursor-pointer flex justify-between items-center"
                   style={{
                     backgroundColor: (design.components as any)?.faq?.card?.backgroundColor || 'transparent',
-                    borderBottom: openIndex === index ? `2px solid ${design.tokens?.colors?.primary || '#eab308'}` : 'none'
+                    borderBottom: openIndex === index ? `${design.components?.faq?.border?.width || '2px'} ${design.components?.faq?.border?.style || 'solid'} ${design.components?.faq?.border?.color || design.tokens?.colors?.primary || '#eab308'}` : 'none'
                   }}
                   transition={{ duration: 0.2 }}
                 >

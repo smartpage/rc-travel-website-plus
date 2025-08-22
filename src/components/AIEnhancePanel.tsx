@@ -449,13 +449,13 @@ const AIEnhancePanel: React.FC = () => {
             border: '1px solid #2a3a7a',
             fontSize: 12,
             cursor: 'pointer'
-            }}
-          >
+          }}
+        >
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <Brain size={14} style={{ marginRight: 6 }} />
               Generate Plan
             </div>
-          </button>
+        </button>
         )}
         
         {state === 'planning' && (
@@ -481,7 +481,7 @@ const AIEnhancePanel: React.FC = () => {
         {/* Stage 2: Execution & Re-planning */}
         {state === 'plan_ready' && (
           <>
-            <button
+                <button
               onClick={generatePlan}
               style={{
                 padding: '8px 12px',

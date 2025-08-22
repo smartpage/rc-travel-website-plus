@@ -339,6 +339,11 @@
           "size": "w-10 h-10",
           "iconSize": "w-5 h-5",
           "borderRadius": "rounded-full"
+        },
+        "border": {
+          "color": "#FF69B4",
+          "width": "2px",
+          "style": "solid"
         }
       }
     },
@@ -1024,6 +1029,21 @@
             "dataElement": "faqArrow"
           }
         ]
+      },
+      "faq.border": {
+        "appliesTo": [
+          "components.faq"
+        ],
+        "extends": [
+          "components.faq.border"
+        ],
+        "overrides": {},
+        "locked": false,
+        "selectors": [
+          {
+            "dataElement": "faqBorder"
+          }
+        ]
       }
     },
     "bindings": {
@@ -1080,6 +1100,9 @@
       ],
       "dataElement.faqArrow": [
         "classes.faq.arrow"
+      ],
+      "dataElement.faqBorder": [
+        "classes.faq.border"
       ]
     },
     "index": {

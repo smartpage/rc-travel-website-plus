@@ -145,6 +145,11 @@ function buildIndexFromDesign(design: any) {
       "faq arrow background": [],
       "faq chevron icon": [],
       "faq arrow icon": [],
+      "faq border": [],
+      "faq line": [],
+      "faq inner line": [],
+      "faq divider": [],
+      "faq separator": [],
     };
     
     // Build comprehensive path index
@@ -267,6 +272,18 @@ function buildIndexFromDesign(design: any) {
       idx.aliases["faq arrow background"].push(faqArrowBgPath);
       idx.aliases["faq chevron icon"].push(faqArrowIconPath);
       idx.aliases["faq arrow icon"].push(faqArrowIconPath);
+    }
+    
+    if (design.components?.faq?.border) {
+      const faqBorderPath = 'designV2.components.faq.border';
+      const faqBorderColorPath = 'designV2.components.faq.border.color';
+      
+      idx.paths.push({ id: 'components.faq.border', path: faqBorderPath, category: 'component' });
+      idx.aliases["faq border"].push(faqBorderPath);
+      idx.aliases["faq line"].push(faqBorderColorPath);
+      idx.aliases["faq inner line"].push(faqBorderColorPath);
+      idx.aliases["faq divider"].push(faqBorderColorPath);
+      idx.aliases["faq separator"].push(faqBorderColorPath);
     }
     
     // Build relationships for smart suggestions
