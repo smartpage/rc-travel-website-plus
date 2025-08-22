@@ -57,7 +57,9 @@ const AIEnhancePanel: React.FC = () => {
     applyPreviewWithBackup,
     rejectPreview,
     commitChanges,
-    previewBackup
+    previewBackup,
+    setState,
+    setError
   } = useAIEnhance();
   
   // Simplified local state
@@ -177,10 +179,19 @@ const AIEnhancePanel: React.FC = () => {
 
   const handleDiscard = async () => {
     try {
-      // Reload design from dbV2.json to discard all changes
-      await refreshDesign();
+      // Smart discard based on current state
+      if (state === 'results_ready' || state === 'applied') {
+        // If we have results/applied changes, go back to plan_ready to allow re-execution
+        if (plan?.plan) {
+          setState('plan_ready');
+          setError(null);
+          console.log('🗑️ Discarded results, returned to plan ready state');
+          return;
+        }
+      }
       
-      // Reset AI state
+      // For other states or if no plan exists, reload design and go to idle
+      await refreshDesign();
       setState('idle');
       setError(null);
       
@@ -523,13 +534,13 @@ const AIEnhancePanel: React.FC = () => {
         )}
         
         <div style={{ fontSize: 11, color: '#94a3b8', flex: 1 }}>
-          {state === 'idle' ? 'Ready to plan' :
-           state === 'planning' ? 'Analyzing prompt...' :
-           state === 'plan_ready' ? 'Plan ready for execution' :
-           state === 'executing' ? 'Applying changes...' :
-           state === 'results_ready' ? 'Results ready' :
-           state === 'applied' ? 'Ready to save' :
-           state === 'error' ? 'Error occurred' : 'Ready'}
+          {state === 'idle' ? '💡 Ready to plan enhancement' :
+           state === 'planning' ? '🧠 Analyzing prompt and design...' :
+           state === 'plan_ready' ? '📋 Plan ready - review and execute' :
+           state === 'executing' ? '⚡ Applying changes to design...' :
+           state === 'results_ready' ? '✨ Results ready for review' :
+           state === 'applied' ? '💾 Changes applied - ready to save' :
+           state === 'error' ? '❌ Error occurred - check details below' : 'Ready'}
         </div>
       </div>
 
@@ -554,7 +565,11 @@ const AIEnhancePanel: React.FC = () => {
         <div style={{ marginTop: 8, padding: 12, background: '#1a2332', border: '1px solid #2563eb', borderRadius: 8 }}>
           <div style={{ color: '#60a5fa', fontSize: 12, marginBottom: 8, fontWeight: 'bold', display: 'flex', alignItems: 'center' }}>
             <FileText size={14} style={{ marginRight: 6 }} />
-            Execution Plan Ready
+            📋 Execution Plan Ready
+          </div>
+          
+          <div style={{ color: '#94a3b8', fontSize: 10, marginBottom: 8 }}>
+            ⚡ Execute to apply changes, 🧠 Re-plan to try different model, or 🗑️ Discard to start over
           </div>
           
           {plan.plan.goal && (
@@ -674,7 +689,7 @@ const AIEnhancePanel: React.FC = () => {
         </div>
       )}
 
-      {/* Results status display */}
+            {/* Results status display */}
       {state === 'results_ready' && (
         <div style={{
           padding: 12,
@@ -682,14 +697,17 @@ const AIEnhancePanel: React.FC = () => {
           border: '1px solid #16a34a',
           borderRadius: 8
         }}>
-          <div style={{ color: '#22c55e', fontSize: 12, fontWeight: 'bold' }}>
-            ✅ Results Ready
+          <div style={{ color: '#22c55e', fontSize: 12, fontWeight: 'bold', marginBottom: 6 }}>
+            ✨ Enhancement Complete
           </div>
-          <div style={{ color: '#e5e7eb', fontSize: 11 }}>
-            {streamedMeta && `${streamedMeta.chunksSucceeded}/${streamedMeta.chunksPlanned} paths updated successfully.`}
+          <div style={{ color: '#e5e7eb', fontSize: 11, marginBottom: 6 }}>
+            {streamedMeta && `${streamedMeta.chunksSucceeded}/${streamedMeta.chunksPlanned} design paths updated successfully.`}
           </div>
-            </div>
-          )}
+          <div style={{ color: '#94a3b8', fontSize: 10 }}>
+            💡 Apply to see changes, Reject to revert, or Discard to retry execution
+          </div>
+        </div>
+      )}
 
       {state === 'applied' && (
         <div style={{
@@ -698,11 +716,14 @@ const AIEnhancePanel: React.FC = () => {
           border: '1px solid #16a34a',
           borderRadius: 8
         }}>
-          <div style={{ color: '#22c55e', fontSize: 12, fontWeight: 'bold' }}>
-            ✅ Changes Applied
+          <div style={{ color: '#22c55e', fontSize: 12, fontWeight: 'bold', marginBottom: 6 }}>
+            ✅ Changes Applied Successfully
           </div>
-          <div style={{ color: '#e5e7eb', fontSize: 11 }}>
-            Ready to save to API.
+          <div style={{ color: '#e5e7eb', fontSize: 11, marginBottom: 6 }}>
+            Design has been updated in your working copy.
+          </div>
+          <div style={{ color: '#94a3b8', fontSize: 10 }}>
+            💾 Save to persist changes, or Discard to go back and try again
           </div>
         </div>
       )}

@@ -348,11 +348,17 @@ export const AIEnhanceProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       console.log('❌ Preview rejected, backup available for restoration');
     }
     
-    setState('idle');
+    // Go back to plan_ready if we have a plan, otherwise idle
+    if (plan?.plan) {
+      setState('plan_ready');
+      console.log('❌ Preview rejected, returned to plan ready');
+    } else {
+      setState('idle');
+    }
+    
     setResult(null);
     setPreviewBackup(null);
-    console.log('❌ Preview rejected, state reset');
-  }, [state, previewBackup]);
+  }, [state, previewBackup, plan]);
   
   const commitChanges = React.useCallback(async () => {
     if (state !== 'applied') return;
