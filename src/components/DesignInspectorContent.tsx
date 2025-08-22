@@ -1099,6 +1099,377 @@ const DesignInspectorContent: React.FC = () => {
 					))}
 				</div>
 			)}
+
+			{/* Travel Package Card Design Editing */}
+			{activeElement?.label?.startsWith('card') && activeElement.sectionId && (
+				<div style={{ marginTop: 16, padding: 12, background: '#1e1e1e', borderRadius: 8, border: '1px solid #333' }}>
+					<div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+						<div style={{ fontSize: 16, color: '#facc15' }}>🎨</div>
+						<span style={{ fontSize: 12, color: '#facc15', fontWeight: 'bold' }}>
+							Travel Package Card Design
+						</span>
+					</div>
+
+					{/* Card Background Color */}
+					<PanelRow label="Background Color">
+						<ColorSwatch
+							value={design?.components?.travelPackageCard?.backgroundColor || '#ffffff'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.travelPackageCard) newDesign.components.travelPackageCard = {};
+								newDesign.components.travelPackageCard.backgroundColor = val;
+								return newDesign;
+							})}
+							placeholder="#ffffff"
+						/>
+					</PanelRow>
+
+					{/* Card Border */}
+					<PanelRow label="Border Width">
+						<SmartInput
+							value={design?.components?.travelPackageCard?.borderWidth || '1px'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.travelPackageCard) newDesign.components.travelPackageCard = {};
+								newDesign.components.travelPackageCard.borderWidth = val;
+								return newDesign;
+							})}
+							placeholder="1px"
+							label="travelPackageCard.borderWidth"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					{/* Card Border Color */}
+					<PanelRow label="Border Color">
+						<ColorSwatch
+							value={design?.components?.travelPackageCard?.borderColor || '#e5e7eb'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.travelPackageCard) newDesign.components.travelPackageCard = {};
+								newDesign.components.travelPackageCard.borderColor = val;
+								return newDesign;
+							})}
+							placeholder="#e5e7eb"
+						/>
+					</PanelRow>
+
+					{/* Card Border Radius */}
+					<PanelRow label="Border Radius">
+						<SmartInput
+							value={design?.components?.travelPackageCard?.borderRadius || '8px'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.travelPackageCard) newDesign.components.travelPackageCard = {};
+								newDesign.components.travelPackageCard.borderRadius = val;
+								return newDesign;
+							})}
+							placeholder="8px"
+							label="travelPackageCard.borderRadius"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					{/* Card Padding */}
+					<PanelRow label="Padding">
+						<SmartInput
+							value={design?.components?.travelPackageCard?.padding || '16px'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.travelPackageCard) newDesign.components.travelPackageCard = {};
+								newDesign.components.travelPackageCard.padding = val;
+								return newDesign;
+							})}
+							placeholder="16px"
+							label="travelPackageCard.padding"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					{/* Card Shadow */}
+					<PanelRow label="Shadow">
+						<SmartInput
+							value={design?.components?.travelPackageCard?.shadow || '0 4px 6px -1px rgb(0 0 0 / 0.1)'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.travelPackageCard) newDesign.components.travelPackageCard = {};
+								newDesign.components.travelPackageCard.shadow = val;
+								return newDesign;
+							})}
+							placeholder="0 4px 6px -1px rgb(0 0 0 / 0.1)"
+							label="travelPackageCard.shadow"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					{/* Card Hover Effect */}
+					<PanelRow label="Hover Transform">
+						<SmartInput
+							value={design?.components?.travelPackageCard?.hoverTransform || 'translateY(-2px)'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.travelPackageCard) newDesign.components.travelPackageCard = {};
+								newDesign.components.travelPackageCard.hoverTransform = val;
+								return newDesign;
+							})}
+							placeholder="translateY(-2px)"
+							label="travelPackageCard.hoverTransform"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					{/* Card Transition */}
+					<PanelRow label="Transition">
+						<SmartInput
+							value={design?.components?.travelPackageCard?.transition || 'all 0.3s ease'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.travelPackageCard) newDesign.components.travelPackageCard = {};
+								newDesign.components.travelPackageCard.transition = val;
+								return newDesign;
+							})}
+							placeholder="all 0.3s ease"
+							label="travelPackageCard.transition"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					{/* Card Dimensions */}
+					<PanelRow label="Card Min Height">
+						<SmartInput
+							value={design?.components?.travelPackageCard?.minHeight || '400px'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.travelPackageCard) newDesign.components.travelPackageCard = {};
+								newDesign.components.travelPackageCard.minHeight = val;
+								return newDesign;
+							})}
+							placeholder="400px"
+							label="travelPackageCard.minHeight"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Card Max Height">
+						<SmartInput
+							value={design?.components?.travelPackageCard?.maxHeight || '600px'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.travelPackageCard) newDesign.components.travelPackageCard = {};
+								newDesign.components.travelPackageCard.maxHeight = val;
+								return newDesign;
+							})}
+							placeholder="600px"
+							label="travelPackageCard.maxHeight"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Image Height">
+						<SmartInput
+							value={design?.components?.travelPackageCard?.imageHeight || '250px'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.travelPackageCard) newDesign.components.travelPackageCard = {};
+								newDesign.components.travelPackageCard.imageHeight = val;
+								return newDesign;
+							})}
+							placeholder="250px"
+							label="travelPackageCard.imageHeight"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					{/* Card Inner Padding */}
+					<PanelRow label="Inner Padding">
+						<SmartInput
+							value={design?.components?.travelPackageCard?.innerPadding || '16px'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.travelPackageCard) newDesign.components.travelPackageCard = {};
+								newDesign.components.travelPackageCard.innerPadding = val;
+								return newDesign;
+							})}
+							placeholder="16px"
+							label="travelPackageCard.innerPadding"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					{/* Typography Controls */}
+					<PanelRow label="Price Type Color">
+						<ColorSwatch
+							value={design?.tokens?.typography?.travelPackagePriceType?.color || '#666666'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.tokens) newDesign.tokens = {};
+								if (!newDesign.tokens.typography) newDesign.tokens.typography = {};
+								if (!newDesign.tokens.typography.travelPackagePriceType) newDesign.tokens.typography.travelPackagePriceType = {};
+								newDesign.tokens.typography.travelPackagePriceType.color = val;
+								return newDesign;
+							})}
+							placeholder="#666666"
+						/>
+					</PanelRow>
+
+					<PanelRow label="Price Type Font Size">
+						<SmartInput
+							value={design?.tokens?.typography?.travelPackagePriceType?.fontSize || '0.875rem'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.tokens) newDesign.tokens = {};
+								if (!newDesign.tokens.typography) newDesign.tokens.typography = {};
+								if (!newDesign.tokens.typography.travelPackagePriceType) newDesign.tokens.typography.travelPackagePriceType = {};
+								newDesign.tokens.typography.travelPackagePriceType.fontSize = val;
+								return newDesign;
+							})}
+							placeholder="0.875rem"
+							label="travelPackagePriceType.fontSize"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Price Value Color">
+						<ColorSwatch
+							value={design?.tokens?.typography?.travelPackagePriceValue?.color || '#1a1a1a'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.tokens) newDesign.tokens = {};
+								if (!newDesign.tokens.typography) newDesign.tokens.typography = {};
+								if (!newDesign.tokens.typography.travelPackagePriceValue) newDesign.tokens.typography.travelPackagePriceValue = {};
+								newDesign.tokens.typography.travelPackagePriceValue.color = val;
+								return newDesign;
+							})}
+							placeholder="#1a1a1a"
+						/>
+					</PanelRow>
+
+					<PanelRow label="Price Value Font Size">
+						<SmartInput
+							value={design?.tokens?.typography?.travelPackagePriceValue?.fontSize || '1.25rem'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.tokens) newDesign.tokens = {};
+								if (!newDesign.tokens.typography) newDesign.tokens.typography = {};
+								if (!newDesign.tokens.typography.travelPackagePriceValue) newDesign.tokens.typography.travelPackagePriceValue = {};
+								newDesign.tokens.typography.travelPackagePriceValue.fontSize = val;
+								return newDesign;
+							})}
+							placeholder="1.25rem"
+							label="travelPackagePriceValue.fontSize"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Includes Color">
+						<ColorSwatch
+							value={design?.tokens?.typography?.travelPackageIncludes?.color || '#666666'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.tokens) newDesign.tokens = {};
+								if (!newDesign.tokens.typography) newDesign.tokens.typography = {};
+								if (!newDesign.tokens.typography.travelPackageIncludes) newDesign.tokens.typography.travelPackageIncludes = {};
+								newDesign.tokens.typography.travelPackageIncludes.color = val;
+								return newDesign;
+							})}
+							placeholder="#666666"
+						/>
+					</PanelRow>
+
+					<PanelRow label="Includes Font Size">
+						<SmartInput
+							value={design?.tokens?.typography?.travelPackageIncludes?.fontSize || '0.875rem'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.tokens) newDesign.tokens = {};
+								if (!newDesign.tokens.typography) newDesign.tokens.typography = {};
+								if (!newDesign.tokens.typography.travelPackageIncludes) newDesign.tokens.typography.travelPackageIncludes = {};
+								newDesign.tokens.typography.travelPackageIncludes.fontSize = val;
+								return newDesign;
+							})}
+							placeholder="0.875rem"
+							label="travelPackageIncludes.fontSize"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					{/* Icon Color Controls */}
+					<PanelRow label="Map Icon Color">
+						<ColorSwatch
+							value={design?.components?.travelPackageCard?.iconColors?.map || '#10b981'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.travelPackageCard) newDesign.components.travelPackageCard = {};
+								if (!newDesign.components.travelPackageCard.iconColors) newDesign.components.travelPackageCard.iconColors = {};
+								newDesign.components.travelPackageCard.iconColors.map = val;
+								return newDesign;
+							})}
+							placeholder="#10b981"
+						/>
+					</PanelRow>
+
+					<PanelRow label="Check Icon Color">
+						<ColorSwatch
+							value={design?.components?.travelPackageCard?.iconColors?.check || '#10b981'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.travelPackageCard) newDesign.components.travelPackageCard = {};
+								if (!newDesign.components.travelPackageCard.iconColors) newDesign.components.travelPackageCard.iconColors = {};
+								newDesign.components.travelPackageCard.iconColors.check = val;
+								return newDesign;
+							})}
+							placeholder="#10b981"
+						/>
+					</PanelRow>
+
+					<PanelRow label="Message Icon Color">
+						<ColorSwatch
+							value={design?.components?.travelPackageCard?.iconColors?.message || '#f59e0b'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.travelPackageCard) newDesign.components.travelPackageCard = {};
+								if (!newDesign.components.travelPackageCard.iconColors) newDesign.components.travelPackageCard.iconColors = {};
+								newDesign.components.travelPackageCard.iconColors.message = val;
+								return newDesign;
+							})}
+							placeholder="#f59e0b"
+						/>
+					</PanelRow>
+
+					{/* Hover Shadow */}
+					<PanelRow label="Hover Shadow">
+						<SmartInput
+							value={design?.components?.travelPackageCard?.hoverShadow || '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.05)'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.travelPackageCard) newDesign.components.travelPackageCard = {};
+								newDesign.components.travelPackageCard.hoverShadow = val;
+								return newDesign;
+							})}
+							placeholder="0 10px 15px -3px rgb(0 0 0 / 0.1)"
+							label="travelPackageCard.hoverShadow"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+				</div>
+			)}
+
 			<div style={{ fontSize: 12, color: '#94a3b8', textAlign: 'center', padding: '1rem' }}>
 				Click any element to edit its design tokens
 			</div>

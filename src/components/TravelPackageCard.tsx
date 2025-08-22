@@ -39,9 +39,33 @@ const TravelPackageCard = ({ pkg, ctaText, moreDetailsText, onWhatsAppContact }:
       whileHover={{ y: -5 }}
       transition={{ duration: 0.3 }}
     >
-    <Card 
-      className={`w-full max-w-full rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col group`}
-      style={{ height: travelPackageCard.maxHeight, minHeight: travelPackageCard.minHeight, boxSizing: 'border-box', backgroundColor: colors.cardBackground }}
+    <Card
+      className={`w-full max-w-full overflow-hidden flex flex-col group hover:shadow-xl`}
+      style={{
+        height: travelPackageCard.maxHeight,
+        minHeight: travelPackageCard.minHeight,
+        boxSizing: 'border-box',
+        backgroundColor: travelPackageCard.backgroundColor || colors.cardBackground || '#ffffff',
+        borderWidth: travelPackageCard.borderWidth || '1px',
+        borderColor: travelPackageCard.borderColor || '#e5e7eb',
+        borderStyle: 'solid',
+        borderRadius: travelPackageCard.borderRadius || '8px',
+        padding: travelPackageCard.padding || '16px',
+        boxShadow: travelPackageCard.shadow || '0 4px 6px -1px rgb(0 0 0 / 0.1)',
+        transition: travelPackageCard.transition || 'all 0.3s ease',
+        transform: 'translateY(0px)',
+      }}
+      onMouseEnter={(e) => {
+        const transform = travelPackageCard.hoverTransform || 'translateY(-2px)';
+        e.currentTarget.style.transform = transform;
+        const hoverShadow = travelPackageCard.hoverShadow || '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.05)';
+        e.currentTarget.style.boxShadow = hoverShadow;
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = 'translateY(0px)';
+        const shadow = travelPackageCard.shadow || '0 4px 6px -1px rgb(0 0 0 / 0.1)';
+        e.currentTarget.style.boxShadow = shadow;
+      }}
       data-card-type="travelPackageCard"
     >
       <CardHeader 
@@ -68,12 +92,16 @@ const TravelPackageCard = ({ pkg, ctaText, moreDetailsText, onWhatsAppContact }:
         </div>
       </CardHeader>
       
-      <CardContent 
+      <CardContent
         className="overflow-y-auto"
-        style={{ flex: '1 1 auto', padding: travelPackageCard.contentPadding }}
+        style={{ flex: '1 1 auto', padding: 0 }}
       >
+        <div style={{ padding: travelPackageCard.innerPadding || '16px' }}>
         <div className="flex items-start gap-2 mb-3">
-          <MapPin className={`w-4 h-4 mt-1 flex-shrink-0`} style={{ color: colors.accent }} />
+          <MapPin
+            className={`w-4 h-4 mt-1 flex-shrink-0`}
+            style={{ color: travelPackageCard.iconColors?.map || colors.accent }}
+          />
           <div>
             <CardTitle
               data-typography="travelPackageTitle"
@@ -108,22 +136,67 @@ const TravelPackageCard = ({ pkg, ctaText, moreDetailsText, onWhatsAppContact }:
         <div className="space-y-2 mb-4">
           {pkg.includes?.slice(0, 4).map((item, index) => (
             <div key={index} className="flex items-start">
-              <CheckCircle className={`w-4 h-4 mr-2 mt-0.5 flex-shrink-0`} style={{ color: colors.accent }} />
-              <span className={`text-sm`} style={{ fontFamily: fonts.body, color: colors.text }}>{item}</span>
+              <CheckCircle
+                className={`w-4 h-4 mr-2 mt-0.5 flex-shrink-0`}
+                style={{ color: travelPackageCard.iconColors?.check || colors.accent }}
+              />
+              <span
+                data-typography="travelPackageIncludes"
+                className={`text-sm`}
+                style={{
+                  fontFamily: design.tokens?.typography?.travelPackageIncludes?.fontFamily || fonts.body,
+                  fontSize: design.tokens?.typography?.travelPackageIncludes?.fontSize || '0.875rem',
+                  color: design.tokens?.typography?.travelPackageIncludes?.color || colors.text
+                }}
+              >
+                {item}
+              </span>
             </div>
           ))}
           <div className="flex items-start mt-2">
-            <MessageCircle className={`w-4 h-4 mr-2 mt-0.5 flex-shrink-0`} style={{ color: colors.highlight }} />
-            <span className={`text-sm font-normal`} style={{ fontFamily: fonts.body, color: colors.highlight }}>{moreDetailsText}</span>
+            <MessageCircle
+              className={`w-4 h-4 mr-2 mt-0.5 flex-shrink-0`}
+              style={{ color: travelPackageCard.iconColors?.message || colors.highlight }}
+            />
+            <span
+              data-typography="travelPackageIncludes"
+              className={`text-sm font-normal`}
+              style={{
+                fontFamily: design.tokens?.typography?.travelPackageIncludes?.fontFamily || fonts.body,
+                fontSize: design.tokens?.typography?.travelPackageIncludes?.fontSize || '0.875rem',
+                color: design.tokens?.typography?.travelPackageIncludes?.color || colors.highlight
+              }}
+            >
+              {moreDetailsText}
+            </span>
           </div>
+        </div>
         </div>
       </CardContent>
       
-      <CardFooter style={{ padding: travelPackageCard.contentPadding }}>
+      <CardFooter style={{ padding: travelPackageCard.innerPadding || '16px', backgroundColor: 'inherit' }}>
         <div className="flex justify-between items-center w-full">
           <div className="flex flex-col items-start">
-            <span className="text-sm font-light" style={{ fontFamily: fonts.body, color: colors.accent }}>{pkg.price?.type || 'Price'}</span>
-            <span className="text-3xl font-medium" style={{ fontFamily: fonts.title, color: colors.text }}>
+            <span
+              data-typography="travelPackagePriceType"
+              className="text-sm font-light"
+              style={{
+                fontFamily: design.tokens?.typography?.travelPackagePriceType?.fontFamily || fonts.body,
+                fontSize: design.tokens?.typography?.travelPackagePriceType?.fontSize || '0.875rem',
+                color: design.tokens?.typography?.travelPackagePriceType?.color || colors.accent
+              }}
+            >
+              {pkg.price?.type || 'Price'}
+            </span>
+            <span
+              data-typography="travelPackagePriceValue"
+              className="text-3xl font-medium"
+              style={{
+                fontFamily: design.tokens?.typography?.travelPackagePriceValue?.fontFamily || fonts.title,
+                fontSize: design.tokens?.typography?.travelPackagePriceValue?.fontSize || '1.25rem',
+                color: design.tokens?.typography?.travelPackagePriceValue?.color || colors.text
+              }}
+            >
               {pkg.price?.currency || ''}{pkg.price?.value || 'N/A'}
             </span>
           </div>

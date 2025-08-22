@@ -138,11 +138,11 @@
           "fontFamily": "Inter, sans-serif",
           "fontSize": "3rem",
           "fontSizeMd": "6.7rem",
-          "fontSizeLg": "5rem",
+          "fontSizeLg": "7.324999999999999rem",
           "lineHeight": "1.125",
           "fontWeight": "600",
           "letterSpacing": "-0.1em",
-          "color": "#e16060",
+          "color": "#000000",
           "marginBottom": "0.5rem",
           "textAlign": "center"
         },
@@ -163,29 +163,17 @@
         },
         "travelPackageTitle": {
           "fontFamily": "Inter, sans-serif",
-          "fontSize": "1.75rem",
+          "fontSize": "2.5rem",
           "fontWeight": "700",
           "lineHeight": "0.7",
           "color": "#0a253d"
         },
         "packageDescription": {
           "fontFamily": "Inter, sans-serif",
-          "fontSize": "0.75rem",
+          "fontSize": "1.25rem",
           "fontWeight": "400",
           "lineHeight": "1.6",
           "color": "#111827"
-        },
-        "travelPackagePrice": {
-          "color": "#d926a9",
-          "fontSize": "2rem"
-        },
-        "travelPackageIncludes": {
-          "fontSize": "0.875rem",
-          "color": "#b54545"
-        },
-        "travelPackagePriceValue": {
-          "color": "#1f1a1a",
-          "fontSize": "3.25rem"
         }
       },
       "spacing": {},
@@ -363,19 +351,9 @@
       },
       "travelPackageCard": {
         "minHeight": "70vh",
-        "maxHeight": "80vh",
-        "imageHeight": "70%",
-        "contentPadding": ".5rem",
-        "backgroundColor": "#fafffb",
-        "borderWidth": "10px",
-        "borderRadius": "0",
-        "padding": "0rem",
-        "iconColors": {
-          "map": "#3cbe93",
-          "check": "#6fc8aa"
-        },
-        "borderColor": "white",
-        "innerPadding": "1.25rem"
+        "maxHeight": "70vh",
+        "imageHeight": "55%",
+        "contentPadding": ".5rem"
       },
       "cardDefaults": {
         "className": "bg-white/80 backdrop-blur-sm border-none rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl h-full flex flex-col group",
@@ -483,7 +461,7 @@
         "layout": {
           "maxWidth": "100%",
           "minHeight": "100vh",
-          "backgroundColor": "white",
+          "backgroundColor": "#ffb6c2",
           "padding": {
             "mobile": "10rem 0.5rem",
             "tablet": "10rem 0.5rem",
@@ -600,7 +578,7 @@
       "travelDesigner": {
         "layout": {
           "maxWidth": "100%",
-          "backgroundColor": "white",
+          "backgroundColor": "#F5F5DC",
           "padding": {
             "mobile": "10rem 0rem",
             "tablet": "10rem 2rem",
