@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Square } from "lucide-react"
+import { TextSelect } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const Card = React.forwardRef<
@@ -31,14 +31,14 @@ const Card = React.forwardRef<
       {/* Card selection icon badge - only visible on hover in design mode */}
       {isDesignMode && (
         <div 
-          className="absolute top-2 right-2 bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs cursor-pointer z-20 hover:bg-blue-600 transition-all duration-200 shadow-lg opacity-0 group-hover:opacity-100"
+          className="absolute -top-px -right-px bg-blue-500 text-white rounded-md rounded-tr-none w-7 h-7 flex items-center justify-center text-xs cursor-pointer z-20 hover:bg-blue-600 transition-all duration-200 shadow-lg opacity-0 group-hover:opacity-100"
           data-card-selector
           role="button"
           aria-label="Select card"
           tabIndex={0}
           title="Select card"
         >
-          <Square className="w-3 h-3" strokeWidth={3} />
+          <TextSelect className="w-3.5 h-3.5" strokeWidth={2.5} />
         </div>
       )}
 
