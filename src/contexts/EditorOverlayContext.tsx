@@ -300,6 +300,7 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
 
     let rafId: number | null = null;
     let lastHoverEl: Element | null = null;
+    let clickTimeoutId: number | null = null; // legacy; kept in case we reintroduce debounce
 
     const updateOverlayRect = (el: Element) => {
       const rect = (el as HTMLElement).getBoundingClientRect();
@@ -368,7 +369,59 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
       const raw = e.target as HTMLElement | null;
       if (!raw) return;
 
-      // If clicking badge or its children, select parent card and open inspector
+      // Skip if clicking on overlay UI elements
+      if (raw.closest('[data-overlay-ui="1"]')) return;
+
+      // Determine if the click is inside a section
+      const sectionRoot = raw.closest('[data-section-id], .inner-section') as HTMLElement | null;
+      if (!sectionRoot) return;
+
+      // If clicking a semantic/typography element (self or ancestor), select it
+      const semantic = raw.closest('[data-typography], h1, h2, h3, h4, h5, h6, p, button, a') as HTMLElement | null;
+      if (semantic) {
+        const target = semantic;
+        if (!target.closest('[class~="@container"]')) return;
+        const sectionEl = target.closest('[data-section-id]') as HTMLElement | null;
+        const sectionId = sectionEl?.getAttribute('data-section-id') || null;
+        const snap = takeComputedSnapshot(target);
+        const tokenMatches = resolveGlobalTokens(snap, sectionId, designRef.current, target);
+        const isCard = (target as HTMLElement).hasAttribute('data-card');
+        const cardRoot = (isCard ? (target as HTMLElement) : (target.closest('[data-card-type]') as HTMLElement | null));
+        const cardType = cardRoot?.getAttribute('data-card-type') || null;
+        const cardVariant = cardRoot?.getAttribute('data-card-variant') || null;
+        const label = cardType
+          ? `${cardType}${sectionId ? ` · ${sectionId}` : ''}`
+          : `${isCard ? 'card' : target.tagName.toLowerCase()}${sectionId ? ` · ${sectionId}` : ''}`;
+        const rect = target.getBoundingClientRect();
+        setState(prev => ({
+          ...prev,
+          activePanelId: prev.autoOpen ? 'inspector' : prev.activePanelId,
+          activeElement: { label, sectionId, tokenMatches, cardType, cardVariant },
+          overlayRect: { top: rect.top, left: rect.left, width: rect.width, height: rect.height },
+          selectedElement: target
+        }));
+        if (state.autoOpen) {
+          try { localStorage.setItem('design_active_panel', 'inspector'); } catch {}
+        }
+        return;
+      }
+
+      // Otherwise: clicked inside a section but not on semantic content → deselect
+      setState(prev => ({
+        ...prev,
+        activePanelId: null,
+        activeElement: null,
+        overlayRect: null,
+        selectedElement: null
+      }));
+      try { localStorage.removeItem('design_active_panel'); } catch {}
+    };
+
+    const onDoubleClick = (e: MouseEvent) => {
+      const raw = e.target as HTMLElement | null;
+      if (!raw) return;
+
+      // If double-clicking badge or its children, select parent card and open inspector
       if (raw.matches('[data-card-selector], [data-card-selector] *')) {
         const card = raw.closest('[data-card]') as HTMLElement | null;
         if (card && card.closest('[class~="@container"]')) {
@@ -396,6 +449,8 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
           return;
         }
       }
+
+      // No pending deselect to cancel (instant deselect logic)
 
       const directSection = raw.matches?.('[data-section-id], .inner-section');
       let target = raw as HTMLElement;
@@ -448,10 +503,12 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
 
     document.addEventListener('mousemove', onMove, { capture: true, passive: true } as any);
     document.addEventListener('click', onClick, true);
+    document.addEventListener('dblclick', onDoubleClick, true);
     return () => {
       if (rafId) cancelAnimationFrame(rafId);
       document.removeEventListener('mousemove', onMove, { capture: true } as any);
       document.removeEventListener('click', onClick, true);
+      document.removeEventListener('dblclick', onDoubleClick, true);
     };
   }, [enabled]);
 

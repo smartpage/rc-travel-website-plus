@@ -57,7 +57,7 @@
           "fontSize": "1rem",
           "fontWeight": "400",
           "lineHeight": "1.6",
-          "color": "#000"
+          "color": "#000000"
         },
         "travelDesignerCard": {
           "fontFamily": "Inter, sans-serif",
@@ -516,11 +516,7 @@
             "overflow": "visible",
             "background": {
               "type": "color",
-              "value": "white",
-              "overlay": {
-                "color": "",
-                "opacity": 1
-              }
+              "value": "white"
             }
           }
         }
@@ -529,7 +525,7 @@
         "layout": {
           "maxWidth": "100%",
           "minHeight": "100vh",
-          "backgroundColor": "rgba(255,255,255, 1)",
+          "backgroundColor": "#ffb8c2",
           "padding": {
             "mobile": "10rem 0.5rem",
             "tablet": "10rem 0.5rem",
@@ -552,7 +548,7 @@
               "type": "image",
               "value": "https://images.pexels.com/photos/994605/pexels-photo-994605.jpeg",
               "overlay": {
-                "color": "linear-gradient(180deg, rgba(2,0,36,0) 0%, rgba(9,9,121,0.53) 44%, RGBA(0,0,0,1) 100%)",
+                "color": "#9e3333",
                 "opacity": 0.5
               }
             },
@@ -583,11 +579,7 @@
             "overflow": "visible",
             "background": {
               "type": "color",
-              "value": "white",
-              "overlay": {
-                "color": "",
-                "opacity": 1
-              }
+              "value": "white"
             }
           }
         }
@@ -614,11 +606,7 @@
             "overflow": "visible",
             "background": {
               "type": "color",
-              "value": "#F5F5DC",
-              "overlay": {
-                "color": "",
-                "opacity": 1
-              }
+              "value": "#F5F5DC"
             }
           }
         }
@@ -646,11 +634,7 @@
             "overflow": "visible",
             "background": {
               "type": "color",
-              "value": "#FFF8DC",
-              "overlay": {
-                "color": "",
-                "opacity": 1
-              }
+              "value": "#FFF8DC"
             }
           }
         }
@@ -677,11 +661,7 @@
             "overflow": "visible",
             "background": {
               "type": "color",
-              "value": "transparent",
-              "overlay": {
-                "color": "",
-                "opacity": 1
-              }
+              "value": "transparent"
             },
             "width": "",
             "borderRadius": "5rem",
@@ -773,11 +753,7 @@
             "overflow": "visible",
             "background": {
               "type": "color",
-              "value": "white",
-              "overlay": {
-                "color": "",
-                "opacity": 1
-              }
+              "value": "white"
             },
             "width": ""
           }
@@ -833,11 +809,7 @@
             "overflow": "visible",
             "background": {
               "type": "color",
-              "value": "transparent",
-              "overlay": {
-                "color": "",
-                "opacity": 1
-              }
+              "value": "transparent"
             },
             "backgroundColor": "#fff",
             "borderRadius": "1rem",
@@ -848,7 +820,7 @@
       "travelPackages": {
         "layout": {
           "maxWidth": "100%",
-          "backgroundColor": "rgba(255,255,255, 1)",
+          "backgroundColor": "#ffffff",
           "padding": {
             "mobile": "5rem .5rem",
             "tablet": "8rem 1rem",
@@ -863,7 +835,7 @@
               "desktop": "5rem"
             },
             "rounded": true,
-            "backgroundColor": "radial-gradient(circle, rgba(255,0,0,0.03) 0%, RGBA(9, 9, 121, 0.04) 35%, rgba(0,212,255,1) 100%)",
+            "backgroundColor": "#FFC0CB",
             "overflow": "visible",
             "background": {
               "type": "color",
@@ -903,11 +875,7 @@
             "overflow": "visible",
             "background": {
               "type": "color",
-              "value": "white",
-              "overlay": {
-                "color": "",
-                "opacity": 1
-              }
+              "value": "white"
             }
           }
         }
@@ -932,11 +900,7 @@
             "overflow": "visible",
             "background": {
               "type": "color",
-              "value": "white",
-              "overlay": {
-                "color": "",
-                "opacity": 1
-              }
+              "value": "white"
             },
             "width": "",
             "borderRadius": "2rem",

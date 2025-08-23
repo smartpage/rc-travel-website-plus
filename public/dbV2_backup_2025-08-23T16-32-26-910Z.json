@@ -529,7 +529,7 @@
         "layout": {
           "maxWidth": "100%",
           "minHeight": "100vh",
-          "backgroundColor": "rgba(255,255,255, 1)",
+          "backgroundColor": "#ffb8c2",
           "padding": {
             "mobile": "10rem 0.5rem",
             "tablet": "10rem 0.5rem",

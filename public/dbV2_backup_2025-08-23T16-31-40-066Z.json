@@ -529,7 +529,7 @@
         "layout": {
           "maxWidth": "100%",
           "minHeight": "100vh",
-          "backgroundColor": "rgba(255,255,255, 1)",
+          "backgroundColor": "#ffb8c2",
           "padding": {
             "mobile": "10rem 0.5rem",
             "tablet": "10rem 0.5rem",
@@ -848,7 +848,7 @@
       "travelPackages": {
         "layout": {
           "maxWidth": "100%",
-          "backgroundColor": "rgba(255,255,255, 1)",
+          "backgroundColor": "rgba(175, 51, 242, 1)",
           "padding": {
             "mobile": "5rem .5rem",
             "tablet": "8rem 1rem",
@@ -863,7 +863,7 @@
               "desktop": "5rem"
             },
             "rounded": true,
-            "backgroundColor": "radial-gradient(circle, rgba(255,0,0,0.03) 0%, RGBA(9, 9, 121, 0.04) 35%, rgba(0,212,255,1) 100%)",
+            "backgroundColor": "linear-gradient(90deg, RGB(57, 48, 201) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%)",
             "overflow": "visible",
             "background": {
               "type": "color",

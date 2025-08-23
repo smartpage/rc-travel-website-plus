@@ -12,8 +12,24 @@ const EditorBridge: React.FC = () => {
 
     const channel = new BroadcastChannel('rc_editor');
 
-    // Relay clicks on elements with data-section-id up to the parent editor
+    // Relay single clicks to deselect ONLY when clicking directly on a section container
     const clickHandler = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const sectionRoot = target.closest('[data-section-id], .inner-section') as HTMLElement | null;
+      if (!sectionRoot) return;
+
+      const semantic = target.closest('[data-typography], h1, h2, h3, h4, h5, h6, p, button, a') as HTMLElement | null;
+      if (semantic) {
+        // Let main app handle selection; do not deselect
+        return;
+      }
+
+      // Click in section but not on semantic content → deselect
+      channel.postMessage({ type: 'deselect-section' });
+    };
+
+    // Relay double-clicks on elements with data-section-id up to the parent editor
+    const doubleClickHandler = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       const sectionEl = target.closest('[data-section-id]') as HTMLElement | null;
       const sectionId = sectionEl?.getAttribute('data-section-id');
@@ -22,6 +38,7 @@ const EditorBridge: React.FC = () => {
       }
     };
     document.addEventListener('click', clickHandler, true);
+    document.addEventListener('dblclick', doubleClickHandler, true);
 
     // Listen for design updates from parent and apply to local DesignContext
     const onMessage = (ev: MessageEvent) => {
@@ -44,6 +61,7 @@ const EditorBridge: React.FC = () => {
 
     return () => {
       document.removeEventListener('click', clickHandler, true);
+      document.removeEventListener('dblclick', doubleClickHandler, true);
       channel.removeEventListener('message', onMessage as any);
       channel.close();
     };

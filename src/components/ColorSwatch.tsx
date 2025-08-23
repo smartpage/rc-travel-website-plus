@@ -1,4 +1,5 @@
 import React from 'react';
+import ColorPicker, { useColorPicker } from 'react-best-gradient-color-picker';
 import ColorPalette from './ColorPalette';
 
 interface ColorSwatchProps {
@@ -8,26 +9,38 @@ interface ColorSwatchProps {
   style?: React.CSSProperties;
 }
 
+// Utility function to detect if a value is a gradient
+const isGradient = (value: string): boolean => {
+  if (!value) return false;
+  return /^(linear|radial|conic)-gradient\(/.test(value.trim());
+};
+
+// Utility function to extract a preview color from gradient
+const getGradientPreviewColor = (gradient: string): string => {
+  const colorMatch = gradient.match(/rgba?\([^)]+\)|#[0-9a-fA-F]{3,8}|[a-zA-Z]+/);
+  return colorMatch ? colorMatch[0] : '#666';
+};
+
 const ColorSwatch: React.FC<ColorSwatchProps> = ({ value, onChange, placeholder, style }) => {
   const [showPalette, setShowPalette] = React.useState(false);
-  const colorInputRef = React.useRef<HTMLInputElement>(null);
+  const [showColorPicker, setShowColorPicker] = React.useState(false);
+  
+  const hasGradient = isGradient(value);
+  const displayColor = hasGradient ? getGradientPreviewColor(value) : (value || '#000000');
 
-  const handleSwatchClick = () => {
+  const handlePaletteClick = () => {
     setShowPalette(!showPalette);
+    setShowColorPicker(false);
   };
 
   const handleColorPickerClick = () => {
-    if (colorInputRef.current) {
-      colorInputRef.current.click();
-    }
-  };
-
-  const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(e.target.value);
+    setShowColorPicker(!showColorPicker);
+    setShowPalette(false);
   };
 
   const handlePaletteColorSelect = (color: string) => {
     onChange(color);
+    setShowPalette(false);
   };
 
   return (
@@ -42,42 +55,61 @@ const ColorSwatch: React.FC<ColorSwatchProps> = ({ value, onChange, placeholder,
           style={{
             background: '#1b1b1b',
             color: '#fff',
-            padding: '8px 60px 8px 8px',
+            padding: '8px 65px 8px 8px',
             borderRadius: 6,
             border: '1px solid #2a2a2a',
             width: '100%',
+            position: 'relative',
+            zIndex: 1,
           }}
         />
         
-        {/* Color picker button */}
+        {/* Color/Gradient picker button */}
         <div
           onClick={handleColorPickerClick}
           style={{
             position: 'absolute',
             right: 36,
+            top: '50%',
+            transform: 'translateY(-50%)',
             width: 20,
             height: 20,
             borderRadius: 3,
             border: '1px solid #3a3a3a',
-            backgroundColor: value || 'transparent',
-            backgroundImage: !value ? 'linear-gradient(45deg, #2a2a2a 25%, transparent 25%), linear-gradient(-45deg, #2a2a2a 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #2a2a2a 75%), linear-gradient(-45deg, transparent 75%, #2a2a2a 75%)' : 'none',
+            backgroundColor: hasGradient ? 'transparent' : (displayColor || 'transparent'),
+            backgroundImage: hasGradient ? value : (!value ? 'linear-gradient(45deg, #2a2a2a 25%, transparent 25%), linear-gradient(-45deg, #2a2a2a 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #2a2a2a 75%), linear-gradient(-45deg, transparent 75%, #2a2a2a 75%)' : 'none'),
             backgroundSize: !value ? '4px 4px' : 'auto',
             backgroundPosition: !value ? '0 0, 0 2px, 2px -2px, -2px 0px' : 'auto',
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            zIndex: 10,
           }}
+          title="Open color/gradient picker"
         >
           {!value && <span style={{ fontSize: 8, color: '#999', mixBlendMode: 'difference' }}>◯</span>}
+          {hasGradient && (
+            <span style={{ 
+              fontSize: 8, 
+              color: '#fff', 
+              textShadow: '0 0 2px rgba(0,0,0,0.8)',
+              mixBlendMode: 'difference',
+              fontWeight: 'bold'
+            }}>
+              ∇
+            </span>
+          )}
         </div>
-        
-        {/* Palette toggle button */}
+
+        {/* Brand palette button */}
         <button
-          onClick={handleSwatchClick}
+          onClick={handlePaletteClick}
           style={{
             position: 'absolute',
             right: 8,
+            top: '50%',
+            transform: 'translateY(-50%)',
             width: 24,
             height: 24,
             background: showPalette ? '#2a2a2a' : 'transparent',
@@ -89,23 +121,39 @@ const ColorSwatch: React.FC<ColorSwatchProps> = ({ value, onChange, placeholder,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            zIndex: 10,
           }}
           title="Brand colors"
         >
           ⋯
         </button>
-
-        {/* Hidden color picker */}
-        <input
-          ref={colorInputRef}
-          type="color"
-          value={value || '#000000'}
-          onChange={handleColorChange}
-          style={{ position: 'absolute', opacity: 0, pointerEvents: 'none' }}
-        />
       </div>
 
-      {/* Color palette dropdown */}
+      {/* Professional Color/Gradient Picker */}
+      {showColorPicker && (
+        <div style={{ 
+          position: 'absolute', 
+          top: '100%', 
+          left: 0, 
+          zIndex: 1000,
+          marginTop: 4 
+        }}>
+          <ColorPicker
+            value={value || 'rgba(0,0,0,1)'}
+            onChange={onChange}
+            width={280}
+            height={200}
+            hideControls={false}
+            hideInputs={false}
+            hidePresets={false}
+            hideEyeDrop={true}
+            hideAdvancedSliders={true}
+            hideColorGuide={true}
+          />
+        </div>
+      )}
+
+      {/* Brand palette dropdown */}
       {showPalette && (
         <ColorPalette
           currentColor={value}

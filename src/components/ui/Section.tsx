@@ -10,6 +10,12 @@ interface SectionProps {
   backgroundImageUrl?: string; // Allow overriding the background image
 }
 
+// Utility function to detect if a value is a gradient
+const isGradient = (value: string): boolean => {
+  if (!value) return false;
+  return /^(linear|radial|conic)-gradient\(/.test(value.trim());
+};
+
 const Section: React.FC<SectionProps> = ({ children, sectionId, className, id, backgroundImageUrl }) => {
   const { design } = useDesign();
 
@@ -27,11 +33,19 @@ const Section: React.FC<SectionProps> = ({ children, sectionId, className, id, b
   const uniqueId = id || sectionId;
 
   // --- Style Objects ---
+  const outerBgColor = layout.backgroundColor || design.tokens?.colors?.background;
+  const innerBgColor = inner.backgroundColor;
+
   const outerStyle: React.CSSProperties = {
+    position: 'relative', // Required for overlay positioning
     width: layout.width || '100%',
     maxWidth: layout.maxWidth,
     margin: (layout as any).margin || '0 auto',
-    backgroundColor: layout.backgroundColor || design.tokens?.colors?.background,
+    // Use background for gradients, backgroundColor for solid colors
+    ...(isGradient(outerBgColor) 
+      ? { background: outerBgColor } 
+      : { backgroundColor: outerBgColor }
+    ),
     overflow: (layout as any).overflow,
   };
 
@@ -41,7 +55,11 @@ const Section: React.FC<SectionProps> = ({ children, sectionId, className, id, b
     minWidth: (inner as any).minWidth,
     maxWidth: inner.maxWidth,
     margin: inner.margin,
-    backgroundColor: inner.backgroundColor,
+    // Use background for gradients, backgroundColor for solid colors
+    ...(isGradient(innerBgColor) 
+      ? { background: innerBgColor } 
+      : { backgroundColor: innerBgColor }
+    ),
     overflow: inner.overflow,
     borderRadius: inner.rounded ? (inner.borderRadius || '0.75rem') : '0',
     display: (inner as any).display,
@@ -115,7 +133,22 @@ const Section: React.FC<SectionProps> = ({ children, sectionId, className, id, b
       `;
     }
 
-    if (inner.background.overlay) {
+    // Add outer section overlay if it exists
+    if ((layout as any).overlay?.color) {
+      css += `
+        #${uniqueId}::before {
+          content: '';
+          position: absolute;
+          top: 0; left: 0; right: 0; bottom: 0;
+          background: ${(layout as any).overlay.color};
+          z-index: 1;
+          pointer-events: none;
+        }
+      `;
+    }
+
+    // Add inner section overlay if it exists
+    if (inner.background.overlay?.color) {
       css += `
         #${uniqueId} .inner-section::before {
           content: '';
@@ -123,6 +156,7 @@ const Section: React.FC<SectionProps> = ({ children, sectionId, className, id, b
           top: 0; left: 0; right: 0; bottom: 0;
           background: ${inner.background.overlay.color};
           z-index: 1;
+          pointer-events: none;
         }
       `;
     }

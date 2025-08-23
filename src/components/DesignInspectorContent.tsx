@@ -831,7 +831,26 @@ const DesignInspectorContent: React.FC = () => {
 													return next;
 												});
 											}}
-											placeholder="e.g. #000000 or transparent"
+											placeholder="e.g. #000000 or linear-gradient(...)"
+										/>
+									</PanelRow>
+									{/* Section overlay color controls - always show for outer backgroundColor */}
+									<PanelRow label="Section Overlay Color">
+										<ColorSwatch
+											value={design?.sections?.[activeSectionId]?.layout?.overlay?.color || ''}
+											onChange={(val) => {
+												updateDesignLocal((prev: any) => {
+													const next = { ...prev };
+													next.sections = next.sections || {};
+													next.sections[activeSectionId] = next.sections[activeSectionId] || { layout: { padding: { mobile: '', tablet: '', desktop: '' }, inner: { maxWidth: '100%', margin: '0 auto', padding: { mobile: '0', tablet: '0', desktop: '0' }, rounded: false, backgroundColor: 'transparent', overflow: 'visible', background: { type: 'color', value: 'transparent' }, display: 'block', flexDirection: 'column', alignItems: 'stretch', justifyContent: 'flex-start' } } };
+													if (!next.sections[activeSectionId].layout.overlay) {
+														next.sections[activeSectionId].layout.overlay = { color: '', opacity: 1 };
+													}
+													next.sections[activeSectionId].layout.overlay.color = val;
+													return next;
+												});
+											}}
+											placeholder="e.g. rgba(0,0,0,0.5) or gradient"
 										/>
 									</PanelRow>
 								</div>
@@ -852,6 +871,28 @@ const DesignInspectorContent: React.FC = () => {
 												});
 											}}
 											placeholder="e.g. #ffffff or transparent"
+										/>
+									</PanelRow>
+									{/* Background overlay color controls - always show for inner backgroundColor */}
+									<PanelRow label="Background Overlay Color">
+										<ColorSwatch
+											value={design?.sections?.[activeSectionId]?.layout?.inner?.background?.overlay?.color || ''}
+											onChange={(val) => {
+												updateDesignLocal((prev: any) => {
+													const next = { ...prev };
+													next.sections = next.sections || {};
+													next.sections[activeSectionId] = next.sections[activeSectionId] || { layout: { padding: { mobile: '', tablet: '', desktop: '' }, inner: { maxWidth: '100%', margin: '0 auto', padding: { mobile: '0', tablet: '0', desktop: '0' }, rounded: false, backgroundColor: 'transparent', overflow: 'visible', background: { type: 'color', value: 'transparent' }, display: 'block', flexDirection: 'column', alignItems: 'stretch', justifyContent: 'flex-start' } } };
+													if (!next.sections[activeSectionId].layout.inner.background) {
+														next.sections[activeSectionId].layout.inner.background = { type: 'color', value: 'transparent' };
+													}
+													if (!next.sections[activeSectionId].layout.inner.background.overlay) {
+														next.sections[activeSectionId].layout.inner.background.overlay = { color: '', opacity: 1 };
+													}
+													next.sections[activeSectionId].layout.inner.background.overlay.color = val;
+													return next;
+												});
+											}}
+											placeholder="e.g. rgba(0,0,0,0.5) or gradient"
 										/>
 									</PanelRow>
 								</div>
