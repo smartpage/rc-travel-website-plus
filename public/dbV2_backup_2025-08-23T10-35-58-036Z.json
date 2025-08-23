@@ -19,21 +19,21 @@
       "typography": {
         "body": {
           "fontFamily": "Inter, sans-serif",
-          "fontSize": "2.75rem",
+          "fontSize": "2rem",
           "fontWeight": "200",
           "lineHeight": "1.375",
           "color": "black"
         },
         "serviceCardTitle": {
           "fontFamily": "Inter, sans-serif",
-          "fontSize": "1.75rem",
+          "fontSize": "2rem",
           "fontWeight": "600",
           "lineHeight": "1.2",
           "color": "black"
         },
         "serviceCardDescription": {
           "fontFamily": "Inter, sans-serif",
-          "fontSize": "1.125rem",
+          "fontSize": "1.375rem",
           "fontWeight": "300",
           "lineHeight": "1.6",
           "color": "#030303"
@@ -87,6 +87,27 @@
           "lineHeight": "1.5",
           "color": "#ffffff"
         },
+        "testimonialCardTitle": {
+          "fontFamily": "Inter, sans-serif",
+          "fontSize": "1.125rem",
+          "fontWeight": "600",
+          "lineHeight": "1.2",
+          "color": "#1f2937"
+        },
+        "testimonialCardBody": {
+          "fontFamily": "Inter, sans-serif",
+          "fontSize": "1rem",
+          "fontWeight": "400",
+          "lineHeight": "1.6",
+          "color": "#374151"
+        },
+        "testimonialCardLocation": {
+          "fontFamily": "Inter, sans-serif",
+          "fontSize": "0.875rem",
+          "fontWeight": "400",
+          "lineHeight": "1.5",
+          "color": "#6b7280"
+        },
         "faqQuestion": {
           "fontFamily": "Inter, sans-serif",
           "fontSize": "1.25rem",
@@ -138,7 +159,7 @@
           "fontFamily": "Inter, sans-serif",
           "fontSize": "3rem",
           "fontSizeMd": "6.7rem",
-          "fontSizeLg": "6.5rem",
+          "fontSizeLg": "6.25rem",
           "lineHeight": "1.125",
           "fontWeight": "600",
           "letterSpacing": "-0.1em",
@@ -165,7 +186,7 @@
           "fontFamily": "Inter, sans-serif",
           "fontSize": "1.75rem",
           "fontWeight": "700",
-          "lineHeight": "1.125",
+          "lineHeight": "1",
           "color": "#0a253d"
         },
         "packageDescription": {

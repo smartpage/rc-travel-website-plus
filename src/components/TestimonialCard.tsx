@@ -64,13 +64,13 @@ const TestimonialCard = ({ testimonial }: TestimonialCardProps) => {
           />
         </div>
         <h3
-          data-typography="testimonialCard.name"
+          data-typography="testimonialCard.title"
           className="mb-2"
           style={{
-            fontFamily: design.tokens?.typography?.testimonialCardName?.fontFamily || design.tokens?.typography?.headings?.fontFamily,
-            fontSize: design.tokens?.typography?.testimonialCardName?.fontSize || '1.125rem',
-            fontWeight: design.tokens?.typography?.testimonialCardName?.fontWeight || '600',
-            color: design.tokens?.typography?.testimonialCardName?.color || design.tokens?.colors?.text || '#1f2937',
+            fontFamily: design.tokens?.typography?.testimonialCardTitle?.fontFamily || design.tokens?.typography?.headings?.fontFamily,
+            fontSize: design.tokens?.typography?.testimonialCardTitle?.fontSize || '1.125rem',
+            fontWeight: design.tokens?.typography?.testimonialCardTitle?.fontWeight || '600',
+            color: design.tokens?.typography?.testimonialCardTitle?.color || design.tokens?.colors?.text || '#1f2937',
             marginBottom: design.components?.testimonialCard?.nameSpacing || '0.5rem'
           }}
         >
@@ -120,14 +120,14 @@ const TestimonialCard = ({ testimonial }: TestimonialCardProps) => {
         }}
       >
         <p
-          data-typography="testimonialCard.text"
+          data-typography="testimonialCard.body"
           className="text-center"
           style={{
-            fontFamily: design.tokens?.typography?.testimonialCardText?.fontFamily || design.tokens?.typography?.body?.fontFamily,
-            fontSize: design.tokens?.typography?.testimonialCardText?.fontSize || '1rem',
-            fontWeight: design.tokens?.typography?.testimonialCardText?.fontWeight || '400',
-            lineHeight: design.tokens?.typography?.testimonialCardText?.lineHeight || '1.6',
-            color: design.tokens?.typography?.testimonialCardText?.color || design.tokens?.colors?.text || '#374151',
+            fontFamily: design.tokens?.typography?.testimonialCardBody?.fontFamily || design.tokens?.typography?.body?.fontFamily,
+            fontSize: design.tokens?.typography?.testimonialCardBody?.fontSize || '1rem',
+            fontWeight: design.tokens?.typography?.testimonialCardBody?.fontWeight || '400',
+            lineHeight: design.tokens?.typography?.testimonialCardBody?.lineHeight || '1.6',
+            color: design.tokens?.typography?.testimonialCardBody?.color || design.tokens?.colors?.text || '#374151',
             fontStyle: design.components?.testimonialCard?.textStyle || 'italic',
             maxWidth: design.components?.testimonialCard?.maxTextWidth || 'none'
           }}
