@@ -2271,6 +2271,132 @@ const DesignInspectorContent: React.FC = () => {
 				</div>
 			)}
 
+			{/* Contact Card Design Section */}
+			{(activeElement?.cardType === 'contactCard') && !activeElement?.tokenMatches?.some((m) => m.tokenPath?.includes('tokens.typography.')) && (
+				<div style={{ marginTop: 16, padding: 12, background: '#1e1e1e', borderRadius: 8, border: '1px solid #333' }}>
+					<div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+						<span style={{ fontSize: 12, color: '#facc15', fontWeight: 'bold' }}>
+							Contact Card Design
+						</span>
+					</div>
+
+					{/* Background Color */}
+					<PanelRow label="Background Color">
+						<ColorSwatch
+							value={design?.components?.contactCard?.backgroundColor || '#1f2937'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const next = { ...prev };
+								if (!next.components) next.components = {};
+								if (!next.components.contactCard) next.components.contactCard = {};
+								next.components.contactCard.backgroundColor = val;
+								return next;
+							})}
+							placeholder="#1f2937"
+						/>
+					</PanelRow>
+
+					{/* Border Color */}
+					<PanelRow label="Border Color">
+						<ColorSwatch
+							value={design?.components?.contactCard?.borderColor || '#eab308'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const next = { ...prev };
+								if (!next.components) next.components = {};
+								if (!next.components.contactCard) next.components.contactCard = {};
+								next.components.contactCard.borderColor = val;
+								return next;
+							})}
+							placeholder="#eab308"
+						/>
+					</PanelRow>
+
+					{/* Border Width */}
+					<PanelRow label="Border Width">
+						<SmartInput
+							value={design?.components?.contactCard?.borderWidth || '2px'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const next = { ...prev };
+								if (!next.components) next.components = {};
+								if (!next.components.contactCard) next.components.contactCard = {};
+								next.components.contactCard.borderWidth = val;
+								return next;
+							})}
+							placeholder="2px"
+							label="contactCard.borderWidth"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					{/* Border Radius */}
+					<PanelRow label="Border Radius">
+						<SmartInput
+							value={design?.components?.contactCard?.borderRadius || '1rem'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const next = { ...prev };
+								if (!next.components) next.components = {};
+								if (!next.components.contactCard) next.components.contactCard = {};
+								next.components.contactCard.borderRadius = val;
+								return next;
+							})}
+							placeholder="1rem"
+							label="contactCard.borderRadius"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					{/* Shadow */}
+					<PanelRow label="Shadow">
+						<SmartInput
+							value={design?.components?.contactCard?.shadow || '0 10px 20px rgba(0,0,0,.35)'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const next = { ...prev };
+								if (!next.components) next.components = {};
+								if (!next.components.contactCard) next.components.contactCard = {};
+								next.components.contactCard.shadow = val;
+								return next;
+							})}
+							placeholder="0 10px 20px rgba(0,0,0,.35)"
+							label="contactCard.shadow"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					{/* Padding */}
+					<PanelRow label="Padding">
+						<SmartInput
+							value={design?.components?.contactCard?.padding || '2rem'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const next = { ...prev };
+								if (!next.components) next.components = {};
+								if (!next.components.contactCard) next.components.contactCard = {};
+								next.components.contactCard.padding = val;
+								return next;
+							})}
+							placeholder="2rem"
+							label="contactCard.padding"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					{/* Min Height */}
+					<PanelRow label="Min Height">
+						<SmartInput
+							value={design?.components?.contactCard?.minHeight || 'auto'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const next = { ...prev };
+								if (!next.components) next.components = {};
+								if (!next.components.contactCard) next.components.contactCard = {};
+								next.components.contactCard.minHeight = val;
+								return next;
+							})}
+							placeholder="auto"
+							label="contactCard.minHeight"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+				</div>
+			)}
+
 			{/* Why Feature Cards Design Section */}
 			{(activeElement?.cardType === 'whyFeatureCard' || activeElement?.label?.startsWith('whyFeatureCard')) && (
 				<div style={{ marginTop: 16, padding: 12, background: '#1e1e1e', borderRadius: 8, border: '1px solid #333' }}>

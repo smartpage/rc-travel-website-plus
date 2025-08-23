@@ -129,7 +129,17 @@ const ContactSection = () => {
           ${design.components?.primaryCards?.container?.transition || ''}
           ${design.components?.primaryCards?.container?.padding || ''}
           ${design.components?.primaryCards?.container?.hover || ''}
-        `}>
+        `}
+        style={{
+          backgroundColor: design.components?.contactCard?.backgroundColor || design.tokens?.colors?.cardBackground || '#1f2937',
+          borderColor: design.components?.contactCard?.borderColor || design.tokens?.colors?.accent || '#eab308',
+          borderWidth: design.components?.contactCard?.borderWidth || '2px',
+          borderStyle: 'solid',
+          borderRadius: design.components?.contactCard?.borderRadius || '1rem',
+          boxShadow: design.components?.contactCard?.shadow || '0 10px 20px rgba(0,0,0,.35)',
+          padding: design.components?.contactCard?.padding || '2rem',
+          minHeight: design.components?.contactCard?.minHeight || 'auto'
+        }}>
           <CardHeader className={design.components?.primaryCards?.header?.spacing || ''}>
             <CardTitle data-typography="contactCard.title" className={`
               ${design.components?.primaryCards?.title?.layout || ''}
@@ -216,7 +226,17 @@ const ContactSection = () => {
           ${design.components?.primaryCards?.container?.transition || ''}
           ${design.components?.primaryCards?.container?.padding || ''}
           ${design.components?.primaryCards?.container?.hover || ''}
-        `}>
+        `}
+        style={{
+          backgroundColor: design.components?.contactCard?.backgroundColor || design.tokens?.colors?.cardBackground || '#1f2937',
+          borderColor: design.components?.contactCard?.borderColor || design.tokens?.colors?.accent || '#eab308',
+          borderWidth: design.components?.contactCard?.borderWidth || '2px',
+          borderStyle: 'solid',
+          borderRadius: design.components?.contactCard?.borderRadius || '1rem',
+          boxShadow: design.components?.contactCard?.shadow || '0 10px 20px rgba(0,0,0,.35)',
+          padding: design.components?.contactCard?.padding || '2rem',
+          minHeight: design.components?.contactCard?.minHeight || 'auto'
+        }}>
           <CardHeader className={design.components?.primaryCards?.header?.spacing || ''}>
             <CardTitle data-typography="contactCard.title" className={`
               ${design.components?.primaryCards?.title?.layout || ''}
