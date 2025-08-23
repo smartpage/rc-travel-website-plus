@@ -15,10 +15,20 @@ const EditorBridge: React.FC = () => {
     // Relay single clicks to deselect ONLY when clicking directly on a section container
     const clickHandler = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
+
+      // Card selector badge → select card on single click
+      if (target.matches('[data-card-selector], [data-card-selector] *')) {
+        const card = target.closest('[data-card]') as HTMLElement | null;
+        const sectionEl = card?.closest('[data-section-id]') as HTMLElement | null;
+        const sectionId = sectionEl?.getAttribute('data-section-id');
+        if (sectionId) channel.postMessage({ type: 'select-section', sectionId });
+        return;
+      }
+
       const sectionRoot = target.closest('[data-section-id], .inner-section') as HTMLElement | null;
       if (!sectionRoot) return;
 
-      const semantic = target.closest('[data-typography], h1, h2, h3, h4, h5, h6, p, button, a') as HTMLElement | null;
+      const semantic = target.closest('[data-typography], h1, h2, h3, h4, h5, h6, p, button, a, img') as HTMLElement | null;
       if (semantic) {
         // Let main app handle selection; do not deselect
         return;

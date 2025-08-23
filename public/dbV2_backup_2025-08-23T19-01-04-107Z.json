@@ -863,7 +863,7 @@
               "desktop": "5rem"
             },
             "rounded": true,
-            "backgroundColor": "radial-gradient(circle, rgba(255,0,0,0.03) 0%, rgba(9,9,121,0.04) 35%, RGBA(245, 185, 245, 0.4) 100%)",
+            "backgroundColor": "radial-gradient(circle, rgba(255,0,0,0.03) 0%, rgba(9,9,121,0.04) 35%, RGBA(0,212,255,1) 100%)",
             "overflow": "visible",
             "background": {
               "type": "color",

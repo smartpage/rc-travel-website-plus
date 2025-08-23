@@ -372,12 +372,41 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
       // Skip if clicking on overlay UI elements
       if (raw.closest('[data-overlay-ui="1"]')) return;
 
+      // If clicking the card selector badge, select the parent card (single-click)
+      if (raw.matches('[data-card-selector], [data-card-selector] *')) {
+        const card = raw.closest('[data-card]') as HTMLElement | null;
+        if (card && card.closest('[class~="@container"]')) {
+          const sectionEl = card.closest('[data-section-id]') as HTMLElement | null;
+          const sectionId = sectionEl?.getAttribute('data-section-id') || null;
+          const snap = takeComputedSnapshot(card);
+          const tokenMatches = resolveGlobalTokens(snap, sectionId, designRef.current, card);
+          const cardRoot = card.closest('[data-card-type]') as HTMLElement | null;
+          const cardType = cardRoot?.getAttribute('data-card-type') || null;
+          const cardVariant = cardRoot?.getAttribute('data-card-variant') || null;
+          const label = cardType
+            ? `${cardType}${sectionId ? ` · ${sectionId}` : ''}`
+            : `card${sectionId ? ` · ${sectionId}` : ''}`;
+          const rect = card.getBoundingClientRect();
+          setState(prev => ({
+            ...prev,
+            activePanelId: prev.autoOpen ? 'inspector' : prev.activePanelId,
+            activeElement: { label, sectionId, tokenMatches, cardType, cardVariant },
+            overlayRect: { top: rect.top, left: rect.left, width: rect.width, height: rect.height },
+            selectedElement: card
+          }));
+          if (state.autoOpen) {
+            try { localStorage.setItem('design_active_panel', 'inspector'); } catch {}
+          }
+          return;
+        }
+      }
+
       // Determine if the click is inside a section
       const sectionRoot = raw.closest('[data-section-id], .inner-section') as HTMLElement | null;
       if (!sectionRoot) return;
 
       // If clicking a semantic/typography element (self or ancestor), select it
-      const semantic = raw.closest('[data-typography], h1, h2, h3, h4, h5, h6, p, button, a') as HTMLElement | null;
+      const semantic = raw.closest('[data-typography], h1, h2, h3, h4, h5, h6, p, button, a, img') as HTMLElement | null;
       if (semantic) {
         const target = semantic;
         if (!target.closest('[class~="@container"]')) return;
