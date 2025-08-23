@@ -142,7 +142,7 @@
           "lineHeight": "1.125",
           "fontWeight": "600",
           "letterSpacing": "-0.1em",
-          "color": "black",
+          "color": "#FF69B4",
           "marginBottom": "0.5rem",
           "textAlign": "center"
         },

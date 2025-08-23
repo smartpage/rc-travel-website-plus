@@ -142,7 +142,7 @@
           "lineHeight": "1.125",
           "fontWeight": "600",
           "letterSpacing": "-0.1em",
-          "color": "black",
+          "color": "#FF69B4",
           "marginBottom": "0.5rem",
           "textAlign": "center"
         },
@@ -453,14 +453,14 @@
         }
       },
       "whyFeatureCard": {
-        "backgroundColor": "#ffffff",
+        "backgroundColor": "#716a6a",
         "borderWidth": "2px",
         "borderColor": "#FF69B4"
       },
       "testimonialCard": {
         "borderWidth": "3px",
         "borderColor": "transparent",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#ffb8c2"
       }
     },
     "sections": {

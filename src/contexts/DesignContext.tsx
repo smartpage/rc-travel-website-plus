@@ -187,6 +187,8 @@ interface DesignContextType {
   lastSavedAt?: number | null;
   autoSave?: boolean;
   setAutoSave?: (v: boolean) => void;
+  lastSaveOk?: boolean | null;
+  lastSaveError?: string | null;
 }
 
 const DesignContext = createContext<DesignContextType | undefined>(undefined);
@@ -209,6 +211,8 @@ export const DesignProvider: React.FC<DesignProviderProps> = ({
   const [autoSave, setAutoSave] = useState<boolean>(() => {
     try { return localStorage.getItem('design_auto_save') === '1'; } catch { return false; }
   });
+  const [lastSaveOk, setLastSaveOk] = useState<boolean | null>(null);
+  const [lastSaveError, setLastSaveError] = useState<string | null>(null);
   const savedSnapshotRef = useRef<string | null>(null);
 
   const loadDesignConfig = async (currentSiteId: string) => {
@@ -288,9 +292,13 @@ export const DesignProvider: React.FC<DesignProviderProps> = ({
       // Update baseline snapshot and timestamp
       try { savedSnapshotRef.current = JSON.stringify({ designV2: design }); } catch {}
       setLastSavedAt(Date.now());
+      setLastSaveOk(true);
+      setLastSaveError(null);
       
-    } catch (e) {
+    } catch (e: any) {
       console.error('[DesignContext] saveDesignToDBV2 error:', e);
+      setLastSaveOk(false);
+      setLastSaveError(e?.message || 'Save failed');
       throw e;
     } finally {
       setSaving(false);
@@ -338,6 +346,8 @@ export const DesignProvider: React.FC<DesignProviderProps> = ({
       setAutoSave(v);
       try { localStorage.setItem('design_auto_save', v ? '1' : '0'); } catch {}
     },
+    lastSaveOk,
+    lastSaveError,
   };
 
   return (
