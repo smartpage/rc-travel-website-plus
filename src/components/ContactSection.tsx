@@ -154,10 +154,18 @@ const ContactSection = () => {
               lineHeight: design.tokens?.typography?.contactCardTitle?.lineHeight || '1.2',
               color: design.tokens?.typography?.contactCardTitle?.color || design.tokens?.colors?.text || 'white'
             }}>
-              <Phone className={`
-                ${design.components?.primaryCards?.title?.iconSize || ''}
-                ${design.components?.primaryCards?.title?.iconColor || ''}
-              `} />
+              <Phone
+                data-typography="contactCard.icon"
+                className={`
+                  ${design.components?.primaryCards?.title?.iconSize || ''}
+                  ${design.components?.primaryCards?.title?.iconColor || ''}
+                `}
+                style={{
+                  width: design.tokens?.typography?.contactCardIcon?.size || '1.25rem',
+                  height: design.tokens?.typography?.contactCardIcon?.size || '1.25rem',
+                  color: design.tokens?.typography?.contactCardIcon?.color || design.tokens?.colors?.primary || '#FF69B4'
+                }}
+              />
               {contact.whatsappCard.title}
             </CardTitle>
           </CardHeader>
@@ -251,10 +259,18 @@ const ContactSection = () => {
               lineHeight: design.tokens?.typography?.contactCardTitle?.lineHeight || '1.2',
               color: design.tokens?.typography?.contactCardTitle?.color || design.tokens?.colors?.text || 'white'
             }}>
-              <Mail className={`
-                ${design.components?.primaryCards?.title?.iconSize || ''}
-                ${design.components?.primaryCards?.title?.iconColor || ''}
-              `} />
+              <Mail
+                data-typography="contactCard.icon"
+                className={`
+                  ${design.components?.primaryCards?.title?.iconSize || ''}
+                  ${design.components?.primaryCards?.title?.iconColor || ''}
+                `}
+                style={{
+                  width: design.tokens?.typography?.contactCardIcon?.size || '1.25rem',
+                  height: design.tokens?.typography?.contactCardIcon?.size || '1.25rem',
+                  color: design.tokens?.typography?.contactCardIcon?.color || design.tokens?.colors?.primary || '#FF69B4'
+                }}
+              />
               {contact.emailCard.title}
             </CardTitle>
           </CardHeader>

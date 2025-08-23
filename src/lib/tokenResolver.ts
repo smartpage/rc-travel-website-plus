@@ -157,6 +157,11 @@ export function resolveGlobalTokens(snapshot: ComputedSnapshot, sectionId: strin
         matches.push({ scope: 'global', tokenPath: 'tokens.typography.contactCardBody', label: 'Contact Card Body', responsive: false });
         hasSpecificMatch = true;
         break;
+      case 'contactCard.icon':
+        matches.push({ scope: 'global', tokenPath: 'tokens.typography.contactCardIcon.color', label: 'Contact Card Icon Color', responsive: false });
+        matches.push({ scope: 'global', tokenPath: 'tokens.typography.contactCardIcon.size', label: 'Contact Card Icon Size', responsive: false });
+        hasSpecificMatch = true;
+        break;
       case 'travelDesignerCard':
         matches.push({ scope: 'global', tokenPath: 'typography.travelDesignerCard', label: 'Travel Designer Card Text', responsive: false });
         hasSpecificMatch = true;

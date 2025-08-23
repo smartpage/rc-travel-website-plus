@@ -104,7 +104,7 @@
         "contactCardTitle": {
           "fontFamily": "Inter, sans-serif",
           "fontSize": "1.5rem",
-          "fontWeight": "500",
+          "fontWeight": "600",
           "lineHeight": "1.2",
           "color": "white"
         },
@@ -114,10 +114,6 @@
           "fontWeight": "400",
           "lineHeight": "1.6",
           "color": "#e5e7eb"
-        },
-        "contactCardIcon": {
-          "color": "#FF69B4",
-          "size": "1.5rem"
         },
         "faqAnswerStrong": {
           "fontFamily": "Inter, sans-serif",
@@ -472,8 +468,8 @@
       },
       "contactCard": {
         "backgroundColor": "#1f2937",
-        "borderWidth": "4px",
-        "borderColor": "#FF69B4",
+        "borderWidth": "2px",
+        "borderColor": "#eab308",
         "borderRadius": "1rem",
         "shadow": "0 10px 20px rgba(0,0,0,.35)",
         "padding": "2rem"
