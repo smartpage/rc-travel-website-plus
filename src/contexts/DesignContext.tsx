@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode, useRef, useCallback } from 'react';
 import { z } from 'zod';
 import { SITE_ID, ORG_ID, API_BASE_URL } from '../../db_connect';
 import { validateData } from '@/schemas/contextSchemas';
@@ -181,6 +181,12 @@ interface DesignContextType {
   setSiteId: (id: string) => void;
   updateDesignLocal: (updater: (prev: DesignV2) => DesignV2) => void;
   saveDesignToDBV2: () => Promise<void>;
+  // Smart save support
+  isDirty?: boolean;
+  saving?: boolean;
+  lastSavedAt?: number | null;
+  autoSave?: boolean;
+  setAutoSave?: (v: boolean) => void;
 }
 
 const DesignContext = createContext<DesignContextType | undefined>(undefined);
@@ -198,6 +204,12 @@ export const DesignProvider: React.FC<DesignProviderProps> = ({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [siteId, setSiteId] = useState(defaultSiteId);
+  const [saving, setSaving] = useState(false);
+  const [lastSavedAt, setLastSavedAt] = useState<number | null>(null);
+  const [autoSave, setAutoSave] = useState<boolean>(() => {
+    try { return localStorage.getItem('design_auto_save') === '1'; } catch { return false; }
+  });
+  const savedSnapshotRef = useRef<string | null>(null);
 
   const loadDesignConfig = async (currentSiteId: string) => {
     setLoading(true);
@@ -242,8 +254,19 @@ export const DesignProvider: React.FC<DesignProviderProps> = ({
     return validateData(data, schema, 'Design');
   };
 
+  // Determine if design differs from last saved snapshot
+  const computeIsDirty = useCallback((): boolean => {
+    try {
+      const current = JSON.stringify({ designV2: design });
+      return current !== savedSnapshotRef.current;
+    } catch {
+      return true;
+    }
+  }, [design]);
+
   const saveDesignToDBV2 = async () => {
     try {
+      setSaving(true);
       const designToSave = { designV2: design };
       const jsonString = JSON.stringify(designToSave, null, 2);
       
@@ -262,12 +285,33 @@ export const DesignProvider: React.FC<DesignProviderProps> = ({
       
       const result = await response.json();
       console.log('[DesignContext] designV2 saved with backup:', result);
+      // Update baseline snapshot and timestamp
+      try { savedSnapshotRef.current = JSON.stringify({ designV2: design }); } catch {}
+      setLastSavedAt(Date.now());
       
     } catch (e) {
       console.error('[DesignContext] saveDesignToDBV2 error:', e);
       throw e;
+    } finally {
+      setSaving(false);
     }
   };
+
+  // Initialize baseline snapshot when design first loads
+  useEffect(() => {
+    if (design && !savedSnapshotRef.current) {
+      try { savedSnapshotRef.current = JSON.stringify({ designV2: design }); } catch {}
+    }
+  }, [design]);
+
+  // Auto-save debounce
+  useEffect(() => {
+    if (!autoSave) return;
+    const dirty = computeIsDirty();
+    if (!dirty) return;
+    const t = setTimeout(() => { saveDesignToDBV2().catch(() => {}); }, 1000);
+    return () => clearTimeout(t);
+  }, [autoSave, design, computeIsDirty]);
 
   const value: DesignContextType = {
     design,
@@ -286,6 +330,14 @@ export const DesignProvider: React.FC<DesignProviderProps> = ({
       });
     },
     saveDesignToDBV2,
+    isDirty: computeIsDirty(),
+    saving,
+    lastSavedAt,
+    autoSave,
+    setAutoSave: (v: boolean) => {
+      setAutoSave(v);
+      try { localStorage.setItem('design_auto_save', v ? '1' : '0'); } catch {}
+    },
   };
 
   return (

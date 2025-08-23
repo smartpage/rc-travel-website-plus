@@ -2,6 +2,18 @@
 
 This document explains how the design-mode editor selection pipeline works in `rc-travel-website-plus`: how the card handle triggers selection, which files and contexts are involved, and how the inspector/overlay update.
 
+> State sources
+> - Source of truth: current saved dbV2 (as loaded in `DesignContext`)
+> - Working copy: local in-memory design edits via `updateDesignLocal`
+>
+> Save flow (button)
+> - Persist to local `public/dbV2.json` through the existing provisional save endpoint (`/api/save-dbv2`)
+> - On success: update internal reference of last-saved design so the button disables when no diff exists
+
+> Save function reference
+> - `saveDesignToDBV2()` lives in `src/contexts/DesignContext.tsx` and is exposed via the DesignContext.
+> - Always reuse this function for manual and auto-save operations.
+
 
 ## Overview
 - The editor is enabled by a URL query flag (`?design=1|true`).

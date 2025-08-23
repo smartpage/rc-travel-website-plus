@@ -150,7 +150,7 @@ const DesignInspectorOverlay: React.FC = () => {
           e.currentTarget.style.background = isCollapsed ? '#1a1a1a' : '#2a2a2a';
         }}
       >
-        <span>Design Inspector</span>
+        <span>Design</span>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <span style={{ fontSize: 12, opacity: 0.7 }}>API-only</span>
           <span style={{ fontSize: 12, opacity: 0.8 }}>{isCollapsed ? '↓' : '↑'}</span>

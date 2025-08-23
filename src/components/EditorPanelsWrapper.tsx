@@ -7,6 +7,7 @@ import SectionNavigatorContent from './SectionNavigatorContent';
 import AIEnhancePanel from './AIEnhancePanel';
 import { AIEnhanceProvider } from '@/contexts/AIEnhanceContext';
 import { useEditorOverlay } from '@/contexts/EditorOverlayContext';
+import DesignSaveHeader from './DesignSaveHeader';
 
 import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from 'lucide-react';
 
@@ -114,13 +115,16 @@ const EditorPanelsWrapper: React.FC = () => {
           </AIEnhanceProvider>
         </div>
 
-        {/* Design Inspector */}
+        {/* Design */}
         <div style={{ 
           width: '100%', 
           display: 'flex',
           flexDirection: 'column'
         }}>
-          <EditorPanel id="inspector" title="Design Inspector" subtitle="Tokens & Styles">
+          <EditorPanel id="inspector" title="Design" subtitle="Tokens & Styles">
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 8 }}>
+              <DesignSaveHeader />
+            </div>
             <DesignInspectorContent />
           </EditorPanel>
         </div>
