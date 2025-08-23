@@ -113,6 +113,18 @@ export function resolveGlobalTokens(snapshot: ComputedSnapshot, sectionId: strin
   if (element && (element as HTMLElement).dataset && (element as HTMLElement).dataset.typography) {
     const hint = (element as HTMLElement).dataset.typography;
     switch (hint) {
+      case 'testimonialCard.title':
+        matches.push({ scope: 'global', tokenPath: 'tokens.typography.testimonialCardTitle', label: 'Testimonial Title', responsive: false });
+        hasSpecificMatch = true;
+        break;
+      case 'testimonialCard.location':
+        matches.push({ scope: 'global', tokenPath: 'tokens.typography.testimonialCardLocation', label: 'Testimonial Location', responsive: false });
+        hasSpecificMatch = true;
+        break;
+      case 'testimonialCard.body':
+        matches.push({ scope: 'global', tokenPath: 'tokens.typography.testimonialCardBody', label: 'Testimonial Body', responsive: false });
+        hasSpecificMatch = true;
+        break;
       case 'preTitle':
         matches.push({ scope: 'global', tokenPath: 'preTitle', label: 'Pre Title', responsive: false });
         hasSpecificMatch = true;
@@ -177,12 +189,13 @@ export function resolveGlobalTokens(snapshot: ComputedSnapshot, sectionId: strin
   const isHeadingTag = ['H1','H2','H3','H4','H5','H6'].includes(snapshot.tagName);
   
   if (isTextTag) {
+    const insideCard = !!element?.closest('[data-card-type]');
     // Headings: always classify H1–H6 as headings. Prioritize hero headings inside hero section.
     if (isHeadingTag) {
       if (sectionId === 'hero' && design?.tokens?.typography?.hero_headings) {
         matches.push({ scope: 'section', tokenPath: 'tokens.typography.hero_headings', label: 'Hero Headings', responsive: true });
         hasSpecificMatch = true;
-      } else if (design?.tokens?.typography?.headings) {
+      } else if (!insideCard && design?.tokens?.typography?.headings) {
         matches.push({ scope: 'global', tokenPath: 'tokens.typography.headings', label: 'Headings', responsive: true });
         hasSpecificMatch = true;
       }
@@ -199,11 +212,11 @@ export function resolveGlobalTokens(snapshot: ComputedSnapshot, sectionId: strin
     // Body text match (for paragraph elements) - context-aware
     if (snapshot.tagName === 'P') {
       // Prefer cardBody for light backgrounds; fallback to body
-      if (design?.tokens?.typography?.cardBody && (bgContext === 'light')) {
+      if (!insideCard && design?.tokens?.typography?.cardBody && (bgContext === 'light')) {
         matches.push({ scope: 'global', tokenPath: 'tokens.typography.cardBody', label: 'Card Body Text', responsive: false });
         hasSpecificMatch = true;
       }
-      if (!hasSpecificMatch && design?.tokens?.typography?.body) {
+      if (!insideCard && !hasSpecificMatch && design?.tokens?.typography?.body) {
         matches.push({ scope: 'global', tokenPath: 'tokens.typography.body', label: 'Body Text', responsive: false });
         hasSpecificMatch = true;
       }

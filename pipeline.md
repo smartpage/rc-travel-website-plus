@@ -2,6 +2,17 @@
 
 This document explains how the design-mode editor selection pipeline works in `rc-travel-website-plus`: how the card handle triggers selection, which files and contexts are involved, and how the inspector/overlay update.
 
+## Quick questions (Typography · Testimonials)
+
+1) Are testimonial text nodes labeled with the expected `data-typography` hints?
+- Answer: In `src/components/TestimonialCard.tsx` the nodes use `testimonialCard.name` and `testimonialCard.text` in some versions. The resolver is wired to `testimonialCard.title`, `testimonialCard.location`, and `testimonialCard.body`. If these don’t match, the editor can’t bind and appears to fall back. Align the component to use the resolver’s keys (or extend the resolver to accept the current hints).
+
+2) Do the specific typography tokens exist in the active dbV2?
+- Answer: Ensure `designV2.tokens.typography.testimonialCardTitle`, `testimonialCardBody`, and `testimonialCardLocation` exist in `/public/dbV2.json`. If they’re only in `design-default.json`, the live editor won’t find specific tokens and will present global controls.
+
+3) Why does it look like a global fallback and how can we disable it?
+- Answer: The resolver adds global `headings/body` when it can’t map a specific token. For card contexts we can suppress that by checking `activeElement.cardType` and skipping global pushes if a card is selected but no precise typography hint matched. This prevents misleading global controls.
+
 > State sources
 > - Source of truth: current saved dbV2 (as loaded in `DesignContext`)
 > - Working copy: local in-memory design edits via `updateDesignLocal`
