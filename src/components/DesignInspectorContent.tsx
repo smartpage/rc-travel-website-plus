@@ -1104,7 +1104,6 @@ const DesignInspectorContent: React.FC = () => {
 			{((activeElement?.cardType === 'travelPackageCard') || (activeElement?.label?.startsWith('card') && activeElement.sectionId)) && (
 				<div style={{ marginTop: 16, padding: 12, background: '#1e1e1e', borderRadius: 8, border: '1px solid #333' }}>
 					<div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-						<div style={{ fontSize: 16, color: '#facc15' }}>🎨</div>
 						<span style={{ fontSize: 12, color: '#facc15', fontWeight: 'bold' }}>
 							Travel Package Card Design
 						</span>
@@ -1472,9 +1471,11 @@ const DesignInspectorContent: React.FC = () => {
 
 			{/* Service Card Design Section */}
 			{(activeElement?.cardType === 'serviceCard' || activeElement?.label?.startsWith('serviceCard')) && (
-				<div style={{ padding: '1rem', background: '#1a1a1a', borderRadius: 8, marginBottom: '1rem' }}>
-					<div style={{ fontSize: 14, fontWeight: 'bold', color: '#fff', marginBottom: '1rem', textAlign: 'center' }}>
-						Service Card Design
+				<div style={{ marginTop: 16, padding: 12, background: '#1e1e1e', borderRadius: 8, border: '1px solid #333' }}>
+					<div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+						<span style={{ fontSize: 12, color: '#facc15', fontWeight: 'bold' }}>
+							Service Card Design
+						</span>
 					</div>
 
 					{/* Variant Selection */}
@@ -1964,9 +1965,11 @@ const DesignInspectorContent: React.FC = () => {
 
 			{/* Testimonial Card Design Section */}
 			{(activeElement?.cardType === 'testimonialCard' || activeElement?.label?.startsWith('testimonialCard')) && (
-				<div style={{ padding: '1rem', background: '#1a1a1a', borderRadius: 8, marginBottom: '1rem' }}>
-					<div style={{ fontSize: 14, fontWeight: 'bold', color: '#fff', marginBottom: '1rem', textAlign: 'center' }}>
-						Testimonial Card Design
+				<div style={{ marginTop: 16, padding: 12, background: '#1e1e1e', borderRadius: 8, border: '1px solid #333' }}>
+					<div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+						<span style={{ fontSize: 12, color: '#facc15', fontWeight: 'bold' }}>
+							Testimonial Card Design
+						</span>
 					</div>
 
 					{/* Card Layout Controls */}
@@ -2270,9 +2273,11 @@ const DesignInspectorContent: React.FC = () => {
 
 			{/* Why Feature Cards Design Section */}
 			{(activeElement?.cardType === 'whyFeatureCard' || activeElement?.label?.startsWith('whyFeatureCard')) && (
-				<div style={{ padding: '1rem', background: '#1a1a1a', borderRadius: 8, marginBottom: '1rem' }}>
-					<div style={{ fontSize: 14, fontWeight: 'bold', color: '#fff', marginBottom: '1rem', textAlign: 'center' }}>
-						Why Feature Cards Design
+				<div style={{ marginTop: 16, padding: 12, background: '#1e1e1e', borderRadius: 8, border: '1px solid #333' }}>
+					<div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+						<span style={{ fontSize: 12, color: '#facc15', fontWeight: 'bold' }}>
+							Why Feature Cards Design
+						</span>
 					</div>
 
 					{/* Card Layout Controls */}

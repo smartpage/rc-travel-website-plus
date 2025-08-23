@@ -368,7 +368,7 @@
         "maxHeight": "80vh",
         "imageHeight": "70%",
         "contentPadding": ".5rem",
-        "backgroundColor": "#FF69B4",
+        "backgroundColor": "#fff",
         "borderWidth": "10px",
         "borderRadius": "0",
         "padding": "0rem",
