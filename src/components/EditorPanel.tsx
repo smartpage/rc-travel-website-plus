@@ -2,7 +2,7 @@ import React from 'react';
 import { useEditorOverlay } from '@/contexts/EditorOverlayContext';
 
 interface EditorPanelProps {
-  id: 'inspector' | 'navigator' | 'ai-enhance';
+  id: 'inspector' | 'navigator' | 'ai-enhance' | 'templates';
   title: string;
   subtitle: string;
   children: React.ReactNode;

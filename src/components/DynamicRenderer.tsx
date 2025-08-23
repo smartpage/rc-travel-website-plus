@@ -143,7 +143,7 @@ const DynamicRenderer: React.FC = () => {
   }
 
   return (
-    <>
+    <div data-site-root>
       {activeSections.map((section) => {
         const Component = loadedComponents.get(section.component);
         const error = loadErrors.get(section.component);
@@ -158,7 +158,7 @@ const DynamicRenderer: React.FC = () => {
 
         return <Component key={section.id} />;
       })}
-    </>
+    </div>
   );
 };
 

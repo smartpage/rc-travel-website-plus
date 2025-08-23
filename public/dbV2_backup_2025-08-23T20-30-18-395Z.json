@@ -851,8 +851,8 @@
       "travelPackageCard": {
         "minHeight": "70vh",
         "iconColors": {
-          "check": "rgba(0,255,255, 1)",
-          "map": "rgba(0,255,255, 1)"
+          "check": "#6fc8aa",
+          "map": "#3cbe93"
         },
         "priceGroup": {
           "gap": "0.25rem",
@@ -923,7 +923,7 @@
           "fontWeight": "400"
         },
         "travelPackageIncludes": {
-          "color": "rgba(0,255,255, 1)",
+          "color": "#b54545",
           "fontSize": "0.875rem"
         },
         "description": {
@@ -1027,7 +1027,7 @@
           "fontWeight": "500"
         },
         "travelPackagePriceValue": {
-          "color": "rgba(255,0,255, 1)",
+          "color": "rgba(0,255,255, 1)",
           "fontSize": "3.25rem"
         },
         "faqAnswerStrong": {

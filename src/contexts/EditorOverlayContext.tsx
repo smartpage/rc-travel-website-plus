@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useDesign } from '@/contexts/DesignContext';
 import { resolveGlobalTokens, takeComputedSnapshot } from '@/lib/tokenResolver';
 
-type PanelId = 'inspector' | 'navigator' | 'ai-enhance';
+type PanelId = 'inspector' | 'navigator' | 'ai-enhance' | 'templates';
 
 type OverlayRect = { top: number; left: number; width: number; height: number } | null;
 
@@ -89,12 +89,13 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
         return {
           inspector: parsed.inspector ?? false,
           navigator: parsed.navigator ?? true,
+          templates: parsed.templates ?? true,
           'ai-enhance': parsed['ai-enhance'] ?? false,
         };
       }
     } catch {}
     // Default: inspector open, navigator closed, ai-enhance open
-    return { inspector: false, navigator: true, 'ai-enhance': false };
+    return { inspector: false, navigator: true, templates: true, 'ai-enhance': false };
   };
 
   // Load color palette from localStorage
@@ -126,7 +127,7 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
   const getInitialActivePanelId = (): PanelId | null => {
     try {
       const saved = localStorage.getItem('design_active_panel');
-      if (saved === 'ai-enhance' || saved === 'inspector' || saved === 'navigator') return saved as PanelId;
+      if (saved === 'ai-enhance' || saved === 'inspector' || saved === 'navigator' || saved === 'templates') return saved as PanelId;
     } catch {}
     return 'ai-enhance';
   };

@@ -24,6 +24,7 @@ const getGradientPreviewColor = (gradient: string): string => {
 const ColorSwatch: React.FC<ColorSwatchProps> = ({ value, onChange, placeholder, style }) => {
   const [showPalette, setShowPalette] = React.useState(false);
   const [showColorPicker, setShowColorPicker] = React.useState(false);
+  const [fixedLeftPx, setFixedLeftPx] = React.useState<number | null>(null);
   
   const hasGradient = isGradient(value);
   const displayColor = hasGradient ? getGradientPreviewColor(value) : (value || '#000000');
@@ -34,7 +35,21 @@ const ColorSwatch: React.FC<ColorSwatchProps> = ({ value, onChange, placeholder,
   };
 
   const handleColorPickerClick = () => {
-    setShowColorPicker(!showColorPicker);
+    const next = !showColorPicker;
+    setShowColorPicker(next);
+    if (next) {
+      try {
+        const wrapper = document.querySelector('[data-overlay-ui="1"]') as HTMLElement | null;
+        if (wrapper) {
+          const r = wrapper.getBoundingClientRect();
+          setFixedLeftPx(r.left + r.width / 2);
+        } else {
+          setFixedLeftPx(null);
+        }
+      } catch {
+        setFixedLeftPx(null);
+      }
+    }
     setShowPalette(false);
   };
 
@@ -131,12 +146,13 @@ const ColorSwatch: React.FC<ColorSwatchProps> = ({ value, onChange, placeholder,
 
       {/* Professional Color/Gradient Picker */}
       {showColorPicker && (
-        <div style={{ 
-          position: 'absolute', 
-          top: '100%', 
-          left: 0, 
-          zIndex: 1000,
-          marginTop: 4 
+        <div style={{
+          position: 'fixed',
+          top: '50%',
+          left: fixedLeftPx != null ? fixedLeftPx : '50%',
+          transform: 'translate(-50%, -50%)',
+          zIndex: 100000,
+          marginTop: 4
         }}>
           <ColorPicker
             value={value || 'rgba(0,0,0,1)'}

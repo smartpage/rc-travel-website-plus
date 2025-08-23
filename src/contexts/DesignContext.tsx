@@ -181,6 +181,8 @@ interface DesignContextType {
   setSiteId: (id: string) => void;
   updateDesignLocal: (updater: (prev: DesignV2) => DesignV2) => void;
   saveDesignToDBV2: () => Promise<void>;
+  // Templates
+  applyTemplateById?: (templateId: string) => Promise<void>;
   // Smart save support
   isDirty?: boolean;
   saving?: boolean;
@@ -305,6 +307,43 @@ export const DesignProvider: React.FC<DesignProviderProps> = ({
     }
   };
 
+  // --- Templates: Apply remote template to local designV2 and persist ---
+  const applyTemplateById = async (templateId: string) => {
+    try {
+      if (!templateId) throw new Error('Missing templateId');
+      const isLocalhost = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+      const TPL_API_BASE = isLocalhost ? 'http://localhost:5001' : 'https://login.intuitiva.pt';
+      const res = await fetch(`${TPL_API_BASE}/api/templates/get-template/${encodeURIComponent(templateId)}`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' } as any
+      });
+      if (!res.ok) throw new Error(`Failed to fetch template ${templateId} (HTTP ${res.status})`);
+      const data = await res.json();
+      const tpl = data?.template || data;
+      const nextDesign = tpl?.designConfig?.designV2;
+      if (!nextDesign) throw new Error('Template missing designConfig.designV2');
+
+      setDesign(() => {
+        let merged: DesignV2;
+        try { merged = structuredClone(nextDesign); } catch { merged = JSON.parse(JSON.stringify(nextDesign)) as DesignV2; }
+        const name = tpl?.name || String(templateId);
+        const version = tpl?.version || undefined;
+        const appliedAt = new Date().toISOString();
+        const metaObj: any = (merged as any).meta || {};
+        metaObj.template = { id: templateId, name, ...(version ? { version } : {}), appliedAt };
+        (merged as any).meta = metaObj;
+        return merged;
+      });
+
+      // Persist to dbV2.json via local provisory save endpoint
+      await saveDesignToDBV2();
+    } catch (err) {
+      console.error('[DesignContext] applyTemplateById error:', err);
+      throw err;
+    }
+  };
+
   // Initialize baseline snapshot when design first loads
   useEffect(() => {
     if (design && !savedSnapshotRef.current) {
@@ -338,6 +377,7 @@ export const DesignProvider: React.FC<DesignProviderProps> = ({
       });
     },
     saveDesignToDBV2,
+    applyTemplateById,
     isDirty: computeIsDirty(),
     saving,
     lastSavedAt,
@@ -355,8 +395,8 @@ export const DesignProvider: React.FC<DesignProviderProps> = ({
       {/* Smart contextual paragraph styling via design tokens (v2) */}
       <style>
         {design?.tokens?.typography && `
-          /* Base paragraph styling (exclude explicitly labeled typography nodes) */
-          p:not([data-typography]) {
+          /* Base paragraph styling scoped to site root */
+          [data-site-root] p:not([data-typography]) {
             font-family: ${design.tokens.typography.body?.fontFamily || 'Inter, sans-serif'} !important;
             font-size: ${design.tokens.typography.body?.fontSize || '1rem'} !important;
             font-weight: ${design.tokens.typography.body?.fontWeight || '400'} !important;
@@ -365,12 +405,12 @@ export const DesignProvider: React.FC<DesignProviderProps> = ({
           }
           
           /* Context-specific paragraph styling */
-          [data-section-id="hero"] p:not([data-typography]) {
+          [data-site-root] [data-section-id="hero"] p:not([data-typography]) {
             color: ${design.tokens.typography.body?.color || 'white'};
           }
           
           /* Card body text (lighter color) – apply full cardBody typography on light surfaces */
-          .bg-white p:not([data-typography]), .bg-white\/80 p:not([data-typography]), [class*="bg-white"] p:not([data-typography]) {
+          [data-site-root] .bg-white p:not([data-typography]), [data-site-root] .bg-white\/80 p:not([data-typography]), [data-site-root] [class*="bg-white"] p:not([data-typography]) {
             font-family: ${design.tokens.typography.cardBody?.fontFamily || design.tokens.typography.body?.fontFamily || 'Inter, sans-serif'} !important;
             font-size: ${design.tokens.typography.cardBody?.fontSize || design.tokens.typography.body?.fontSize || '1rem'} !important;
             font-weight: ${design.tokens.typography.cardBody?.fontWeight || design.tokens.typography.body?.fontWeight || '400'} !important;
@@ -379,12 +419,12 @@ export const DesignProvider: React.FC<DesignProviderProps> = ({
           }
           
           /* Dark background sections */
-          .bg-black p:not([data-typography]), .bg-black\/80 p:not([data-typography]), [class*="bg-black"] p:not([data-typography]) {
+          [data-site-root] .bg-black p:not([data-typography]), [data-site-root] .bg-black\/80 p:not([data-typography]), [data-site-root] [class*="bg-black"] p:not([data-typography]) {
             color: ${design.tokens.typography.body?.color || 'white'};
           }
           
           /* Light background sections */
-          .bg-slate-100 p:not([data-typography]), .bg-gray-100 p:not([data-typography]), [class*="bg-slate-1"] p:not([data-typography]) {
+          [data-site-root] .bg-slate-100 p:not([data-typography]), [data-site-root] .bg-gray-100 p:not([data-typography]), [data-site-root] [class*="bg-slate-1"] p:not([data-typography]) {
             color: ${design.tokens.typography.cardBody?.color || '#374151'};
           }
         `}

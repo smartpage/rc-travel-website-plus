@@ -34,7 +34,7 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({ currentColor, onColorSelect
         border: '1px solid #3a3a3a',
         borderRadius: 6,
         padding: 8,
-        zIndex: 1000,
+        zIndex: 10001,
         display: 'grid',
         gridTemplateColumns: 'repeat(4, 1fr)',
         gap: 4,

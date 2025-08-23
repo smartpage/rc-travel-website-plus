@@ -851,8 +851,8 @@
       "travelPackageCard": {
         "minHeight": "70vh",
         "iconColors": {
-          "check": "rgba(0,255,255, 1)",
-          "map": "rgba(0,255,255, 1)"
+          "check": "#6fc8aa",
+          "map": "#3cbe93"
         },
         "priceGroup": {
           "gap": "0.25rem",

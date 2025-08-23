@@ -8,6 +8,7 @@ import AIEnhancePanel from './AIEnhancePanel';
 import { AIEnhanceProvider } from '@/contexts/AIEnhanceContext';
 import { useEditorOverlay } from '@/contexts/EditorOverlayContext';
 import DesignSaveHeader from './DesignSaveHeader';
+import TemplatesPanel from './TemplatesPanel';
 
 import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from 'lucide-react';
 
@@ -137,6 +138,17 @@ const EditorPanelsWrapper: React.FC = () => {
         }}>
           <EditorPanel id="navigator" title="Section Navigator" subtitle={`${navigableCount} sections`}>
             <SectionNavigatorContent />
+          </EditorPanel>
+        </div>
+
+        {/* Templates */}
+        <div style={{ 
+          width: '100%', 
+          display: 'flex',
+          flexDirection: 'column'
+        }}>
+          <EditorPanel id="templates" title="Templates" subtitle="Create · Update · Apply">
+            <TemplatesPanel />
           </EditorPanel>
         </div>
       </div>

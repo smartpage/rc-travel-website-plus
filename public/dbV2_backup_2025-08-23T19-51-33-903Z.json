@@ -683,7 +683,7 @@
         }
       },
       "whyFeatureCard": {
-        "backgroundColor": "",
+        "backgroundColor": "#ffffff",
         "borderColor": "#FF69B4",
         "borderWidth": "2px"
       },
@@ -851,8 +851,8 @@
       "travelPackageCard": {
         "minHeight": "70vh",
         "iconColors": {
-          "check": "rgba(0,255,255, 1)",
-          "map": "rgba(0,255,255, 1)"
+          "check": "#6fc8aa",
+          "map": "#3cbe93"
         },
         "priceGroup": {
           "gap": "0.25rem",
@@ -923,7 +923,7 @@
           "fontWeight": "400"
         },
         "travelPackageIncludes": {
-          "color": "rgba(0,255,255, 1)",
+          "color": "#b54545",
           "fontSize": "0.875rem"
         },
         "description": {
@@ -1014,7 +1014,7 @@
         },
         "whyCardDescription": {
           "fontFamily": "Inter, sans-serif",
-          "color": "rgba(255,255,255, 1)",
+          "color": "black",
           "fontSize": "1rem",
           "lineHeight": "1.6",
           "fontWeight": "300"
@@ -1027,7 +1027,7 @@
           "fontWeight": "500"
         },
         "travelPackagePriceValue": {
-          "color": "rgba(255,0,255, 1)",
+          "color": "#1f1a1a",
           "fontSize": "3.25rem"
         },
         "faqAnswerStrong": {
@@ -1068,7 +1068,7 @@
           "fontSize": "1.5rem",
           "lineHeight": "1.2",
           "fontWeight": "600",
-          "color": "rgba(0,255,255, 1)"
+          "color": "rgba(144, 105, 255, 1)"
         },
         "preTitle": {
           "fontFamily": "Inter, sans-serif",
@@ -1148,14 +1148,14 @@
             "desktop": "10rem 2rem",
             "mobile": "10rem 0.5rem"
           },
-          "backgroundColor": "black",
+          "backgroundColor": "#ffffff",
           "inner": {
             "padding": {
               "tablet": "0",
               "desktop": "0",
               "mobile": "0"
             },
-            "backgroundColor": "black",
+            "backgroundColor": "#ffffff",
             "margin": "0 auto",
             "overflow": "visible",
             "background": {
