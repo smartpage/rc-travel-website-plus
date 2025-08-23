@@ -1964,7 +1964,7 @@ const DesignInspectorContent: React.FC = () => {
 			)}
 
 			{/* Testimonial Card Design Section */}
-			{(activeElement?.cardType === 'testimonialCard' || activeElement?.label?.startsWith('testimonialCard')) && (
+			{(activeElement?.cardType === 'testimonialCard' || activeElement?.label?.startsWith('testimonialCard')) && !activeElement?.tokenMatches?.some((m) => m.tokenPath?.includes('tokens.typography.')) && (
 				<div style={{ marginTop: 16, padding: 12, background: '#1e1e1e', borderRadius: 8, border: '1px solid #333' }}>
 					<div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
 						<span style={{ fontSize: 12, color: '#facc15', fontWeight: 'bold' }}>

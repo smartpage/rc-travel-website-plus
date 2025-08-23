@@ -110,8 +110,8 @@
         },
         "faqCardQuestion": {
           "fontFamily": "Inter, sans-serif",
-          "fontSize": "1.5rem",
-          "fontWeight": "500",
+          "fontSize": "1.75rem",
+          "fontWeight": "700",
           "lineHeight": "1.1",
           "color": "#df16c4"
         },
@@ -495,7 +495,7 @@
         "layout": {
           "maxWidth": "100%",
           "minHeight": "100vh",
-          "backgroundColor": "#ffb8c2",
+          "backgroundColor": "white",
           "padding": {
             "mobile": "10rem 0.5rem",
             "tablet": "10rem 0.5rem",
