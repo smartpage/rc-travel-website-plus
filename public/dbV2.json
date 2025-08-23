@@ -22,7 +22,7 @@
           "fontSize": "1.5rem",
           "fontWeight": "200",
           "lineHeight": "1.375",
-          "color": "white"
+          "color": "black"
         },
         "serviceCardTitle": {
           "fontFamily": "Inter, sans-serif",
@@ -41,16 +41,16 @@
         "whyCardTitle": {
           "fontFamily": "Inter, sans-serif",
           "fontSize": "1.5rem",
-          "fontWeight": "400",
+          "fontWeight": "600",
           "lineHeight": "1.2",
-          "color": "white"
+          "color": "black"
         },
         "whyCardDescription": {
           "fontFamily": "Inter, sans-serif",
           "fontSize": "1rem",
           "fontWeight": "300",
           "lineHeight": "1.6",
-          "color": "#ffffff"
+          "color": "black"
         },
         "cardBody": {
           "fontFamily": "Inter, sans-serif",
@@ -138,7 +138,7 @@
           "fontFamily": "Inter, sans-serif",
           "fontSize": "3rem",
           "fontSizeMd": "6.7rem",
-          "fontSizeLg": "5rem",
+          "fontSizeLg": "5.75rem",
           "lineHeight": "1.125",
           "fontWeight": "600",
           "letterSpacing": "-0.1em",
@@ -340,14 +340,15 @@
         "padding": "p-12",
         "variants": {
           "standard": {
-            "backgroundColor": "transparent",
+            "backgroundColor": "white",
             "textColor": "#cbd5e1",
             "borderColor": "#1f2937",
-            "borderWidth": "1px",
+            "borderWidth": "0px",
             "padding": "1.5rem 2rem",
             "borderRadius": "1rem",
             "shadow": "none",
-            "headerBarColor": "#000000"
+            "headerBarColor": "#000000",
+            "minHeight": "400px"
           },
           "highlight": {
             "backgroundColor": "#facc15",
@@ -359,14 +360,15 @@
             "shadow": "none",
             "headerBarColor": "#000000"
           }
-        }
+        },
+        "activeVariant": "featured"
       },
       "travelPackageCard": {
         "minHeight": "70vh",
         "maxHeight": "80vh",
         "imageHeight": "70%",
         "contentPadding": ".5rem",
-        "backgroundColor": "#fafffb",
+        "backgroundColor": "#fff",
         "borderWidth": "10px",
         "borderRadius": "0",
         "padding": "0rem",
@@ -449,6 +451,14 @@
           "borderStyle": "solid",
           "padding": "2rem"
         }
+      },
+      "whyFeatureCard": {
+        "backgroundColor": "#ffffff"
+      },
+      "testimonialCard": {
+        "borderWidth": "3px",
+        "borderColor": "transparent",
+        "backgroundColor": "#ffb8c2"
       }
     },
     "sections": {
@@ -588,7 +598,7 @@
               "desktop": "0"
             },
             "rounded": false,
-            "backgroundColor": "#FFF8DC",
+            "backgroundColor": "pink",
             "overflow": "visible",
             "background": {
               "type": "color",
@@ -769,7 +779,7 @@
               "type": "color",
               "value": "transparent"
             },
-            "backgroundColor": "#FFF8DC",
+            "backgroundColor": "#fff",
             "borderRadius": "1rem",
             "alignItems": "flex-start"
           }

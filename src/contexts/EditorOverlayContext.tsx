@@ -21,6 +21,9 @@ export interface ActiveElementInfo {
   label: string;
   sectionId: string | null;
   tokenMatches: TokenMatch[];
+  // Card context (optional): set when selection is inside a card
+  cardType?: string | null;     // e.g., 'serviceCard' | 'testimonialCard' | 'travelPackageCard' | 'whyFeatureCard'
+  cardVariant?: string | null;  // e.g., 'standard' | 'highlight' | 'featured'
 }
 
 interface EditorOverlayState {
@@ -357,13 +360,18 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
           const sectionId = sectionEl?.getAttribute('data-section-id') || null;
           const snap = takeComputedSnapshot(card);
           const tokenMatches = resolveGlobalTokens(snap, sectionId, designRef.current, card);
-          const label = `card${sectionId ? ` · ${sectionId}` : ''}`;
+          const cardRoot = card.closest('[data-card-type]') as HTMLElement | null;
+          const cardType = cardRoot?.getAttribute('data-card-type') || null;
+          const cardVariant = cardRoot?.getAttribute('data-card-variant') || null;
+          const label = cardType
+            ? `${cardType}${sectionId ? ` · ${sectionId}` : ''}`
+            : `card${sectionId ? ` · ${sectionId}` : ''}`;
           const rect = card.getBoundingClientRect();
           try { localStorage.setItem('design_active_panel', 'inspector'); } catch {}
           setState(prev => ({
             ...prev,
             activePanelId: 'inspector',
-            activeElement: { label, sectionId, tokenMatches },
+            activeElement: { label, sectionId, tokenMatches, cardType, cardVariant },
             overlayRect: { top: rect.top, left: rect.left, width: rect.width, height: rect.height },
             selectedElement: card
           }));
@@ -403,11 +411,16 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
       const snap = takeComputedSnapshot(target);
       const tokenMatches = resolveGlobalTokens(snap, sectionId, designRef.current, target);
       const isCard = (target as HTMLElement).hasAttribute('data-card');
-      const label = `${isCard ? 'card' : target.tagName.toLowerCase()}${sectionId ? ` · ${sectionId}` : ''}`;
+      const cardRoot = (isCard ? (target as HTMLElement) : (target.closest('[data-card-type]') as HTMLElement | null));
+      const cardType = cardRoot?.getAttribute('data-card-type') || null;
+      const cardVariant = cardRoot?.getAttribute('data-card-variant') || null;
+      const label = cardType
+        ? `${cardType}${sectionId ? ` · ${sectionId}` : ''}`
+        : `${isCard ? 'card' : target.tagName.toLowerCase()}${sectionId ? ` · ${sectionId}` : ''}`;
       const rect = target.getBoundingClientRect();
       setState(prev => ({
         ...prev,
-        activeElement: { label, sectionId, tokenMatches },
+        activeElement: { label, sectionId, tokenMatches, cardType, cardVariant },
         overlayRect: { top: rect.top, left: rect.left, width: rect.width, height: rect.height },
         selectedElement: target
       }));

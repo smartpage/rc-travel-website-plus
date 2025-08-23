@@ -42,52 +42,89 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, iconMap }) => {
   // Featured service with photo (must be explicitly true)
   if (service.featured === true && typeof service.image === 'string' && service.image.trim() !== '') {
     return (
-      <Card className="relative overflow-hidden bg-gray-900 hover:bg-gray-800 transition-all duration-300 group min-h-[500px] rounded-2xl">
+      <Card
+        className="relative overflow-hidden bg-gray-900 hover:bg-gray-800 transition-all duration-300 group min-h-[500px] rounded-2xl"
+        data-card-type="serviceCard"
+        data-card-variant="featured"
+        style={{
+          minHeight: variantTokens.minHeight || '500px',
+          maxHeight: variantTokens.maxHeight || 'none',
+          backgroundColor: variantTokens.backgroundColor || 'transparent'
+        }}
+      >
         {/* Background Image */}
-        <div 
+        <div
           className="absolute inset-0 bg-cover bg-center opacity-60 group-hover:opacity-80 transition-opacity duration-300"
-          style={{ backgroundImage: `url(${service.image})` }}
+          style={{
+            backgroundImage: `url(${service.image})`,
+            opacity: variantTokens.imageOpacity || 0.6
+          }}
         />
-        
+
         {/* Overlay */}
-        <div className="absolute inset-0 bg-black/40" />
-        
+        <div
+          className="absolute inset-0"
+          style={{ backgroundColor: variantTokens.overlayColor || 'rgba(0,0,0,0.4)' }}
+        />
+
         {/* Content */}
-        <div className="relative z-10 p-4 @md:p-8 @lg:p-12 h-full flex flex-col min-h-[500px]">
+        <div
+          className="relative z-10 h-full flex flex-col min-h-[500px]"
+          style={{
+            padding: variantTokens.padding || '1rem 2rem 3rem',
+            gap: variantTokens.contentGap || '0'
+          }}
+        >
           {/* Icon at top */}
-          <div className="mb-12">
-            {IconComponent && <IconComponent className="w-12 h-12 text-white" />}
+          <div className="mb-12" style={{ marginBottom: variantTokens.iconSpacing || '3rem' }}>
+            {IconComponent && (
+              <IconComponent
+                className="transition-colors duration-300"
+                style={{
+                  width: variantTokens.iconSize || '3rem',
+                  height: variantTokens.iconSize || '3rem',
+                  color: variantTokens.iconColor || 'white'
+                }}
+              />
+            )}
           </div>
-          
+
           {/* Content at fixed position */}
           <div>
-            {/* Yellow bar - using RC Travel's primary color */}
-            <div className={`w-full h-1 bg-${design.tokens?.colors?.primary} mb-6`} />
-            
+            {/* Header bar */}
+            <div
+              className="w-full mb-6"
+              style={{
+                height: variantTokens.headerBarHeight || '4px',
+                backgroundColor: variantTokens.headerBarColor || design.tokens?.colors?.primary,
+                borderRadius: variantTokens.headerBarRadius || '2px'
+              }}
+            />
+
             <h3
               data-typography="serviceCard.title"
-              className={`${design.components?.primaryCards?.title?.base || ''} ${design.components?.primaryCards?.header?.spacing || ''}`}
               style={{
                 fontFamily: design.tokens?.typography?.serviceCardTitle?.fontFamily || design.tokens?.typography?.headings?.fontFamily,
                 fontSize: design.tokens?.typography?.serviceCardTitle?.fontSize || '1.5rem',
                 fontWeight: design.tokens?.typography?.serviceCardTitle?.fontWeight || '300',
                 lineHeight: design.tokens?.typography?.serviceCardTitle?.lineHeight || '1.2',
                 letterSpacing: design.tokens?.typography?.serviceCardTitle?.letterSpacing,
-                color: design.tokens?.typography?.serviceCardTitle?.color || 'white'
+                color: design.tokens?.typography?.serviceCardTitle?.color || 'white',
+                marginBottom: variantTokens.titleSpacing || '1rem'
               }}
             >
               {service.title}
             </h3>
             <p
               data-typography="serviceCard.description"
-              className={`${design.components?.primaryCards?.description?.spacing || ''}`}
               style={{
                 fontFamily: design.tokens?.typography?.serviceCardDescription?.fontFamily || design.tokens?.typography?.body?.fontFamily,
                 fontSize: design.tokens?.typography?.serviceCardDescription?.fontSize || '1.125rem',
                 fontWeight: design.tokens?.typography?.serviceCardDescription?.fontWeight || '300',
                 lineHeight: design.tokens?.typography?.serviceCardDescription?.lineHeight || '1.6',
                 letterSpacing: design.tokens?.typography?.serviceCardDescription?.letterSpacing,
-                color: design.tokens?.typography?.serviceCardDescription?.color || '#cbd5e1'
+                color: design.tokens?.typography?.serviceCardDescription?.color || '#cbd5e1',
+                marginBottom: variantTokens.descriptionSpacing || '1rem'
               }}
             >
               {service.description}
@@ -96,7 +133,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, iconMap }) => {
               <Button
                 onClick={handleButtonClick}
                 data-element="primaryButton"
-                className="mt-4 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
+                className="transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
                 style={{
                   backgroundColor: design.components?.button?.variants?.primary?.backgroundColor,
                   color: design.components?.button?.variants?.primary?.textColor,
@@ -107,7 +144,8 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, iconMap }) => {
                   padding: design.components?.button?.variants?.primary?.padding,
                   borderRadius: design.components?.button?.variants?.primary?.borderRadius,
                   borderWidth: design.components?.button?.variants?.primary?.borderWidth,
-                  borderStyle: 'solid'
+                  borderStyle: 'solid',
+                  marginTop: variantTokens.buttonSpacing || '1rem'
                 }}
                 onMouseEnter={(e) => {
                   (e.currentTarget as HTMLButtonElement).style.backgroundColor = design.components?.button?.variants?.primary?.backgroundColorHover || '';
@@ -132,53 +170,85 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, iconMap }) => {
   // Special yellow card styling
   if (variant === 'highlight') {
     return (
-      <Card className="relative overflow-hidden transition-all duration-300 group min-h-[500px] flex flex-col rounded-2xl" style={{ backgroundColor: variantTokens.backgroundColor }}>
-        <div className="relative z-10 p-4 @md:p-8 @lg:p-12 h-full flex flex-col min-h-[500px]">
+      <Card
+        className="relative overflow-hidden transition-all duration-300 group min-h-[500px] flex flex-col rounded-2xl"
+        data-card-type="serviceCard"
+        data-card-variant="highlight"
+        style={{
+          backgroundColor: variantTokens.backgroundColor || '#fbbf24',
+          minHeight: variantTokens.minHeight || '500px',
+          maxHeight: variantTokens.maxHeight || 'none',
+          borderRadius: variantTokens.borderRadius || '1rem'
+        }}
+      >
+        <div
+          className="relative z-10 h-full flex flex-col min-h-[500px]"
+          style={{
+            padding: variantTokens.padding || '1rem 2rem 3rem',
+            gap: variantTokens.contentGap || '0'
+          }}
+        >
           {/* Icon at top */}
-          <div className="mb-12">
-            {IconComponent && <IconComponent className="w-12 h-12" style={{ color: variantTokens.textColor || '#000000' }} />}
+          <div className="mb-12" style={{ marginBottom: variantTokens.iconSpacing || '3rem' }}>
+            {IconComponent && (
+              <IconComponent
+                className="transition-colors duration-300"
+                style={{
+                  width: variantTokens.iconSize || '3rem',
+                  height: variantTokens.iconSize || '3rem',
+                  color: variantTokens.iconColor || variantTokens.textColor || '#000000'
+                }}
+              />
+            )}
           </div>
-          
+
           {/* Content */}
           <div>
-            {/* Black bar */}
-            <div className="w-full h-1 mb-6" style={{ backgroundColor: variantTokens.headerBarColor || '#000000' }} />
-            
+            {/* Header bar */}
+            <div
+              className="w-full mb-6"
+              style={{
+                height: variantTokens.headerBarHeight || '4px',
+                backgroundColor: variantTokens.headerBarColor || '#000000',
+                borderRadius: variantTokens.headerBarRadius || '2px'
+              }}
+            />
+
             <h3
               data-typography="serviceCard.title"
-              className={`${design.components?.primaryCards?.header?.spacing || ''}`}
               style={{
                 fontFamily: design.tokens?.typography?.serviceCardTitle?.fontFamily || design.tokens?.typography?.headings?.fontFamily,
                 fontSize: design.tokens?.typography?.serviceCardTitle?.fontSize || '1.5rem',
                 fontWeight: design.tokens?.typography?.serviceCardTitle?.fontWeight || '300',
                 lineHeight: design.tokens?.typography?.serviceCardTitle?.lineHeight || '1.2',
                 letterSpacing: design.tokens?.typography?.serviceCardTitle?.letterSpacing,
-                color: design.tokens?.typography?.serviceCardTitle?.color || '#000000'
+                color: design.tokens?.typography?.serviceCardTitle?.color || variantTokens.textColor || '#000000',
+                marginBottom: variantTokens.titleSpacing || '1rem'
               }}
             >
               {service.title}
             </h3>
             <p
               data-typography="serviceCard.description"
-              className={`${design.components?.primaryCards?.description?.spacing || ''}`}
               style={{
                 fontFamily: design.tokens?.typography?.serviceCardDescription?.fontFamily || design.tokens?.typography?.body?.fontFamily,
                 fontSize: design.tokens?.typography?.serviceCardDescription?.fontSize || '1.125rem',
                 fontWeight: design.tokens?.typography?.serviceCardDescription?.fontWeight || '300',
                 lineHeight: design.tokens?.typography?.serviceCardDescription?.lineHeight || '1.6',
                 letterSpacing: design.tokens?.typography?.serviceCardDescription?.letterSpacing,
-                color: design.tokens?.typography?.serviceCardDescription?.color || variantTokens.textColor || '#000000'
+                color: design.tokens?.typography?.serviceCardDescription?.color || variantTokens.textColor || '#000000',
+                marginBottom: variantTokens.descriptionSpacing || '1rem'
               }}
             >
               {service.description}
             </p>
-            
+
             {/* Button - Only render if buttonText exists */}
             {service.buttonText && (
-              <button 
+              <Button
                 onClick={handleButtonClick}
                 data-element="primaryButton"
-                className="transition-all duration-300"
+                className="transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
                 style={{
                   backgroundColor: design.components?.button?.variants?.primary?.backgroundColor,
                   color: design.components?.button?.variants?.primary?.textColor,
@@ -189,21 +259,22 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, iconMap }) => {
                   padding: design.components?.button?.variants?.primary?.padding,
                   borderRadius: design.components?.button?.variants?.primary?.borderRadius,
                   borderWidth: design.components?.button?.variants?.primary?.borderWidth,
-                  borderStyle: 'solid'
+                  borderStyle: 'solid',
+                  marginTop: variantTokens.buttonSpacing || '1rem'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = design.components?.button?.variants?.primary?.backgroundColorHover || '';
-                  e.currentTarget.style.borderColor = design.components?.button?.variants?.primary?.borderColorHover || '';
-                  e.currentTarget.style.color = design.components?.button?.variants?.primary?.textColorHover || '';
+                  (e.currentTarget as HTMLButtonElement).style.backgroundColor = design.components?.button?.variants?.primary?.backgroundColorHover || '';
+                  (e.currentTarget as HTMLButtonElement).style.borderColor = design.components?.button?.variants?.primary?.borderColorHover || '';
+                  (e.currentTarget as HTMLButtonElement).style.color = design.components?.button?.variants?.primary?.textColorHover || '';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = design.components?.button?.variants?.primary?.backgroundColor || '';
-                  e.currentTarget.style.borderColor = design.components?.button?.variants?.primary?.borderColor || '';
-                  e.currentTarget.style.color = design.components?.button?.variants?.primary?.textColor || '';
+                  (e.currentTarget as HTMLButtonElement).style.backgroundColor = design.components?.button?.variants?.primary?.backgroundColor || '';
+                  (e.currentTarget as HTMLButtonElement).style.borderColor = design.components?.button?.variants?.primary?.borderColor || '';
+                  (e.currentTarget as HTMLButtonElement).style.color = design.components?.button?.variants?.primary?.textColor || '';
                 }}
               >
                 {service.buttonText}
-              </button>
+              </Button>
             )}
           </div>
         </div>
@@ -213,32 +284,56 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, iconMap }) => {
 
   // Regular service (no background image)
   return (
-    <Card className="relative overflow-hidden transition-all duration-300 group min-h-[500px] flex flex-col rounded-2xl" style={{
-      backgroundColor: variantTokens.backgroundColor || 'transparent',
-      borderColor: variantTokens.borderColor || '#1f2937',
-      borderWidth: variantTokens.borderWidth || '1px',
-      borderStyle: 'solid',
-      borderRadius: variantTokens.borderRadius || '1rem',
-      boxShadow: variantTokens.shadow || 'none'
-    }}>
+    <Card
+      className="relative overflow-hidden transition-all duration-300 group min-h-[500px] flex flex-col rounded-2xl"
+      data-card-type="serviceCard"
+      data-card-variant="standard"
+      style={{
+        backgroundColor: variantTokens.backgroundColor || 'transparent',
+        borderColor: variantTokens.borderColor || '#1f2937',
+        borderWidth: variantTokens.borderWidth || '1px',
+        borderStyle: 'solid',
+        borderRadius: variantTokens.borderRadius || '1rem',
+        boxShadow: variantTokens.shadow || 'none',
+        minHeight: variantTokens.minHeight || '500px',
+        maxHeight: variantTokens.maxHeight || 'none'
+      }}
+    >
       {/* Keep background layer transparent to avoid bleed */}
       <div className="absolute inset-0" style={{ backgroundImage: 'none' }} />
-      <div className="relative z-10 p-4 @md:p-8 @lg:p-12 mb-12">
+      <div
+        className="relative z-10 mb-12"
+        style={{
+          padding: variantTokens.iconPadding || '1rem 2rem 0'
+        }}
+      >
         {IconComponent && (
-          <IconComponent className={`w-12 h-12 transition-colors duration-300`} style={{ color: '#9ca3af' }} />
+          <IconComponent
+            className="transition-colors duration-300"
+            style={{
+              width: variantTokens.iconSize || '3rem',
+              height: variantTokens.iconSize || '3rem',
+              color: variantTokens.iconColor || '#9ca3af'
+            }}
+          />
         )}
       </div>
-      <div className="relative z-10 p-4 @md:p-8 @lg:p-12 pt-0">
+      <div
+        className="relative z-10 pt-0"
+        style={{
+          padding: variantTokens.contentPadding || '0 2rem 3rem'
+        }}
+      >
         <h3
           data-typography="serviceCard.title"
-          className="mb-6"
           style={{
             fontFamily: design.tokens?.typography?.serviceCardTitle?.fontFamily || 'inherit',
             fontSize: design.tokens?.typography?.serviceCardTitle?.fontSize || '1.5rem',
             fontWeight: design.tokens?.typography?.serviceCardTitle?.fontWeight || '300',
             lineHeight: design.tokens?.typography?.serviceCardTitle?.lineHeight || '1.2',
             letterSpacing: design.tokens?.typography?.serviceCardTitle?.letterSpacing,
-            color: design.tokens?.typography?.serviceCardTitle?.color || variantTokens.textColor || '#cbd5e1'
+            color: design.tokens?.typography?.serviceCardTitle?.color || variantTokens.textColor || '#cbd5e1',
+            marginBottom: variantTokens.titleSpacing || '1.5rem'
           }}
         >
           {service.title}
@@ -251,18 +346,19 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, iconMap }) => {
             fontWeight: design.tokens?.typography?.serviceCardDescription?.fontWeight || '300',
             lineHeight: design.tokens?.typography?.serviceCardDescription?.lineHeight || '1.6',
             letterSpacing: design.tokens?.typography?.serviceCardDescription?.letterSpacing,
-            color: design.tokens?.typography?.serviceCardDescription?.color || variantTokens.textColor || '#cbd5e1'
+            color: design.tokens?.typography?.serviceCardDescription?.color || variantTokens.textColor || '#cbd5e1',
+            marginBottom: variantTokens.descriptionSpacing || '1rem'
           }}
         >
           {service.description}
         </p>
-        
+
         {/* Button - Only render if buttonText exists */}
         {service.buttonText && (
           <Button
             onClick={handleButtonClick}
             data-element="primaryButton"
-            className="mt-6 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
+            className="transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
             style={{
               backgroundColor: design.components?.button?.variants?.primary?.backgroundColor,
               color: design.components?.button?.variants?.primary?.textColor,
@@ -273,7 +369,8 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, iconMap }) => {
               padding: design.components?.button?.variants?.primary?.padding,
               borderRadius: design.components?.button?.variants?.primary?.borderRadius,
               borderWidth: design.components?.button?.variants?.primary?.borderWidth,
-              borderStyle: 'solid'
+              borderStyle: 'solid',
+              marginTop: variantTokens.buttonSpacing || '1.5rem'
             }}
             onMouseEnter={(e) => {
               (e.currentTarget as HTMLButtonElement).style.backgroundColor = design.components?.button?.variants?.primary?.backgroundColorHover || '';

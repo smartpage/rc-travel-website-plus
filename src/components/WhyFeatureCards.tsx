@@ -78,29 +78,71 @@ const WhyFeatureCards: React.FC = () => {
                 transition={{ delay: index * 0.05, duration: 0.3 }}
                 whileHover={design.components?.cardDefaults?.motionWhileHover}
               >
-                <Card className={`${design.components?.cardDefaults?.className || ''} bg-${design.tokens?.colors?.background} `}>
-                  <div className={`text-center py-8 h-full ${design.components?.primaryCards?.container?.border || ''} ${design.components?.primaryCards?.container?.rounded || ''}`}>
-                    <div className={`w-16 h-16 rounded-full flex items-center justify-center text-2xl mb-6 mx-auto bg-${design.tokens?.colors?.primary} text-black`}>
-                      <IconComponent className="w-7 h-7" />
+                <Card
+                  className={`${design.components?.cardDefaults?.className || ''} bg-${design.tokens?.colors?.background} `}
+                  data-card-type="whyFeatureCard"
+                  data-card-variant="standard"
+                  style={{
+                    backgroundColor: design.components?.whyFeatureCard?.backgroundColor || design.tokens?.colors?.background,
+                    borderColor: design.components?.whyFeatureCard?.borderColor || 'transparent',
+                    borderWidth: design.components?.whyFeatureCard?.borderWidth || '1px',
+                    borderRadius: design.components?.whyFeatureCard?.borderRadius || '0.5rem',
+                    boxShadow: design.components?.whyFeatureCard?.shadow || 'none',
+                    padding: design.components?.whyFeatureCard?.padding || '2rem',
+                    minHeight: design.components?.whyFeatureCard?.minHeight || '300px',
+                    transition: design.components?.whyFeatureCard?.transition || 'all 0.3s ease'
+                  }}
+                >
+                  <div
+                    className="text-center h-full"
+                    style={{
+                      padding: design.components?.whyFeatureCard?.contentPadding || '2rem 0',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: design.components?.whyFeatureCard?.contentAlignment || 'center'
+                    }}
+                  >
+                    <div
+                      className="rounded-full flex items-center justify-center mx-auto mb-6"
+                      style={{
+                        width: design.components?.whyFeatureCard?.iconSize || '4rem',
+                        height: design.components?.whyFeatureCard?.iconSize || '4rem',
+                        backgroundColor: design.components?.whyFeatureCard?.iconBackground || design.tokens?.colors?.primary,
+                        color: design.components?.whyFeatureCard?.iconColor || 'black',
+                        borderRadius: design.components?.whyFeatureCard?.iconBorderRadius || '50%',
+                        marginBottom: design.components?.whyFeatureCard?.iconSpacing || '1.5rem'
+                      }}
+                    >
+                      <IconComponent
+                        style={{
+                          width: design.components?.whyFeatureCard?.iconInnerSize || '1.75rem',
+                          height: design.components?.whyFeatureCard?.iconInnerSize || '1.75rem'
+                        }}
+                      />
                     </div>
                     <CardTitle
                       data-typography="whyCard.title"
-                      className={`text-center mb-4`}
+                      className="text-center"
                       style={{
                         fontFamily: design.tokens?.typography?.whyCardTitle?.fontFamily || design.tokens?.typography?.headings?.fontFamily,
                         fontSize: design.tokens?.typography?.whyCardTitle?.fontSize || '1.5rem',
                         fontWeight: design.tokens?.typography?.whyCardTitle?.fontWeight || '400',
                         lineHeight: design.tokens?.typography?.whyCardTitle?.lineHeight || '1.2',
                         letterSpacing: design.tokens?.typography?.whyCardTitle?.letterSpacing,
-                        color: design.tokens?.typography?.whyCardTitle?.color || 'white'
+                        color: design.tokens?.typography?.whyCardTitle?.color || 'white',
+                        marginBottom: design.components?.whyFeatureCard?.titleSpacing || '1rem'
                       }}
                     >
                       {feature.title}
                     </CardTitle>
-                    <CardContent className="px-6">
+                    <CardContent
+                      style={{
+                        padding: design.components?.whyFeatureCard?.descriptionPadding || '0 1.5rem'
+                      }}
+                    >
                       <CardDescription
                         data-typography="whyCard.description"
-                        className={`leading-relaxed text-center`}
+                        className="text-center"
                         style={{
                           fontFamily: design.tokens?.typography?.whyCardDescription?.fontFamily || design.tokens?.typography?.body?.fontFamily,
                           fontSize: design.tokens?.typography?.whyCardDescription?.fontSize || '1rem',

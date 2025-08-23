@@ -2,8 +2,8 @@
   "designV2": {
     "tokens": {
       "colors": {
-        "primary": "red-500",
-        "primaryHover": "yellow-600",
+        "primary": "#FF69B4",
+        "primaryHover": "#FF1493",
         "secondary": "slate-800",
         "secondaryHover": "slate-900",
         "text": "white",
@@ -12,9 +12,9 @@
         "headingColor": "white",
         "background": "black",
         "pageBackground": "black",
-        "cardBackground": "black",
-        "accent": "yellow-500",
-        "highlight": "yellow-600"
+        "cardBackground": "#FFC0CB",
+        "accent": "#FF69B4",
+        "highlight": "#FF69B4"
       },
       "typography": {
         "body": {
@@ -26,35 +26,35 @@
         },
         "serviceCardTitle": {
           "fontFamily": "Inter, sans-serif",
-          "fontSize": "1.5rem",
-          "fontWeight": "300",
+          "fontSize": "2rem",
+          "fontWeight": "600",
           "lineHeight": "1.2",
           "color": "black"
         },
         "serviceCardDescription": {
           "fontFamily": "Inter, sans-serif",
-          "fontSize": "1.125rem",
+          "fontSize": "1.375rem",
           "fontWeight": "300",
           "lineHeight": "1.6",
-          "color": "#ffffff"
+          "color": "#030303"
         },
         "whyCardTitle": {
           "fontFamily": "Inter, sans-serif",
           "fontSize": "1.5rem",
           "fontWeight": "400",
           "lineHeight": "1.2",
-          "color": "white"
+          "color": "black"
         },
         "whyCardDescription": {
           "fontFamily": "Inter, sans-serif",
           "fontSize": "1rem",
           "fontWeight": "300",
           "lineHeight": "1.6",
-          "color": "#000000"
+          "color": "black"
         },
         "cardBody": {
           "fontFamily": "Inter, sans-serif",
-          "fontSize": "0.95rem",
+          "fontSize": "1rem",
           "fontWeight": "400",
           "lineHeight": "1.6",
           "color": "#000000"
@@ -64,7 +64,7 @@
           "fontSize": "1rem",
           "fontWeight": "400",
           "lineHeight": "1.6",
-          "color": "#FFFFFF"
+          "color": "#000"
         },
         "subtitle": {
           "fontFamily": "Inter, sans-serif",
@@ -108,6 +108,20 @@
           "lineHeight": "1.6",
           "color": "#000000"
         },
+        "faqCardQuestion": {
+          "fontFamily": "Inter, sans-serif",
+          "fontSize": "1.75rem",
+          "fontWeight": "700",
+          "lineHeight": "1.1",
+          "color": "#df16c4"
+        },
+        "faqCardAnswer": {
+          "fontFamily": "Inter, sans-serif",
+          "fontSize": "1rem",
+          "fontWeight": "400",
+          "lineHeight": "1.6",
+          "color": "#374151"
+        },
         "hero_headings": {
           "fontFamily": "Inter, sans-serif",
           "fontSize": "4.1rem",
@@ -116,7 +130,7 @@
           "lineHeight": "1",
           "fontWeight": "600",
           "letterSpacing": "-0.1em",
-          "color": "#ffffff",
+          "color": "#FF69B4",
           "marginBottom": "10rem",
           "textAlign": "center"
         },
@@ -124,11 +138,11 @@
           "fontFamily": "Inter, sans-serif",
           "fontSize": "3rem",
           "fontSizeMd": "6.7rem",
-          "fontSizeLg": "7.825rem",
+          "fontSizeLg": "5rem",
           "lineHeight": "1.125",
           "fontWeight": "600",
           "letterSpacing": "-0.1em",
-          "color": "#000000",
+          "color": "#e16060",
           "marginBottom": "0.5rem",
           "textAlign": "center"
         },
@@ -143,9 +157,35 @@
           "fontFamily": "Inter, sans-serif",
           "fontSize": "1.5rem",
           "fontWeight": "500",
-          "color": "#00ff59",
+          "color": "#FF69B4",
           "lineHeight": "1.75",
           "marginTop": "1.5rem"
+        },
+        "travelPackageTitle": {
+          "fontFamily": "Inter, sans-serif",
+          "fontSize": "1.75rem",
+          "fontWeight": "700",
+          "lineHeight": "0.7",
+          "color": "#0a253d"
+        },
+        "packageDescription": {
+          "fontFamily": "Inter, sans-serif",
+          "fontSize": "0.75rem",
+          "fontWeight": "400",
+          "lineHeight": "1.6",
+          "color": "#111827"
+        },
+        "travelPackagePrice": {
+          "color": "#d926a9",
+          "fontSize": "2rem"
+        },
+        "travelPackageIncludes": {
+          "fontSize": "0.875rem",
+          "color": "#b54545"
+        },
+        "travelPackagePriceValue": {
+          "color": "#1f1a1a",
+          "fontSize": "3.25rem"
         }
       },
       "spacing": {},
@@ -157,30 +197,30 @@
         "defaults": {},
         "variants": {
           "primary": {
-            "backgroundColor": "#2563eb",
-            "backgroundColorHover": "#1d4ed8",
+            "backgroundColor": "#FF69B4",
+            "backgroundColorHover": "#FF1493",
             "textColor": "#ffffff",
             "textColorHover": "#ffffff",
-            "borderColor": "#2563eb",
-            "borderColorHover": "#1d4ed8",
+            "borderColor": "#FF69B4",
+            "borderColorHover": "#FF1493",
             "fontFamily": "Inter, sans-serif",
             "fontSize": "1rem",
             "fontWeight": "500",
-            "padding": "1rem 1.5rem",
+            "padding": "1.5rem 1.5rem",
             "borderRadius": "0.75rem",
             "borderWidth": "2px"
           },
           "secondary": {
-            "backgroundColor": "#eab308",
-            "backgroundColorHover": "#d97706",
+            "backgroundColor": "transparent",
+            "backgroundColorHover": "rgba(255, 255, 255, 0.1)",
             "textColor": "#ffffff",
             "textColorHover": "#ffffff",
-            "borderColor": "#eab308",
-            "borderColorHover": "#d97706",
+            "borderColor": "#ffffff",
+            "borderColorHover": "#ffffff",
             "fontFamily": "Inter, sans-serif",
             "fontSize": "1rem",
             "fontWeight": "500",
-            "padding": "1rem 1.5rem",
+            "padding": "1.5rem 1.5rem",
             "borderRadius": "0.75rem",
             "borderWidth": "2px"
           },
@@ -297,13 +337,45 @@
         "roundedButton": "rounded-full",
         "minHeight": "min-h-[500px]",
         "transition": "transition-all duration-300",
-        "padding": "p-12"
+        "padding": "p-12",
+        "variants": {
+          "standard": {
+            "backgroundColor": "transparent",
+            "textColor": "#cbd5e1",
+            "borderColor": "#1f2937",
+            "borderWidth": "1px",
+            "padding": "1.5rem 2rem",
+            "borderRadius": "1rem",
+            "shadow": "none",
+            "headerBarColor": "#000000"
+          },
+          "highlight": {
+            "backgroundColor": "#facc15",
+            "textColor": "#000000",
+            "borderColor": "transparent",
+            "borderWidth": "0px",
+            "padding": "1.5rem 2rem",
+            "borderRadius": "1rem",
+            "shadow": "none",
+            "headerBarColor": "#000000"
+          }
+        }
       },
       "travelPackageCard": {
         "minHeight": "70vh",
-        "maxHeight": "70vh",
-        "imageHeight": "55%",
-        "contentPadding": ".5rem"
+        "maxHeight": "80vh",
+        "imageHeight": "70%",
+        "contentPadding": ".5rem",
+        "backgroundColor": "#fff",
+        "borderWidth": "10px",
+        "borderRadius": "0",
+        "padding": "0rem",
+        "iconColors": {
+          "map": "#3cbe93",
+          "check": "#6fc8aa"
+        },
+        "borderColor": "white",
+        "innerPadding": "1.25rem"
       },
       "cardDefaults": {
         "className": "bg-white/80 backdrop-blur-sm border-none rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl h-full flex flex-col group",
@@ -331,6 +403,55 @@
           "arrows": "text-yellow-500",
           "arrowsHover": "hover:text-yellow-600"
         }
+      },
+      "faqCard": {
+        "container": {
+          "className": "bg-white rounded-xl transition-all duration-300 overflow-hidden",
+          "backgroundColor": "#ffffff",
+          "borderColor": "transparent",
+          "borderWidth": "0px",
+          "borderRadius": "12px",
+          "shadow": "none",
+          "transition": "all 0.3s ease"
+        },
+        "question": {
+          "className": "p-6 cursor-pointer flex justify-between items-center",
+          "backgroundColor": "#f9fafb",
+          "padding": "1.5rem 2rem",
+          "borderBottom": "border-b border-gray-100"
+        },
+        "answer": {
+          "className": "p-6",
+          "backgroundColor": "#ffffff",
+          "padding": "1.5rem 2rem",
+          "textAlign": "left",
+          "color": "#000000"
+        },
+        "chevron": {
+          "className": "w-10 h-10 rounded-full flex items-center justify-center ml-4",
+          "backgroundColor": "#FF69B4",
+          "iconColor": "#000000",
+          "size": "w-10 h-10",
+          "iconSize": "w-5 h-5",
+          "borderRadius": "rounded-full"
+        },
+        "divider": {
+          "color": "transparent",
+          "width": "0px",
+          "style": "solid"
+        }
+      },
+      "card": {
+        "container": {
+          "backgroundColor": "transparent",
+          "borderWidth": "1px",
+          "borderRadius": "1rem",
+          "borderStyle": "solid",
+          "padding": "2rem"
+        }
+      },
+      "whyFeatureCard": {
+        "backgroundColor": "#ffffff"
       }
     },
     "sections": {
@@ -339,7 +460,7 @@
           "maxWidth": "1280px",
           "backgroundColor": "white",
           "padding": {
-            "mobile": "10rem 1rem",
+            "mobile": "10rem 0rem",
             "tablet": "10rem 2rem",
             "desktop": "10rem 2rem"
           },
@@ -365,7 +486,7 @@
         "layout": {
           "maxWidth": "100%",
           "minHeight": "100vh",
-          "backgroundColor": "#000000",
+          "backgroundColor": "white",
           "padding": {
             "mobile": "10rem 0.5rem",
             "tablet": "10rem 0.5rem",
@@ -382,14 +503,14 @@
             },
             "rounded": true,
             "borderRadius": "1rem",
-            "backgroundColor": "#ffffff",
+            "backgroundColor": "#e0b715",
             "overflow": "hidden",
             "background": {
               "type": "image",
-              "value": "",
+              "value": "https://images.pexels.com/photos/994605/pexels-photo-994605.jpeg",
               "overlay": {
-                "color": "#000000",
-                "opacity": 1
+                "color": "",
+                "opacity": 0.5
               }
             },
             "width": "",
@@ -427,7 +548,7 @@
       "whyTravel": {
         "layout": {
           "maxWidth": "100%",
-          "backgroundColor": "white",
+          "backgroundColor": "#FFF8DC",
           "padding": {
             "mobile": "10rem 0.5rem",
             "tablet": "10rem 0.5rem",
@@ -442,11 +563,11 @@
               "desktop": "0"
             },
             "rounded": false,
-            "backgroundColor": "white",
+            "backgroundColor": "#F5F5DC",
             "overflow": "visible",
             "background": {
               "type": "color",
-              "value": "white"
+              "value": "#F5F5DC"
             }
           }
         }
@@ -455,7 +576,7 @@
         "layout": {
           "maxWidth": "100%",
           "minHeight": "550px",
-          "backgroundColor": "#ffffff",
+          "backgroundColor": "white",
           "padding": {
             "mobile": "10rem 0",
             "tablet": "10rem 0",
@@ -470,11 +591,11 @@
               "desktop": "0"
             },
             "rounded": false,
-            "backgroundColor": "#ffffff",
+            "backgroundColor": "#FFF8DC",
             "overflow": "visible",
             "background": {
               "type": "color",
-              "value": "#ffffff"
+              "value": "#FFF8DC"
             }
           }
         }
@@ -482,7 +603,7 @@
       "travelDesigner": {
         "layout": {
           "maxWidth": "100%",
-          "backgroundColor": "#FFFFFF",
+          "backgroundColor": "white",
           "padding": {
             "mobile": "10rem 0rem",
             "tablet": "10rem 2rem",
@@ -497,7 +618,7 @@
               "desktop": "2rem"
             },
             "rounded": true,
-            "backgroundColor": "#FFFFFF",
+            "backgroundColor": "#FFF8DC",
             "overflow": "visible",
             "background": {
               "type": "color",
@@ -634,7 +755,7 @@
           "padding": {
             "mobile": "10rem 0.5rem",
             "tablet": "10rem 2rem",
-            "desktop": "10rem 2rem"
+            "desktop": "2rem 2rem"
           },
           "inner": {
             "maxWidth": "1280px",
@@ -643,15 +764,17 @@
             "padding": {
               "mobile": "0",
               "tablet": "0",
-              "desktop": "0"
+              "desktop": "4rem"
             },
-            "rounded": false,
+            "rounded": true,
             "overflow": "visible",
             "background": {
               "type": "color",
               "value": "transparent"
             },
-            "backgroundColor": "#ffffff"
+            "backgroundColor": "#FFF8DC",
+            "borderRadius": "1rem",
+            "alignItems": "flex-start"
           }
         }
       },
@@ -673,11 +796,11 @@
               "desktop": "5rem"
             },
             "rounded": true,
-            "backgroundColor": "#ffffff",
+            "backgroundColor": "#FFC0CB",
             "overflow": "visible",
             "background": {
               "type": "color",
-              "value": "#ffffff"
+              "value": "#FFC0CB"
             },
             "width": "",
             "borderRadius": "2rem",
@@ -723,7 +846,7 @@
           "padding": {
             "mobile": "0.5rem 0.5rem",
             "tablet": "",
-            "desktop": ""
+            "desktop": "2rem"
           },
           "inner": {
             "maxWidth": "100%",
@@ -731,16 +854,21 @@
             "padding": {
               "mobile": "0",
               "tablet": "0",
-              "desktop": "0"
+              "desktop": "10rem"
             },
-            "rounded": false,
+            "rounded": true,
             "backgroundColor": "white",
             "overflow": "visible",
             "background": {
               "type": "color",
               "value": "white"
             },
-            "width": ""
+            "width": "",
+            "borderRadius": "2rem",
+            "display": "flex",
+            "alignItems": "center",
+            "flexDirection": "column",
+            "justifyContent": "space-around"
           }
         }
       }
@@ -1000,6 +1128,156 @@
             "dataTypography": "titleDescription"
           }
         ]
+      },
+      "typo.travelPackageTitle": {
+        "appliesTo": [
+          "tokens.typography"
+        ],
+        "extends": [
+          "tokens.typography.travelPackageTitle"
+        ],
+        "overrides": {},
+        "locked": false,
+        "selectors": [
+          {
+            "dataTypography": "travelPackageTitle"
+          }
+        ]
+      },
+      "typo.packageDescription": {
+        "appliesTo": [
+          "tokens.typography"
+        ],
+        "extends": [
+          "tokens.typography.packageDescription"
+        ],
+        "overrides": {},
+        "locked": false,
+        "selectors": [
+          {
+            "dataTypography": "packageDescription"
+          }
+        ]
+      },
+      "faq.arrow": {
+        "appliesTo": [
+          "components.faq"
+        ],
+        "extends": [
+          "components.faq.arrow"
+        ],
+        "overrides": {},
+        "locked": false,
+        "selectors": [
+          {
+            "dataElement": "faqArrow"
+          }
+        ]
+      },
+      "faqCard.container": {
+        "appliesTo": [
+          "components.faqCard"
+        ],
+        "extends": [
+          "components.faqCard.container"
+        ],
+        "overrides": {},
+        "locked": false,
+        "selectors": [
+          {
+            "dataElement": "faqCard"
+          }
+        ]
+      },
+      "faqCard.question": {
+        "appliesTo": [
+          "components.faqCard"
+        ],
+        "extends": [
+          "components.faqCard.question"
+        ],
+        "overrides": {},
+        "locked": false,
+        "selectors": [
+          {
+            "dataElement": "faqCardQuestion"
+          }
+        ]
+      },
+      "faqCard.answer": {
+        "appliesTo": [
+          "components.faqCard"
+        ],
+        "extends": [
+          "components.faqCard.answer"
+        ],
+        "overrides": {},
+        "locked": false,
+        "selectors": [
+          {
+            "dataElement": "faqCardAnswer"
+          }
+        ]
+      },
+      "faqCard.chevron": {
+        "appliesTo": [
+          "components.faqCard"
+        ],
+        "extends": [
+          "components.faqCard.chevron"
+        ],
+        "overrides": {},
+        "locked": false,
+        "selectors": [
+          {
+            "dataElement": "faqCardChevron"
+          }
+        ]
+      },
+      "faqCard.divider": {
+        "appliesTo": [
+          "components.faqCard"
+        ],
+        "extends": [
+          "components.faqCard.divider"
+        ],
+        "overrides": {},
+        "locked": false,
+        "selectors": [
+          {
+            "dataElement": "faqCardDivider"
+          }
+        ]
+      },
+      "typo.faqCardQuestion": {
+        "appliesTo": [
+          "tokens.typography"
+        ],
+        "extends": [
+          "tokens.typography.faqCardQuestion"
+        ],
+        "overrides": {},
+        "locked": false,
+        "selectors": [
+          {
+            "dataTypography": "faqCardQuestion"
+          }
+        ]
+      },
+      "typo.faqCardAnswer": {
+        "appliesTo": [
+          "tokens.typography"
+        ],
+        "extends": [
+          "tokens.typography.faqCardAnswer"
+        ],
+        "overrides": {},
+        "locked": false,
+        "selectors": [
+          {
+            "dataTypography": "faqCardAnswer"
+          }
+        ]
       }
     },
     "bindings": {
@@ -1053,6 +1331,36 @@
       ],
       "dataTypography.titleDescription": [
         "classes.typo.titleDescription"
+      ],
+      "dataTypography.travelPackageTitle": [
+        "classes.typo.travelPackageTitle"
+      ],
+      "dataTypography.packageDescription": [
+        "classes.typo.packageDescription"
+      ],
+      "dataElement.faqArrow": [
+        "classes.faq.arrow"
+      ],
+      "dataElement.faqCard": [
+        "classes.faqCard.container"
+      ],
+      "dataElement.faqCardQuestion": [
+        "classes.faqCard.question"
+      ],
+      "dataElement.faqCardAnswer": [
+        "classes.faqCard.answer"
+      ],
+      "dataElement.faqCardChevron": [
+        "classes.faqCard.chevron"
+      ],
+      "dataElement.faqCardDivider": [
+        "classes.faqCard.divider"
+      ],
+      "dataTypography.faqCardQuestion": [
+        "classes.typo.faqCardQuestion"
+      ],
+      "dataTypography.faqCardAnswer": [
+        "classes.typo.faqCardAnswer"
       ]
     },
     "index": {

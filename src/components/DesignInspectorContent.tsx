@@ -1101,7 +1101,7 @@ const DesignInspectorContent: React.FC = () => {
 			)}
 
 			{/* Travel Package Card Design Editing */}
-			{activeElement?.label?.startsWith('card') && activeElement.sectionId && (
+			{((activeElement?.cardType === 'travelPackageCard') || (activeElement?.label?.startsWith('card') && activeElement.sectionId)) && (
 				<div style={{ marginTop: 16, padding: 12, background: '#1e1e1e', borderRadius: 8, border: '1px solid #333' }}>
 					<div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
 						<div style={{ fontSize: 16, color: '#facc15' }}>🎨</div>
@@ -1464,6 +1464,1108 @@ const DesignInspectorContent: React.FC = () => {
 							})}
 							placeholder="0 10px 15px -3px rgb(0 0 0 / 0.1)"
 							label="travelPackageCard.hoverShadow"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+				</div>
+			)}
+
+			{/* Service Card Design Section */}
+			{(activeElement?.cardType === 'serviceCard' || activeElement?.label?.startsWith('serviceCard')) && (
+				<div style={{ padding: '1rem', background: '#1a1a1a', borderRadius: 8, marginBottom: '1rem' }}>
+					<div style={{ fontSize: 14, fontWeight: 'bold', color: '#fff', marginBottom: '1rem', textAlign: 'center' }}>
+						Service Card Design
+					</div>
+
+					{/* Variant Selection */}
+					<PanelRow label="Card Variant">
+						<select
+							value={design?.components?.serviceCard?.activeVariant || 'standard'}
+							onChange={(e) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.serviceCard) newDesign.components.serviceCard = {};
+								newDesign.components.serviceCard.activeVariant = e.target.value;
+								return newDesign;
+							})}
+							style={{
+								width: '100%',
+								padding: '8px',
+								background: '#2a2a2a',
+								color: '#fff',
+								border: '1px solid #444',
+								borderRadius: 4,
+								fontSize: 12
+							}}
+						>
+							<option value="standard">Standard</option>
+							<option value="highlight">Highlight</option>
+							<option value="featured">Featured</option>
+						</select>
+					</PanelRow>
+
+					{(() => {
+						const activeVariant = design?.components?.serviceCard?.activeVariant || 'standard';
+						const variantPath = `design.components.serviceCard.variants.${activeVariant}`;
+
+						return (
+							<>
+								{/* Common Card Properties */}
+								<PanelRow label="Min Height">
+									<SmartInput
+										value={design?.components?.serviceCard?.variants?.[activeVariant]?.minHeight || '500px'}
+										onChange={(val) => updateDesignLocal((prev: any) => {
+											const newDesign = { ...prev };
+											if (!newDesign.components) newDesign.components = {};
+											if (!newDesign.components.serviceCard) newDesign.components.serviceCard = {};
+											if (!newDesign.components.serviceCard.variants) newDesign.components.serviceCard.variants = {};
+											if (!newDesign.components.serviceCard.variants[activeVariant]) newDesign.components.serviceCard.variants[activeVariant] = {};
+											newDesign.components.serviceCard.variants[activeVariant].minHeight = val;
+											return newDesign;
+										})}
+										placeholder="500px"
+										label={`${variantPath}.minHeight`}
+										style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+									/>
+								</PanelRow>
+
+								<PanelRow label="Max Height">
+									<SmartInput
+										value={design?.components?.serviceCard?.variants?.[activeVariant]?.maxHeight || 'none'}
+										onChange={(val) => updateDesignLocal((prev: any) => {
+											const newDesign = { ...prev };
+											if (!newDesign.components) newDesign.components = {};
+											if (!newDesign.components.serviceCard) newDesign.components.serviceCard = {};
+											if (!newDesign.components.serviceCard.variants) newDesign.components.serviceCard.variants = {};
+											if (!newDesign.components.serviceCard.variants[activeVariant]) newDesign.components.serviceCard.variants[activeVariant] = {};
+											newDesign.components.serviceCard.variants[activeVariant].maxHeight = val;
+											return newDesign;
+										})}
+										placeholder="none"
+										label={`${variantPath}.maxHeight`}
+										style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+									/>
+								</PanelRow>
+
+								<PanelRow label="Border Radius">
+									<SmartInput
+										value={design?.components?.serviceCard?.variants?.[activeVariant]?.borderRadius || '1rem'}
+										onChange={(val) => updateDesignLocal((prev: any) => {
+											const newDesign = { ...prev };
+											if (!newDesign.components) newDesign.components = {};
+											if (!newDesign.components.serviceCard) newDesign.components.serviceCard = {};
+											if (!newDesign.components.serviceCard.variants) newDesign.components.serviceCard.variants = {};
+											if (!newDesign.components.serviceCard.variants[activeVariant]) newDesign.components.serviceCard.variants[activeVariant] = {};
+											newDesign.components.serviceCard.variants[activeVariant].borderRadius = val;
+											return newDesign;
+										})}
+										placeholder="1rem"
+										label={`${variantPath}.borderRadius`}
+										style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+									/>
+								</PanelRow>
+
+								<PanelRow label="Padding">
+									<SmartInput
+										value={design?.components?.serviceCard?.variants?.[activeVariant]?.padding || '1rem 2rem 3rem'}
+										onChange={(val) => updateDesignLocal((prev: any) => {
+											const newDesign = { ...prev };
+											if (!newDesign.components) newDesign.components = {};
+											if (!newDesign.components.serviceCard) newDesign.components.serviceCard = {};
+											if (!newDesign.components.serviceCard.variants) newDesign.components.serviceCard.variants = {};
+											if (!newDesign.components.serviceCard.variants[activeVariant]) newDesign.components.serviceCard.variants[activeVariant] = {};
+											newDesign.components.serviceCard.variants[activeVariant].padding = val;
+											return newDesign;
+										})}
+										placeholder="1rem 2rem 3rem"
+										label={`${variantPath}.padding`}
+										style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+									/>
+								</PanelRow>
+
+								{/* Variant-specific properties */}
+								{activeVariant === 'standard' && (
+									<>
+										<PanelRow label="Background Color">
+											<ColorSwatch
+												value={design?.components?.serviceCard?.variants?.standard?.backgroundColor || 'transparent'}
+												onChange={(val) => updateDesignLocal((prev: any) => {
+													const newDesign = { ...prev };
+													if (!newDesign.components) newDesign.components = {};
+													if (!newDesign.components.serviceCard) newDesign.components.serviceCard = {};
+													if (!newDesign.components.serviceCard.variants) newDesign.components.serviceCard.variants = {};
+													if (!newDesign.components.serviceCard.variants.standard) newDesign.components.serviceCard.variants.standard = {};
+													newDesign.components.serviceCard.variants.standard.backgroundColor = val;
+													return newDesign;
+												})}
+												placeholder="transparent"
+											/>
+										</PanelRow>
+
+										<PanelRow label="Border Color">
+											<ColorSwatch
+												value={design?.components?.serviceCard?.variants?.standard?.borderColor || '#1f2937'}
+												onChange={(val) => updateDesignLocal((prev: any) => {
+													const newDesign = { ...prev };
+													if (!newDesign.components) newDesign.components = {};
+													if (!newDesign.components.serviceCard) newDesign.components.serviceCard = {};
+													if (!newDesign.components.serviceCard.variants) newDesign.components.serviceCard.variants = {};
+													if (!newDesign.components.serviceCard.variants.standard) newDesign.components.serviceCard.variants.standard = {};
+													newDesign.components.serviceCard.variants.standard.borderColor = val;
+													return newDesign;
+												})}
+												placeholder="#1f2937"
+											/>
+										</PanelRow>
+
+										<PanelRow label="Border Width">
+											<SmartInput
+												value={design?.components?.serviceCard?.variants?.standard?.borderWidth || '1px'}
+												onChange={(val) => updateDesignLocal((prev: any) => {
+													const newDesign = { ...prev };
+													if (!newDesign.components) newDesign.components = {};
+													if (!newDesign.components.serviceCard) newDesign.components.serviceCard = {};
+													if (!newDesign.components.serviceCard.variants) newDesign.components.serviceCard.variants = {};
+													if (!newDesign.components.serviceCard.variants.standard) newDesign.components.serviceCard.variants.standard = {};
+													newDesign.components.serviceCard.variants.standard.borderWidth = val;
+													return newDesign;
+												})}
+												placeholder="1px"
+												label="serviceCard.variants.standard.borderWidth"
+												style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+											/>
+										</PanelRow>
+
+										<PanelRow label="Shadow">
+											<SmartInput
+												value={design?.components?.serviceCard?.variants?.standard?.shadow || 'none'}
+												onChange={(val) => updateDesignLocal((prev: any) => {
+													const newDesign = { ...prev };
+													if (!newDesign.components) newDesign.components = {};
+													if (!newDesign.components.serviceCard) newDesign.components.serviceCard = {};
+													if (!newDesign.components.serviceCard.variants) newDesign.components.serviceCard.variants = {};
+													if (!newDesign.components.serviceCard.variants.standard) newDesign.components.serviceCard.variants.standard = {};
+													newDesign.components.serviceCard.variants.standard.shadow = val;
+													return newDesign;
+												})}
+												placeholder="none"
+												label="serviceCard.variants.standard.shadow"
+												style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+											/>
+										</PanelRow>
+
+										<PanelRow label="Icon Padding">
+											<SmartInput
+												value={design?.components?.serviceCard?.variants?.standard?.iconPadding || '1rem 2rem 0'}
+												onChange={(val) => updateDesignLocal((prev: any) => {
+													const newDesign = { ...prev };
+													if (!newDesign.components) newDesign.components = {};
+													if (!newDesign.components.serviceCard) newDesign.components.serviceCard = {};
+													if (!newDesign.components.serviceCard.variants) newDesign.components.serviceCard.variants = {};
+													if (!newDesign.components.serviceCard.variants.standard) newDesign.components.serviceCard.variants.standard = {};
+													newDesign.components.serviceCard.variants.standard.iconPadding = val;
+													return newDesign;
+												})}
+												placeholder="1rem 2rem 0"
+												label="serviceCard.variants.standard.iconPadding"
+												style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+											/>
+										</PanelRow>
+
+										<PanelRow label="Content Padding">
+											<SmartInput
+												value={design?.components?.serviceCard?.variants?.standard?.contentPadding || '0 2rem 3rem'}
+												onChange={(val) => updateDesignLocal((prev: any) => {
+													const newDesign = { ...prev };
+													if (!newDesign.components) newDesign.components = {};
+													if (!newDesign.components.serviceCard) newDesign.components.serviceCard = {};
+													if (!newDesign.components.serviceCard.variants) newDesign.components.serviceCard.variants = {};
+													if (!newDesign.components.serviceCard.variants.standard) newDesign.components.serviceCard.variants.standard = {};
+													newDesign.components.serviceCard.variants.standard.contentPadding = val;
+													return newDesign;
+												})}
+												placeholder="0 2rem 3rem"
+												label="serviceCard.variants.standard.contentPadding"
+												style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+											/>
+										</PanelRow>
+									</>
+								)}
+
+								{activeVariant === 'highlight' && (
+									<>
+										<PanelRow label="Background Color">
+											<ColorSwatch
+												value={design?.components?.serviceCard?.variants?.highlight?.backgroundColor || '#fbbf24'}
+												onChange={(val) => updateDesignLocal((prev: any) => {
+													const newDesign = { ...prev };
+													if (!newDesign.components) newDesign.components = {};
+													if (!newDesign.components.serviceCard) newDesign.components.serviceCard = {};
+													if (!newDesign.components.serviceCard.variants) newDesign.components.serviceCard.variants = {};
+													if (!newDesign.components.serviceCard.variants.highlight) newDesign.components.serviceCard.variants.highlight = {};
+													newDesign.components.serviceCard.variants.highlight.backgroundColor = val;
+													return newDesign;
+												})}
+												placeholder="#fbbf24"
+											/>
+										</PanelRow>
+
+										<PanelRow label="Text Color">
+											<ColorSwatch
+												value={design?.components?.serviceCard?.variants?.highlight?.textColor || '#000000'}
+												onChange={(val) => updateDesignLocal((prev: any) => {
+													const newDesign = { ...prev };
+													if (!newDesign.components) newDesign.components = {};
+													if (!newDesign.components.serviceCard) newDesign.components.serviceCard = {};
+													if (!newDesign.components.serviceCard.variants) newDesign.components.serviceCard.variants = {};
+													if (!newDesign.components.serviceCard.variants.highlight) newDesign.components.serviceCard.variants.highlight = {};
+													newDesign.components.serviceCard.variants.highlight.textColor = val;
+													return newDesign;
+												})}
+												placeholder="#000000"
+											/>
+										</PanelRow>
+
+										<PanelRow label="Header Bar Color">
+											<ColorSwatch
+												value={design?.components?.serviceCard?.variants?.highlight?.headerBarColor || '#000000'}
+												onChange={(val) => updateDesignLocal((prev: any) => {
+													const newDesign = { ...prev };
+													if (!newDesign.components) newDesign.components = {};
+													if (!newDesign.components.serviceCard) newDesign.components.serviceCard = {};
+													if (!newDesign.components.serviceCard.variants) newDesign.components.serviceCard.variants = {};
+													if (!newDesign.components.serviceCard.variants.highlight) newDesign.components.serviceCard.variants.highlight = {};
+													newDesign.components.serviceCard.variants.highlight.headerBarColor = val;
+													return newDesign;
+												})}
+												placeholder="#000000"
+											/>
+										</PanelRow>
+
+										<PanelRow label="Header Bar Height">
+											<SmartInput
+												value={design?.components?.serviceCard?.variants?.highlight?.headerBarHeight || '4px'}
+												onChange={(val) => updateDesignLocal((prev: any) => {
+													const newDesign = { ...prev };
+													if (!newDesign.components) newDesign.components = {};
+													if (!newDesign.components.serviceCard) newDesign.components.serviceCard = {};
+													if (!newDesign.components.serviceCard.variants) newDesign.components.serviceCard.variants = {};
+													if (!newDesign.components.serviceCard.variants.highlight) newDesign.components.serviceCard.variants.highlight = {};
+													newDesign.components.serviceCard.variants.highlight.headerBarHeight = val;
+													return newDesign;
+												})}
+												placeholder="4px"
+												label="serviceCard.variants.highlight.headerBarHeight"
+												style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+											/>
+										</PanelRow>
+									</>
+								)}
+
+								{activeVariant === 'featured' && (
+									<>
+										<PanelRow label="Background Color">
+											<ColorSwatch
+												value={design?.components?.serviceCard?.variants?.featured?.backgroundColor || 'transparent'}
+												onChange={(val) => updateDesignLocal((prev: any) => {
+													const newDesign = { ...prev };
+													if (!newDesign.components) newDesign.components = {};
+													if (!newDesign.components.serviceCard) newDesign.components.serviceCard = {};
+													if (!newDesign.components.serviceCard.variants) newDesign.components.serviceCard.variants = {};
+													if (!newDesign.components.serviceCard.variants.featured) newDesign.components.serviceCard.variants.featured = {};
+													newDesign.components.serviceCard.variants.featured.backgroundColor = val;
+													return newDesign;
+												})}
+												placeholder="transparent"
+											/>
+										</PanelRow>
+
+										<PanelRow label="Image Opacity">
+											<SmartInput
+												value={design?.components?.serviceCard?.variants?.featured?.imageOpacity || '0.6'}
+												onChange={(val) => updateDesignLocal((prev: any) => {
+													const newDesign = { ...prev };
+													if (!newDesign.components) newDesign.components = {};
+													if (!newDesign.components.serviceCard) newDesign.components.serviceCard = {};
+													if (!newDesign.components.serviceCard.variants) newDesign.components.serviceCard.variants = {};
+													if (!newDesign.components.serviceCard.variants.featured) newDesign.components.serviceCard.variants.featured = {};
+													newDesign.components.serviceCard.variants.featured.imageOpacity = val;
+													return newDesign;
+												})}
+												placeholder="0.6"
+												label="serviceCard.variants.featured.imageOpacity"
+												style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+											/>
+										</PanelRow>
+
+										<PanelRow label="Overlay Color">
+											<ColorSwatch
+												value={design?.components?.serviceCard?.variants?.featured?.overlayColor || 'rgba(0,0,0,0.4)'}
+												onChange={(val) => updateDesignLocal((prev: any) => {
+													const newDesign = { ...prev };
+													if (!newDesign.components) newDesign.components = {};
+													if (!newDesign.components.serviceCard) newDesign.components.serviceCard = {};
+													if (!newDesign.components.serviceCard.variants) newDesign.components.serviceCard.variants = {};
+													if (!newDesign.components.serviceCard.variants.featured) newDesign.components.serviceCard.variants.featured = {};
+													newDesign.components.serviceCard.variants.featured.overlayColor = val;
+													return newDesign;
+												})}
+												placeholder="rgba(0,0,0,0.4)"
+											/>
+										</PanelRow>
+
+										<PanelRow label="Header Bar Color">
+											<ColorSwatch
+												value={design?.components?.serviceCard?.variants?.featured?.headerBarColor || design?.tokens?.colors?.primary}
+												onChange={(val) => updateDesignLocal((prev: any) => {
+													const newDesign = { ...prev };
+													if (!newDesign.components) newDesign.components = {};
+													if (!newDesign.components.serviceCard) newDesign.components.serviceCard = {};
+													if (!newDesign.components.serviceCard.variants) newDesign.components.serviceCard.variants = {};
+													if (!newDesign.components.serviceCard.variants.featured) newDesign.components.serviceCard.variants.featured = {};
+													newDesign.components.serviceCard.variants.featured.headerBarColor = val;
+													return newDesign;
+												})}
+												placeholder="#3b82f6"
+											/>
+										</PanelRow>
+
+										<PanelRow label="Header Bar Height">
+											<SmartInput
+												value={design?.components?.serviceCard?.variants?.featured?.headerBarHeight || '4px'}
+												onChange={(val) => updateDesignLocal((prev: any) => {
+													const newDesign = { ...prev };
+													if (!newDesign.components) newDesign.components = {};
+													if (!newDesign.components.serviceCard) newDesign.components.serviceCard = {};
+													if (!newDesign.components.serviceCard.variants) newDesign.components.serviceCard.variants = {};
+													if (!newDesign.components.serviceCard.variants.featured) newDesign.components.serviceCard.variants.featured = {};
+													newDesign.components.serviceCard.variants.featured.headerBarHeight = val;
+													return newDesign;
+												})}
+												placeholder="4px"
+												label="serviceCard.variants.featured.headerBarHeight"
+												style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+											/>
+										</PanelRow>
+									</>
+								)}
+
+								{/* Common Spacing Controls */}
+								<PanelRow label="Icon Size">
+									<SmartInput
+										value={design?.components?.serviceCard?.variants?.[activeVariant]?.iconSize || '3rem'}
+										onChange={(val) => updateDesignLocal((prev: any) => {
+											const newDesign = { ...prev };
+											if (!newDesign.components) newDesign.components = {};
+											if (!newDesign.components.serviceCard) newDesign.components.serviceCard = {};
+											if (!newDesign.components.serviceCard.variants) newDesign.components.serviceCard.variants = {};
+											if (!newDesign.components.serviceCard.variants[activeVariant]) newDesign.components.serviceCard.variants[activeVariant] = {};
+											newDesign.components.serviceCard.variants[activeVariant].iconSize = val;
+											return newDesign;
+										})}
+										placeholder="3rem"
+										label={`${variantPath}.iconSize`}
+										style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+									/>
+								</PanelRow>
+
+								<PanelRow label="Icon Color">
+									<ColorSwatch
+										value={design?.components?.serviceCard?.variants?.[activeVariant]?.iconColor || (activeVariant === 'standard' ? '#9ca3af' : 'white')}
+										onChange={(val) => updateDesignLocal((prev: any) => {
+											const newDesign = { ...prev };
+											if (!newDesign.components) newDesign.components = {};
+											if (!newDesign.components.serviceCard) newDesign.components.serviceCard = {};
+											if (!newDesign.components.serviceCard.variants) newDesign.components.serviceCard.variants = {};
+											if (!newDesign.components.serviceCard.variants[activeVariant]) newDesign.components.serviceCard.variants[activeVariant] = {};
+											newDesign.components.serviceCard.variants[activeVariant].iconColor = val;
+											return newDesign;
+										})}
+										placeholder="#9ca3af"
+									/>
+								</PanelRow>
+
+								<PanelRow label="Icon Spacing">
+									<SmartInput
+										value={design?.components?.serviceCard?.variants?.[activeVariant]?.iconSpacing || '3rem'}
+										onChange={(val) => updateDesignLocal((prev: any) => {
+											const newDesign = { ...prev };
+											if (!newDesign.components) newDesign.components = {};
+											if (!newDesign.components.serviceCard) newDesign.components.serviceCard = {};
+											if (!newDesign.components.serviceCard.variants) newDesign.components.serviceCard.variants = {};
+											if (!newDesign.components.serviceCard.variants[activeVariant]) newDesign.components.serviceCard.variants[activeVariant] = {};
+											newDesign.components.serviceCard.variants[activeVariant].iconSpacing = val;
+											return newDesign;
+										})}
+										placeholder="3rem"
+										label={`${variantPath}.iconSpacing`}
+										style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+									/>
+								</PanelRow>
+
+								<PanelRow label="Title Spacing">
+									<SmartInput
+										value={design?.components?.serviceCard?.variants?.[activeVariant]?.titleSpacing || '1rem'}
+										onChange={(val) => updateDesignLocal((prev: any) => {
+											const newDesign = { ...prev };
+											if (!newDesign.components) newDesign.components = {};
+											if (!newDesign.components.serviceCard) newDesign.components.serviceCard = {};
+											if (!newDesign.components.serviceCard.variants) newDesign.components.serviceCard.variants = {};
+											if (!newDesign.components.serviceCard.variants[activeVariant]) newDesign.components.serviceCard.variants[activeVariant] = {};
+											newDesign.components.serviceCard.variants[activeVariant].titleSpacing = val;
+											return newDesign;
+										})}
+										placeholder="1rem"
+										label={`${variantPath}.titleSpacing`}
+										style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+									/>
+								</PanelRow>
+
+								<PanelRow label="Description Spacing">
+									<SmartInput
+										value={design?.components?.serviceCard?.variants?.[activeVariant]?.descriptionSpacing || '1rem'}
+										onChange={(val) => updateDesignLocal((prev: any) => {
+											const newDesign = { ...prev };
+											if (!newDesign.components) newDesign.components = {};
+											if (!newDesign.components.serviceCard) newDesign.components.serviceCard = {};
+											if (!newDesign.components.serviceCard.variants) newDesign.components.serviceCard.variants = {};
+											if (!newDesign.components.serviceCard.variants[activeVariant]) newDesign.components.serviceCard.variants[activeVariant] = {};
+											newDesign.components.serviceCard.variants[activeVariant].descriptionSpacing = val;
+											return newDesign;
+										})}
+										placeholder="1rem"
+										label={`${variantPath}.descriptionSpacing`}
+										style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+									/>
+								</PanelRow>
+
+								<PanelRow label="Button Spacing">
+									<SmartInput
+										value={design?.components?.serviceCard?.variants?.[activeVariant]?.buttonSpacing || '1rem'}
+										onChange={(val) => updateDesignLocal((prev: any) => {
+											const newDesign = { ...prev };
+											if (!newDesign.components) newDesign.components = {};
+											if (!newDesign.components.serviceCard) newDesign.components.serviceCard = {};
+											if (!newDesign.components.serviceCard.variants) newDesign.components.serviceCard.variants = {};
+											if (!newDesign.components.serviceCard.variants[activeVariant]) newDesign.components.serviceCard.variants[activeVariant] = {};
+											newDesign.components.serviceCard.variants[activeVariant].buttonSpacing = val;
+											return newDesign;
+										})}
+										placeholder="1rem"
+										label={`${variantPath}.buttonSpacing`}
+										style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+									/>
+								</PanelRow>
+							</>
+						);
+					})()}
+				</div>
+			)}
+
+			{/* Testimonial Card Design Section */}
+			{(activeElement?.cardType === 'testimonialCard' || activeElement?.label?.startsWith('testimonialCard')) && (
+				<div style={{ padding: '1rem', background: '#1a1a1a', borderRadius: 8, marginBottom: '1rem' }}>
+					<div style={{ fontSize: 14, fontWeight: 'bold', color: '#fff', marginBottom: '1rem', textAlign: 'center' }}>
+						Testimonial Card Design
+					</div>
+
+					{/* Card Layout Controls */}
+					<PanelRow label="Background Color">
+						<ColorSwatch
+							value={design?.components?.testimonialCard?.backgroundColor || 'transparent'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.testimonialCard) newDesign.components.testimonialCard = {};
+								newDesign.components.testimonialCard.backgroundColor = val;
+								return newDesign;
+							})}
+							placeholder="transparent"
+						/>
+					</PanelRow>
+
+					<PanelRow label="Border Color">
+						<ColorSwatch
+							value={design?.components?.testimonialCard?.borderColor || 'transparent'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.testimonialCard) newDesign.components.testimonialCard = {};
+								newDesign.components.testimonialCard.borderColor = val;
+								return newDesign;
+							})}
+							placeholder="transparent"
+						/>
+					</PanelRow>
+
+					<PanelRow label="Border Width">
+						<SmartInput
+							value={design?.components?.testimonialCard?.borderWidth || '1px'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.testimonialCard) newDesign.components.testimonialCard = {};
+								newDesign.components.testimonialCard.borderWidth = val;
+								return newDesign;
+							})}
+							placeholder="1px"
+							label="testimonialCard.borderWidth"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Border Radius">
+						<SmartInput
+							value={design?.components?.testimonialCard?.borderRadius || '0.5rem'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.testimonialCard) newDesign.components.testimonialCard = {};
+								newDesign.components.testimonialCard.borderRadius = val;
+								return newDesign;
+							})}
+							placeholder="0.5rem"
+							label="testimonialCard.borderRadius"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Shadow">
+						<SmartInput
+							value={design?.components?.testimonialCard?.shadow || 'none'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.testimonialCard) newDesign.components.testimonialCard = {};
+								newDesign.components.testimonialCard.shadow = val;
+								return newDesign;
+							})}
+							placeholder="none"
+							label="testimonialCard.shadow"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Padding">
+						<SmartInput
+							value={design?.components?.testimonialCard?.padding || '1rem 1.5rem'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.testimonialCard) newDesign.components.testimonialCard = {};
+								newDesign.components.testimonialCard.padding = val;
+								return newDesign;
+							})}
+							placeholder="1rem 1.5rem"
+							label="testimonialCard.padding"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Min Height">
+						<SmartInput
+							value={design?.components?.testimonialCard?.minHeight || 'auto'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.testimonialCard) newDesign.components.testimonialCard = {};
+								newDesign.components.testimonialCard.minHeight = val;
+								return newDesign;
+							})}
+							placeholder="auto"
+							label="testimonialCard.minHeight"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					{/* Avatar Controls */}
+					<PanelRow label="Avatar Size">
+						<SmartInput
+							value={design?.components?.testimonialCard?.avatarSize || '5rem'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.testimonialCard) newDesign.components.testimonialCard = {};
+								newDesign.components.testimonialCard.avatarSize = val;
+								return newDesign;
+							})}
+							placeholder="5rem"
+							label="testimonialCard.avatarSize"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Avatar Spacing">
+						<SmartInput
+							value={design?.components?.testimonialCard?.avatarSpacing || '1rem'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.testimonialCard) newDesign.components.testimonialCard = {};
+								newDesign.components.testimonialCard.avatarSpacing = val;
+								return newDesign;
+							})}
+							placeholder="1rem"
+							label="testimonialCard.avatarSpacing"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					{/* Star Rating Controls */}
+					<PanelRow label="Star Size">
+						<SmartInput
+							value={design?.components?.testimonialCard?.starSize || '1rem'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.testimonialCard) newDesign.components.testimonialCard = {};
+								newDesign.components.testimonialCard.starSize = val;
+								return newDesign;
+							})}
+							placeholder="1rem"
+							label="testimonialCard.starSize"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Star Color">
+						<ColorSwatch
+							value={design?.components?.testimonialCard?.starColor || design?.tokens?.colors?.primary || '#fbbf24'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.testimonialCard) newDesign.components.testimonialCard = {};
+								newDesign.components.testimonialCard.starColor = val;
+								return newDesign;
+							})}
+							placeholder="#fbbf24"
+						/>
+					</PanelRow>
+
+					<PanelRow label="Rating Spacing">
+						<SmartInput
+							value={design?.components?.testimonialCard?.ratingSpacing || '0.5rem'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.testimonialCard) newDesign.components.testimonialCard = {};
+								newDesign.components.testimonialCard.ratingSpacing = val;
+								return newDesign;
+							})}
+							placeholder="0.5rem"
+							label="testimonialCard.ratingSpacing"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					{/* Spacing Controls */}
+					<PanelRow label="Header Spacing">
+						<SmartInput
+							value={design?.components?.testimonialCard?.headerSpacing || '1rem'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.testimonialCard) newDesign.components.testimonialCard = {};
+								newDesign.components.testimonialCard.headerSpacing = val;
+								return newDesign;
+							})}
+							placeholder="1rem"
+							label="testimonialCard.headerSpacing"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Name Spacing">
+						<SmartInput
+							value={design?.components?.testimonialCard?.nameSpacing || '0.5rem'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.testimonialCard) newDesign.components.testimonialCard = {};
+								newDesign.components.testimonialCard.nameSpacing = val;
+								return newDesign;
+							})}
+							placeholder="0.5rem"
+							label="testimonialCard.nameSpacing"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Location Spacing">
+						<SmartInput
+							value={design?.components?.testimonialCard?.locationSpacing || '0.75rem'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.testimonialCard) newDesign.components.testimonialCard = {};
+								newDesign.components.testimonialCard.locationSpacing = val;
+								return newDesign;
+							})}
+							placeholder="0.75rem"
+							label="testimonialCard.locationSpacing"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Content Padding">
+						<SmartInput
+							value={design?.components?.testimonialCard?.contentPadding || '1rem'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.testimonialCard) newDesign.components.testimonialCard = {};
+								newDesign.components.testimonialCard.contentPadding = val;
+								return newDesign;
+							})}
+							placeholder="1rem"
+							label="testimonialCard.contentPadding"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					{/* Text Styling Controls */}
+					<PanelRow label="Text Style">
+						<select
+							value={design?.components?.testimonialCard?.textStyle || 'italic'}
+							onChange={(e) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.testimonialCard) newDesign.components.testimonialCard = {};
+								newDesign.components.testimonialCard.textStyle = e.target.value;
+								return newDesign;
+							})}
+							style={{
+								width: '100%',
+								padding: '8px',
+								background: '#2a2a2a',
+								color: '#fff',
+								border: '1px solid #444',
+								borderRadius: 4,
+								fontSize: 12
+							}}
+						>
+							<option value="normal">Normal</option>
+							<option value="italic">Italic</option>
+							<option value="oblique">Oblique</option>
+						</select>
+					</PanelRow>
+
+					<PanelRow label="Max Text Width">
+						<SmartInput
+							value={design?.components?.testimonialCard?.maxTextWidth || 'none'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.testimonialCard) newDesign.components.testimonialCard = {};
+								newDesign.components.testimonialCard.maxTextWidth = val;
+								return newDesign;
+							})}
+							placeholder="none"
+							label="testimonialCard.maxTextWidth"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+				</div>
+			)}
+
+			{/* Why Feature Cards Design Section */}
+			{(activeElement?.cardType === 'whyFeatureCard' || activeElement?.label?.startsWith('whyFeatureCard')) && (
+				<div style={{ padding: '1rem', background: '#1a1a1a', borderRadius: 8, marginBottom: '1rem' }}>
+					<div style={{ fontSize: 14, fontWeight: 'bold', color: '#fff', marginBottom: '1rem', textAlign: 'center' }}>
+						Why Feature Cards Design
+					</div>
+
+					{/* Card Layout Controls */}
+					<PanelRow label="Background Color">
+						<ColorSwatch
+							value={design?.components?.whyFeatureCard?.backgroundColor || design?.tokens?.colors?.background}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.whyFeatureCard) newDesign.components.whyFeatureCard = {};
+								newDesign.components.whyFeatureCard.backgroundColor = val;
+								return newDesign;
+							})}
+							placeholder="#000000"
+						/>
+					</PanelRow>
+
+					<PanelRow label="Border Color">
+						<ColorSwatch
+							value={design?.components?.whyFeatureCard?.borderColor || 'transparent'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.whyFeatureCard) newDesign.components.whyFeatureCard = {};
+								newDesign.components.whyFeatureCard.borderColor = val;
+								return newDesign;
+							})}
+							placeholder="transparent"
+						/>
+					</PanelRow>
+
+					<PanelRow label="Border Width">
+						<SmartInput
+							value={design?.components?.whyFeatureCard?.borderWidth || '1px'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.whyFeatureCard) newDesign.components.whyFeatureCard = {};
+								newDesign.components.whyFeatureCard.borderWidth = val;
+								return newDesign;
+							})}
+							placeholder="1px"
+							label="whyFeatureCard.borderWidth"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Border Radius">
+						<SmartInput
+							value={design?.components?.whyFeatureCard?.borderRadius || '0.5rem'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.whyFeatureCard) newDesign.components.whyFeatureCard = {};
+								newDesign.components.whyFeatureCard.borderRadius = val;
+								return newDesign;
+							})}
+							placeholder="0.5rem"
+							label="whyFeatureCard.borderRadius"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Shadow">
+						<SmartInput
+							value={design?.components?.whyFeatureCard?.shadow || 'none'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.whyFeatureCard) newDesign.components.whyFeatureCard = {};
+								newDesign.components.whyFeatureCard.shadow = val;
+								return newDesign;
+							})}
+							placeholder="none"
+							label="whyFeatureCard.shadow"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Padding">
+						<SmartInput
+							value={design?.components?.whyFeatureCard?.padding || '2rem'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.whyFeatureCard) newDesign.components.whyFeatureCard = {};
+								newDesign.components.whyFeatureCard.padding = val;
+								return newDesign;
+							})}
+							placeholder="2rem"
+							label="whyFeatureCard.padding"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Min Height">
+						<SmartInput
+							value={design?.components?.whyFeatureCard?.minHeight || '300px'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.whyFeatureCard) newDesign.components.whyFeatureCard = {};
+								newDesign.components.whyFeatureCard.minHeight = val;
+								return newDesign;
+							})}
+							placeholder="300px"
+							label="whyFeatureCard.minHeight"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Transition">
+						<SmartInput
+							value={design?.components?.whyFeatureCard?.transition || 'all 0.3s ease'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.whyFeatureCard) newDesign.components.whyFeatureCard = {};
+								newDesign.components.whyFeatureCard.transition = val;
+								return newDesign;
+							})}
+							placeholder="all 0.3s ease"
+							label="whyFeatureCard.transition"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					{/* Icon Controls */}
+					<PanelRow label="Icon Size">
+						<SmartInput
+							value={design?.components?.whyFeatureCard?.iconSize || '4rem'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.whyFeatureCard) newDesign.components.whyFeatureCard = {};
+								newDesign.components.whyFeatureCard.iconSize = val;
+								return newDesign;
+							})}
+							placeholder="4rem"
+							label="whyFeatureCard.iconSize"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Icon Background">
+						<ColorSwatch
+							value={design?.components?.whyFeatureCard?.iconBackground || design?.tokens?.colors?.primary}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.whyFeatureCard) newDesign.components.whyFeatureCard = {};
+								newDesign.components.whyFeatureCard.iconBackground = val;
+								return newDesign;
+							})}
+							placeholder="#3b82f6"
+						/>
+					</PanelRow>
+
+					<PanelRow label="Icon Color">
+						<ColorSwatch
+							value={design?.components?.whyFeatureCard?.iconColor || 'black'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.whyFeatureCard) newDesign.components.whyFeatureCard = {};
+								newDesign.components.whyFeatureCard.iconColor = val;
+								return newDesign;
+							})}
+							placeholder="black"
+						/>
+					</PanelRow>
+
+					<PanelRow label="Icon Border Radius">
+						<SmartInput
+							value={design?.components?.whyFeatureCard?.iconBorderRadius || '50%'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.whyFeatureCard) newDesign.components.whyFeatureCard = {};
+								newDesign.components.whyFeatureCard.iconBorderRadius = val;
+								return newDesign;
+							})}
+							placeholder="50%"
+							label="whyFeatureCard.iconBorderRadius"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Icon Inner Size">
+						<SmartInput
+							value={design?.components?.whyFeatureCard?.iconInnerSize || '1.75rem'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.whyFeatureCard) newDesign.components.whyFeatureCard = {};
+								newDesign.components.whyFeatureCard.iconInnerSize = val;
+								return newDesign;
+							})}
+							placeholder="1.75rem"
+							label="whyFeatureCard.iconInnerSize"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Icon Spacing">
+						<SmartInput
+							value={design?.components?.whyFeatureCard?.iconSpacing || '1.5rem'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.whyFeatureCard) newDesign.components.whyFeatureCard = {};
+								newDesign.components.whyFeatureCard.iconSpacing = val;
+								return newDesign;
+							})}
+							placeholder="1.5rem"
+							label="whyFeatureCard.iconSpacing"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					{/* Content Layout Controls */}
+					<PanelRow label="Content Padding">
+						<SmartInput
+							value={design?.components?.whyFeatureCard?.contentPadding || '2rem 0'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.whyFeatureCard) newDesign.components.whyFeatureCard = {};
+								newDesign.components.whyFeatureCard.contentPadding = val;
+								return newDesign;
+							})}
+							placeholder="2rem 0"
+							label="whyFeatureCard.contentPadding"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Content Alignment">
+						<select
+							value={design?.components?.whyFeatureCard?.contentAlignment || 'center'}
+							onChange={(e) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.whyFeatureCard) newDesign.components.whyFeatureCard = {};
+								newDesign.components.whyFeatureCard.contentAlignment = e.target.value;
+								return newDesign;
+							})}
+							style={{
+								width: '100%',
+								padding: '8px',
+								background: '#2a2a2a',
+								color: '#fff',
+								border: '1px solid #444',
+								borderRadius: 4,
+								fontSize: 12
+							}}
+						>
+							<option value="center">Center</option>
+							<option value="flex-start">Top</option>
+							<option value="flex-end">Bottom</option>
+							<option value="space-between">Space Between</option>
+							<option value="space-around">Space Around</option>
+						</select>
+					</PanelRow>
+
+					<PanelRow label="Title Spacing">
+						<SmartInput
+							value={design?.components?.whyFeatureCard?.titleSpacing || '1rem'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.whyFeatureCard) newDesign.components.whyFeatureCard = {};
+								newDesign.components.whyFeatureCard.titleSpacing = val;
+								return newDesign;
+							})}
+							placeholder="1rem"
+							label="whyFeatureCard.titleSpacing"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Description Padding">
+						<SmartInput
+							value={design?.components?.whyFeatureCard?.descriptionPadding || '0 1.5rem'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.whyFeatureCard) newDesign.components.whyFeatureCard = {};
+								newDesign.components.whyFeatureCard.descriptionPadding = val;
+								return newDesign;
+							})}
+							placeholder="0 1.5rem"
+							label="whyFeatureCard.descriptionPadding"
 							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
 						/>
 					</PanelRow>
