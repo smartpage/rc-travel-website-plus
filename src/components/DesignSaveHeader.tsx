@@ -50,12 +50,13 @@ const DesignSaveHeader: React.FC = () => {
               position: 'absolute',
               inset: 0,
               borderRadius: 6,
-              padding: 2,
-              background: 'conic-gradient(from 0deg, rgba(22,163,74,0.0), rgba(22,163,74,0.9), rgba(22,163,74,0.0) 25%)',
-              WebkitMask: 'linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)',
-              WebkitMaskComposite: 'xor' as any,
-              maskComposite: 'exclude',
-              animation: 'spin 1.8s linear infinite'
+              // Marching-ants border using 4 repeating gradients
+              background:
+                'repeating-linear-gradient(90deg, rgba(22,163,74,1) 0 3px, rgba(22,163,74,0) 3px 6px) top left / 100% 1px no-repeat,\
+                 repeating-linear-gradient(90deg, rgba(22,163,74,1) 0 3px, rgba(22,163,74,0) 3px 6px) bottom left / 100% 1px no-repeat,\
+                 repeating-linear-gradient(0deg, rgba(22,163,74,1) 0 3px, rgba(22,163,74,0) 3px 6px) top left / 1px 100% no-repeat,\
+                 repeating-linear-gradient(0deg, rgba(22,163,74,1) 0 3px, rgba(22,163,74,0) 3px 6px) top right / 1px 100% no-repeat',
+              animation: 'ants 1.2s linear infinite'
             }}
           />
         )}
@@ -100,7 +101,12 @@ const DesignSaveHeader: React.FC = () => {
       {!!lastSavedAt && lastSaveOk === true && (
         <span style={{ fontSize: 11, color: '#71717a' }} data-overlay-ui="1">{savedAtText}</span>
       )}
-      <style>{`@keyframes spin{to{transform:rotate(1turn)}}`}</style>
+      <style>{`
+        @keyframes ants {
+          0%   {background-position: 0 0, 0 100%, 0 0, 100% 0}
+          100% {background-position: 6px 0, -6px 100%, 0 6px, 100% -6px}
+        }
+      `}</style>
     </div>
   );
 };

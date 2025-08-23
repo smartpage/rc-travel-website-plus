@@ -61,7 +61,7 @@
         },
         "travelDesignerCard": {
           "fontFamily": "Inter, sans-serif",
-          "fontSize": "0.85rem",
+          "fontSize": "1rem",
           "fontWeight": "400",
           "lineHeight": "1.6",
           "color": "#000"
@@ -155,7 +155,7 @@
         },
         "titleDescription": {
           "fontFamily": "Inter, sans-serif",
-          "fontSize": "1.25rem",
+          "fontSize": "1.5rem",
           "fontWeight": "500",
           "color": "#FF69B4",
           "lineHeight": "1.75",
