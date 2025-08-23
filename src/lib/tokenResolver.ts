@@ -162,6 +162,14 @@ export function resolveGlobalTokens(snapshot: ComputedSnapshot, sectionId: strin
         matches.push({ scope: 'global', tokenPath: 'tokens.typography.contactCardIcon.size', label: 'Contact Card Icon Size', responsive: false });
         hasSpecificMatch = true;
         break;
+      case 'headings':
+        matches.push({ scope: 'global', tokenPath: 'tokens.typography.headings', label: 'Headings', responsive: true });
+        hasSpecificMatch = true;
+        break;
+      case 'hero_headings':
+        matches.push({ scope: 'global', tokenPath: 'tokens.typography.hero_headings', label: 'Hero Headings', responsive: true });
+        hasSpecificMatch = true;
+        break;
       case 'travelDesignerCard':
         matches.push({ scope: 'global', tokenPath: 'typography.travelDesignerCard', label: 'Travel Designer Card Text', responsive: false });
         hasSpecificMatch = true;

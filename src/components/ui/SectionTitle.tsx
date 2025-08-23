@@ -146,6 +146,7 @@ const SectionTitle: React.FC<SectionTitleProps> = ({
         {/* Main Title */}
         <h1 
           id={uniqueId}
+          data-typography={variant === 'hero_headings' ? 'hero_headings' : 'headings'}
           style={titleStyles}
           className="mt-2 break-words"
         >

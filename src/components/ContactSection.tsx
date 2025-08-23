@@ -109,7 +109,7 @@ const ContactSection = () => {
           subtitle={contact.preTitle}
           title={contact.title}
           description={contact.description}
-          variant="headings"
+          
         />
       </div>
 
