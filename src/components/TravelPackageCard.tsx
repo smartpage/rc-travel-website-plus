@@ -176,7 +176,14 @@ const TravelPackageCard = ({ pkg, ctaText, moreDetailsText, onWhatsAppContact }:
       
       <CardFooter style={{ padding: travelPackageCard.innerPadding || '16px', backgroundColor: 'inherit' }}>
         <div className="flex justify-between items-center w-full">
-          <div className="flex flex-col items-start">
+          <div
+            className="flex items-start"
+            style={{
+              display: 'flex',
+              flexDirection: travelPackageCard.priceGroup?.direction || 'column',
+              gap: travelPackageCard.priceGroup?.gap || '0.25rem'
+            }}
+          >
             <span
               data-typography="travelPackagePriceType"
               className="text-sm font-light"

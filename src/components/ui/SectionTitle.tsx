@@ -88,7 +88,8 @@ const SectionTitle: React.FC<SectionTitleProps> = ({
 
   const titleStyles: React.CSSProperties = {
     fontFamily: headingConfig.fontFamily,
-    fontSize: headingConfig.fontSize,
+    // Use CSS variable so media queries can override without !important
+    fontSize: 'var(--heading-fs)',
     fontWeight: headingConfig.fontWeight,
     letterSpacing: headingConfig.letterSpacing,
     lineHeight: headingConfig.lineHeight,
@@ -108,15 +109,13 @@ const SectionTitle: React.FC<SectionTitleProps> = ({
   
   // Container queries para responsividade
   const mediaQueryStyles = `
+    /* Base variable for font size; allows responsive overrides without !important */
+    #${uniqueId} { --heading-fs: ${headingConfig.fontSize}; }
     @container (min-width: 768px) {
-      #${uniqueId} {
-        font-size: ${headingConfig.fontSizeMd || '3rem'} !important;
-      }
+      #${uniqueId} { --heading-fs: ${headingConfig.fontSizeMd || headingConfig.fontSize || '3rem'}; }
     }
     @container (min-width: 1024px) {
-      #${uniqueId} {
-        font-size: ${headingConfig.fontSizeLg || '3.5rem'} !important;
-      }
+      #${uniqueId} { --heading-fs: ${headingConfig.fontSizeLg || headingConfig.fontSizeMd || headingConfig.fontSize || '3.5rem'}; }
     }
   `;
 

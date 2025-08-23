@@ -703,6 +703,7 @@
     "transition": "all 0.3s ease",
     "padding": "1.5rem",
     "innerPadding": "1rem",
+    "priceGroup": { "gap": "0.25rem", "direction": "column" },
     "iconColors": {
       "map": "#10b981",
       "check": "#10b981",
