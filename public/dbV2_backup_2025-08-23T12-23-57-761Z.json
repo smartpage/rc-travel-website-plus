@@ -156,9 +156,9 @@
           "fontFamily": "Inter, sans-serif",
           "fontSize": "3rem",
           "fontSizeMd": "6.7rem",
-          "fontSizeLg": "7.25rem",
-          "lineHeight": "1",
-          "fontWeight": "400",
+          "fontSizeLg": "7.5rem",
+          "lineHeight": "1.125",
+          "fontWeight": "500",
           "letterSpacing": "-0.1em",
           "color": "black",
           "marginBottom": "0.5rem",
@@ -369,7 +369,7 @@
             "minHeight": "400px"
           },
           "highlight": {
-            "backgroundColor": "#FF69B4",
+            "backgroundColor": "#facc15",
             "textColor": "#000000",
             "borderColor": "transparent",
             "borderWidth": "0px",
@@ -379,7 +379,7 @@
             "headerBarColor": "#000000"
           }
         },
-        "activeVariant": "highlight"
+        "activeVariant": "featured"
       },
       "travelPackageCard": {
         "minHeight": "70vh",
@@ -657,7 +657,7 @@
               "desktop": "2rem"
             },
             "rounded": true,
-            "backgroundColor": "#ffe5e9",
+            "backgroundColor": "#FFF8DC",
             "overflow": "visible",
             "background": {
               "type": "color",

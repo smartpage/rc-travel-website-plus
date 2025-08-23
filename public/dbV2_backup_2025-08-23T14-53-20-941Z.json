@@ -369,7 +369,7 @@
             "minHeight": "400px"
           },
           "highlight": {
-            "backgroundColor": "#FF69B4",
+            "backgroundColor": "#facc15",
             "textColor": "#000000",
             "borderColor": "transparent",
             "borderWidth": "0px",
@@ -379,7 +379,7 @@
             "headerBarColor": "#000000"
           }
         },
-        "activeVariant": "highlight"
+        "activeVariant": "featured"
       },
       "travelPackageCard": {
         "minHeight": "70vh",
