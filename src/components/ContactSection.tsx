@@ -121,7 +121,7 @@ const ContactSection = () => {
           transition={{ delay: 0.05, duration: 0.3 }}
           whileHover={{ y: -5 }}
         >
-        <Card className={`
+        <Card data-card-type="contactCard" data-card-variant="standard" className={`
           ${design.components?.primaryCards?.container?.base || ''}
           ${design.components?.primaryCards?.container?.border || ''}
           ${design.components?.primaryCards?.container?.rounded || ''}
@@ -131,12 +131,19 @@ const ContactSection = () => {
           ${design.components?.primaryCards?.container?.hover || ''}
         `}>
           <CardHeader className={design.components?.primaryCards?.header?.spacing || ''}>
-            <CardTitle className={`
+            <CardTitle data-typography="contactCard.title" className={`
               ${design.components?.primaryCards?.title?.layout || ''}
               ${design.components?.primaryCards?.title?.base || ''}
               ${design.components?.primaryCards?.title?.fontSize || ''}
               ${design.components?.primaryCards?.title?.fontWeight || ''}
-            `}>
+            `}
+            style={{
+              fontFamily: design.tokens?.typography?.contactCardTitle?.fontFamily || design.tokens?.typography?.headings?.fontFamily,
+              fontSize: design.tokens?.typography?.contactCardTitle?.fontSize || '1.25rem',
+              fontWeight: design.tokens?.typography?.contactCardTitle?.fontWeight || '600',
+              lineHeight: design.tokens?.typography?.contactCardTitle?.lineHeight || '1.2',
+              color: design.tokens?.typography?.contactCardTitle?.color || design.tokens?.colors?.text || 'white'
+            }}>
               <Phone className={`
                 ${design.components?.primaryCards?.title?.iconSize || ''}
                 ${design.components?.primaryCards?.title?.iconColor || ''}
@@ -145,13 +152,20 @@ const ContactSection = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className={design.components?.primaryCards?.content?.spacing || ''}>
-            <p className={`
+            <p data-typography="contactCard.body" className={`
               ${design.components?.primaryCards?.description?.color || ''}
               ${design.components?.primaryCards?.description?.fontSize || ''}
               ${design.components?.primaryCards?.description?.fontWeight || ''}
               ${design.components?.primaryCards?.description?.lineHeight || ''}
               ${design.components?.primaryCards?.description?.spacing || ''}
-            `}>
+            `}
+            style={{
+              fontFamily: design.tokens?.typography?.contactCardBody?.fontFamily || design.tokens?.typography?.body?.fontFamily,
+              fontSize: design.tokens?.typography?.contactCardBody?.fontSize || '1rem',
+              fontWeight: design.tokens?.typography?.contactCardBody?.fontWeight || '400',
+              lineHeight: design.tokens?.typography?.contactCardBody?.lineHeight || '1.6',
+              color: design.tokens?.typography?.contactCardBody?.color || design.tokens?.colors?.text || '#cbd5e1'
+            }}>
               {contact.whatsappCard.description}
             </p>
             <Button
@@ -194,7 +208,7 @@ const ContactSection = () => {
           transition={{ delay: 0.1, duration: 0.3 }}
           whileHover={{ y: -5 }}
         >
-        <Card className={`
+        <Card data-card-type="contactCard" data-card-variant="standard" className={`
           ${design.components?.primaryCards?.container?.base || ''}
           ${design.components?.primaryCards?.container?.border || ''}
           ${design.components?.primaryCards?.container?.rounded || ''}
@@ -204,12 +218,19 @@ const ContactSection = () => {
           ${design.components?.primaryCards?.container?.hover || ''}
         `}>
           <CardHeader className={design.components?.primaryCards?.header?.spacing || ''}>
-            <CardTitle className={`
+            <CardTitle data-typography="contactCard.title" className={`
               ${design.components?.primaryCards?.title?.layout || ''}
               ${design.components?.primaryCards?.title?.base || ''}
               ${design.components?.primaryCards?.title?.fontSize || ''}
               ${design.components?.primaryCards?.title?.fontWeight || ''}
-            `}>
+            `}
+            style={{
+              fontFamily: design.tokens?.typography?.contactCardTitle?.fontFamily || design.tokens?.typography?.headings?.fontFamily,
+              fontSize: design.tokens?.typography?.contactCardTitle?.fontSize || '1.25rem',
+              fontWeight: design.tokens?.typography?.contactCardTitle?.fontWeight || '600',
+              lineHeight: design.tokens?.typography?.contactCardTitle?.lineHeight || '1.2',
+              color: design.tokens?.typography?.contactCardTitle?.color || design.tokens?.colors?.text || 'white'
+            }}>
               <Mail className={`
                 ${design.components?.primaryCards?.title?.iconSize || ''}
                 ${design.components?.primaryCards?.title?.iconColor || ''}
@@ -218,13 +239,20 @@ const ContactSection = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className={design.components?.primaryCards?.content?.spacing || ''}>
-            <p className={`
+            <p data-typography="contactCard.body" className={`
               ${design.components?.primaryCards?.description?.color || ''}
               ${design.components?.primaryCards?.description?.fontSize || ''}
               ${design.components?.primaryCards?.description?.fontWeight || ''}
               ${design.components?.primaryCards?.description?.lineHeight || ''}
               ${design.components?.primaryCards?.description?.spacing || ''}
-            `}>
+            `}
+            style={{
+              fontFamily: design.tokens?.typography?.contactCardBody?.fontFamily || design.tokens?.typography?.body?.fontFamily,
+              fontSize: design.tokens?.typography?.contactCardBody?.fontSize || '1rem',
+              fontWeight: design.tokens?.typography?.contactCardBody?.fontWeight || '400',
+              lineHeight: design.tokens?.typography?.contactCardBody?.lineHeight || '1.6',
+              color: design.tokens?.typography?.contactCardBody?.color || design.tokens?.colors?.text || '#cbd5e1'
+            }}>
               {contact.emailCard.description}
             </p>
             <Button

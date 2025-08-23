@@ -43,6 +43,7 @@ interface EditorOverlayState {
     isGenerating: boolean;
     generationStartTime: number | null;
   };
+  autoOpen?: boolean;
 }
 
 interface EditorOverlayContextValue extends EditorOverlayState {
@@ -64,6 +65,7 @@ interface EditorOverlayContextValue extends EditorOverlayState {
   deleteColorFromSlot: (slotIndex: number) => void;
   startAiGeneration: () => void;
   endAiGeneration: (durationMs: number) => void;
+  setAutoOpen: (value: boolean) => void;
 }
 
 const EditorOverlayContext = React.createContext<EditorOverlayContextValue | undefined>(undefined);
@@ -146,6 +148,7 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
       isGenerating: false,
       generationStartTime: null,
     },
+    autoOpen: (() => { try { return localStorage.getItem('design_auto_open') === '1'; } catch { return false; } })()
   });
 
   const toggleCollapse = (panel: PanelId) => {
@@ -190,6 +193,14 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
     if (info && prevViewportRef.current) {
       // keep overlay rect locked to selection when one is active
     }
+    // Auto-open Design panel on selection if toggle is ON
+    setState(prev => {
+      if (info && prev.autoOpen) {
+        try { localStorage.setItem('design_active_panel', 'inspector'); } catch {}
+        return { ...prev, activePanelId: 'inspector' };
+      }
+      return prev;
+    });
   };
 
   const setViewport = (vp: 'desktop' | 'mobile') => {
@@ -247,6 +258,11 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
       try { localStorage.setItem('design_panel_corner', next); } catch {}
       return { ...prev, panelCorner: next };
     });
+  };
+
+  const setAutoOpen = (value: boolean) => {
+    try { localStorage.setItem('design_auto_open', value ? '1' : '0'); } catch {}
+    setState(prev => ({ ...prev, autoOpen: value }));
   };
 
   const saveColorToSlot = (color: string, slotIndex: number) => {
@@ -420,10 +436,14 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
       const rect = target.getBoundingClientRect();
       setState(prev => ({
         ...prev,
+        activePanelId: prev.autoOpen ? 'inspector' : prev.activePanelId,
         activeElement: { label, sectionId, tokenMatches, cardType, cardVariant },
         overlayRect: { top: rect.top, left: rect.left, width: rect.width, height: rect.height },
         selectedElement: target
       }));
+      if (state.autoOpen) {
+        try { localStorage.setItem('design_active_panel', 'inspector'); } catch {}
+      }
     };
 
     document.addEventListener('mousemove', onMove, { capture: true, passive: true } as any);
@@ -550,6 +570,7 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
     panelCorner: state.panelCorner,
     colorPalette: state.colorPalette,
     aiTiming: state.aiTiming,
+    autoOpen: state.autoOpen,
     toggleCollapse,
     setCollapsed,
     setActivePanelId,
@@ -566,6 +587,7 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
     deleteColorFromSlot,
     startAiGeneration,
     endAiGeneration,
+    setAutoOpen,
   }), [state, startAiGeneration, endAiGeneration]);
 
   return (

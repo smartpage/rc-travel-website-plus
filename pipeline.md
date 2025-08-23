@@ -13,6 +13,15 @@ This document explains how the design-mode editor selection pipeline works in `r
 3) Why does it look like a global fallback and how can we disable it?
 - Answer: The resolver adds global `headings/body` when it can’t map a specific token. For card contexts we can suppress that by checking `activeElement.cardType` and skipping global pushes if a card is selected but no precise typography hint matched. This prevents misleading global controls.
 
+4) Why are contact card typography controls “disconnected” in the inspector?
+- Answer: We completed steps 1–2 of the pipeline (DOM hints via `data-typography` and resolver mapping), but skipped step 3: binding the component’s render styles to the typography tokens. The resolver is not at fault; the component doesn’t read `design.tokens.typography.contactCardTitle` / `contactCardBody`, so inspector changes don’t reflect.
+
+5) How to fix the contact card binding quickly?
+- Answer: In `ContactSection.tsx`, for the `CardTitle` and its body `p`, read from `design.tokens.typography.contactCardTitle.*` and `design.tokens.typography.contactCardBody.*` (fontFamily, fontSize, lineHeight, fontWeight, color). Do this via inline styles or CSS variables consumed by classNames. Ensure those keys exist in `public/dbV2.json`.
+
+6) Why are some components immediately responsive while others are not?
+- Answer: Responsive components (e.g., `TestimonialCard.tsx`) read their styles directly from `design.tokens.typography.*` in their JSX styles, so when tokens change the UI updates instantly. Non-responsive ones rely only on `design.components.*` class strings and never consult the typography tokens; they therefore ignore inspector updates unless those classes happen to reference CSS variables wired to the same tokens.
+
 > State sources
 > - Source of truth: current saved dbV2 (as loaded in `DesignContext`)
 > - Working copy: local in-memory design edits via `updateDesignLocal`
@@ -24,6 +33,15 @@ This document explains how the design-mode editor selection pipeline works in `r
 > Save function reference
 > - `saveDesignToDBV2()` lives in `src/contexts/DesignContext.tsx` and is exposed via the DesignContext.
 > - Always reuse this function for manual and auto-save operations.
+
+## Auto Open (panel precedence switch)
+
+- UX: Add a left-aligned toggle in the Design header named “Auto Open”. When ON, any selection via selector-hints should focus the Design panel and collapse others.
+- Wiring: Use `EditorOverlayContext` (panel state lives here: `activePanelId`, `togglePanel`, etc.).
+- Implementation notes:
+  - Add `autoOpen` boolean in a small UI state (either `EditorOverlayContext` or a new context, persisted in localStorage `design_auto_open`).
+  - In `EditorOverlayContext` click-selection handler, after computing `activeElement`, if `autoOpen === true`, call `setActivePanelId('inspector')` and optionally collapse others by design (single-open accordion already enforced).
+  - Keep behavior gated to design mode only.
 
 
 ## Overview
@@ -252,3 +270,38 @@ Conclusion: No dbV2 schema additions required for these four card types.
    - Keep existing token-based controls intact.
 
 Request: approve implementation of the above plan to wire card type/variant into selection and inspector routing.
+
+## Component structure requirements
+
+Goal: Ensure inspector edits reflect immediately in the UI.
+
+Baseline pipeline per element:
+1) DOM hint: add `data-typography="<key>"` to the element.
+2) Resolver mapping: map `<key>` to a token path under `tokens.typography.*`.
+3) Component binding: in the React component, read styles from `design.tokens.typography.*` (matching the resolver path) and apply them via inline styles or CSS vars.
+
+If step 3 is missing, the inspector will show controls but the element won’t update.
+
+Examples:
+```tsx
+// Correct (custom token bound)
+<h3 data-typography="testimonialCard.title" style={{
+  fontFamily: design.tokens?.typography?.testimonialCardTitle?.fontFamily,
+  fontSize: design.tokens?.typography?.testimonialCardTitle?.fontSize,
+  fontWeight: design.tokens?.typography?.testimonialCardTitle?.fontWeight,
+  color: design.tokens?.typography?.testimonialCardTitle?.color,
+}} />
+
+// Incorrect (no token binding; only classes)
+<h3 data-typography="contactCard.title" className={design.components?.primaryCards?.title?.base} />
+```
+
+Custom vs global fallback:
+- Preferred: Use a specific custom token (e.g., `tokens.typography.contactCardTitle`).
+- Fallback: If no `data-typography` hint or mapping exists, the resolver may propose global `headings`/`body`. For card internals, we suppress globals when a specific hint is present to avoid misleading controls.
+
+Actionable checklist per component:
+- Add `data-typography` to each text element you want editable.
+- Ensure corresponding keys exist in `public/dbV2.json` under `designV2.tokens.typography.*`.
+- Bind JSX styles to those token paths (fontFamily, fontSize, lineHeight, fontWeight, color).
+- For cards, also add `data-card-type` (and optional `data-card-variant`) on the root so the inspector routes to the correct panel when selecting the card.

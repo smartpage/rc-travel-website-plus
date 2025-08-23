@@ -149,6 +149,14 @@ export function resolveGlobalTokens(snapshot: ComputedSnapshot, sectionId: strin
         matches.push({ scope: 'global', tokenPath: 'typography.whyCardDescription', label: 'Why Card Description', responsive: false });
         hasSpecificMatch = true;
         break;
+      case 'contactCard.title':
+        matches.push({ scope: 'global', tokenPath: 'tokens.typography.contactCardTitle', label: 'Contact Card Title', responsive: false });
+        hasSpecificMatch = true;
+        break;
+      case 'contactCard.body':
+        matches.push({ scope: 'global', tokenPath: 'tokens.typography.contactCardBody', label: 'Contact Card Body', responsive: false });
+        hasSpecificMatch = true;
+        break;
       case 'travelDesignerCard':
         matches.push({ scope: 'global', tokenPath: 'typography.travelDesignerCard', label: 'Travel Designer Card Text', responsive: false });
         hasSpecificMatch = true;

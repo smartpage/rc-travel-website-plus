@@ -1101,7 +1101,7 @@ const DesignInspectorContent: React.FC = () => {
 			)}
 
 			{/* Travel Package Card Design Editing */}
-			{((activeElement?.cardType === 'travelPackageCard') || (activeElement?.label?.startsWith('card') && activeElement.sectionId)) && (
+			{(activeElement?.cardType === 'travelPackageCard') && (
 				<div style={{ marginTop: 16, padding: 12, background: '#1e1e1e', borderRadius: 8, border: '1px solid #333' }}>
 					<div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
 						<span style={{ fontSize: 12, color: '#facc15', fontWeight: 'bold' }}>
@@ -1470,7 +1470,7 @@ const DesignInspectorContent: React.FC = () => {
 			)}
 
 			{/* Service Card Design Section */}
-			{(activeElement?.cardType === 'serviceCard' || activeElement?.label?.startsWith('serviceCard')) && (
+			{(activeElement?.cardType === 'serviceCard') && (
 				<div style={{ marginTop: 16, padding: 12, background: '#1e1e1e', borderRadius: 8, border: '1px solid #333' }}>
 					<div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
 						<span style={{ fontSize: 12, color: '#facc15', fontWeight: 'bold' }}>
