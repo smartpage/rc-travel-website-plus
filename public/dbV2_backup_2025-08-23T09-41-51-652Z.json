@@ -165,7 +165,7 @@
           "fontFamily": "Inter, sans-serif",
           "fontSize": "1.75rem",
           "fontWeight": "700",
-          "lineHeight": "1",
+          "lineHeight": "0.7",
           "color": "#0a253d"
         },
         "packageDescription": {

@@ -43,7 +43,7 @@
           "fontSize": "1.5rem",
           "fontWeight": "600",
           "lineHeight": "1.2",
-          "color": "#FF69B4"
+          "color": "black"
         },
         "whyCardDescription": {
           "fontFamily": "Inter, sans-serif",
@@ -142,7 +142,7 @@
           "lineHeight": "1.125",
           "fontWeight": "600",
           "letterSpacing": "-0.1em",
-          "color": "#FF69B4",
+          "color": "#e16060",
           "marginBottom": "0.5rem",
           "textAlign": "center"
         },
@@ -165,7 +165,7 @@
           "fontFamily": "Inter, sans-serif",
           "fontSize": "1.75rem",
           "fontWeight": "700",
-          "lineHeight": "1",
+          "lineHeight": "0.7",
           "color": "#0a253d"
         },
         "packageDescription": {
@@ -453,9 +453,7 @@
         }
       },
       "whyFeatureCard": {
-        "backgroundColor": "#ffffff",
-        "borderWidth": "2px",
-        "borderColor": "#FF69B4"
+        "backgroundColor": "#ffffff"
       },
       "testimonialCard": {
         "borderWidth": "3px",
