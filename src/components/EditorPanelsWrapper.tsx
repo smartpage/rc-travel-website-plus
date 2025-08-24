@@ -2,7 +2,8 @@ import React from 'react';
 import { useDesign } from '@/contexts/DesignContext';
 import { useContent } from '@/contexts/ContentContext';
 import EditorPanel from './EditorPanel';
-import DesignInspectorContent from './DesignInspectorContent';
+// import DesignInspectorContent from './DesignInspectorContent';
+import DbEditorConnector from './DbEditorConnector';
 import SectionNavigatorContent from './SectionNavigatorContent';
 import AIEnhancePanel from './AIEnhancePanel';
 import { AIEnhanceProvider } from '@/contexts/AIEnhanceContext';
@@ -126,7 +127,7 @@ const EditorPanelsWrapper: React.FC = () => {
             <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 8 }}>
               <DesignSaveHeader />
             </div>
-            <DesignInspectorContent />
+            <DbEditorConnector />
           </EditorPanel>
         </div>
 

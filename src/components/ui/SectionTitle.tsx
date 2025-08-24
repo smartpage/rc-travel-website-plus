@@ -74,6 +74,7 @@ const SectionTitle: React.FC<SectionTitleProps> = ({
     fontSize: design.tokens?.typography?.preTitle?.fontSize,
     fontWeight: design.tokens?.typography?.preTitle?.fontWeight,
     color: subtitleColor || design.tokens?.typography?.preTitle?.color || design.tokens?.colors?.textLight,
+    textAlign: design.tokens?.typography?.preTitle?.textAlign || 'center',
     marginBottom: design.tokens?.typography?.preTitle?.marginBottom
   };
 
@@ -82,20 +83,27 @@ const SectionTitle: React.FC<SectionTitleProps> = ({
     fontSize: design.tokens?.typography?.titleDescription?.fontSize,
     fontWeight: design.tokens?.typography?.titleDescription?.fontWeight,
     color: descriptionColor || design.tokens?.typography?.titleDescription?.color || design.tokens?.colors?.textLight,
+    textAlign: design.tokens?.typography?.titleDescription?.textAlign || 'center',
     lineHeight: design.tokens?.typography?.titleDescription?.lineHeight,
     marginTop: design.tokens?.typography?.titleDescription?.marginTop
   };
 
+  // Determine which font size to use based on screen size - for now use fontSizeLg for desktop
+  const getCurrentFontSize = () => {
+    // In a real responsive system, we'd detect viewport size
+    // For now, prioritize fontSizeLg (desktop) since that's what the editor is showing
+    return headingConfig.fontSizeLg || headingConfig.fontSize || '2rem';
+  };
+
   const titleStyles: React.CSSProperties = {
     fontFamily: headingConfig.fontFamily,
-    // Use CSS variable so media queries can override without !important
-    fontSize: 'var(--heading-fs)',
+    fontSize: getCurrentFontSize(),
     fontWeight: headingConfig.fontWeight,
     letterSpacing: headingConfig.letterSpacing,
     lineHeight: headingConfig.lineHeight,
     color: titleColor || headingConfig.color,
     marginBottom: headingConfig.marginBottom,
-    textAlign: centerAlign ? 'center' : 'left',
+    textAlign: headingConfig.textAlign || 'center',
     // Controle de overflow e quebra de palavras
     maxWidth: '100%',
     boxSizing: 'border-box',
@@ -107,17 +115,8 @@ const SectionTitle: React.FC<SectionTitleProps> = ({
   // ID único para este componente
   const uniqueId = `title-${Math.random().toString(36).substr(2, 9)}`;
   
-  // Container queries para responsividade
-  const mediaQueryStyles = `
-    /* Base variable for font size; allows responsive overrides without !important */
-    #${uniqueId} { --heading-fs: ${headingConfig.fontSize}; }
-    @container (min-width: 768px) {
-      #${uniqueId} { --heading-fs: ${headingConfig.fontSizeMd || headingConfig.fontSize || '3rem'}; }
-    }
-    @container (min-width: 1024px) {
-      #${uniqueId} { --heading-fs: ${headingConfig.fontSizeLg || headingConfig.fontSizeMd || headingConfig.fontSize || '3.5rem'}; }
-    }
-  `;
+  // No media queries - let the design tokens handle sizing directly
+  const mediaQueryStyles = ``;
 
   // Função para renderizar HTML se necessário
   const renderTitleContent = () => {
@@ -132,7 +131,7 @@ const SectionTitle: React.FC<SectionTitleProps> = ({
       {/* Injetar CSS responsivo */}
       <style dangerouslySetInnerHTML={{ __html: mediaQueryStyles }} />
       
-      <div className={`${centerAlign ? 'text-center' : ''} mb-12 md:mb-16 max-w-full overflow-x-hidden ${className}`}>
+      <div className={`mb-12 md:mb-16 max-w-full overflow-x-hidden ${className}`}>
         {/* Subtitle */}
         {subtitle && (
           <p

@@ -77,12 +77,12 @@
             "descriptionSpacing": "1rem",
             "headerBarRadius": "2px",
             "maxHeight": "none",
-            "borderWidth": "4px",
+            "borderWidth": "5px",
             "iconColor": "#9ca3af",
             "contentGap": "0",
             "iconSize": "3.5rem",
             "titleSpacing": "1.5rem",
-            "headerBarHeight": "4px",
+            "headerBarHeight": "14px",
             "borderStyle": "solid"
           },
           "highlight": {
@@ -105,9 +105,9 @@
             "borderWidth": "0px",
             "iconColor": "#000000",
             "contentGap": "0",
-            "iconSize": "3rem",
+            "iconSize": "4.75rem",
             "titleSpacing": "1rem",
-            "headerBarHeight": "4px",
+            "headerBarHeight": "14px",
             "borderStyle": "solid"
           },
           "featured": {
@@ -154,10 +154,14 @@
         "borderWidth": "3px",
         "borderStyle": "tokens.borderStyles.solid",
         "avatarSpacing": "0.5rem",
-        "starSize": "1rem"
+        "starSize": "1.5rem",
+        "maxWidth": "500px",
+        "minHeight": "500px",
+        "gap": "1rem",
+        "starColor": "rgb(255, 217, 90)"
       },
       "travelPackageCard": {
-        "minHeight": "70vh",
+        "minHeight": "80vh",
         "iconColors": {
           "check": "#6fc8aa",
           "map": "#3cbe93"
@@ -383,11 +387,37 @@
         "borderWidth": "0",
         "borderRadius": "1rem",
         "imageHeight": "auto",
-        "padding": "0.75rem",
+        "padding": "0.5rem",
         "maxWidth": "40vw",
-        "contentPadding": "2rem 1rem",
+        "contentPadding": "1rem 1rem",
         "maxHeight": "none",
         "imageMaxHeight": "80vh"
+      },
+      "footerCard": {
+        "backgroundColor": "transparent",
+        "fontFamily": "Inter, sans-serif",
+        "borderColor": "",
+        "borderWidth": "0",
+        "borderStyle": "solid",
+        "borderRadius": "0",
+        "padding": "5.25rem 6.5rem",
+        "gap": "1rem",
+        "text": {
+          "fontSize": "0.875rem",
+          "fontWeight": "500",
+          "lineHeight": "2",
+          "color": "rgba(229, 231, 235, 0.2)"
+        },
+        "barTop": {
+          "width": "100%",
+          "height": "1px",
+          "color": "rgba(229, 231, 235, 0.2)"
+        },
+        "barBottom": {
+          "width": "100%",
+          "height": "1px",
+          "color": "rgba(229, 231, 235, 0.2)"
+        }
       }
     },
     "meta": {
@@ -1134,10 +1164,11 @@
         },
         "preTitle": {
           "fontFamily": "Inter, sans-serif",
-          "color": "#000000",
-          "fontSize": "1rem",
-          "marginBottom": "10rem",
-          "fontWeight": "400"
+          "color": "rgb(255, 217, 90)",
+          "fontSize": "1.5rem",
+          "marginBottom": "1.5rem",
+          "fontWeight": "400",
+          "textAlign": "center"
         },
         "testimonialCardAuthor": {
           "fontFamily": "Inter, sans-serif",
@@ -1206,10 +1237,11 @@
         "titleDescription": {
           "fontFamily": "Inter, sans-serif",
           "color": "rgb(255, 217, 90)",
-          "fontSize": "1.25rem",
+          "fontSize": "1.5rem",
           "lineHeight": "1.75",
           "fontWeight": "500",
-          "marginTop": "1.5rem"
+          "marginTop": "1.5rem",
+          "textAlign": "center"
         },
         "faqQuestion": {
           "fontFamily": "Inter, sans-serif",
@@ -1286,15 +1318,15 @@
           "fontWeight": "500"
         },
         "headings": {
-          "fontSizeMd": "6.7rem",
+          "fontSizeMd": "8.2rem",
           "fontFamily": "Inter, sans-serif",
           "color": "rgba(255,255,255, 1)",
           "textAlign": "center",
           "letterSpacing": "-0.1em",
-          "fontSize": "3rem",
+          "fontSize": "3.25rem",
           "lineHeight": "1",
           "marginBottom": "0.5rem",
-          "fontSizeLg": "7.5rem",
+          "fontSizeLg": "6.75rem",
           "fontWeight": "400"
         },
         "travelPackagePriceValue": {
@@ -1316,9 +1348,9 @@
           "letterSpacing": "-0.1em",
           "fontSize": "4.1rem",
           "lineHeight": "1",
-          "marginBottom": "10rem",
+          "marginBottom": "1.25rem",
           "fontSizeLg": "6.375rem",
-          "fontWeight": "600"
+          "fontWeight": "500"
         },
         "serviceCardDescription": {
           "fontFamily": "Inter, sans-serif",
@@ -1330,7 +1362,7 @@
         "travelDesignerCard": {
           "fontFamily": "Inter, sans-serif",
           "color": "#000",
-          "fontSize": "0.85rem",
+          "fontSize": "1.1rem",
           "lineHeight": "1.6",
           "fontWeight": "400"
         }
@@ -1427,7 +1459,7 @@
           },
           "backgroundColor": "#000000",
           "inner": {
-            "border": "",
+            "border": "0.4",
             "padding": {
               "tablet": "0",
               "desktop": "2rem",
@@ -1493,7 +1525,7 @@
         "layout": {
           "padding": {
             "tablet": "10rem 2rem",
-            "desktop": "2rem 1rem",
+            "desktop": "10rem 4.25rem",
             "mobile": "10rem 0.5rem"
           },
           "backgroundColor": "rgba(0,0,0,1)",
@@ -1522,7 +1554,7 @@
         "layout": {
           "padding": {
             "tablet": "1.5rem 2rem",
-            "desktop": "1.5rem 2rem",
+            "desktop": "1rem 1rem",
             "mobile": "1.5rem 1rem"
           },
           "backgroundColor": "#000000",
@@ -1544,7 +1576,7 @@
               "value": "transparent"
             },
             "rounded": false,
-            "maxWidth": "1280px"
+            "maxWidth": "none"
           },
           "maxWidth": "100%"
         }
@@ -1633,8 +1665,8 @@
             "alignItems": "center",
             "flexDirection": "column",
             "display": "flex",
-            "justifyContent": "center",
-            "minHeight": "100vh",
+            "justifyContent": "space-around",
+            "minHeight": "120vh",
             "overflow": "hidden",
             "borderRadius": "1.5rem",
             "flexWrap": "tokens.flexbox.flexWrap.nowrap",

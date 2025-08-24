@@ -106,10 +106,10 @@ const ContactSection = () => {
     <Section sectionId="contact" id="contact">
       <div className="text-center mb-12 :mb-16">
         <SectionTitle
+          variant="headings"
           subtitle={contact.preTitle}
           title={contact.title}
           description={contact.description}
-          
         />
       </div>
 

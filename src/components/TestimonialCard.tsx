@@ -40,35 +40,35 @@ const TestimonialCard = ({ testimonial }: TestimonialCardProps) => {
         ${design.components?.primaryCards?.container?.shadow ?? ''}
         ${design.components?.primaryCards?.container?.transition ?? ''}
         ${design.components?.primaryCards?.container?.hover ?? ''}
-        h-full flex flex-col p-3 @md:p-6
+        flex flex-col p-3 @md:p-6
       `}
       data-card-type="testimonialCard"
       data-card-variant="standard"
       style={{
-        backgroundColor: resolveTokenRef(design.components?.testimonialCard?.backgroundColor),
-        borderColor: resolveTokenRef(design.components?.testimonialCard?.borderColor),
-        borderWidth: resolveTokenRef(design.components?.testimonialCard?.borderWidth),
-        borderStyle: resolveTokenRef(design.components?.testimonialCard?.borderStyle) ?? 'solid',
-        borderRadius: resolveTokenRef(design.components?.testimonialCard?.borderRadius),
-        boxShadow: resolveTokenRef(design.components?.testimonialCard?.shadow),
-        padding: resolveTokenRef(design.components?.testimonialCard?.padding),
-        minHeight: resolveTokenRef(design.components?.testimonialCard?.minHeight),
-        maxHeight: resolveTokenRef(design.components?.testimonialCard?.maxHeight),
-        maxWidth: resolveTokenRef(design.components?.testimonialCard?.maxWidth),
-        color: resolveTokenRef(design.components?.testimonialCard?.textColor),
+        backgroundColor: design.components?.testimonialCard?.backgroundColor,
+        borderColor: design.components?.testimonialCard?.borderColor,
+        borderWidth: design.components?.testimonialCard?.borderWidth,
+        borderStyle: design.components?.testimonialCard?.borderStyle ?? 'solid',
+        borderRadius: design.components?.testimonialCard?.borderRadius,
+        boxShadow: design.components?.testimonialCard?.shadow,
+        padding: design.components?.testimonialCard?.padding,
+        minHeight: design.components?.testimonialCard?.minHeight,
+        maxHeight: design.components?.testimonialCard?.maxHeight,
+        maxWidth: design.components?.testimonialCard?.maxWidth,
+        color: design.components?.testimonialCard?.textColor,
         transition: design.components?.testimonialCard?.transition ?? 'all 0.3s ease',
         position: 'relative'
       }}
     >
-      {resolveTokenRef(design.components?.testimonialCard?.background?.overlay?.color) && (
+      {design.components?.testimonialCard?.background?.overlay?.color && (
         <div
           style={{
             position: 'absolute',
             inset: 0,
-            background: resolveTokenRef(design.components?.testimonialCard?.background?.overlay?.color),
+            background: design.components?.testimonialCard?.background?.overlay?.color,
             opacity: design.components?.testimonialCard?.background?.overlay?.opacity ?? 1,
             pointerEvents: 'none',
-            borderRadius: resolveTokenRef(design.components?.testimonialCard?.borderRadius)
+            borderRadius: design.components?.testimonialCard?.borderRadius
           }}
         />
       )}

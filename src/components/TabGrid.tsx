@@ -121,27 +121,64 @@ const TabGrid = ({
         {/* Working Embla Slider like the old version */}
         <div className="relative mx-0 w-full">
           <div className="overflow-hidden py-24 w-full" ref={emblaRef}>
-            <div className="flex items-stretch" style={{ marginLeft: `-${design.components?.slider?.gap || 16}px` }}>
-              {activeCards.map((card, index) => (
+            {(() => {
+              const pickResponsiveGap = (token: any): string => {
+                const toCss = (v: any): string => {
+                  if (v == null) return '16px';
+                  if (typeof v === 'number') return `${v}px`;
+                  const s = String(v).trim();
+                  if (s.endsWith('px')) return s;
+                  if (s.endsWith('rem')) {
+                    const n = parseFloat(s.replace('rem',''));
+                    return `${isNaN(n) ? 1 : n * 16}px`;
+                  }
+                  const n = parseFloat(s);
+                  return isNaN(n) ? '16px' : `${n}px`;
+                };
+                if (!token || typeof token !== 'object') return toCss(token);
+                const width = typeof window !== 'undefined' ? window.innerWidth : 1024;
+                if (width < 768) return toCss(token.mobile ?? token.tablet ?? token.desktop);
+                if (width < 1024) return toCss(token.tablet ?? token.desktop ?? token.mobile);
+                return toCss(token.desktop ?? token.tablet ?? token.mobile);
+              };
+              const gapCss = pickResponsiveGap((design as any)?.components?.testimonialCard?.gap ?? (design as any)?.components?.slider?.gap ?? 16);
+
+              const slidesToShow = (design as any)?.components?.slider?.slidesToShow || {};
+              const nMobile = Number(slidesToShow.mobile) || 1;
+              const nTablet = Number(slidesToShow.tablet) || 2;
+              const nDesktop = Number(slidesToShow.desktop) || 2;
+
+              const widthCalc = (n: number) => `calc((100% - ${(n - 1)} * var(--gap)) / ${Math.max(n, 1)})`;
+
+              return (
                 <div
-                  key={card.id}
-                  className="flex-none w-[var(--slide-mobile-width,90%)] @md:w-[45%] @lg:w-[60%] @xl:w-[45%] flex"
-                  style={{
-                    marginLeft: `${design.components?.slider?.gap || 16}px`,
-                    '--slide-mobile-width': (design as any)?.components?.slider?.mobileCardWidth || '90%'
-                  } as React.CSSProperties}
+                  className="flex items-stretch"
+                  style={{ marginLeft: 'calc(-1 * var(--gap))', '--gap': gapCss } as React.CSSProperties}
                 >
-                  <CardGrid
-                    cards={[card]}
-                    cardType={cardType}
-                    gridLayout="grid-cols-1 h-full"
-                    ctaText={ctaText}
-                    moreDetailsText={moreDetailsText}
-                    onWhatsAppContact={onWhatsAppContact}
-                  />
+                  {activeCards.map((card, index) => (
+                    <div
+                      key={card.id}
+                      className="flex-none flex w-[var(--slide-w-mobile)] @md:w-[var(--slide-w-tablet)] @lg:w-[var(--slide-w-desktop)]"
+                      style={{
+                        marginLeft: 'var(--gap)',
+                        '--slide-w-mobile': widthCalc(nMobile),
+                        '--slide-w-tablet': widthCalc(nTablet),
+                        '--slide-w-desktop': widthCalc(nDesktop)
+                      } as React.CSSProperties}
+                    >
+                      <CardGrid
+                        cards={[card]}
+                        cardType={cardType}
+                        gridLayout="grid-cols-1 h-full"
+                        ctaText={ctaText}
+                        moreDetailsText={moreDetailsText}
+                        onWhatsAppContact={onWhatsAppContact}
+                      />
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              );
+            })()}
           </div>
         </div>
       </div>
@@ -159,15 +196,30 @@ const TabGrid = ({
       />
       
       {/* Direct grid like ServicesSection */}
-      <div className="grid grid-cols-1 @md:grid-cols-2 @lg:grid-cols-3 gap-8">
+      <div 
+        className="grid grid-cols-1 @md:grid-cols-2 @lg:grid-cols-3"
+        style={{ 
+          gap: (() => {
+            if (cardType !== 'testimonial') return '2rem';
+            const gapToken: any = design?.components?.testimonialCard?.gap;
+            if (!gapToken) return '2rem';
+            if (typeof gapToken === 'string') return gapToken;
+            const width = typeof window !== 'undefined' ? window.innerWidth : 1024;
+            if (width < 768) return gapToken.mobile ?? gapToken.tablet ?? gapToken.desktop ?? '2rem';
+            if (width < 1024) return gapToken.tablet ?? gapToken.desktop ?? gapToken.mobile ?? '2rem';
+            return gapToken.desktop ?? gapToken.tablet ?? gapToken.mobile ?? '2rem';
+          })()
+        }}
+      >
         {activeCards.map((card, index) => {
           switch (cardType) {
             case 'testimonial':
               return (
-                <TestimonialCard
-                  key={card.id || index}
-                  testimonial={card as any}
-                />
+                <div key={card.id || index} className="flex justify-center">
+                  <TestimonialCard
+                    testimonial={card as any}
+                  />
+                </div>
               );
               
             case 'travel':

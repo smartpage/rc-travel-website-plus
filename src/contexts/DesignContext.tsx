@@ -2,7 +2,6 @@ import React, { createContext, useContext, useState, useEffect, ReactNode, useRe
 import { z } from 'zod';
 import { SITE_ID, ORG_ID, API_BASE_URL } from '../../db_connect';
 import { validateData } from '@/schemas/contextSchemas';
-import defaultDesign from '@/design-default.json';
 
 // Types (v2)
 
@@ -204,7 +203,7 @@ export const DesignProvider: React.FC<DesignProviderProps> = ({
   children, 
   defaultSiteId = 'hugo-ramos-nomadwise' 
 }) => {
-  const [design, setDesign] = useState<DesignV2>((defaultDesign as unknown as DesignV2));
+  const [design, setDesign] = useState<DesignV2>({} as DesignV2);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [siteId, setSiteId] = useState(defaultSiteId);
@@ -229,9 +228,7 @@ export const DesignProvider: React.FC<DesignProviderProps> = ({
       clearTimeout(timeout);
 
       if (!response.ok) {
-        // Fallback to built-in default only (avoid HMR reload on dbV2.json writes)
-        setDesign((defaultDesign as unknown as DesignV2));
-        return;
+        throw new Error(`Failed to load dbV2.json: ${response.status} ${response.statusText}`);
       }
 
       const data = await response.json();
@@ -241,8 +238,8 @@ export const DesignProvider: React.FC<DesignProviderProps> = ({
     } catch (err) {
       console.error('[DesignContext] Error loading design config:', err);
       setError(err instanceof Error ? err.message : 'Failed to load design config');
-      // Fallback to built-in default for preview only
-      setDesign((defaultDesign as unknown as DesignV2));
+      // NO FALLBACK - let the app crash if dbV2.json doesn't load
+      throw err;
     } finally {
       setLoading(false);
     }

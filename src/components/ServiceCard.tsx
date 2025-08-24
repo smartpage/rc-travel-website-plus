@@ -115,6 +115,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, iconMap }) => {
                 lineHeight: design.tokens?.typography?.serviceCardTitle?.lineHeight || '1.2',
                 letterSpacing: design.tokens?.typography?.serviceCardTitle?.letterSpacing,
                 color: design.tokens?.typography?.serviceCardTitle?.color || 'white',
+                textAlign: design.tokens?.typography?.serviceCardTitle?.textAlign || 'left',
                 marginBottom: variantTokens.titleSpacing || '1rem'
               }}
             >
@@ -129,6 +130,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, iconMap }) => {
                 lineHeight: design.tokens?.typography?.serviceCardDescription?.lineHeight || '1.6',
                 letterSpacing: design.tokens?.typography?.serviceCardDescription?.letterSpacing,
                 color: design.tokens?.typography?.serviceCardDescription?.color || '#cbd5e1',
+                textAlign: design.tokens?.typography?.serviceCardDescription?.textAlign || 'left',
                 marginBottom: variantTokens.descriptionSpacing || '1rem'
               }}
             >
@@ -337,18 +339,19 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, iconMap }) => {
             }}
           />
 
-          <h3
-            data-typography="serviceCard.title"
-            style={{
-              fontFamily: design.tokens?.typography?.serviceCardTitle?.fontFamily || design.tokens?.typography?.headings?.fontFamily,
-              fontSize: design.tokens?.typography?.serviceCardTitle?.fontSize || '1.5rem',
-              fontWeight: design.tokens?.typography?.serviceCardTitle?.fontWeight || '300',
-              lineHeight: design.tokens?.typography?.serviceCardTitle?.lineHeight || '1.2',
-              letterSpacing: design.tokens?.typography?.serviceCardTitle?.letterSpacing,
-              color: design.tokens?.typography?.serviceCardTitle?.color || variantTokens.textColor || '#cbd5e1',
-              marginBottom: variantTokens.titleSpacing || '1.5rem'
-            }}
-          >
+                      <h3
+              data-typography="serviceCard.title"
+              style={{
+                fontFamily: design.tokens?.typography?.serviceCardTitle?.fontFamily || design.tokens?.typography?.headings?.fontFamily,
+                fontSize: design.tokens?.typography?.serviceCardTitle?.fontSize || '1.5rem',
+                fontWeight: design.tokens?.typography?.serviceCardTitle?.fontWeight || '300',
+                lineHeight: design.tokens?.typography?.serviceCardTitle?.lineHeight || '1.2',
+                letterSpacing: design.tokens?.typography?.serviceCardTitle?.letterSpacing,
+                color: design.tokens?.typography?.serviceCardTitle?.color || variantTokens.textColor || '#cbd5e1',
+                textAlign: design.tokens?.typography?.serviceCardTitle?.textAlign || 'left',
+                marginBottom: variantTokens.titleSpacing || '1.5rem'
+              }}
+            >
             {service.title}
           </h3>
           <p
@@ -360,6 +363,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, iconMap }) => {
               lineHeight: design.tokens?.typography?.serviceCardDescription?.lineHeight || '1.6',
               letterSpacing: design.tokens?.typography?.serviceCardDescription?.letterSpacing,
               color: design.tokens?.typography?.serviceCardDescription?.color || variantTokens.textColor || '#cbd5e1',
+              textAlign: design.tokens?.typography?.serviceCardDescription?.textAlign || 'left',
               marginBottom: variantTokens.descriptionSpacing || '1rem'
             }}
           >

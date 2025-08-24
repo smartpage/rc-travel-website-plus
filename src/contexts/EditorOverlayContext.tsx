@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { useDesign } from '@/contexts/DesignContext';
-import { resolveGlobalTokens, takeComputedSnapshot } from '@/lib/tokenResolver';
+// import { resolveGlobalTokens, takeComputedSnapshot } from '@/lib/tokenResolver'; // DISABLED: Now using direct attribute reading in DbEditorConnector
 
 type PanelId = 'inspector' | 'navigator' | 'ai-enhance' | 'templates';
 
@@ -20,11 +20,75 @@ export type TokenMatch = {
 export interface ActiveElementInfo {
   label: string;
   sectionId: string | null;
-  tokenMatches: TokenMatch[];
+  tokenMatches: TokenMatch[]; // Legacy - will be empty array, DbEditorConnector reads attributes directly
   // Card context (optional): set when selection is inside a card
   cardType?: string | null;     // e.g., 'serviceCard' | 'testimonialCard' | 'travelPackageCard' | 'whyFeatureCard'
   cardVariant?: string | null;  // e.g., 'standard' | 'highlight' | 'featured'
 }
+
+// Simplified element info extraction - minimal token hints for section detection
+const getElementInfo = (element: HTMLElement, sectionId: string | null): ActiveElementInfo => {
+  const cardRoot = element.closest('[data-card-type]') as HTMLElement | null;
+  const cardType = cardRoot?.getAttribute('data-card-type') || null;
+  const cardVariant = cardRoot?.getAttribute('data-card-variant') || null;
+  
+  const tokenMatches: TokenMatch[] = [];
+  
+  // Add button token hints for data-element="primaryButton" or data-element="secondaryButton"
+  const dataElement = element.getAttribute('data-element');
+  if (dataElement === 'primaryButton') {
+    tokenMatches.push({
+      scope: 'global',
+      tokenPath: 'components.button.variants.primary',
+      label: 'Primary Button',
+      responsive: false
+    });
+  } else if (dataElement === 'secondaryButton') {
+    tokenMatches.push({
+      scope: 'global',
+      tokenPath: 'components.button.variants.secondary',
+      label: 'Secondary Button',
+      responsive: false
+    });
+  }
+  
+  // Add typography token hints for data-typography attributes
+  const dataTypography = element.getAttribute('data-typography');
+  if (dataTypography && !dataElement) { // Don't add typography for buttons
+    tokenMatches.push({
+      scope: 'global',
+      tokenPath: `tokens.typography.${dataTypography}`,
+      label: `Typography · ${dataTypography}`,
+      responsive: false
+    });
+  }
+  
+  // CRITICAL: Add section token hint ONLY when clicking the section root or its inner container
+  const isSectionRootOrInner =
+    !!(element.matches && (element.matches('[data-section-id]') || element.matches('.inner-section')));
+  if (sectionId && !cardType && isSectionRootOrInner && !dataElement) { // Don't add section for buttons
+    tokenMatches.push({
+      scope: 'section',
+      tokenPath: `sections.${sectionId}.layout`,
+      label: 'Section Layout',
+      responsive: false
+    });
+  }
+  
+  const label = cardType
+    ? `${cardType}${sectionId ? ` · ${sectionId}` : ''}`
+    : dataElement
+    ? `${dataElement}${sectionId ? ` · ${sectionId}` : ''}`
+    : `${element.tagName.toLowerCase()}${sectionId ? ` · ${sectionId}` : ''}`;
+
+  return {
+    label,
+    sectionId,
+    tokenMatches, // Now includes button and typography hints for DbEditorConnector
+    cardType,
+    cardVariant
+  };
+};
 
 interface EditorOverlayState {
   collapsed: Record<PanelId, boolean>; // legacy (kept for compat)
@@ -379,19 +443,13 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
         if (card && card.closest('[class~="@container"]')) {
           const sectionEl = card.closest('[data-section-id]') as HTMLElement | null;
           const sectionId = sectionEl?.getAttribute('data-section-id') || null;
-          const snap = takeComputedSnapshot(card);
-          const tokenMatches = resolveGlobalTokens(snap, sectionId, designRef.current, card);
-          const cardRoot = card.closest('[data-card-type]') as HTMLElement | null;
-          const cardType = cardRoot?.getAttribute('data-card-type') || null;
-          const cardVariant = cardRoot?.getAttribute('data-card-variant') || null;
-          const label = cardType
-            ? `${cardType}${sectionId ? ` · ${sectionId}` : ''}`
-            : `card${sectionId ? ` · ${sectionId}` : ''}`;
+          // SIMPLIFIED: No complex token resolution - DbEditorConnector reads attributes directly
+          const activeElement = getElementInfo(card, sectionId);
           const rect = card.getBoundingClientRect();
           setState(prev => ({
             ...prev,
             activePanelId: prev.autoOpen ? 'inspector' : prev.activePanelId,
-            activeElement: { label, sectionId, tokenMatches, cardType, cardVariant },
+            activeElement,
             overlayRect: { top: rect.top, left: rect.left, width: rect.width, height: rect.height },
             selectedElement: card
           }));
@@ -413,20 +471,13 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
         if (!target.closest('[class~="@container"]')) return;
         const sectionEl = target.closest('[data-section-id]') as HTMLElement | null;
         const sectionId = sectionEl?.getAttribute('data-section-id') || null;
-        const snap = takeComputedSnapshot(target);
-        const tokenMatches = resolveGlobalTokens(snap, sectionId, designRef.current, target);
-        const isCard = (target as HTMLElement).hasAttribute('data-card');
-        const cardRoot = (isCard ? (target as HTMLElement) : (target.closest('[data-card-type]') as HTMLElement | null));
-        const cardType = cardRoot?.getAttribute('data-card-type') || null;
-        const cardVariant = cardRoot?.getAttribute('data-card-variant') || null;
-        const label = cardType
-          ? `${cardType}${sectionId ? ` · ${sectionId}` : ''}`
-          : `${isCard ? 'card' : target.tagName.toLowerCase()}${sectionId ? ` · ${sectionId}` : ''}`;
+        // SIMPLIFIED: No complex token resolution - DbEditorConnector reads attributes directly
+        const activeElement = getElementInfo(target, sectionId);
         const rect = target.getBoundingClientRect();
         setState(prev => ({
           ...prev,
           activePanelId: prev.autoOpen ? 'inspector' : prev.activePanelId,
-          activeElement: { label, sectionId, tokenMatches, cardType, cardVariant },
+          activeElement,
           overlayRect: { top: rect.top, left: rect.left, width: rect.width, height: rect.height },
           selectedElement: target
         }));
@@ -457,20 +508,14 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
         if (card && card.closest('[class~="@container"]')) {
           const sectionEl = card.closest('[data-section-id]') as HTMLElement | null;
           const sectionId = sectionEl?.getAttribute('data-section-id') || null;
-          const snap = takeComputedSnapshot(card);
-          const tokenMatches = resolveGlobalTokens(snap, sectionId, designRef.current, card);
-          const cardRoot = card.closest('[data-card-type]') as HTMLElement | null;
-          const cardType = cardRoot?.getAttribute('data-card-type') || null;
-          const cardVariant = cardRoot?.getAttribute('data-card-variant') || null;
-          const label = cardType
-            ? `${cardType}${sectionId ? ` · ${sectionId}` : ''}`
-            : `card${sectionId ? ` · ${sectionId}` : ''}`;
+          // SIMPLIFIED: No complex token resolution - DbEditorConnector reads attributes directly
+          const activeElement = getElementInfo(card, sectionId);
           const rect = card.getBoundingClientRect();
           try { localStorage.setItem('design_active_panel', 'inspector'); } catch {}
           setState(prev => ({
             ...prev,
             activePanelId: 'inspector',
-            activeElement: { label, sectionId, tokenMatches, cardType, cardVariant },
+            activeElement,
             overlayRect: { top: rect.top, left: rect.left, width: rect.width, height: rect.height },
             selectedElement: card
           }));
@@ -509,20 +554,13 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
       if (!target.closest('[class~="@container"]')) return;
       const sectionEl = target.closest('[data-section-id]') as HTMLElement | null;
       const sectionId = sectionEl?.getAttribute('data-section-id') || null;
-      const snap = takeComputedSnapshot(target);
-      const tokenMatches = resolveGlobalTokens(snap, sectionId, designRef.current, target);
-      const isCard = (target as HTMLElement).hasAttribute('data-card');
-      const cardRoot = (isCard ? (target as HTMLElement) : (target.closest('[data-card-type]') as HTMLElement | null));
-      const cardType = cardRoot?.getAttribute('data-card-type') || null;
-      const cardVariant = cardRoot?.getAttribute('data-card-variant') || null;
-      const label = cardType
-        ? `${cardType}${sectionId ? ` · ${sectionId}` : ''}`
-        : `${isCard ? 'card' : target.tagName.toLowerCase()}${sectionId ? ` · ${sectionId}` : ''}`;
+      // SIMPLIFIED: No complex token resolution - DbEditorConnector reads attributes directly
+      const activeElement = getElementInfo(target, sectionId);
       const rect = target.getBoundingClientRect();
       setState(prev => ({
         ...prev,
         activePanelId: prev.autoOpen ? 'inspector' : prev.activePanelId,
-        activeElement: { label, sectionId, tokenMatches, cardType, cardVariant },
+        activeElement,
         overlayRect: { top: rect.top, left: rect.left, width: rect.width, height: rect.height },
         selectedElement: target
       }));
@@ -586,8 +624,8 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
     };
   }, [enabled, state.scrollContainer]);
 
-  // Keep token matches in sync when the design changes while an element is selected.
-  // This ensures the inspector UI reflects the latest token mapping after edits.
+  // Keep element info in sync when the design changes while an element is selected.
+  // SIMPLIFIED: No complex token resolution - DbEditorConnector reads attributes directly
   React.useEffect(() => {
     if (!enabled) return;
     const el = selectedElementRef.current as HTMLElement | null;
@@ -597,27 +635,15 @@ export const EditorOverlayProvider: React.FC<{ children: React.ReactNode }> = ({
     if (!el.closest('[class~="@container"]')) return;
     const sectionEl = el.closest('[data-section-id]') as HTMLElement | null;
     const sectionId = sectionEl?.getAttribute('data-section-id') || null;
-    const snap = takeComputedSnapshot(el);
-    const nextMatches = resolveGlobalTokens(snap, sectionId, design, el);
+    // Just update the basic element info - DbEditorConnector handles token resolution
+    const updatedElementInfo = getElementInfo(el, sectionId);
     setState(prev => {
       if (!prev.activeElement) return prev;
-      const prevMatches = prev.activeElement.tokenMatches;
-      const same =
-        prevMatches.length === nextMatches.length &&
-        prevMatches.every((m, i) =>
-          m.scope === nextMatches[i].scope &&
-          m.tokenPath === nextMatches[i].tokenPath &&
-          m.label === nextMatches[i].label &&
-          !!m.responsive === !!nextMatches[i].responsive
-        );
-      if (same && prev.activeElement.sectionId === sectionId) return prev;
+      // Only update if sectionId changed (basic check)
+      if (prev.activeElement.sectionId === sectionId) return prev;
       return {
         ...prev,
-        activeElement: {
-          ...prev.activeElement,
-          sectionId,
-          tokenMatches: nextMatches,
-        }
+        activeElement: updatedElementInfo
       };
     });
   }, [enabled, design, state.selectedElement]);

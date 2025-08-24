@@ -24,7 +24,26 @@ const MobileEmblaCarousel: React.FC<MobileEmblaCarouselProps> = ({
   onWhatsAppContact,
 }) => {
   const { design } = useDesign();
-  const gap = design.components?.slider?.gap || 16;
+  const pickResponsiveGap = (token: any): string => {
+    const toCss = (v: any): string => {
+      if (v == null) return '16px';
+      if (typeof v === 'number') return `${v}px`;
+      const s = String(v).trim();
+      if (s.endsWith('px')) return s;
+      if (s.endsWith('rem')) {
+        const n = parseFloat(s.replace('rem',''));
+        return `${isNaN(n) ? 1 : n * 16}px`;
+      }
+      const n = parseFloat(s);
+      return isNaN(n) ? '16px' : `${n}px`;
+    };
+    if (!token || typeof token !== 'object') return toCss(token);
+    const width = typeof window !== 'undefined' ? window.innerWidth : 1024;
+    if (width < 768) return toCss(token.mobile ?? token.tablet ?? token.desktop);
+    if (width < 1024) return toCss(token.tablet ?? token.desktop ?? token.mobile);
+    return toCss(token.desktop ?? token.tablet ?? token.mobile);
+  };
+  const gapCss = pickResponsiveGap((design as any)?.components?.testimonialCard?.gap ?? (design as any)?.components?.slider?.gap ?? 16);
 
   // Keep options untyped to avoid versioned type conflicts
   const [emblaRef] = useEmblaCarousel({
@@ -39,11 +58,15 @@ const MobileEmblaCarousel: React.FC<MobileEmblaCarouselProps> = ({
       {/* Slider works on all screen sizes */}
       <div className="w-full">
         <div className="overflow-hidden" ref={emblaRef}>
-          <div className="flex">
+          <div className="flex" style={{ marginLeft: 'calc(-1 * var(--gap))', '--gap': gapCss } as React.CSSProperties}>
             {cards.map((card) => (
               <div
                 key={card.id}
-                className="flex-none w-full px-4"
+                className="flex-none"
+                style={{
+                  marginLeft: 'var(--gap)',
+                  width: 'calc((100% - 0 * var(--gap)) / 1)'
+                } as React.CSSProperties}
               >
                 <div className="w-full max-w-sm mx-auto">
                   <CardGrid

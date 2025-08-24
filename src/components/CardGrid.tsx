@@ -1,5 +1,7 @@
+import React from 'react';
 import TravelPackageCard from './TravelPackageCard';
 import TestimonialCard from './TestimonialCard';
+import { useDesign } from '@/contexts/DesignContext';
 
 // Generic card interface to support different card types
 interface Card {
@@ -23,11 +25,12 @@ interface CardGridProps {
 const CardGrid = ({ 
   cards, 
   cardType = 'travel', 
-  gridLayout = 'grid grid-cols-1 @md:grid-cols-2 @lg:grid-cols-3 gap-8',
+  gridLayout = 'grid grid-cols-1 @md:grid-cols-2 @lg:grid-cols-3',
   ctaText = 'Saber Mais', 
   moreDetailsText = 'mais detalhes', 
   onWhatsAppContact 
 }: CardGridProps) => {
+  const { design } = useDesign();
   if (!cards || cards.length === 0) {
     return (
       <div className="text-center py-12">
@@ -36,16 +39,41 @@ const CardGrid = ({
     );
   }
 
+  // Get responsive gap from design tokens
+  const getGap = (): string => {
+    if (cardType !== 'testimonial') return '2rem';
+    const gapToken: any = design?.components?.testimonialCard?.gap;
+    if (!gapToken) return '2rem';
+    if (typeof gapToken === 'string') return gapToken;
+    const width = typeof window !== 'undefined' ? window.innerWidth : 1024;
+    if (width < 768) return gapToken.mobile ?? gapToken.tablet ?? gapToken.desktop ?? '2rem';
+    if (width < 1024) return gapToken.tablet ?? gapToken.desktop ?? gapToken.mobile ?? '2rem';
+    return gapToken.desktop ?? gapToken.tablet ?? gapToken.mobile ?? '2rem';
+  };
+
+  const [computedGap, setComputedGap] = React.useState<string>(getGap());
+
+  React.useEffect(() => {
+    const onResize = () => setComputedGap(getGap());
+    onResize();
+    if (typeof window !== 'undefined') window.addEventListener('resize', onResize);
+    return () => { if (typeof window !== 'undefined') window.removeEventListener('resize', onResize); };
+  }, [design, cardType]);
+
   return (
-    <div className={`${gridLayout} w-full`}>
+    <div 
+      className={`${gridLayout} w-full`}
+      style={{ gap: computedGap }}
+    >
       {cards.map((card, index) => {
         switch (cardType) {
           case 'testimonial':
             return (
-              <TestimonialCard
-                key={card.id || index}
-                testimonial={card as any}
-              />
+              <div key={card.id || index} className="flex justify-center">
+                <TestimonialCard
+                  testimonial={card as any}
+                />
+              </div>
             );
             
           case 'travel':

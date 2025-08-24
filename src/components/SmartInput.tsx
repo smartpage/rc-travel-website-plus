@@ -5,12 +5,13 @@ interface SmartInputProps {
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
-  label: string;
+  label?: string;
   style?: React.CSSProperties;
 }
 
 // Smart step detection based on CSS property type
-const getStepConfig = (label: string) => {
+const getStepConfig = (label?: string) => {
+  if (!label) return { step: 1, min: 0, max: Infinity, formatter: (val: number) => val.toString(), parser: (str: string) => parseFloat(str) || 0 };
   const labelLower = label.toLowerCase();
   
   if (labelLower.includes('fontweight') || labelLower.includes('font-weight')) {
@@ -120,6 +121,15 @@ const SmartInput: React.FC<SmartInputProps> = ({
   label,
   style
 }) => {
+  // Default styling to ensure consistent look across the inspector
+  const defaultInputStyle: React.CSSProperties = {
+    background: '#2a2a2a',
+    color: '#fff',
+    padding: 8,
+    borderRadius: 4,
+    border: '1px solid #444',
+    fontSize: 12
+  };
   let config = getStepConfig(label);
 
   // Helper: parse all numeric tokens (with optional units) with positions
@@ -165,6 +175,41 @@ const SmartInput: React.FC<SmartInputProps> = ({
   }
   
   const inputRef = React.useRef<HTMLInputElement>(null);
+
+  // Decide default units for fields that commonly require them
+  const defaultUnitForLabel = (labelText?: string): string | null => {
+    const ll = (labelText || '').toLowerCase();
+    if (ll.includes('padding') || ll.includes('margin') || ll.endsWith('.gap') || ll === 'gap') return 'rem';
+    if (ll.includes('font-size') || ll.includes('fontsize')) return 'rem';
+    if (ll.includes('borderwidth') || ll.includes('border-width')) return 'px';
+    if (
+      ll.includes('width') ||
+      ll.includes('height') ||
+      ll.includes('maxwidth') ||
+      ll.includes('minwidth') ||
+      ll.includes('maxheight') ||
+      ll.includes('minheight')
+    ) return 'px';
+    return null;
+  };
+
+  // Normalize an input string by adding default units to numeric tokens that lack units
+  const normalizeUnitsIfNeeded = (raw: string): string => {
+    const unit = defaultUnitForLabel(label);
+    if (!unit) return raw;
+    const tokens = parseNumericTokens(raw);
+    if (tokens.length === 0) return raw;
+    let result = '';
+    let cursor = 0;
+    for (const t of tokens) {
+      result += raw.slice(cursor, t.start);
+      const needsUnit = t.unit === '' && t.num !== 0;
+      result += `${t.num}${needsUnit ? unit : t.unit}`;
+      cursor = t.end;
+    }
+    result += raw.slice(cursor);
+    return result;
+  };
 
   const increment = () => {
     const tokens = parseNumericTokens(value);
@@ -217,6 +262,7 @@ const SmartInput: React.FC<SmartInputProps> = ({
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         style={{
+          ...defaultInputStyle,
           ...style,
           paddingRight: isNumericField ? '40px' : '8px', // Make room for arrows
           width: '100%',
@@ -228,6 +274,12 @@ const SmartInput: React.FC<SmartInputProps> = ({
         }}
         onBlur={(e) => {
           e.target.style.border = '1px solid #2a2a2a';
+          // On blur, auto-append default units so CSS stays valid (e.g., "8.5rem 0.75" -> "8.5rem 0.75rem")
+          const normalized = normalizeUnitsIfNeeded(e.target.value);
+          if (normalized !== e.target.value) {
+            e.target.value = normalized;
+            onChange(normalized);
+          }
         }}
       />
       {isNumericField && (

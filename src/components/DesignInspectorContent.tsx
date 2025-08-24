@@ -2827,6 +2827,54 @@ const DesignInspectorContent: React.FC = () => {
 							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
 						/>
 					</PanelRow>
+
+					<PanelRow label="Max Width">
+						<SmartInput
+							value={design?.components?.testimonialCard?.maxWidth || '33vw'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.testimonialCard) newDesign.components.testimonialCard = {};
+								newDesign.components.testimonialCard.maxWidth = val;
+								return newDesign;
+							})}
+							placeholder="33vw"
+							label="testimonialCard.maxWidth"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Min Height">
+						<SmartInput
+							value={design?.components?.testimonialCard?.minHeight || '300px'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.testimonialCard) newDesign.components.testimonialCard = {};
+								newDesign.components.testimonialCard.minHeight = val;
+								return newDesign;
+							})}
+							placeholder="300px"
+							label="testimonialCard.minHeight"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Gap">
+						<SmartInput
+							value={design?.components?.testimonialCard?.gap || '2rem'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const newDesign = { ...prev };
+								if (!newDesign.components) newDesign.components = {};
+								if (!newDesign.components.testimonialCard) newDesign.components.testimonialCard = {};
+								newDesign.components.testimonialCard.gap = val;
+								return newDesign;
+							})}
+							placeholder="2rem"
+							label="testimonialCard.gap"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
 				</div>
 			)}
 
@@ -2950,6 +2998,270 @@ const DesignInspectorContent: React.FC = () => {
 							})}
 							placeholder="auto"
 							label="contactCard.minHeight"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+				</div>
+			)}
+
+			{/* Footer Card Design Section */}
+			{(activeElement?.cardType === 'footerCard') && !activeElement?.tokenMatches?.some((m) => m.tokenPath?.includes('tokens.typography.')) && (
+				<div style={{ marginTop: 16, padding: 12, background: '#1e1e1e', borderRadius: 8, border: '1px solid #333' }}>
+					<div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+						<span style={{ fontSize: 12, color: '#facc15', fontWeight: 'bold' }}>
+							Footer Card Design
+						</span>
+					</div>
+
+					{/* Background Color */}
+					<PanelRow label="Background Color">
+						<ColorSwatch
+							value={design?.components?.footerCard?.backgroundColor || 'transparent'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const next = { ...prev };
+								if (!next.components) next.components = {};
+								if (!next.components.footerCard) next.components.footerCard = {};
+								next.components.footerCard.backgroundColor = val;
+								return next;
+							})}
+							placeholder="transparent"
+						/>
+					</PanelRow>
+
+					{/* Border Color */}
+					<PanelRow label="Border Color">
+						<ColorSwatch
+							value={design?.components?.footerCard?.borderColor || 'transparent'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const next = { ...prev };
+								if (!next.components) next.components = {};
+								if (!next.components.footerCard) next.components.footerCard = {};
+								next.components.footerCard.borderColor = val;
+								return next;
+							})}
+							placeholder="transparent"
+						/>
+					</PanelRow>
+
+					{/* Border Color */}
+					<PanelRow label="Border Color">
+						<ColorSwatch
+							value={design?.components?.footerCard?.borderColor || 'transparent'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const next = { ...prev };
+								if (!next.components) next.components = {};
+								if (!next.components.footerCard) next.components.footerCard = {};
+								next.components.footerCard.borderColor = val;
+								return next;
+							})}
+							placeholder="transparent"
+						/>
+					</PanelRow>
+
+					{/* Border Width */}
+					<PanelRow label="Border Width">
+						<SmartInput
+							value={design?.components?.footerCard?.borderWidth || '0px'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const next = { ...prev };
+								if (!next.components) next.components = {};
+								if (!next.components.footerCard) next.components.footerCard = {};
+								next.components.footerCard.borderWidth = val;
+								return next;
+							})}
+							placeholder="0px"
+							label="footerCard.borderWidth"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					{/* Padding */}
+					<PanelRow label="Padding">
+						<SmartInput
+							value={design?.components?.footerCard?.padding || '1.5rem 0'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const next = { ...prev };
+								if (!next.components) next.components = {};
+								if (!next.components.footerCard) next.components.footerCard = {};
+								next.components.footerCard.padding = val;
+								return next;
+							})}
+							placeholder="1.5rem 0"
+							label="footerCard.padding"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					{/* Top Bar Color */}
+					<PanelRow label="Top Bar Color">
+						<ColorSwatch
+							value={design?.components?.footerCard?.barTop?.color || '#374151'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const next = { ...prev };
+								if (!next.components) next.components = {};
+								if (!next.components.footerCard) next.components.footerCard = {};
+								if (!next.components.footerCard.barTop) next.components.footerCard.barTop = {};
+								next.components.footerCard.barTop.color = val;
+								return next;
+							})}
+							placeholder="#374151"
+						/>
+					</PanelRow>
+
+					{/* Top Bar Height */}
+					<PanelRow label="Top Bar Height">
+						<SmartInput
+							value={design?.components?.footerCard?.barTop?.height || '1px'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const next = { ...prev };
+								if (!next.components) next.components = {};
+								if (!next.components.footerCard) next.components.footerCard = {};
+								if (!next.components.footerCard.barTop) next.components.footerCard.barTop = {};
+								next.components.footerCard.barTop.height = val;
+								return next;
+							})}
+							placeholder="1px"
+							label="footerCard.barTop.height"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					{/* Top Bar Width */}
+					<PanelRow label="Top Bar Width">
+						<SmartInput
+							value={design?.components?.footerCard?.barTop?.width || '100%'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const next = { ...prev };
+								if (!next.components) next.components = {};
+								if (!next.components.footerCard) next.components.footerCard = {};
+								if (!next.components.footerCard.barTop) next.components.footerCard.barTop = {};
+								next.components.footerCard.barTop.width = val;
+								return next;
+							})}
+							placeholder="100%"
+							label="footerCard.barTop.width"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					{/* Bottom Bar Color */}
+					<PanelRow label="Bottom Bar Color">
+						<ColorSwatch
+							value={design?.components?.footerCard?.barBottom?.color || '#374151'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const next = { ...prev };
+								if (!next.components) next.components = {};
+								if (!next.components.footerCard) next.components.footerCard = {};
+								if (!next.components.footerCard.barBottom) next.components.footerCard.barBottom = {};
+								next.components.footerCard.barBottom.color = val;
+								return next;
+							})}
+							placeholder="#374151"
+						/>
+					</PanelRow>
+
+					{/* Bottom Bar Height */}
+					<PanelRow label="Bottom Bar Height">
+						<SmartInput
+							value={design?.components?.footerCard?.barBottom?.height || '1px'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const next = { ...prev };
+								if (!next.components) next.components = {};
+								if (!next.components.footerCard) next.components.footerCard = {};
+								if (!next.components.footerCard.barBottom) next.components.footerCard.barBottom = {};
+								next.components.footerCard.barBottom.height = val;
+								return next;
+							})}
+							placeholder="1px"
+							label="footerCard.barBottom.height"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					{/* Bottom Bar Width */}
+					<PanelRow label="Bottom Bar Width">
+						<SmartInput
+							value={design?.components?.footerCard?.barBottom?.width || '100%'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const next = { ...prev };
+								if (!next.components) next.components = {};
+								if (!next.components.footerCard) next.components.footerCard = {};
+								if (!next.components.footerCard.barBottom) next.components.footerCard.barBottom = {};
+								next.components.footerCard.barBottom.width = val;
+								return next;
+							})}
+							placeholder="100%"
+							label="footerCard.barBottom.width"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					{/* Text Color */}
+					<PanelRow label="Text Color">
+						<ColorSwatch
+							value={design?.components?.footerCard?.text?.color || '#6b7280'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const next = { ...prev };
+								if (!next.components) next.components = {};
+								if (!next.components.footerCard) next.components.footerCard = {};
+								if (!next.components.footerCard.text) next.components.footerCard.text = {};
+								next.components.footerCard.text.color = val;
+								return next;
+							})}
+							placeholder="#6b7280"
+						/>
+					</PanelRow>
+
+					{/* Font Size */}
+					<PanelRow label="Font Size">
+						<SmartInput
+							value={design?.components?.footerCard?.text?.fontSize || '0.875rem'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const next = { ...prev };
+								if (!next.components) next.components = {};
+								if (!next.components.footerCard) next.components.footerCard = {};
+								if (!next.components.footerCard.text) next.components.footerCard.text = {};
+								next.components.footerCard.text.fontSize = val;
+								return next;
+							})}
+							placeholder="0.875rem"
+							label="footerCard.text.fontSize"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					{/* Font Family */}
+					<PanelRow label="Font Family">
+						<SmartInput
+							value={design?.components?.footerCard?.text?.fontFamily || 'Inter, sans-serif'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const next = { ...prev };
+								if (!next.components) next.components = {};
+								if (!next.components.footerCard) next.components.footerCard = {};
+								if (!next.components.footerCard.text) next.components.footerCard.text = {};
+								next.components.footerCard.text.fontFamily = val;
+								return next;
+							})}
+							placeholder="Inter, sans-serif"
+							label="footerCard.text.fontFamily"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					{/* Font Weight */}
+					<PanelRow label="Font Weight">
+						<SmartInput
+							value={design?.components?.footerCard?.text?.fontWeight || '400'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const next = { ...prev };
+								if (!next.components) next.components = {};
+								if (!next.components.footerCard) next.components.footerCard = {};
+								if (!next.components.footerCard.text) next.components.footerCard.text = {};
+								next.components.footerCard.text.fontWeight = val;
+								return next;
+							})}
+							placeholder="400"
+							label="footerCard.text.fontWeight"
 							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
 						/>
 					</PanelRow>

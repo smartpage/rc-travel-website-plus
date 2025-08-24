@@ -126,27 +126,27 @@ export function resolveGlobalTokens(snapshot: ComputedSnapshot, sectionId: strin
         hasSpecificMatch = true;
         break;
       case 'preTitle':
-        matches.push({ scope: 'global', tokenPath: 'preTitle', label: 'Pre Title', responsive: false });
+        matches.push({ scope: 'global', tokenPath: 'tokens.typography.preTitle', label: 'Pre Title', responsive: false });
         hasSpecificMatch = true;
         break;
       case 'titleDescription':
-        matches.push({ scope: 'global', tokenPath: 'titleDescription', label: 'Title Description', responsive: false });
+        matches.push({ scope: 'global', tokenPath: 'tokens.typography.titleDescription', label: 'Title Description', responsive: false });
         hasSpecificMatch = true;
         break;
       case 'serviceCard.title':
-        matches.push({ scope: 'global', tokenPath: 'typography.serviceCardTitle', label: 'Service Card Title', responsive: false });
+        matches.push({ scope: 'global', tokenPath: 'tokens.typography.serviceCardTitle', label: 'Service Card Title', responsive: false });
         hasSpecificMatch = true;
         break;
       case 'serviceCard.description':
-        matches.push({ scope: 'global', tokenPath: 'typography.serviceCardDescription', label: 'Service Card Description', responsive: false });
+        matches.push({ scope: 'global', tokenPath: 'tokens.typography.serviceCardDescription', label: 'Service Card Description', responsive: false });
         hasSpecificMatch = true;
         break;
       case 'whyCard.title':
-        matches.push({ scope: 'global', tokenPath: 'typography.whyCardTitle', label: 'Why Card Title', responsive: false });
+        matches.push({ scope: 'global', tokenPath: 'tokens.typography.whyCardTitle', label: 'Why Card Title', responsive: false });
         hasSpecificMatch = true;
         break;
       case 'whyCard.description':
-        matches.push({ scope: 'global', tokenPath: 'typography.whyCardDescription', label: 'Why Card Description', responsive: false });
+        matches.push({ scope: 'global', tokenPath: 'tokens.typography.whyCardDescription', label: 'Why Card Description', responsive: false });
         hasSpecificMatch = true;
         break;
       case 'contactCard.title':
@@ -171,7 +171,7 @@ export function resolveGlobalTokens(snapshot: ComputedSnapshot, sectionId: strin
         hasSpecificMatch = true;
         break;
       case 'travelDesignerCard':
-        matches.push({ scope: 'global', tokenPath: 'typography.travelDesignerCard', label: 'Travel Designer Card Text', responsive: false });
+        matches.push({ scope: 'global', tokenPath: 'tokens.typography.travelDesignerCard', label: 'Travel Designer Card Text', responsive: false });
         hasSpecificMatch = true;
         break;
       case 'packageDescription':
@@ -183,11 +183,11 @@ export function resolveGlobalTokens(snapshot: ComputedSnapshot, sectionId: strin
         hasSpecificMatch = true;
         break;
       case 'faq.question':
-        matches.push({ scope: 'global', tokenPath: 'typography.faqQuestion', label: 'FAQ Question', responsive: false });
+        matches.push({ scope: 'global', tokenPath: 'tokens.typography.faqQuestion', label: 'FAQ Question', responsive: false });
         hasSpecificMatch = true;
         break;
       case 'faq.answer':
-        matches.push({ scope: 'global', tokenPath: 'typography.faqAnswer', label: 'FAQ Answer', responsive: false });
+        matches.push({ scope: 'global', tokenPath: 'tokens.typography.faqAnswer', label: 'FAQ Answer', responsive: false });
         hasSpecificMatch = true;
         break;
       case 'faqCardQuestion':
@@ -199,7 +199,7 @@ export function resolveGlobalTokens(snapshot: ComputedSnapshot, sectionId: strin
         hasSpecificMatch = true;
         break;
       case 'faq.answerStrong':
-        matches.push({ scope: 'global', tokenPath: 'typography.faqAnswerStrong', label: 'FAQ Answer Strong', responsive: false });
+        matches.push({ scope: 'global', tokenPath: 'tokens.typography.faqAnswerStrong', label: 'FAQ Answer Strong', responsive: false });
         hasSpecificMatch = true;
         break;
     }

@@ -2,6 +2,50 @@
 
 This document explains how the design-mode editor selection pipeline works in `rc-travel-website-plus`: how the card handle triggers selection, which files and contexts are involved, and how the inspector/overlay update.
 
+> See also: dbV2 schema and quick index in `dbv2JsonStructure.MD` (top-down map of keys, tokens, components, sections, and how to add new editable controls).
+
+## Embla slider: lane-filling slides and responsive slides-per-view
+
+- Spacing in slider mode (Embla) is controlled by a CSS variable `--gap` on the track and a matching left margin on each slide. The gap value is resolved from:
+  1) `design.components.testimonialCard.gap` (preferred)
+  2) `design.components.slider.gap` (fallback)
+  3) `16px` (final fallback)
+
+- Slides fill the lane using CSS calc so the gap is truly the only spacing between slides:
+
+```tsx
+// TabGrid.tsx (when useSlider is true)
+// width = (100% − (n − 1) × gap) / n, per breakpoint
+style={{
+  '--gap': gapCss,
+  marginLeft: 'calc(-1 * var(--gap))'
+}}
+<div
+  className="flex-none w-[var(--slide-w-mobile)] @md:w-[var(--slide-w-tablet)] @lg:w-[var(--slide-w-desktop)]"
+  style={{
+    marginLeft: 'var(--gap)',
+    '--slide-w-mobile':  `calc((100% - (nMobile  - 1) * var(--gap)) / ${nMobile})`,
+    '--slide-w-tablet':  `calc((100% - (nTablet  - 1) * var(--gap)) / ${nTablet})`,
+    '--slide-w-desktop': `calc((100% - (nDesktop - 1) * var(--gap)) / ${nDesktop})`,
+  }}
+/>
+```
+
+- Control how many slides are shown per breakpoint by adding to `dbV2.json`:
+
+```json
+{
+  "components": {
+    "slider": {
+      "slidesToShow": { "mobile": 1, "tablet": 2, "desktop": 3 },
+      "gap": 16
+    }
+  }
+}
+```
+
+- If `slidesToShow` is absent, defaults are: mobile=1, tablet=2, desktop=2. The gap may be a string (e.g., `"1.25rem"`) or a number (pixels). Responsive gap objects `{ mobile, tablet, desktop }` are also supported.
+
 ## Quick questions (Typography · Testimonials)
 
 1) Are testimonial text nodes labeled with the expected `data-typography` hints?
@@ -63,6 +107,54 @@ This document explains how the design-mode editor selection pipeline works in `r
 - `src/components/DesignInspectorContent.tsx`
 - `src/components/ui/Section.tsx`
 - (Embed-only) `src/components/EditorBridge.tsx`
+
+
+## Design Inspector (DesignInspectorContent.tsx)
+
+Purpose
+- Render the right controls for the current selection and write changes into the in‑memory `design` (via `updateDesignLocal`).
+
+Inputs
+- `activeElement` from `EditorOverlayContext` (label, sectionId, tokenMatches, and—when available—`cardType` and `cardVariant`).
+- The live `design` object from `DesignContext`.
+
+How routing works
+- The inspector decides what panel to show using selection metadata:
+  - Prefer `activeElement.cardType` (e.g., `testimonialCard`, `travelPackageCard`).
+  - Fallback to label/section heuristics when `cardType` isn’t available.
+
+How controls are built
+- Token matches and helper utilities map selection → token paths. There are two ways UI is rendered:
+  1) Generic token editor: `renderTokenEditor(tokenPath, label?)` for leaf tokens (typography, colors, sizes). It resolves a path, reads the current value, and renders `SmartInput`/`ColorSwatch` accordingly.
+  2) Explicit component panels: targeted controls for `components.*` (e.g., `testimonialCard.maxWidth`, `testimonialCard.gap`) organized in `PanelRow`s using `SmartInput`/`ColorSwatch`.
+
+Write path (edits)
+- All edits flow through:
+  ```ts
+  updateDesignLocal(prev => {
+    const d = { ...prev } as any;
+    // ensure parent objects exist
+    if (!d.components) d.components = {};
+    if (!d.components.testimonialCard) d.components.testimonialCard = {};
+    d.components.testimonialCard.gap = val;
+    return d;
+  });
+  ```
+- The UI immediately re-renders against the mutated `design` object.
+
+Saving
+- `Save All Changes` calls `saveDesignToDBV2()` (from `DesignContext`) → writes `/public/dbV2.json` and refreshes the baseline.
+
+Adding a new editable control (succinct recipe)
+1) Decide the target path: `design.tokens.*` (typography/colors) or `design.components.*` (component style token).
+2) Ensure the path exists in dbV2.json with a sensible default.
+3) Add a `PanelRow` in `DesignInspectorContent.tsx` that reads/writes that path using `updateDesignLocal`.
+4) Bind the component’s JSX styles to that same path (read directly from `design.*`).
+5) If selection should show this panel only for a card, make sure the card root has `data-card-type` so routing is deterministic.
+
+Notes
+- Prefer inline styles reading from `design.*` over class fallbacks so inspector updates are instant.
+- When consuming possible token references (strings starting with `"tokens."`), always use `resolveTokenRef(val) ?? fallback` in components.
 
 
 ## URL Flags and DOM Markers
