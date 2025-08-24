@@ -74,6 +74,17 @@ const getStepConfig = (label: string) => {
     };
   }
 
+  // Border width → 1px steps
+  if (labelLower.includes('borderwidth') || labelLower.includes('border-width')) {
+    return {
+      step: 1,
+      min: 0,
+      max: 100,
+      formatter: (val: number) => `${Math.round(val)}px`,
+      parser: (str: string) => parseFloat(str.replace('px', '')) || 0
+    };
+  }
+
   // Width/Height family → px by default
   if (
     labelLower.includes('width') ||
@@ -127,7 +138,12 @@ const SmartInput: React.FC<SmartInputProps> = ({
   const stepForUnit = (unit: string) => {
     const u = unit.toLowerCase();
     if (u === 'rem' || u === 'em') return { step: 0.25, min: -100, max: 100, format: (v: number) => `${v}${u}` };
-    if (u === 'px') return { step: 10, min: -10000, max: 10000, format: (v: number) => `${Math.round(v)}px` };
+    // Use 1px step for border widths, 10px for other px values
+    if (u === 'px') {
+      const isBorderWidth = label.toLowerCase().includes('borderwidth') || label.toLowerCase().includes('border-width');
+      const step = isBorderWidth ? 1 : 10;
+      return { step, min: -10000, max: 10000, format: (v: number) => `${Math.round(v)}px` };
+    }
     if (u === '%') return { step: 5, min: -1000, max: 1000, format: (v: number) => `${v}%` };
     if (u === 'vh' || u === 'vw') return { step: 1, min: -1000, max: 1000, format: (v: number) => `${v}${u}` };
     // Unknown/empty unit → fall back to numeric default preserving unit

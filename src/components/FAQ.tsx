@@ -118,7 +118,7 @@ const FAQ = () => {
             return (
               <Card 
                 key={index}
-                className={design.components?.faqCard?.container?.className || "bg-white border border-gray-200 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"}
+                className={design.components?.faqCard?.container?.className || "shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"}
                 style={{
                   backgroundColor: design.components?.faqCard?.container?.backgroundColor,
                   borderColor: design.components?.faqCard?.container?.borderColor,
@@ -127,6 +127,8 @@ const FAQ = () => {
                   boxShadow: design.components?.faqCard?.container?.shadow,
                   transition: design.components?.faqCard?.container?.transition || 'all 0.3s ease'
                 }}
+                data-card-type="faqCard"
+                data-card-variant="standard"
                 asChild
               >
                 <motion.div
@@ -151,12 +153,12 @@ const FAQ = () => {
                     data-typography="faqCardQuestion"
                     className="flex-1 pr-4 text-left"
                     style={{
-                      fontFamily: design.tokens?.typography?.faqCardQuestion?.fontFamily || 'inherit',
-                      fontSize: design.tokens?.typography?.faqCardQuestion?.fontSize || '1.25rem',
-                      fontWeight: design.tokens?.typography?.faqCardQuestion?.fontWeight || 500,
-                      lineHeight: design.tokens?.typography?.faqCardQuestion?.lineHeight || '1.6',
+                      fontFamily: design.tokens?.typography?.faqCardQuestion?.fontFamily,
+                      fontSize: design.tokens?.typography?.faqCardQuestion?.fontSize,
+                      fontWeight: design.tokens?.typography?.faqCardQuestion?.fontWeight,
+                      lineHeight: design.tokens?.typography?.faqCardQuestion?.lineHeight,
                       letterSpacing: design.tokens?.typography?.faqCardQuestion?.letterSpacing,
-                      color: design.tokens?.typography?.faqCardQuestion?.color || '#111827'
+                      color: design.tokens?.typography?.faqCardQuestion?.color
                     }}
                   >
                     {item.question}
@@ -204,7 +206,7 @@ const FAQ = () => {
                           fontWeight: design.tokens?.typography?.faqCardAnswer?.fontWeight || 400,
                           lineHeight: design.tokens?.typography?.faqCardAnswer?.lineHeight || '1.6',
                           letterSpacing: design.tokens?.typography?.faqCardAnswer?.letterSpacing,
-                          color: design.components?.faqCard?.answer?.color || design.tokens?.typography?.faqCardAnswer?.color || '#374151',
+                          color: design.tokens?.typography?.faqCardAnswer?.color,
                         }}
                       >
                         {parseHtmlTags(

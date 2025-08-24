@@ -70,6 +70,26 @@ const WhyFeatureCards: React.FC = () => {
         <div className="grid grid-cols-1 @md:grid-cols-2 @lg:grid-cols-3 gap-8">
           {whySection.features.map((feature: any, index: number) => {
             const IconComponent = iconMap[feature.icon as keyof typeof iconMap] || Star;
+            // Resolve token reference strings like "tokens.colors.primary" to actual values (undefined on miss)
+            const resolveTokenRef = (val: any): any => {
+              if (typeof val !== 'string') return val;
+              if (!val.startsWith('tokens.')) return val;
+              try {
+                const path = val.replace(/^tokens\./, '');
+                const keys = path.split('.');
+                let cur: any = design?.tokens || {};
+                for (const k of keys) {
+                  if (cur && typeof cur === 'object' && k in cur) cur = (cur as any)[k]; else return undefined;
+                }
+                return cur as any;
+              } catch { return undefined; }
+            };
+
+            // Compute background overlay (supports gradients or token refs)
+            const overlayColor = resolveTokenRef(design.components?.whyFeatureCard?.background?.overlay?.color);
+            const rawOpacity = (design.components as any)?.whyFeatureCard?.background?.overlay?.opacity as any;
+            const overlayOpacity = rawOpacity === undefined || rawOpacity === null ? 1 : Number(rawOpacity);
+
             return (
               <motion.div
                 key={index}
@@ -79,44 +99,64 @@ const WhyFeatureCards: React.FC = () => {
                 whileHover={design.components?.cardDefaults?.motionWhileHover}
               >
                 <Card
-                  className={`${design.components?.cardDefaults?.className || ''} bg-${design.tokens?.colors?.background} `}
+                  className={`${design.components?.cardDefaults?.className ?? ''} bg-${design.tokens?.colors?.background} `}
                   data-card-type="whyFeatureCard"
                   data-card-variant="standard"
                   style={{
-                    backgroundColor: design.components?.whyFeatureCard?.backgroundColor || design.tokens?.colors?.background,
-                    borderColor: design.components?.whyFeatureCard?.borderColor || 'transparent',
-                    borderWidth: design.components?.whyFeatureCard?.borderWidth || '1px',
-                    borderRadius: design.components?.whyFeatureCard?.borderRadius || '0.5rem',
-                    boxShadow: design.components?.whyFeatureCard?.shadow || 'none',
-                    padding: design.components?.whyFeatureCard?.padding || '2rem',
-                    minHeight: design.components?.whyFeatureCard?.minHeight || '300px',
-                    transition: design.components?.whyFeatureCard?.transition || 'all 0.3s ease'
+                    backgroundColor: resolveTokenRef(design.components?.whyFeatureCard?.backgroundColor),
+                    borderColor: resolveTokenRef(design.components?.whyFeatureCard?.borderColor),
+                    borderWidth: resolveTokenRef(design.components?.whyFeatureCard?.borderWidth),
+                    borderStyle: resolveTokenRef(design.components?.whyFeatureCard?.borderStyle),
+                    borderRadius: resolveTokenRef(design.components?.whyFeatureCard?.borderRadius),
+                    boxShadow: resolveTokenRef(design.components?.whyFeatureCard?.shadow),
+                    padding: resolveTokenRef(design.components?.whyFeatureCard?.padding),
+                    minHeight: resolveTokenRef(design.components?.whyFeatureCard?.minHeight),
+                    color: resolveTokenRef(design.components?.whyFeatureCard?.textColor),
+                    transition: design.components?.whyFeatureCard?.transition ?? undefined,
+                    position: 'relative',
+                    overflow: 'hidden'
                   }}
                 >
+                  {/* Background overlay for whyFeatureCard */}
+                  {overlayColor && overlayOpacity > 0 && (
+                    <div
+                      style={{
+                        position: 'absolute',
+                        inset: 0,
+                        background: overlayColor as any,
+                        opacity: overlayOpacity,
+                        pointerEvents: 'none',
+                        borderRadius: resolveTokenRef(design.components?.whyFeatureCard?.borderRadius),
+                        zIndex: 0
+                      }}
+                    />
+                  )}
                   <div
                     className="text-center h-full"
                     style={{
-                      padding: design.components?.whyFeatureCard?.contentPadding || '2rem 0',
+                      padding: design.components?.whyFeatureCard?.contentPadding ?? undefined,
                       display: 'flex',
                       flexDirection: 'column',
-                      justifyContent: design.components?.whyFeatureCard?.contentAlignment || 'center'
+                      justifyContent: design.components?.whyFeatureCard?.contentAlignment ?? undefined,
+                      position: 'relative',
+                      zIndex: 1
                     }}
                   >
                     <div
                       className="rounded-full flex items-center justify-center mx-auto mb-6"
                       style={{
-                        width: design.components?.whyFeatureCard?.iconSize || '4rem',
-                        height: design.components?.whyFeatureCard?.iconSize || '4rem',
-                        backgroundColor: design.components?.whyFeatureCard?.iconBackground || design.tokens?.colors?.primary,
-                        color: design.components?.whyFeatureCard?.iconColor || 'black',
-                        borderRadius: design.components?.whyFeatureCard?.iconBorderRadius || '50%',
-                        marginBottom: design.components?.whyFeatureCard?.iconSpacing || '1.5rem'
+                        width: design.components?.whyFeatureCard?.iconSize ?? undefined,
+                        height: design.components?.whyFeatureCard?.iconSize ?? undefined,
+                        backgroundColor: resolveTokenRef(design.components?.whyFeatureCard?.iconBackground) ?? design.tokens?.colors?.primary,
+                        color: resolveTokenRef(design.components?.whyFeatureCard?.iconColor),
+                        borderRadius: design.components?.whyFeatureCard?.iconBorderRadius ?? undefined,
+                        marginBottom: design.components?.whyFeatureCard?.iconSpacing ?? undefined
                       }}
                     >
                       <IconComponent
                         style={{
-                          width: design.components?.whyFeatureCard?.iconInnerSize || '1.75rem',
-                          height: design.components?.whyFeatureCard?.iconInnerSize || '1.75rem'
+                          width: design.components?.whyFeatureCard?.iconInnerSize ?? undefined,
+                          height: design.components?.whyFeatureCard?.iconInnerSize ?? undefined
                         }}
                       />
                     </div>
@@ -124,32 +164,32 @@ const WhyFeatureCards: React.FC = () => {
                       data-typography="whyCard.title"
                       className="text-center"
                       style={{
-                        fontFamily: design.tokens?.typography?.whyCardTitle?.fontFamily || design.tokens?.typography?.headings?.fontFamily,
-                        fontSize: design.tokens?.typography?.whyCardTitle?.fontSize || '1.5rem',
-                        fontWeight: design.tokens?.typography?.whyCardTitle?.fontWeight || '400',
-                        lineHeight: design.tokens?.typography?.whyCardTitle?.lineHeight || '1.2',
-                        letterSpacing: design.tokens?.typography?.whyCardTitle?.letterSpacing,
-                        color: design.tokens?.typography?.whyCardTitle?.color || 'white',
-                        marginBottom: design.components?.whyFeatureCard?.titleSpacing || '1rem'
+                        fontFamily: design.tokens?.typography?.whyCardTitle?.fontFamily ?? design.tokens?.typography?.headings?.fontFamily,
+                        fontSize: design.tokens?.typography?.whyCardTitle?.fontSize ?? undefined,
+                        fontWeight: design.tokens?.typography?.whyCardTitle?.fontWeight ?? undefined,
+                        lineHeight: design.tokens?.typography?.whyCardTitle?.lineHeight ?? undefined,
+                        letterSpacing: design.tokens?.typography?.whyCardTitle?.letterSpacing ?? undefined,
+                        color: design.tokens?.typography?.whyCardTitle?.color ?? undefined,
+                        marginBottom: design.components?.whyFeatureCard?.titleSpacing ?? undefined
                       }}
                     >
                       {feature.title}
                     </CardTitle>
                     <CardContent
                       style={{
-                        padding: design.components?.whyFeatureCard?.descriptionPadding || '0 1.5rem'
+                        padding: design.components?.whyFeatureCard?.descriptionPadding ?? undefined
                       }}
                     >
                       <CardDescription
                         data-typography="whyCard.description"
                         className="text-center"
                         style={{
-                          fontFamily: design.tokens?.typography?.whyCardDescription?.fontFamily || design.tokens?.typography?.body?.fontFamily,
-                          fontSize: design.tokens?.typography?.whyCardDescription?.fontSize || '1rem',
-                          fontWeight: design.tokens?.typography?.whyCardDescription?.fontWeight || '300',
-                          lineHeight: design.tokens?.typography?.whyCardDescription?.lineHeight || '1.6',
-                          letterSpacing: design.tokens?.typography?.whyCardDescription?.letterSpacing,
-                          color: design.tokens?.typography?.whyCardDescription?.color || '#cbd5e1'
+                          fontFamily: design.tokens?.typography?.whyCardDescription?.fontFamily ?? design.tokens?.typography?.body?.fontFamily,
+                          fontSize: design.tokens?.typography?.whyCardDescription?.fontSize ?? undefined,
+                          fontWeight: design.tokens?.typography?.whyCardDescription?.fontWeight ?? undefined,
+                          lineHeight: design.tokens?.typography?.whyCardDescription?.lineHeight ?? undefined,
+                          letterSpacing: design.tokens?.typography?.whyCardDescription?.letterSpacing ?? undefined,
+                          color: design.tokens?.typography?.whyCardDescription?.color ?? undefined
                         }}
                       >
                         {feature.description}

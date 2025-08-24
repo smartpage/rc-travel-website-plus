@@ -1,0 +1,1157 @@
+{
+  "designV2": {
+    "$schema": "",
+    "__note": "COMPREHENSIVE DESIGN TOKEN SYSTEM - Full tokenization for container queries and zero hardcoded values",
+    "colors": {
+      "primary": "yellow-500",
+      "primaryHover": "yellow-600",
+      "primaryLight": "yellow-400",
+      "primaryDark": "yellow-600",
+      "secondary": "slate-800",
+      "secondaryHover": "slate-900",
+      "secondaryLight": "slate-700",
+      "text": {
+        "primary": "text-white",
+        "secondary": "text-slate-300",
+        "muted": "text-slate-400",
+        "light": "text-slate-200",
+        "dark": "text-slate-600",
+        "heading": "text-white",
+        "body": "text-white",
+        "card": "text-white/80",
+        "error": "text-red-400",
+        "success": "text-green-400",
+        "warning": "text-yellow-400",
+        "info": "text-blue-400"
+      },
+      "background": {
+        "primary": "bg-black",
+        "secondary": "bg-slate-900",
+        "tertiary": "bg-slate-800",
+        "card": "bg-black/80",
+        "overlay": "bg-black/60",
+        "surface": "bg-white/5",
+        "hover": "bg-white/10",
+        "transparent": "bg-transparent"
+      },
+      "border": {
+        "primary": "border-yellow-500",
+        "secondary": "border-slate-600",
+        "light": "border-white/20",
+        "lighter": "border-white/10",
+        "dark": "border-slate-800",
+        "transparent": "border-transparent"
+      },
+      "utility": {
+        "white": "white",
+        "black": "black",
+        "transparent": "transparent",
+        "current": "currentColor"
+      }
+    },
+    "spacing": {
+      "scale": {
+        "xs": "0.5rem",
+        "sm": "1rem",
+        "md": "1.5rem",
+        "lg": "2rem",
+        "xl": "3rem",
+        "2xl": "4rem",
+        "3xl": "6rem",
+        "4xl": "8rem"
+      },
+      "padding": {
+        "none": "p-0",
+        "xs": "p-2",
+        "sm": "p-4",
+        "md": "p-6",
+        "lg": "p-8",
+        "xl": "p-12",
+        "2xl": "p-16",
+        "card": "p-6 @md:p-8",
+        "section": "px-4 py-8 @md:px-8 @md:py-12 @lg:px-16 @lg:py-16",
+        "container": "px-4 @md:px-6 @lg:px-8"
+      },
+      "margin": {
+        "none": "m-0",
+        "xs": "m-2",
+        "sm": "m-4",
+        "md": "m-6",
+        "lg": "m-8",
+        "xl": "m-12",
+        "2xl": "m-16",
+        "auto": "mx-auto",
+        "bottom": {
+          "xs": "mb-2",
+          "sm": "mb-4",
+          "md": "mb-6",
+          "lg": "mb-8",
+          "xl": "mb-12",
+          "2xl": "mb-16"
+        },
+        "top": {
+          "xs": "mt-2",
+          "sm": "mt-4",
+          "md": "mt-6",
+          "lg": "mt-8",
+          "xl": "mt-12",
+          "2xl": "mt-16"
+        }
+      },
+      "gap": {
+        "none": "gap-0",
+        "xs": "gap-2",
+        "sm": "gap-4",
+        "md": "gap-6",
+        "lg": "gap-8",
+        "xl": "gap-12",
+        "2xl": "gap-16"
+      }
+    },
+    "layout": {
+      "containers": {
+        "xs": "max-w-sm mx-auto",
+        "sm": "max-w-2xl mx-auto",
+        "md": "max-w-4xl mx-auto",
+        "lg": "max-w-5xl mx-auto",
+        "xl": "max-w-6xl mx-auto",
+        "2xl": "max-w-7xl mx-auto",
+        "full": "w-full max-w-none",
+        "screen": "w-screen"
+      },
+      "grids": {
+        "oneColumn": "grid grid-cols-1",
+        "twoColumn": "grid grid-cols-1 @md:grid-cols-2",
+        "threeColumn": "grid grid-cols-1 @md:grid-cols-2 @lg:grid-cols-3",
+        "fourColumn": "grid grid-cols-1 @md:grid-cols-2 @lg:grid-cols-4",
+        "autoFit": "grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))]",
+        "responsive": {
+          "cards": "grid grid-cols-1 @md:grid-cols-2 @lg:grid-cols-3",
+          "testimonials": "grid grid-cols-1 @md:grid-cols-2 @lg:grid-cols-4",
+          "features": "grid grid-cols-1 @md:grid-cols-2 @lg:grid-cols-3",
+          "contact": "grid grid-cols-1 @lg:grid-cols-2"
+        }
+      },
+      "flex": {
+        "center": "flex items-center justify-center",
+        "between": "flex items-center justify-between",
+        "start": "flex items-center justify-start",
+        "end": "flex items-center justify-end",
+        "column": "flex flex-col",
+        "columnCenter": "flex flex-col items-center justify-center",
+        "wrap": "flex flex-wrap"
+      },
+      "widths": {
+        "full": "w-full",
+        "screen": "w-screen",
+        "auto": "w-auto",
+        "fit": "w-fit",
+        "min": "w-min",
+        "max": "w-max",
+        "xs": "w-20",
+        "sm": "w-32",
+        "md": "w-48",
+        "lg": "w-64",
+        "xl": "w-80"
+      },
+      "heights": {
+        "full": "h-full",
+        "screen": "h-screen",
+        "auto": "h-auto",
+        "fit": "h-fit",
+        "min": "h-min",
+        "viewport": "min-h-screen",
+        "xs": "h-20",
+        "sm": "h-32",
+        "md": "h-48",
+        "lg": "h-64",
+        "xl": "h-80"
+      },
+      "zIndex": {
+        "hide": "z-[-1]",
+        "base": "z-0",
+        "low": "z-10",
+        "medium": "z-20",
+        "high": "z-30",
+        "overlay": "z-40",
+        "modal": "z-50",
+        "popover": "z-60",
+        "tooltip": "z-70",
+        "notification": "z-80",
+        "max": "z-[9999]"
+      },
+      "position": {
+        "relative": "relative",
+        "absolute": "absolute",
+        "fixed": "fixed",
+        "sticky": "sticky",
+        "static": "static"
+      }
+    },
+    "typography": {
+      "body": {
+        "fontFamily": "Inter, sans-serif",
+        "fontSize": "1rem",
+        "fontWeight": "400",
+        "lineHeight": "1.75",
+        "color": "white"
+      },
+      "cardBody": {
+        "fontFamily": "Inter, sans-serif",
+        "fontSize": "0.95rem",
+        "fontWeight": "400",
+        "lineHeight": "1.6",
+        "color": "rgba(255, 255, 255, 0.8)"
+      },
+      "subtitle": {
+        "fontFamily": "Inter, sans-serif",
+        "fontSize": "1.125rem",
+        "fontWeight": "500",
+        "lineHeight": "1.5",
+        "color": "#cbd5e1"
+      },
+      "description": {
+        "fontFamily": "Inter, sans-serif",
+        "fontSize": "1rem",
+        "fontWeight": "400",
+        "lineHeight": "1.6",
+        "color": "#94a3b8"
+      },
+      "packageDescription": {
+        "fontFamily": "Inter, sans-serif",
+        "fontSize": "1rem",
+        "fontWeight": "400",
+        "lineHeight": "1.6",
+        "color": "rgba(255, 255, 255, 0.8)"
+      },
+      "small": {
+        "fontFamily": "Inter, sans-serif",
+        "fontSize": "0.875rem",
+        "fontWeight": "400",
+        "lineHeight": "1.5",
+        "color": "#94a3b8"
+      },
+      "serviceCardTitle": {
+        "fontFamily": "Inter, sans-serif",
+        "fontSize": "1.5rem",
+        "fontWeight": "300",
+        "lineHeight": "1.2",
+        "color": "white"
+      },
+      "serviceCardDescription": {
+        "fontFamily": "Inter, sans-serif",
+        "fontSize": "1.125rem",
+        "fontWeight": "300",
+        "lineHeight": "1.6",
+        "color": "#cbd5e1"
+      },
+      "testimonialCardName": {
+        "fontFamily": "Inter, sans-serif",
+        "fontSize": "1.125rem",
+        "fontWeight": "600",
+        "lineHeight": "1.2",
+        "color": "#1f2937"
+      },
+      "testimonialCardLocation": {
+        "fontFamily": "Inter, sans-serif",
+        "fontSize": "0.875rem",
+        "fontWeight": "400",
+        "lineHeight": "1.5",
+        "color": "#6b7280"
+      },
+      "testimonialCardText": {
+        "fontFamily": "Inter, sans-serif",
+        "fontSize": "1rem",
+        "fontWeight": "400",
+        "lineHeight": "1.6",
+        "color": "#374151"
+      },
+      "whyCardTitle": {
+        "fontFamily": "Inter, sans-serif",
+        "fontSize": "1.5rem",
+        "fontWeight": "400",
+        "lineHeight": "1.2",
+        "color": "white"
+      },
+      "whyCardDescription": {
+        "fontFamily": "Inter, sans-serif",
+        "fontSize": "1rem",
+        "fontWeight": "300",
+        "lineHeight": "1.6",
+        "color": "#cbd5e1"
+      },
+      "travelPackageIncludes": {
+        "fontFamily": "Inter, sans-serif",
+        "fontSize": "0.875rem",
+        "fontWeight": "400",
+        "lineHeight": "1.6",
+        "color": "white"
+      },
+      "travelPackagePriceType": {
+        "fontFamily": "Inter, sans-serif",
+        "fontSize": "0.875rem",
+        "fontWeight": "400",
+        "lineHeight": "1.2",
+        "color": "#f59e0b"
+      },
+      "travelPackagePriceValue": {
+        "fontFamily": "Inter, sans-serif",
+        "fontSize": "1.25rem",
+        "fontWeight": "500",
+        "lineHeight": "1.2",
+        "color": "#10b981"
+      }
+    },
+    "effects": {
+      "shadows": {
+        "none": "shadow-none",
+        "sm": "shadow-sm",
+        "base": "shadow",
+        "md": "shadow-md",
+        "lg": "shadow-lg",
+        "xl": "shadow-xl",
+        "2xl": "shadow-2xl",
+        "inner": "shadow-inner"
+      },
+      "borders": {
+        "none": "border-0",
+        "thin": "border",
+        "thick": "border-2",
+        "radius": {
+          "none": "rounded-none",
+          "sm": "rounded-sm",
+          "base": "rounded",
+          "md": "rounded-md",
+          "lg": "rounded-lg",
+          "xl": "rounded-xl",
+          "2xl": "rounded-2xl",
+          "full": "rounded-full"
+        }
+      },
+      "transitions": {
+        "none": "transition-none",
+        "all": "transition-all duration-300",
+        "fast": "transition-all duration-150",
+        "slow": "transition-all duration-500",
+        "colors": "transition-colors duration-300",
+        "transform": "transition-transform duration-300"
+      },
+      "blur": {
+        "none": "backdrop-blur-none",
+        "sm": "backdrop-blur-sm",
+        "base": "backdrop-blur",
+        "md": "backdrop-blur-md",
+        "lg": "backdrop-blur-lg"
+      }
+    },
+    "components": {
+      "card": {
+        "primary": "bg-black/80 backdrop-blur-lg border-2 border-yellow-500 rounded-2xl shadow-2xl transition-all duration-300 hover:border-yellow-400 hover:shadow-3xl overflow-hidden",
+        "secondary": "bg-white/5 backdrop-blur-sm border border-white/20 rounded-xl shadow-lg transition-all duration-300 hover:bg-white/10",
+        "glass": "bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-xl",
+        "simple": "bg-white rounded-lg shadow-sm border border-gray-200",
+        "elevated": "bg-white rounded-xl shadow-lg border border-gray-100"
+      },
+      "button": {
+        "primary": "bg-yellow-500 hover:bg-yellow-600 text-black font-normal px-6 py-4 @md:px-8 @md:py-6 rounded-xl border-2 border-yellow-500 hover:border-yellow-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105",
+        "secondary": "bg-transparent hover:bg-white/10 text-white font-normal px-6 py-4 @md:px-8 @md:py-6 rounded-xl border-2 border-white/30 hover:border-white/50 transition-all duration-300 shadow-none hover:shadow-lg",
+        "ghost": "bg-transparent hover:bg-white/5 text-white px-4 py-2 rounded-lg transition-colors duration-200",
+        "small": "px-4 py-2 text-sm rounded-lg",
+        "large": "px-8 py-4 text-lg rounded-xl"
+      },
+      "input": {
+        "primary": "w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:border-yellow-500 focus:outline-none transition-colors duration-200",
+        "secondary": "w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-gray-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+      },
+      "navigation": {
+        "overlay": "fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-black/20",
+        "menu": "hidden @md:flex items-center space-x-8",
+        "hamburger": "block @md:hidden p-3 bg-white/10 backdrop-blur-sm rounded-full"
+      },
+      "serviceCard": {
+        "activeVariant": "highlight"
+      }
+    },
+    "navigation": {
+      "menuOverlay": {
+        "backgroundColor": "rgba(0, 0, 0, 0.8)",
+        "linkColor": "white",
+        "linkHoverColor": "yellow-500"
+      },
+      "hamburger": {
+        "barColor": "white",
+        "barThickness": "3px",
+        "barWidth": "2rem",
+        "buttonBackground": "bg-white/10",
+        "buttonBackdrop": "backdrop-blur-sm"
+      }
+    },
+    "faq": {
+      "card": {
+        "backgroundColor": "transparent",
+        "textColor": "white",
+        "questionColor": "white",
+        "answerColor": "#cbd5e1"
+      },
+      "arrow": {
+        "backgroundColor": "#eab308",
+        "iconColor": "black"
+      }
+    },
+    "logos": {
+      "main": {
+        "height": "4.5rem",
+        "heightMd": "4.5rem",
+        "heightLg": "4.5rem",
+        "width": "auto",
+        "objectFit": "contain"
+      },
+      "inverted": {
+        "height": "3.5rem",
+        "heightMd": "4rem",
+        "heightLg": "4rem",
+        "width": "auto",
+        "objectFit": "contain"
+      }
+    },
+    "buttonStyles": {
+      "primary": {
+        "base": "bg-yellow-500 text-black font-normal transform",
+        "hover": "hover:bg-yellow-600 hover:scale-105",
+        "border": "border-2 border-yellow-500",
+        "borderHover": "hover:border-yellow-600",
+        "rounded": "rounded-xl",
+        "padding": "px-6 py-4 sm:px-8 sm:py-6",
+        "fontSize": "text-base sm:text-lg",
+        "transition": "transition-all duration-300",
+        "shadow": "shadow-lg hover:shadow-xl"
+      },
+      "secondary": {
+        "base": "bg-transparent text-white font-normal",
+        "hover": "hover:bg-white/10",
+        "border": "border-2 border-white/30",
+        "borderHover": "hover:border-white/50",
+        "rounded": "rounded-xl",
+        "padding": "px-6 py-4 sm:px-8 sm:py-6",
+        "fontSize": "text-base sm:text-lg",
+        "transition": "transition-all duration-300",
+        "shadow": "shadow-none hover:shadow-lg"
+      },
+      "tab": {
+        "regular": {
+          "normal": {
+            "backgroundColor": "transparent",
+            "textColor": "#cbd5e1",
+            "borderColor": "transparent"
+          },
+          "hover": {
+            "backgroundColor": "#1f2937",
+            "textColor": "#ffffff",
+            "borderColor": "transparent"
+          }
+        },
+        "inverted": {
+          "normal": {
+            "backgroundColor": "#eab308",
+            "textColor": "#000000",
+            "borderColor": "transparent"
+          },
+          "hover": {
+            "backgroundColor": "#d97706",
+            "textColor": "#000000",
+            "borderColor": "transparent"
+          }
+        },
+        "container": {
+          "backgroundColor": "#374151"
+        }
+      }
+    },
+    "sections": {
+      "default": {
+        "layout": {
+          "maxWidth": "1280px",
+          "backgroundColor": null,
+          "padding": {
+            "mobile": "2rem 1rem",
+            "tablet": "3rem 2rem",
+            "desktop": "4rem 2rem"
+          },
+          "overlay": {
+            "color": "",
+            "opacity": 1
+          },
+          "inner": {
+            "maxWidth": "1280px",
+            "margin": "0 auto",
+            "padding": {
+              "mobile": "0",
+              "tablet": "0",
+              "desktop": "0"
+            },
+            "rounded": false,
+            "backgroundColor": "transparent",
+            "overflow": "visible",
+            "background": {
+              "type": "color",
+              "value": "transparent",
+              "overlay": {
+                "color": "",
+                "opacity": 1
+              }
+            }
+          }
+        }
+      },
+      "hero": {
+        "layout": {
+          "maxWidth": "100%",
+          "backgroundColor": null,
+          "padding": {
+            "mobile": "0.5rem 0.5rem 4rem",
+            "tablet": "0.5rem 0.5rem",
+            "desktop": "0.5rem 0.5rem"
+          },
+          "inner": {
+            "maxWidth": "100%",
+            "margin": "0 auto",
+            "padding": {
+              "mobile": "6rem 1rem",
+              "tablet": "6rem 2rem",
+              "desktop": "6rem 2rem"
+            },
+            "rounded": true,
+            "borderRadius": "1.5rem",
+            "display": "flex",
+            "flexDirection": "column",
+            "alignItems": "center",
+            "justifyContent": "center",
+            "minHeight": "100vh",
+            "backgroundColor": "transparent",
+            "overflow": "hidden",
+            "background": {
+              "type": "image",
+              "value": "",
+              "overlay": {
+                "color": "linear-gradient(to bottom, rgba(12, 36, 68, 0.9) 0%, rgba(12, 36, 68, 0.7) 50%, rgba(12, 36, 68, 0.2) 100%)",
+                "opacity": 1
+              }
+            }
+          }
+        }
+      },
+      "packages": {
+        "layout": {
+          "maxWidth": "100%",
+          "backgroundColor": null,
+          "padding": {
+            "mobile": "2rem 1rem",
+            "tablet": "4rem 1rem",
+            "desktop": "6rem 1rem"
+          },
+          "inner": {
+            "maxWidth": "1200px",
+            "margin": "0 auto",
+            "padding": {
+              "mobile": "0",
+              "tablet": "0",
+              "desktop": "0"
+            },
+            "rounded": false,
+            "backgroundColor": "transparent",
+            "overflow": "visible",
+            "background": {
+              "type": "color",
+              "value": "transparent",
+              "overlay": {
+                "color": "",
+                "opacity": 1
+              }
+            }
+          }
+        }
+      },
+      "whyTravel": {
+        "layout": {
+          "maxWidth": "100%",
+          "backgroundColor": null,
+          "padding": {
+            "mobile": "6rem 0.5rem 4rem",
+            "tablet": "6rem 0.5rem",
+            "desktop": "6rem 0.5rem"
+          },
+          "inner": {
+            "maxWidth": "1280px",
+            "margin": "0 auto",
+            "backgroundColor": "transparent",
+            "padding": {
+              "mobile": "0",
+              "tablet": "0",
+              "desktop": "0"
+            },
+            "rounded": false,
+            "overflow": "visible",
+            "background": {
+              "type": "color",
+              "value": "transparent",
+              "overlay": {
+                "color": "",
+                "opacity": 1
+              }
+            }
+          }
+        }
+      },
+      "testimonials": {
+        "layout": {
+          "maxWidth": "100%",
+          "minHeight": "450px",
+          "backgroundColor": null,
+          "padding": {
+            "mobile": "4rem 0",
+            "tablet": "6rem 0",
+            "desktop": "7rem 0"
+          },
+          "inner": {
+            "maxWidth": "100%",
+            "margin": "0 auto",
+            "padding": {
+              "mobile": "0",
+              "tablet": "0",
+              "desktop": "0"
+            },
+            "rounded": false,
+            "backgroundColor": "transparent",
+            "overflow": "visible",
+            "background": {
+              "type": "color",
+              "value": "transparent",
+              "overlay": {
+                "color": "",
+                "opacity": 1
+              }
+            }
+          }
+        }
+      },
+      "travelDesigner": {
+        "layout": {
+          "maxWidth": "100%",
+          "backgroundColor": null,
+          "padding": {
+            "mobile": "4rem 1rem",
+            "tablet": "6rem 2rem",
+            "desktop": "7rem 2rem"
+          },
+          "inner": {
+            "maxWidth": "100%",
+            "margin": "0 auto",
+            "padding": {
+              "mobile": "0",
+              "tablet": "0",
+              "desktop": "2rem"
+            },
+            "rounded": false,
+            "backgroundColor": "transparent",
+            "overflow": "visible",
+            "background": {
+              "type": "color",
+              "value": "transparent",
+              "overlay": {
+                "color": "",
+                "opacity": 1
+              }
+            }
+          }
+        }
+      },
+      "about": {
+        "layout": {
+          "maxWidth": "100%",
+          "backgroundColor": null,
+          "padding": {
+            "mobile": "6rem 0.5rem 4rem",
+            "tablet": "6rem 0.5rem",
+            "desktop": "6rem 0.5rem"
+          },
+          "inner": {
+            "maxWidth": "100%",
+            "margin": "0 auto",
+            "padding": {
+              "mobile": "4rem 1rem",
+              "tablet": "4rem 2rem",
+              "desktop": "4rem 2rem"
+            },
+            "rounded": true,
+            "borderRadius": "1rem",
+            "backgroundColor": "transparent",
+            "overflow": "hidden",
+            "background": {
+              "type": "image",
+              "value": "",
+              "overlay": {
+                "color": "linear-gradient(to bottom, rgba(12, 36, 68, 0.9) 0%, rgba(12, 36, 68, 0.7) 50%, rgba(0, 0, 0, 0.8) 65%, rgba(0, 0, 0, 1) 80%)",
+                "opacity": 1
+              }
+            }
+          }
+        }
+      },
+      "faq": {
+        "layout": {
+          "maxWidth": "100%",
+          "backgroundColor": null,
+          "padding": {
+            "mobile": "4rem 1rem",
+            "tablet": "6rem 2rem",
+            "desktop": "6rem 2rem"
+          },
+          "inner": {
+            "maxWidth": "1280px",
+            "margin": "0 auto",
+            "padding": {
+              "mobile": "0",
+              "tablet": "0",
+              "desktop": "0"
+            },
+            "rounded": false,
+            "backgroundColor": "transparent",
+            "overflow": "visible",
+            "background": {
+              "type": "color",
+              "value": "transparent",
+              "overlay": {
+                "color": "",
+                "opacity": 1
+              }
+            }
+          }
+        }
+      },
+      "contact": {
+        "layout": {
+          "maxWidth": "100%",
+          "backgroundColor": null,
+          "padding": {
+            "mobile": "5rem 1rem",
+            "tablet": "8rem 1rem",
+            "desktop": "8rem 1rem"
+          },
+          "inner": {
+            "maxWidth": "1280px",
+            "margin": "0 auto",
+            "backgroundColor": "transparent",
+            "padding": {
+              "mobile": "0",
+              "tablet": "0",
+              "desktop": "0"
+            },
+            "rounded": false,
+            "overflow": "visible",
+            "background": {
+              "type": "color",
+              "value": "transparent",
+              "overlay": {
+                "color": "",
+                "opacity": 1
+              }
+            }
+          }
+        }
+      },
+      "whyFeatureCards": {
+        "layout": {
+          "maxWidth": "none",
+          "backgroundColor": null,
+          "padding": {
+            "mobile": "5rem 1rem",
+            "tablet": "5rem 2rem",
+            "desktop": "5rem 2rem"
+          },
+          "inner": {
+            "maxWidth": "1280px",
+            "margin": "0 auto",
+            "padding": {
+              "mobile": "0",
+              "tablet": "0",
+              "desktop": "0"
+            },
+            "rounded": false,
+            "backgroundColor": "transparent",
+            "overflow": "visible",
+            "background": {
+              "type": "color",
+              "value": "transparent",
+              "overlay": {
+                "color": "",
+                "opacity": 1
+              }
+            }
+          }
+        }
+      },
+      "services": {
+        "layout": {
+          "maxWidth": "none",
+          "backgroundColor": null,
+          "padding": {
+            "mobile": "5rem 1rem",
+            "tablet": "5rem 2rem",
+            "desktop": "5rem 2rem"
+          },
+          "inner": {
+            "maxWidth": "1280px",
+            "margin": "0 auto",
+            "padding": {
+              "mobile": "0",
+              "tablet": "0",
+              "desktop": "0"
+            },
+            "rounded": false,
+            "overflow": "visible",
+            "background": {
+              "type": "color",
+              "value": "transparent",
+              "overlay": {
+                "color": "",
+                "opacity": 1
+              }
+            }
+          }
+        }
+      },
+      "travelPackages": {
+        "layout": {
+          "maxWidth": "100%",
+          "backgroundColor": null,
+          "padding": {
+            "mobile": "5rem 1rem",
+            "tablet": "8rem 1rem",
+            "desktop": "8rem 1rem"
+          },
+          "inner": {
+            "maxWidth": "1280px",
+            "margin": "0 auto",
+            "backgroundColor": "transparent",
+            "padding": {
+              "mobile": "0",
+              "tablet": "0",
+              "desktop": "0"
+            },
+            "rounded": false,
+            "overflow": "visible",
+            "background": {
+              "type": "color",
+              "value": "transparent",
+              "overlay": {
+                "color": "",
+                "opacity": 1
+              }
+            }
+          }
+        }
+      },
+      "footer": {
+        "layout": {
+          "maxWidth": "100%",
+          "backgroundColor": null,
+          "padding": {
+            "mobile": "1.5rem 1rem",
+            "tablet": "1.5rem 2rem",
+            "desktop": "1.5rem 2rem"
+          },
+          "inner": {
+            "maxWidth": "1280px",
+            "margin": "0 auto",
+            "padding": {
+              "mobile": "0",
+              "tablet": "0",
+              "desktop": "0"
+            },
+            "rounded": false,
+            "backgroundColor": "transparent",
+            "overflow": "visible",
+            "background": {
+              "type": "color",
+              "value": "transparent",
+              "overlay": {
+                "color": "",
+                "opacity": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "fonts": {
+      "title": "Inter, sans-serif",
+      "body": "Inter, sans-serif"
+    },
+    "primaryCards": {
+      "container": {
+        "base": "bg-black/80 backdrop-blur-lg text-white overflow-hidden group",
+        "border": "border-2 border-yellow-500",
+        "rounded": "rounded-2xl",
+        "shadow": "shadow-2xl hover:shadow-3xl",
+        "transition": "transition-all duration-300",
+        "padding": "p-8",
+        "hover": "hover:border-yellow-400 hover:bg-black/90"
+      },
+      "header": {
+        "spacing": "mb-6"
+      },
+      "title": {
+        "layout": "flex items-center gap-3",
+        "base": "text-white",
+        "fontSize": "text-2xl",
+        "fontWeight": "font-normal",
+        "iconColor": "text-yellow-500",
+        "iconSize": "w-7 h-7"
+      },
+      "content": {
+        "spacing": "space-y-6"
+      },
+      "description": {
+        "color": "text-white/80",
+        "fontSize": "text-base",
+        "fontWeight": "font-normal",
+        "lineHeight": "leading-relaxed",
+        "spacing": "mb-6"
+      }
+    },
+    "socialIcons": {
+      "container": {
+        "base": "flex justify-center items-center",
+        "gap": "gap-4",
+        "spacing": "mt-6 sm:mt-8"
+      },
+      "icon": {
+        "base": "bg-white/10 text-white/80 rounded-full p-3",
+        "hover": "hover:bg-white/20 hover:text-white",
+        "border": "border border-white/20",
+        "backdrop": "backdrop-blur-sm",
+        "transition": "transition-all duration-300",
+        "size": "h-5 w-5"
+      }
+    },
+    "travelPackageCard": {
+      "minHeight": "70vh",
+      "maxHeight": "70vh",
+      "imageHeight": "55%",
+      "contentPadding": ".5rem",
+      "backgroundColor": "transparent",
+      "borderWidth": "2px",
+      "borderColor": "#eab308",
+      "borderRadius": "1rem",
+      "shadow": "0 25px 50px -12px rgb(0 0 0 / 0.25)",
+      "hoverShadow": "0 25px 50px -12px rgb(0 0 0 / 0.25)",
+      "transition": "all 0.3s ease",
+      "padding": "1.5rem",
+      "innerPadding": "1rem",
+      "priceGroup": {
+        "gap": "0.25rem",
+        "direction": "column"
+      },
+      "iconColors": {
+        "map": "#10b981",
+        "check": "#10b981",
+        "message": "#f59e0b"
+      }
+    },
+    "cardDefaults": {
+      "className": "bg-white/80 backdrop-blur-sm border-none rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl h-full flex flex-col group",
+      "motionWhileHover": {
+        "y": -5
+      }
+    },
+    "serviceCard": {
+      "rounded": "rounded-2xl",
+      "roundedButton": "rounded-full",
+      "minHeight": "min-h-[500px]",
+      "transition": "transition-all duration-300",
+      "padding": "p-12",
+      "activeVariant": "standard",
+      "variants": {
+        "standard": {
+          "backgroundColor": "transparent",
+          "borderColor": "#1f2937",
+          "borderWidth": "1px",
+          "borderRadius": "1rem",
+          "shadow": "none",
+          "padding": "1rem 2rem 3rem",
+          "iconPadding": "1rem 2rem 0",
+          "contentPadding": "0 2rem 3rem",
+          "minHeight": "500px",
+          "maxHeight": "none",
+          "iconSize": "3rem",
+          "iconColor": "#9ca3af",
+          "textColor": "#cbd5e1",
+          "iconSpacing": "3rem",
+          "titleSpacing": "1.5rem",
+          "descriptionSpacing": "1rem",
+          "buttonSpacing": "1.5rem"
+        },
+        "highlight": {
+          "backgroundColor": "#fbbf24",
+          "borderColor": "transparent",
+          "borderWidth": "0",
+          "borderRadius": "1rem",
+          "shadow": "none",
+          "padding": "1rem 2rem 3rem",
+          "minHeight": "500px",
+          "maxHeight": "none",
+          "iconSize": "3rem",
+          "iconColor": "#000000",
+          "textColor": "#000000",
+          "iconSpacing": "3rem",
+          "titleSpacing": "1rem",
+          "descriptionSpacing": "1rem",
+          "buttonSpacing": "1rem",
+          "headerBarColor": "#000000",
+          "headerBarHeight": "4px"
+        },
+        "featured": {
+          "backgroundColor": "transparent",
+          "borderColor": "transparent",
+          "borderWidth": "0",
+          "borderRadius": "1rem",
+          "shadow": "none",
+          "padding": "1rem 2rem 3rem",
+          "minHeight": "500px",
+          "maxHeight": "none",
+          "iconSize": "3rem",
+          "iconColor": "white",
+          "textColor": "white",
+          "iconSpacing": "3rem",
+          "titleSpacing": "1rem",
+          "descriptionSpacing": "1rem",
+          "buttonSpacing": "1rem",
+          "headerBarColor": "#eab308",
+          "headerBarHeight": "4px",
+          "imageOpacity": "0.6",
+          "overlayColor": "rgba(0,0,0,0.4)"
+        }
+      }
+    },
+    "testimonialCard": {
+      "backgroundColor": "transparent",
+      "borderColor": "transparent",
+      "borderWidth": "1px",
+      "borderRadius": "0.5rem",
+      "shadow": "none",
+      "padding": "1rem 1.5rem",
+      "minHeight": "auto",
+      "avatarSize": "5rem",
+      "avatarSpacing": "1rem",
+      "starSize": "1rem",
+      "starColor": "#fbbf24",
+      "ratingSpacing": "0.5rem",
+      "headerSpacing": "1rem",
+      "nameSpacing": "0.5rem",
+      "locationSpacing": "0.75rem",
+      "contentPadding": "1rem",
+      "textStyle": "italic",
+      "maxTextWidth": "none"
+    },
+    "whyFeatureCard": {
+      "backgroundColor": "transparent",
+      "borderColor": "transparent",
+      "borderWidth": "1px",
+      "borderRadius": "0.5rem",
+      "shadow": "none",
+      "padding": "2rem",
+      "minHeight": "300px",
+      "transition": "all 0.3s ease",
+      "iconSize": "4rem",
+      "iconBackground": "#3b82f6",
+      "iconColor": "black",
+      "iconBorderRadius": "50%",
+      "iconInnerSize": "1.75rem",
+      "iconSpacing": "1.5rem",
+      "contentPadding": "2rem 0",
+      "contentAlignment": "center",
+      "titleSpacing": "1rem",
+      "descriptionPadding": "0 1.5rem"
+    },
+    "hero_headings": {
+      "fontFamily": "Inter, sans-serif",
+      "fontSize": "4.1rem",
+      "fontSizeMd": "6.5rem",
+      "fontSizeLg": "7rem",
+      "lineHeight": "1",
+      "fontWeight": "400",
+      "letterSpacing": "-0.025em",
+      "color": "white",
+      "marginBottom": "1.5rem",
+      "textAlign": "center"
+    },
+    "preTitle": {
+      "fontFamily": "Inter, sans-serif",
+      "fontSize": "1rem",
+      "fontWeight": "400",
+      "color": "#cbd5e1",
+      "marginBottom": "0.5rem"
+    },
+    "titleDescription": {
+      "fontFamily": "Inter, sans-serif",
+      "fontSize": "1.125rem",
+      "fontWeight": "400",
+      "color": "#94a3b8",
+      "lineHeight": "1.75",
+      "marginTop": "1.5rem"
+    },
+    "headings": {
+      "fontFamily": "Inter, sans-serif",
+      "fontSize": "4rem",
+      "fontSizeMd": "6.7rem",
+      "fontSizeLg": "7.7rem",
+      "lineHeight": "1",
+      "fontWeight": "300",
+      "letterSpacing": "-0.05em",
+      "color": "white",
+      "marginBottom": "0.5rem",
+      "textAlign": "center"
+    },
+    "buttons": {
+      "primary": {
+        "text": "Saber mais via WhatsApp",
+        "bg": "bg-yellow-500",
+        "hover": "hover:bg-yellow-600",
+        "textColor": "text-black",
+        "fontWeight": "font-normal"
+      },
+      "secondary": {
+        "text": "Enviar um Email",
+        "bg": "bg-yellow-500",
+        "hover": "hover:bg-yellow-600",
+        "textColor": "text-black"
+      },
+      "whatsapp": {
+        "text": "Iniciar no WhatsApp",
+        "bg": "bg-yellow-500",
+        "hover": "hover:bg-yellow-600",
+        "textColor": "text-black",
+        "fontWeight": "font-normal"
+      }
+    },
+    "sliderOptions": {
+      "loop": true,
+      "dots": true,
+      "autoplay": true,
+      "autoplayDelay": 4000,
+      "slidesToShow": {
+        "mobile": 1,
+        "tablet": 2,
+        "desktop": 3
+      },
+      "gap": 24,
+      "dragFree": true,
+      "colors": {
+        "dotActive": "bg-yellow-500",
+        "dotInactive": "bg-slate-400",
+        "arrows": "text-yellow-500",
+        "arrowsHover": "hover:text-yellow-600"
+      }
+    }
+  }
+}

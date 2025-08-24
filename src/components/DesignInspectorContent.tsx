@@ -1889,13 +1889,68 @@ const DesignInspectorContent: React.FC = () => {
 												style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
 											/>
 										</PanelRow>
+
+										<PanelRow label="Border Color">
+											<ColorSwatch
+												value={design?.components?.serviceCard?.variants?.featured?.borderColor || 'transparent'}
+												onChange={(val) => updateDesignLocal((prev: any) => {
+													const newDesign = { ...prev };
+													if (!newDesign.components) newDesign.components = {};
+													if (!newDesign.components.serviceCard) newDesign.components.serviceCard = {};
+													if (!newDesign.components.serviceCard.variants) newDesign.components.serviceCard.variants = {};
+													if (!newDesign.components.serviceCard.variants.featured) newDesign.components.serviceCard.variants.featured = {};
+													newDesign.components.serviceCard.variants.featured.borderColor = val;
+													return newDesign;
+												})}
+												placeholder="transparent"
+											/>
+										</PanelRow>
+
+										<PanelRow label="Border Width">
+											<SmartInput
+												value={design?.components?.serviceCard?.variants?.featured?.borderWidth || '0px'}
+												onChange={(val) => updateDesignLocal((prev: any) => {
+													const newDesign = { ...prev };
+													if (!newDesign.components) newDesign.components = {};
+													if (!newDesign.components.serviceCard) newDesign.components.serviceCard = {};
+													if (!newDesign.components.serviceCard.variants) newDesign.components.serviceCard.variants = {};
+													if (!newDesign.components.serviceCard.variants.featured) newDesign.components.serviceCard.variants.featured = {};
+													newDesign.components.serviceCard.variants.featured.borderWidth = val;
+													return newDesign;
+												})}
+												placeholder="0px"
+												label="serviceCard.variants.featured.borderWidth"
+												style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+											/>
+										</PanelRow>
+
+										<PanelRow label="Border Style">
+											<select
+												value={design?.components?.serviceCard?.variants?.featured?.borderStyle || 'solid'}
+												onChange={(e) => updateDesignLocal((prev: any) => {
+													const newDesign = { ...prev };
+													if (!newDesign.components) newDesign.components = {};
+													if (!newDesign.components.serviceCard) newDesign.components.serviceCard = {};
+													if (!newDesign.components.serviceCard.variants) newDesign.components.serviceCard.variants = {};
+													if (!newDesign.components.serviceCard.variants.featured) newDesign.components.serviceCard.variants.featured = {};
+													newDesign.components.serviceCard.variants.featured.borderStyle = e.target.value;
+													return newDesign;
+												})}
+												style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12, width: '100%' }}
+											>
+												<option value="solid">Solid</option>
+												<option value="dashed">Dashed</option>
+												<option value="dotted">Dotted</option>
+												<option value="none">None</option>
+											</select>
+										</PanelRow>
 									</>
 								)}
 
 								{/* Common Spacing Controls */}
 								<PanelRow label="Icon Size">
 									<SmartInput
-										value={design?.components?.serviceCard?.variants?.[activeVariant]?.iconSize || '3rem'}
+										value={design?.components?.serviceCard?.variants?.[activeVariant]?.iconSize}
 										onChange={(val) => updateDesignLocal((prev: any) => {
 											const newDesign = { ...prev };
 											if (!newDesign.components) newDesign.components = {};
@@ -1911,9 +1966,43 @@ const DesignInspectorContent: React.FC = () => {
 									/>
 								</PanelRow>
 
+								<PanelRow label="Header Bar Height">
+									<SmartInput
+										value={design?.components?.serviceCard?.variants?.[activeVariant]?.headerBarHeight}
+										onChange={(val) => updateDesignLocal((prev: any) => {
+											const newDesign = { ...prev };
+											if (!newDesign.components) newDesign.components = {};
+											if (!newDesign.components.serviceCard) newDesign.components.serviceCard = {};
+											if (!newDesign.components.serviceCard.variants) newDesign.components.serviceCard.variants = {};
+											if (!newDesign.components.serviceCard.variants[activeVariant]) newDesign.components.serviceCard.variants[activeVariant] = {};
+											newDesign.components.serviceCard.variants[activeVariant].headerBarHeight = val;
+											return newDesign;
+										})}
+										placeholder="4px"
+										label={`${variantPath}.headerBarHeight`}
+										style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+									/>
+								</PanelRow>
+
+								<PanelRow label="Header Bar Color">
+									<ColorSwatch
+										value={design?.components?.serviceCard?.variants?.[activeVariant]?.headerBarColor}
+										onChange={(val) => updateDesignLocal((prev: any) => {
+											const newDesign = { ...prev };
+											if (!newDesign.components) newDesign.components = {};
+											if (!newDesign.components.serviceCard) newDesign.components.serviceCard = {};
+											if (!newDesign.components.serviceCard.variants) newDesign.components.serviceCard.variants = {};
+											if (!newDesign.components.serviceCard.variants[activeVariant]) newDesign.components.serviceCard.variants[activeVariant] = {};
+											newDesign.components.serviceCard.variants[activeVariant].headerBarColor = val;
+											return newDesign;
+										})}
+										placeholder="#000000"
+									/>
+								</PanelRow>
+
 								<PanelRow label="Icon Color">
 									<ColorSwatch
-										value={design?.components?.serviceCard?.variants?.[activeVariant]?.iconColor || (activeVariant === 'standard' ? '#9ca3af' : 'white')}
+										value={design?.components?.serviceCard?.variants?.[activeVariant]?.iconColor}
 										onChange={(val) => updateDesignLocal((prev: any) => {
 											const newDesign = { ...prev };
 											if (!newDesign.components) newDesign.components = {};
@@ -2001,6 +2090,435 @@ const DesignInspectorContent: React.FC = () => {
 							</>
 						);
 					})()}
+				</div>
+			)}
+
+			{/* FAQ Card Design Section */}
+			{(activeElement?.cardType === 'faqCard') && (
+				<div style={{ marginTop: 16, padding: 12, background: '#1e1e1e', borderRadius: 8, border: '1px solid #333' }}>
+					<div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+						<span style={{ fontSize: 12, color: '#facc15', fontWeight: 'bold' }}>
+							FAQ Card Design
+						</span>
+					</div>
+
+					{/* Container */}
+					<PanelRow label="Container Background Color">
+						<ColorSwatch
+							value={design?.components?.faqCard?.container?.backgroundColor || '#ffffff'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const d = { ...prev } as any;
+								if (!d.components) d.components = {};
+								if (!d.components.faqCard) d.components.faqCard = {};
+								if (!d.components.faqCard.container) d.components.faqCard.container = {};
+								d.components.faqCard.container.backgroundColor = val;
+								return d;
+							})}
+							placeholder="#ffffff"
+						/>
+					</PanelRow>
+
+					<PanelRow label="Container Border Color">
+						<ColorSwatch
+							value={design?.components?.faqCard?.container?.borderColor || 'transparent'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const d = { ...prev } as any;
+								if (!d.components) d.components = {};
+								if (!d.components.faqCard) d.components.faqCard = {};
+								if (!d.components.faqCard.container) d.components.faqCard.container = {};
+								d.components.faqCard.container.borderColor = val;
+								return d;
+							})}
+							placeholder="transparent"
+						/>
+					</PanelRow>
+
+					<PanelRow label="Container Border Width">
+						<SmartInput
+							value={design?.components?.faqCard?.container?.borderWidth || '0px'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const d = { ...prev } as any;
+								if (!d.components) d.components = {};
+								if (!d.components.faqCard) d.components.faqCard = {};
+								if (!d.components.faqCard.container) d.components.faqCard.container = {};
+								d.components.faqCard.container.borderWidth = val;
+								return d;
+							})}
+							placeholder="0px"
+							label="faqCard.container.borderWidth"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Container Border Radius">
+						<SmartInput
+							value={design?.components?.faqCard?.container?.borderRadius || '12px'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const d = { ...prev } as any;
+								if (!d.components) d.components = {};
+								if (!d.components.faqCard) d.components.faqCard = {};
+								if (!d.components.faqCard.container) d.components.faqCard.container = {};
+								d.components.faqCard.container.borderRadius = val;
+								return d;
+							})}
+							placeholder="12px"
+							label="faqCard.container.borderRadius"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Container Shadow">
+						<SmartInput
+							value={design?.components?.faqCard?.container?.shadow || 'none'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const d = { ...prev } as any;
+								if (!d.components) d.components = {};
+								if (!d.components.faqCard) d.components.faqCard = {};
+								if (!d.components.faqCard.container) d.components.faqCard.container = {};
+								d.components.faqCard.container.shadow = val;
+								return d;
+							})}
+							placeholder="none"
+							label="faqCard.container.shadow"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					{/* Question Row */}
+					<PanelRow label="Question Background Color">
+						<ColorSwatch
+							value={design?.components?.faqCard?.question?.backgroundColor || '#f9fafb'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const d = { ...prev } as any;
+								if (!d.components) d.components = {};
+								if (!d.components.faqCard) d.components.faqCard = {};
+								if (!d.components.faqCard.question) d.components.faqCard.question = {};
+								d.components.faqCard.question.backgroundColor = val;
+								return d;
+							})}
+							placeholder="#f9fafb"
+						/>
+					</PanelRow>
+
+					<PanelRow label="Question Padding">
+						<SmartInput
+							value={design?.components?.faqCard?.question?.padding || '1.5rem 2rem'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const d = { ...prev } as any;
+								if (!d.components) d.components = {};
+								if (!d.components.faqCard) d.components.faqCard = {};
+								if (!d.components.faqCard.question) d.components.faqCard.question = {};
+								d.components.faqCard.question.padding = val;
+								return d;
+							})}
+							placeholder="1.5rem 2rem"
+							label="faqCard.question.padding"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					{/* Answer Row */}
+					<PanelRow label="Answer Background Color">
+						<ColorSwatch
+							value={design?.components?.faqCard?.answer?.backgroundColor || '#ffffff'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const d = { ...prev } as any;
+								if (!d.components) d.components = {};
+								if (!d.components.faqCard) d.components.faqCard = {};
+								if (!d.components.faqCard.answer) d.components.faqCard.answer = {};
+								d.components.faqCard.answer.backgroundColor = val;
+								return d;
+							})}
+							placeholder="#ffffff"
+						/>
+					</PanelRow>
+
+					<PanelRow label="Answer Padding">
+						<SmartInput
+							value={design?.components?.faqCard?.answer?.padding || '1.5rem 2rem'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const d = { ...prev } as any;
+								if (!d.components) d.components = {};
+								if (!d.components.faqCard) d.components.faqCard = {};
+								if (!d.components.faqCard.answer) d.components.faqCard.answer = {};
+								d.components.faqCard.answer.padding = val;
+								return d;
+							})}
+							placeholder="1.5rem 2rem"
+							label="faqCard.answer.padding"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					{/* Removed Answer Text Color - controlled by tokens.typography.faqCardAnswer.color */}
+
+					{/* Divider */}
+					<PanelRow label="Divider Color">
+						<ColorSwatch
+							value={design?.components?.faqCard?.divider?.color || 'transparent'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const d = { ...prev } as any;
+								if (!d.components) d.components = {};
+								if (!d.components.faqCard) d.components.faqCard = {};
+								if (!d.components.faqCard.divider) d.components.faqCard.divider = {};
+								d.components.faqCard.divider.color = val;
+								return d;
+							})}
+							placeholder="transparent"
+						/>
+					</PanelRow>
+
+					<PanelRow label="Divider Width">
+						<SmartInput
+							value={design?.components?.faqCard?.divider?.width || '0px'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const d = { ...prev } as any;
+								if (!d.components) d.components = {};
+								if (!d.components.faqCard) d.components.faqCard = {};
+								if (!d.components.faqCard.divider) d.components.faqCard.divider = {};
+								d.components.faqCard.divider.width = val;
+								return d;
+							})}
+							placeholder="0px"
+							label="faqCard.divider.width"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Divider Style">
+						<select
+							value={design?.components?.faqCard?.divider?.style || 'solid'}
+							onChange={(e) => updateDesignLocal((prev: any) => {
+								const d = { ...prev } as any;
+								if (!d.components) d.components = {};
+								if (!d.components.faqCard) d.components.faqCard = {};
+								if (!d.components.faqCard.divider) d.components.faqCard.divider = {};
+								d.components.faqCard.divider.style = e.target.value;
+								return d;
+							})}
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, border: '1px solid #444', borderRadius: 4, width: '100%', fontSize: 12 }}
+						>
+							<option value="solid">Solid</option>
+							<option value="dashed">Dashed</option>
+							<option value="dotted">Dotted</option>
+							<option value="none">None</option>
+						</select>
+					</PanelRow>
+
+					{/* Chevron */}
+					<PanelRow label="Chevron Background Color">
+						<ColorSwatch
+							value={design?.components?.faqCard?.chevron?.backgroundColor || '#eab308'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const d = { ...prev } as any;
+								if (!d.components) d.components = {};
+								if (!d.components.faqCard) d.components.faqCard = {};
+								if (!d.components.faqCard.chevron) d.components.faqCard.chevron = {};
+								d.components.faqCard.chevron.backgroundColor = val;
+								return d;
+							})}
+							placeholder="#eab308"
+						/>
+					</PanelRow>
+
+					<PanelRow label="Chevron Size">
+						<SmartInput
+							value={design?.components?.faqCard?.chevron?.size || '2.5rem'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const d = { ...prev } as any;
+								if (!d.components) d.components = {};
+								if (!d.components.faqCard) d.components.faqCard = {};
+								if (!d.components.faqCard.chevron) d.components.faqCard.chevron = {};
+								d.components.faqCard.chevron.size = val;
+								return d;
+							})}
+							placeholder="2.5rem"
+							label="faqCard.chevron.size"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Chevron Icon Color">
+						<ColorSwatch
+							value={design?.components?.faqCard?.chevron?.iconColor || '#000000'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const d = { ...prev } as any;
+								if (!d.components) d.components = {};
+								if (!d.components.faqCard) d.components.faqCard = {};
+								if (!d.components.faqCard.chevron) d.components.faqCard.chevron = {};
+								d.components.faqCard.chevron.iconColor = val;
+								return d;
+							})}
+							placeholder="#000000"
+						/>
+					</PanelRow>
+				</div>
+			)}
+
+			{/* Travel Designer Card Design Section */}
+			{(activeElement?.cardType === 'travelDesignerCard') && (
+				<div style={{ marginTop: 16, padding: 12, background: '#1e1e1e', borderRadius: 8, border: '1px solid #333' }}>
+					<div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+						<span style={{ fontSize: 12, color: '#facc15', fontWeight: 'bold' }}>
+							Travel Designer Card
+						</span>
+					</div>
+
+					<PanelRow label="Background Color">
+						<ColorSwatch
+							value={design?.components?.travelDesignerCard?.backgroundColor || 'transparent'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const d = { ...prev } as any;
+								if (!d.components) d.components = {};
+								if (!d.components.travelDesignerCard) d.components.travelDesignerCard = {};
+								d.components.travelDesignerCard.backgroundColor = val;
+								return d;
+							})}
+							placeholder="transparent"
+						/>
+					</PanelRow>
+
+					<PanelRow label="Border Color">
+						<ColorSwatch
+							value={design?.components?.travelDesignerCard?.borderColor || 'transparent'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const d = { ...prev } as any;
+								if (!d.components) d.components = {};
+								if (!d.components.travelDesignerCard) d.components.travelDesignerCard = {};
+								d.components.travelDesignerCard.borderColor = val;
+								return d;
+							})}
+							placeholder="transparent"
+						/>
+					</PanelRow>
+
+					<PanelRow label="Border Width">
+						<SmartInput
+							value={design?.components?.travelDesignerCard?.borderWidth || '0px'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const d = { ...prev } as any;
+								if (!d.components) d.components = {};
+								if (!d.components.travelDesignerCard) d.components.travelDesignerCard = {};
+								d.components.travelDesignerCard.borderWidth = val;
+								return d;
+							})}
+							placeholder="0px"
+							label="travelDesignerCard.borderWidth"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Border Radius">
+						<SmartInput
+							value={design?.components?.travelDesignerCard?.borderRadius || '1rem'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const d = { ...prev } as any;
+								if (!d.components) d.components = {};
+								if (!d.components.travelDesignerCard) d.components.travelDesignerCard = {};
+								d.components.travelDesignerCard.borderRadius = val;
+								return d;
+							})}
+							placeholder="1rem"
+							label="travelDesignerCard.borderRadius"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Padding">
+						<SmartInput
+							value={design?.components?.travelDesignerCard?.padding || '0.5rem'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const d = { ...prev } as any;
+								if (!d.components) d.components = {};
+								if (!d.components.travelDesignerCard) d.components.travelDesignerCard = {};
+								d.components.travelDesignerCard.padding = val;
+								return d;
+							})}
+							placeholder="0.5rem"
+							label="travelDesignerCard.padding"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Content Padding">
+						<SmartInput
+							value={design?.components?.travelDesignerCard?.contentPadding || '1rem'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const d = { ...prev } as any;
+								if (!d.components) d.components = {};
+								if (!d.components.travelDesignerCard) d.components.travelDesignerCard = {};
+								d.components.travelDesignerCard.contentPadding = val;
+								return d;
+							})}
+							placeholder="1rem"
+							label="travelDesignerCard.contentPadding"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Image Height">
+						<SmartInput
+							value={design?.components?.travelDesignerCard?.imageHeight || '400px'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const d = { ...prev } as any;
+								if (!d.components) d.components = {};
+								if (!d.components.travelDesignerCard) d.components.travelDesignerCard = {};
+								d.components.travelDesignerCard.imageHeight = val;
+								return d;
+							})}
+							placeholder="400px"
+							label="travelDesignerCard.imageHeight"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Image Max Height">
+						<SmartInput
+							value={design?.components?.travelDesignerCard?.imageMaxHeight || '500px'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const d = { ...prev } as any;
+								if (!d.components) d.components = {};
+								if (!d.components.travelDesignerCard) d.components.travelDesignerCard = {};
+								d.components.travelDesignerCard.imageMaxHeight = val;
+								return d;
+							})}
+							placeholder="500px"
+							label="travelDesignerCard.imageMaxHeight"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Max Width">
+						<SmartInput
+							value={design?.components?.travelDesignerCard?.maxWidth || '680px'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const d = { ...prev } as any;
+								if (!d.components) d.components = {};
+								if (!d.components.travelDesignerCard) d.components.travelDesignerCard = {};
+								d.components.travelDesignerCard.maxWidth = val;
+								return d;
+							})}
+							placeholder="680px"
+							label="travelDesignerCard.maxWidth"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
+					<PanelRow label="Max Height">
+						<SmartInput
+							value={design?.components?.travelDesignerCard?.maxHeight || 'none'}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const d = { ...prev } as any;
+								if (!d.components) d.components = {};
+								if (!d.components.travelDesignerCard) d.components.travelDesignerCard = {};
+								d.components.travelDesignerCard.maxHeight = val;
+								return d;
+							})}
+							placeholder="none"
+							label="travelDesignerCard.maxHeight"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
 				</div>
 			)}
 
@@ -2462,6 +2980,41 @@ const DesignInspectorContent: React.FC = () => {
 						/>
 					</PanelRow>
 
+					{/* Background Overlay for Why Feature Card */}
+					<PanelRow label="Background Overlay Color">
+						<ColorSwatch
+							value={design?.components?.whyFeatureCard?.background?.overlay?.color || ''}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const next = { ...prev };
+								if (!next.components) next.components = {};
+								if (!next.components.whyFeatureCard) next.components.whyFeatureCard = {};
+								if (!next.components.whyFeatureCard.background) next.components.whyFeatureCard.background = { type: 'color', value: 'transparent' };
+								if (!next.components.whyFeatureCard.background.overlay) next.components.whyFeatureCard.background.overlay = { color: '', opacity: 1 };
+								next.components.whyFeatureCard.background.overlay.color = val;
+								return next;
+							})}
+							placeholder="e.g. rgba(0,0,0,0.5) or gradient"
+						/>
+					</PanelRow>
+
+					<PanelRow label="Background Overlay Opacity">
+						<SmartInput
+							value={String(design?.components?.whyFeatureCard?.background?.overlay?.opacity ?? 1)}
+							onChange={(val) => updateDesignLocal((prev: any) => {
+								const next = { ...prev };
+								if (!next.components) next.components = {};
+								if (!next.components.whyFeatureCard) next.components.whyFeatureCard = {};
+								if (!next.components.whyFeatureCard.background) next.components.whyFeatureCard.background = { type: 'color', value: 'transparent' };
+								if (!next.components.whyFeatureCard.background.overlay) next.components.whyFeatureCard.background.overlay = { color: '', opacity: 1 };
+								next.components.whyFeatureCard.background.overlay.opacity = parseFloat(val);
+								return next;
+							})}
+							placeholder="1"
+							label="whyFeatureCard.background.overlay.opacity"
+							style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+						/>
+					</PanelRow>
+
 					<PanelRow label="Border Color">
 						<ColorSwatch
 							value={design?.components?.whyFeatureCard?.borderColor || 'transparent'}
@@ -2474,6 +3027,33 @@ const DesignInspectorContent: React.FC = () => {
 							})}
 							placeholder="transparent"
 						/>
+					</PanelRow>
+
+					<PanelRow label="Border Style">
+						<select
+							value={design?.components?.whyFeatureCard?.borderStyle || 'solid'}
+							onChange={(e) => updateDesignLocal((prev: any) => {
+								const next = { ...prev };
+								if (!next.components) next.components = {};
+								if (!next.components.whyFeatureCard) next.components.whyFeatureCard = {};
+								next.components.whyFeatureCard.borderStyle = e.target.value;
+								return next;
+							})}
+							style={{
+								width: '100%',
+								padding: '8px',
+								background: '#2a2a2a',
+								color: '#fff',
+								border: '1px solid #444',
+								borderRadius: 4,
+								fontSize: 12
+							}}
+						>
+							<option value="solid">solid</option>
+							<option value="dashed">dashed</option>
+							<option value="dotted">dotted</option>
+							<option value="none">none</option>
+						</select>
 					</PanelRow>
 
 					<PanelRow label="Border Width">

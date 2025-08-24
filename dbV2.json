@@ -305,6 +305,7 @@
         "imageHeight": "55%",
         "contentPadding": ".5rem"
       },
+
       "cardDefaults": {
         "className": "bg-white/80 backdrop-blur-sm border-none rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl h-full flex flex-col group",
         "motionWhileHover": {

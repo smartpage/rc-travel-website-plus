@@ -1,0 +1,1165 @@
+{
+  "designV2": {
+    "preTitle": {
+      "fontFamily": "Inter, sans-serif",
+      "color": "#cbd5e1",
+      "fontSize": "1rem",
+      "marginBottom": "0.5rem",
+      "fontWeight": "400"
+    },
+    "typography": {
+      "small": {
+        "fontFamily": "Inter, sans-serif",
+        "color": "#94a3b8",
+        "fontSize": "0.875rem",
+        "lineHeight": "1.5",
+        "fontWeight": "400"
+      },
+      "travelPackagePriceType": {
+        "fontFamily": "Inter, sans-serif",
+        "color": "#f59e0b",
+        "fontSize": "0.875rem",
+        "lineHeight": "1.2",
+        "fontWeight": "400"
+      },
+      "testimonialCardText": {
+        "fontFamily": "Inter, sans-serif",
+        "color": "#374151",
+        "fontSize": "1rem",
+        "lineHeight": "1.6",
+        "fontWeight": "400"
+      },
+      "travelPackageIncludes": {
+        "fontFamily": "Inter, sans-serif",
+        "color": "white",
+        "fontSize": "0.875rem",
+        "lineHeight": "1.6",
+        "fontWeight": "400"
+      },
+      "cardBody": {
+        "fontFamily": "Inter, sans-serif",
+        "color": "rgba(255, 255, 255, 0.8)",
+        "fontSize": "0.95rem",
+        "lineHeight": "1.6",
+        "fontWeight": "400"
+      },
+      "description": {
+        "fontFamily": "Inter, sans-serif",
+        "color": "#94a3b8",
+        "fontSize": "1rem",
+        "lineHeight": "1.6",
+        "fontWeight": "400"
+      },
+      "whyCardTitle": {
+        "fontFamily": "Inter, sans-serif",
+        "color": "white",
+        "fontSize": "1.5rem",
+        "lineHeight": "1.2",
+        "fontWeight": "400"
+      },
+      "body": {
+        "fontFamily": "Inter, sans-serif",
+        "color": "white",
+        "fontSize": "1rem",
+        "lineHeight": "1.75",
+        "fontWeight": "400"
+      },
+      "serviceCardTitle": {
+        "fontFamily": "Inter, sans-serif",
+        "color": "white",
+        "fontSize": "1.5rem",
+        "lineHeight": "1.2",
+        "fontWeight": "300"
+      },
+      "testimonialCardLocation": {
+        "fontFamily": "Inter, sans-serif",
+        "color": "#6b7280",
+        "fontSize": "0.875rem",
+        "lineHeight": "1.5",
+        "fontWeight": "400"
+      },
+      "testimonialCardName": {
+        "fontFamily": "Inter, sans-serif",
+        "color": "#1f2937",
+        "fontSize": "1.125rem",
+        "lineHeight": "1.2",
+        "fontWeight": "600"
+      },
+      "packageDescription": {
+        "fontFamily": "Inter, sans-serif",
+        "color": "rgba(255, 255, 255, 0.8)",
+        "fontSize": "1rem",
+        "lineHeight": "1.6",
+        "fontWeight": "400"
+      },
+      "whyCardDescription": {
+        "fontFamily": "Inter, sans-serif",
+        "color": "#cbd5e1",
+        "fontSize": "1rem",
+        "lineHeight": "1.6",
+        "fontWeight": "300"
+      },
+      "subtitle": {
+        "fontFamily": "Inter, sans-serif",
+        "color": "#cbd5e1",
+        "fontSize": "1.125rem",
+        "lineHeight": "1.5",
+        "fontWeight": "500"
+      },
+      "travelPackagePriceValue": {
+        "fontFamily": "Inter, sans-serif",
+        "color": "#10b981",
+        "fontSize": "1.25rem",
+        "lineHeight": "1.2",
+        "fontWeight": "500"
+      },
+      "serviceCardDescription": {
+        "fontFamily": "Inter, sans-serif",
+        "color": "#cbd5e1",
+        "fontSize": "1.125rem",
+        "lineHeight": "1.6",
+        "fontWeight": "300"
+      }
+    },
+    "components": {
+      "button": {
+        "secondary": "bg-transparent hover:bg-white/10 text-white font-normal px-6 py-4 @md:px-8 @md:py-6 rounded-xl border-2 border-white/30 hover:border-white/50 transition-all duration-300 shadow-none hover:shadow-lg",
+        "small": "px-4 py-2 text-sm rounded-lg",
+        "ghost": "bg-transparent hover:bg-white/5 text-white px-4 py-2 rounded-lg transition-colors duration-200",
+        "large": "px-8 py-4 text-lg rounded-xl",
+        "primary": "bg-yellow-500 hover:bg-yellow-600 text-black font-normal px-6 py-4 @md:px-8 @md:py-6 rounded-xl border-2 border-yellow-500 hover:border-yellow-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+      },
+      "input": {
+        "secondary": "w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-gray-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500",
+        "primary": "w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:border-yellow-500 focus:outline-none transition-colors duration-200"
+      },
+      "navigation": {
+        "overlay": "fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-black/20",
+        "menu": "hidden @md:flex items-center space-x-8",
+        "hamburger": "block @md:hidden p-3 bg-white/10 backdrop-blur-sm rounded-full"
+      },
+      "serviceCard": {
+        "activeVariant": "highlight"
+      },
+      "card": {
+        "secondary": "bg-white/5 backdrop-blur-sm border border-white/20 rounded-xl shadow-lg transition-all duration-300 hover:bg-white/10",
+        "glass": "bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-xl",
+        "elevated": "bg-white rounded-xl shadow-lg border border-gray-100",
+        "simple": "bg-white rounded-lg shadow-sm border border-gray-200",
+        "primary": "bg-black/80 backdrop-blur-lg border-2 border-yellow-500 rounded-2xl shadow-2xl transition-all duration-300 hover:border-yellow-400 hover:shadow-3xl overflow-hidden"
+      }
+    },
+    "primaryCards": {
+      "container": {
+        "border": "border-2 border-yellow-500",
+        "hover": "hover:border-yellow-400 hover:bg-black/90",
+        "padding": "p-8",
+        "shadow": "shadow-2xl hover:shadow-3xl",
+        "rounded": "rounded-2xl",
+        "transition": "transition-all duration-300",
+        "base": "bg-black/80 backdrop-blur-lg text-white overflow-hidden group"
+      },
+      "description": {
+        "spacing": "mb-6",
+        "color": "text-white/80",
+        "fontSize": "text-base",
+        "lineHeight": "leading-relaxed",
+        "fontWeight": "font-normal"
+      },
+      "header": {
+        "spacing": "mb-6"
+      },
+      "title": {
+        "layout": "flex items-center gap-3",
+        "iconColor": "text-yellow-500",
+        "iconSize": "w-7 h-7",
+        "fontSize": "text-2xl",
+        "fontWeight": "font-normal",
+        "base": "text-white"
+      },
+      "content": {
+        "spacing": "space-y-6"
+      }
+    },
+    "testimonialCard": {
+      "padding": "1rem 1.5rem",
+      "backgroundColor": "transparent",
+      "borderColor": "transparent",
+      "locationSpacing": "0.75rem",
+      "nameSpacing": "0.5rem",
+      "shadow": "none",
+      "contentPadding": "1rem",
+      "maxTextWidth": "none",
+      "avatarSize": "5rem",
+      "headerSpacing": "1rem",
+      "minHeight": "auto",
+      "borderRadius": "0.5rem",
+      "ratingSpacing": "0.5rem",
+      "borderWidth": "1px",
+      "textStyle": "italic",
+      "avatarSpacing": "1rem",
+      "starColor": "#fbbf24",
+      "starSize": "1rem"
+    },
+    "travelPackageCard": {
+      "iconColors": {
+        "check": "#10b981",
+        "message": "#f59e0b",
+        "map": "#10b981"
+      },
+      "priceGroup": {
+        "gap": "0.25rem",
+        "direction": "column"
+      },
+      "padding": "1.5rem",
+      "backgroundColor": "transparent",
+      "borderColor": "#eab308",
+      "shadow": "0 25px 50px -12px rgb(0 0 0 / 0.25)",
+      "contentPadding": ".5rem",
+      "innerPadding": "1rem",
+      "hoverShadow": "0 25px 50px -12px rgb(0 0 0 / 0.25)",
+      "imageHeight": "55%",
+      "transition": "all 0.3s ease",
+      "minHeight": "70vh",
+      "borderRadius": "1rem",
+      "maxHeight": "70vh",
+      "borderWidth": "2px"
+    },
+    "$schema": "",
+    "cardDefaults": {
+      "className": "bg-white/80 backdrop-blur-sm border-none rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl h-full flex flex-col group",
+      "motionWhileHover": {
+        "y": -5
+      }
+    },
+    "whyFeatureCard": {
+      "iconSpacing": "1.5rem",
+      "contentAlignment": "center",
+      "padding": "2rem",
+      "backgroundColor": "transparent",
+      "borderColor": "transparent",
+      "shadow": "none",
+      "contentPadding": "2rem 0",
+      "descriptionPadding": "0 1.5rem",
+      "iconBorderRadius": "50%",
+      "transition": "all 0.3s ease",
+      "minHeight": "300px",
+      "borderRadius": "0.5rem",
+      "borderWidth": "1px",
+      "iconColor": "black",
+      "iconSize": "4rem",
+      "titleSpacing": "1rem",
+      "iconInnerSize": "1.75rem",
+      "iconBackground": "#3b82f6"
+    },
+    "socialIcons": {
+      "container": {
+        "spacing": "mt-6 sm:mt-8",
+        "gap": "gap-4",
+        "base": "flex justify-center items-center"
+      },
+      "icon": {
+        "border": "border border-white/20",
+        "hover": "hover:bg-white/20 hover:text-white",
+        "backdrop": "backdrop-blur-sm",
+        "size": "h-5 w-5",
+        "transition": "transition-all duration-300",
+        "base": "bg-white/10 text-white/80 rounded-full p-3"
+      }
+    },
+    "logos": {
+      "main": {
+        "objectFit": "contain",
+        "heightMd": "4.5rem",
+        "width": "auto",
+        "heightLg": "4.5rem",
+        "height": "4.5rem"
+      },
+      "inverted": {
+        "objectFit": "contain",
+        "heightMd": "4rem",
+        "width": "auto",
+        "heightLg": "4rem",
+        "height": "3.5rem"
+      }
+    },
+    "colors": {
+      "secondary": "slate-800",
+      "border": {
+        "secondary": "border-slate-600",
+        "light": "border-white/20",
+        "dark": "border-slate-800",
+        "lighter": "border-white/10",
+        "transparent": "border-transparent",
+        "primary": "border-yellow-500"
+      },
+      "primaryLight": "yellow-400",
+      "background": {
+        "secondary": "bg-slate-900",
+        "hover": "bg-white/10",
+        "overlay": "bg-black/60",
+        "surface": "bg-white/5",
+        "tertiary": "bg-slate-800",
+        "card": "bg-black/80",
+        "transparent": "bg-transparent",
+        "primary": "bg-black"
+      },
+      "utility": {
+        "current": "currentColor",
+        "white": "white",
+        "black": "black",
+        "transparent": "transparent"
+      },
+      "primaryDark": "yellow-600",
+      "primaryHover": "yellow-600",
+      "text": {
+        "secondary": "text-slate-300",
+        "heading": "text-white",
+        "light": "text-slate-200",
+        "success": "text-green-400",
+        "dark": "text-slate-600",
+        "warning": "text-yellow-400",
+        "body": "text-white",
+        "error": "text-red-400",
+        "muted": "text-slate-400",
+        "card": "text-white/80",
+        "info": "text-blue-400",
+        "primary": "text-white"
+      },
+      "secondaryLight": "slate-700",
+      "primary": "yellow-500",
+      "secondaryHover": "slate-900"
+    },
+    "navigation": {
+      "menuOverlay": {
+        "backgroundColor": "rgba(0, 0, 0, 0.8)",
+        "linkHoverColor": "yellow-500",
+        "linkColor": "white"
+      },
+      "hamburger": {
+        "barThickness": "3px",
+        "barWidth": "2rem",
+        "buttonBackground": "bg-white/10",
+        "barColor": "white",
+        "buttonBackdrop": "backdrop-blur-sm"
+      }
+    },
+    "spacing": {
+      "padding": {
+        "container": "px-4 @md:px-6 @lg:px-8",
+        "xl": "p-12",
+        "2xl": "p-16",
+        "md": "p-6",
+        "section": "px-4 py-8 @md:px-8 @md:py-12 @lg:px-16 @lg:py-16",
+        "sm": "p-4",
+        "lg": "p-8",
+        "none": "p-0",
+        "xs": "p-2",
+        "card": "p-6 @md:p-8"
+      },
+      "margin": {
+        "auto": "mx-auto",
+        "xl": "m-12",
+        "top": {
+          "xl": "mt-12",
+          "2xl": "mt-16",
+          "md": "mt-6",
+          "sm": "mt-4",
+          "lg": "mt-8",
+          "xs": "mt-2"
+        },
+        "2xl": "m-16",
+        "bottom": {
+          "xl": "mb-12",
+          "2xl": "mb-16",
+          "md": "mb-6",
+          "sm": "mb-4",
+          "lg": "mb-8",
+          "xs": "mb-2"
+        },
+        "md": "m-6",
+        "sm": "m-4",
+        "lg": "m-8",
+        "none": "m-0",
+        "xs": "m-2"
+      },
+      "gap": {
+        "xl": "gap-12",
+        "2xl": "gap-16",
+        "md": "gap-6",
+        "sm": "gap-4",
+        "lg": "gap-8",
+        "none": "gap-0",
+        "xs": "gap-2"
+      },
+      "scale": {
+        "xl": "3rem",
+        "2xl": "4rem",
+        "3xl": "6rem",
+        "md": "1.5rem",
+        "4xl": "8rem",
+        "sm": "1rem",
+        "lg": "2rem",
+        "xs": "0.5rem"
+      }
+    },
+    "fonts": {
+      "body": "Inter, sans-serif",
+      "title": "Inter, sans-serif"
+    },
+    "titleDescription": {
+      "fontFamily": "Inter, sans-serif",
+      "color": "#94a3b8",
+      "fontSize": "1.125rem",
+      "lineHeight": "1.75",
+      "fontWeight": "400",
+      "marginTop": "1.5rem"
+    },
+    "faq": {
+      "arrow": {
+        "backgroundColor": "#eab308",
+        "iconColor": "black"
+      },
+      "card": {
+        "backgroundColor": "transparent",
+        "questionColor": "white",
+        "answerColor": "#cbd5e1",
+        "textColor": "white"
+      }
+    },
+    "__note": "COMPREHENSIVE DESIGN TOKEN SYSTEM - Full tokenization for container queries and zero hardcoded values",
+    "serviceCard": {
+      "minHeight": "min-h-[500px]",
+      "padding": "p-12",
+      "roundedButton": "rounded-full",
+      "rounded": "rounded-2xl",
+      "variants": {
+        "standard": {
+          "iconSpacing": "3rem",
+          "padding": "1rem 2rem 3rem",
+          "backgroundColor": "transparent",
+          "borderColor": "#1f2937",
+          "shadow": "none",
+          "contentPadding": "0 2rem 3rem",
+          "buttonSpacing": "1.5rem",
+          "textColor": "#cbd5e1",
+          "minHeight": "500px",
+          "iconPadding": "1rem 2rem 0",
+          "borderRadius": "1rem",
+          "descriptionSpacing": "1rem",
+          "maxHeight": "none",
+          "borderWidth": "1px",
+          "iconColor": "#9ca3af",
+          "iconSize": "3rem",
+          "titleSpacing": "1.5rem"
+        },
+        "highlight": {
+          "iconSpacing": "3rem",
+          "padding": "1rem 2rem 3rem",
+          "backgroundColor": "#fbbf24",
+          "borderColor": "transparent",
+          "shadow": "none",
+          "headerBarColor": "#000000",
+          "buttonSpacing": "1rem",
+          "textColor": "#000000",
+          "minHeight": "500px",
+          "borderRadius": "1rem",
+          "descriptionSpacing": "1rem",
+          "maxHeight": "none",
+          "borderWidth": "0",
+          "iconColor": "#000000",
+          "iconSize": "3rem",
+          "titleSpacing": "1rem",
+          "headerBarHeight": "4px"
+        },
+        "featured": {
+          "iconSpacing": "3rem",
+          "padding": "1rem 2rem 3rem",
+          "backgroundColor": "transparent",
+          "borderColor": "transparent",
+          "shadow": "none",
+          "headerBarColor": "#eab308",
+          "buttonSpacing": "1rem",
+          "overlayColor": "rgba(0,0,0,0.4)",
+          "textColor": "white",
+          "imageOpacity": "0.6",
+          "minHeight": "500px",
+          "borderRadius": "1rem",
+          "descriptionSpacing": "1rem",
+          "maxHeight": "none",
+          "borderWidth": "0",
+          "iconColor": "white",
+          "iconSize": "3rem",
+          "titleSpacing": "1rem",
+          "headerBarHeight": "4px"
+        }
+      },
+      "transition": "transition-all duration-300",
+      "activeVariant": "standard"
+    },
+    "buttons": {
+      "secondary": {
+        "hover": "hover:bg-yellow-600",
+        "bg": "bg-yellow-500",
+        "text": "Enviar um Email",
+        "textColor": "text-black"
+      },
+      "whatsapp": {
+        "hover": "hover:bg-yellow-600",
+        "bg": "bg-yellow-500",
+        "text": "Iniciar no WhatsApp",
+        "textColor": "text-black",
+        "fontWeight": "font-normal"
+      },
+      "primary": {
+        "hover": "hover:bg-yellow-600",
+        "bg": "bg-yellow-500",
+        "text": "Saber mais via WhatsApp",
+        "textColor": "text-black",
+        "fontWeight": "font-normal"
+      }
+    },
+    "buttonStyles": {
+      "secondary": {
+        "border": "border-2 border-white/30",
+        "hover": "hover:bg-white/10",
+        "padding": "px-6 py-4 sm:px-8 sm:py-6",
+        "shadow": "shadow-none hover:shadow-lg",
+        "rounded": "rounded-xl",
+        "fontSize": "text-base sm:text-lg",
+        "borderHover": "hover:border-white/50",
+        "transition": "transition-all duration-300",
+        "base": "bg-transparent text-white font-normal"
+      },
+      "tab": {
+        "container": {
+          "backgroundColor": "#374151"
+        },
+        "inverted": {
+          "hover": {
+            "backgroundColor": "#d97706",
+            "borderColor": "transparent",
+            "textColor": "#000000"
+          },
+          "normal": {
+            "backgroundColor": "#eab308",
+            "borderColor": "transparent",
+            "textColor": "#000000"
+          }
+        },
+        "regular": {
+          "hover": {
+            "backgroundColor": "#1f2937",
+            "borderColor": "transparent",
+            "textColor": "#ffffff"
+          },
+          "normal": {
+            "backgroundColor": "transparent",
+            "borderColor": "transparent",
+            "textColor": "#cbd5e1"
+          }
+        }
+      },
+      "primary": {
+        "border": "border-2 border-yellow-500",
+        "hover": "hover:bg-yellow-600 hover:scale-105",
+        "padding": "px-6 py-4 sm:px-8 sm:py-6",
+        "shadow": "shadow-lg hover:shadow-xl",
+        "rounded": "rounded-xl",
+        "fontSize": "text-base sm:text-lg",
+        "borderHover": "hover:border-yellow-600",
+        "transition": "transition-all duration-300",
+        "base": "bg-yellow-500 text-black font-normal transform"
+      }
+    },
+    "sliderOptions": {
+      "autoplayDelay": 4000,
+      "dots": true,
+      "loop": true,
+      "gap": 24,
+      "slidesToShow": {
+        "tablet": 2,
+        "desktop": 3,
+        "mobile": 1
+      },
+      "autoplay": true,
+      "dragFree": true,
+      "colors": {
+        "dotInactive": "bg-slate-400",
+        "arrowsHover": "hover:text-yellow-600",
+        "arrows": "text-yellow-500",
+        "dotActive": "bg-yellow-500"
+      }
+    },
+    "sections": {
+      "travelDesigner": {
+        "layout": {
+          "padding": {
+            "tablet": "6rem 2rem",
+            "desktop": "7rem 2rem",
+            "mobile": "4rem 1rem"
+          },
+          "backgroundColor": null,
+          "inner": {
+            "padding": {
+              "tablet": "0",
+              "desktop": "2rem",
+              "mobile": "0"
+            },
+            "backgroundColor": "transparent",
+            "margin": "0 auto",
+            "overflow": "visible",
+            "background": {
+              "overlay": {
+                "color": "",
+                "opacity": 1
+              },
+              "type": "color",
+              "value": "transparent"
+            },
+            "rounded": false,
+            "maxWidth": "100%"
+          },
+          "maxWidth": "100%"
+        }
+      },
+      "travelPackages": {
+        "layout": {
+          "padding": {
+            "tablet": "8rem 1rem",
+            "desktop": "8rem 1rem",
+            "mobile": "5rem 1rem"
+          },
+          "backgroundColor": null,
+          "inner": {
+            "padding": {
+              "tablet": "0",
+              "desktop": "0",
+              "mobile": "0"
+            },
+            "backgroundColor": "transparent",
+            "margin": "0 auto",
+            "overflow": "visible",
+            "background": {
+              "overlay": {
+                "color": "",
+                "opacity": 1
+              },
+              "type": "color",
+              "value": "transparent"
+            },
+            "rounded": false,
+            "maxWidth": "1280px"
+          },
+          "maxWidth": "100%"
+        }
+      },
+      "whyFeatureCards": {
+        "layout": {
+          "padding": {
+            "tablet": "5rem 2rem",
+            "desktop": "5rem 2rem",
+            "mobile": "5rem 1rem"
+          },
+          "backgroundColor": null,
+          "inner": {
+            "padding": {
+              "tablet": "0",
+              "desktop": "0",
+              "mobile": "0"
+            },
+            "backgroundColor": "transparent",
+            "margin": "0 auto",
+            "overflow": "visible",
+            "background": {
+              "overlay": {
+                "color": "",
+                "opacity": 1
+              },
+              "type": "color",
+              "value": "transparent"
+            },
+            "rounded": false,
+            "maxWidth": "1280px"
+          },
+          "maxWidth": "none"
+        }
+      },
+      "footer": {
+        "layout": {
+          "padding": {
+            "tablet": "1.5rem 2rem",
+            "desktop": "1.5rem 2rem",
+            "mobile": "1.5rem 1rem"
+          },
+          "backgroundColor": null,
+          "inner": {
+            "padding": {
+              "tablet": "0",
+              "desktop": "0",
+              "mobile": "0"
+            },
+            "backgroundColor": "transparent",
+            "margin": "0 auto",
+            "overflow": "visible",
+            "background": {
+              "overlay": {
+                "color": "",
+                "opacity": 1
+              },
+              "type": "color",
+              "value": "transparent"
+            },
+            "rounded": false,
+            "maxWidth": "1280px"
+          },
+          "maxWidth": "100%"
+        }
+      },
+      "whyTravel": {
+        "layout": {
+          "padding": {
+            "tablet": "6rem 0.5rem",
+            "desktop": "6rem 0.5rem",
+            "mobile": "6rem 0.5rem 4rem"
+          },
+          "backgroundColor": null,
+          "inner": {
+            "padding": {
+              "tablet": "0",
+              "desktop": "0",
+              "mobile": "0"
+            },
+            "backgroundColor": "transparent",
+            "margin": "0 auto",
+            "overflow": "visible",
+            "background": {
+              "overlay": {
+                "color": "",
+                "opacity": 1
+              },
+              "type": "color",
+              "value": "transparent"
+            },
+            "rounded": false,
+            "maxWidth": "1280px"
+          },
+          "maxWidth": "100%"
+        }
+      },
+      "about": {
+        "layout": {
+          "padding": {
+            "tablet": "6rem 0.5rem",
+            "desktop": "6rem 0.5rem",
+            "mobile": "6rem 0.5rem 4rem"
+          },
+          "backgroundColor": null,
+          "inner": {
+            "padding": {
+              "tablet": "4rem 2rem",
+              "desktop": "4rem 2rem",
+              "mobile": "4rem 1rem"
+            },
+            "backgroundColor": "transparent",
+            "margin": "0 auto",
+            "overflow": "hidden",
+            "borderRadius": "1rem",
+            "background": {
+              "overlay": {
+                "color": "linear-gradient(to bottom, rgba(12, 36, 68, 0.9) 0%, rgba(12, 36, 68, 0.7) 50%, rgba(0, 0, 0, 0.8) 65%, rgba(0, 0, 0, 1) 80%)",
+                "opacity": 1
+              },
+              "type": "image",
+              "value": ""
+            },
+            "rounded": true,
+            "maxWidth": "100%"
+          },
+          "maxWidth": "100%"
+        }
+      },
+      "hero": {
+        "layout": {
+          "padding": {
+            "tablet": "0.5rem 0.5rem",
+            "desktop": "0.5rem 0.5rem",
+            "mobile": "0.5rem 0.5rem 4rem"
+          },
+          "backgroundColor": null,
+          "inner": {
+            "padding": {
+              "tablet": "6rem 2rem",
+              "desktop": "6rem 2rem",
+              "mobile": "6rem 1rem"
+            },
+            "backgroundColor": "transparent",
+            "margin": "0 auto",
+            "alignItems": "center",
+            "flexDirection": "column",
+            "display": "flex",
+            "justifyContent": "center",
+            "minHeight": "100vh",
+            "overflow": "hidden",
+            "borderRadius": "1.5rem",
+            "background": {
+              "overlay": {
+                "color": "linear-gradient(to bottom, rgba(12, 36, 68, 0.9) 0%, rgba(12, 36, 68, 0.7) 50%, rgba(12, 36, 68, 0.2) 100%)",
+                "opacity": 1
+              },
+              "type": "image",
+              "value": ""
+            },
+            "rounded": true,
+            "maxWidth": "100%"
+          },
+          "maxWidth": "100%"
+        }
+      },
+      "services": {
+        "layout": {
+          "padding": {
+            "tablet": "5rem 2rem",
+            "desktop": "5rem 2rem",
+            "mobile": "5rem 1rem"
+          },
+          "backgroundColor": null,
+          "inner": {
+            "padding": {
+              "tablet": "0",
+              "desktop": "0",
+              "mobile": "0"
+            },
+            "margin": "0 auto",
+            "overflow": "visible",
+            "background": {
+              "overlay": {
+                "color": "",
+                "opacity": 1
+              },
+              "type": "color",
+              "value": "transparent"
+            },
+            "rounded": false,
+            "maxWidth": "1280px"
+          },
+          "maxWidth": "none"
+        }
+      },
+      "packages": {
+        "layout": {
+          "padding": {
+            "tablet": "4rem 1rem",
+            "desktop": "6rem 1rem",
+            "mobile": "2rem 1rem"
+          },
+          "backgroundColor": null,
+          "inner": {
+            "padding": {
+              "tablet": "0",
+              "desktop": "0",
+              "mobile": "0"
+            },
+            "backgroundColor": "transparent",
+            "margin": "0 auto",
+            "overflow": "visible",
+            "background": {
+              "overlay": {
+                "color": "",
+                "opacity": 1
+              },
+              "type": "color",
+              "value": "transparent"
+            },
+            "rounded": false,
+            "maxWidth": "1200px"
+          },
+          "maxWidth": "100%"
+        }
+      },
+      "testimonials": {
+        "layout": {
+          "minHeight": "450px",
+          "padding": {
+            "tablet": "6rem 0",
+            "desktop": "7rem 0",
+            "mobile": "4rem 0"
+          },
+          "backgroundColor": null,
+          "inner": {
+            "padding": {
+              "tablet": "0",
+              "desktop": "0",
+              "mobile": "0"
+            },
+            "backgroundColor": "transparent",
+            "margin": "0 auto",
+            "overflow": "visible",
+            "background": {
+              "overlay": {
+                "color": "",
+                "opacity": 1
+              },
+              "type": "color",
+              "value": "transparent"
+            },
+            "rounded": false,
+            "maxWidth": "100%"
+          },
+          "maxWidth": "100%"
+        }
+      },
+      "default": {
+        "layout": {
+          "padding": {
+            "tablet": "3rem 2rem",
+            "desktop": "4rem 2rem",
+            "mobile": "2rem 1rem"
+          },
+          "backgroundColor": null,
+          "overlay": {
+            "color": "",
+            "opacity": 1
+          },
+          "inner": {
+            "padding": {
+              "tablet": "0",
+              "desktop": "0",
+              "mobile": "0"
+            },
+            "backgroundColor": "transparent",
+            "margin": "0 auto",
+            "overflow": "visible",
+            "background": {
+              "overlay": {
+                "color": "",
+                "opacity": 1
+              },
+              "type": "color",
+              "value": "transparent"
+            },
+            "rounded": false,
+            "maxWidth": "1280px"
+          },
+          "maxWidth": "1280px"
+        }
+      },
+      "contact": {
+        "layout": {
+          "padding": {
+            "tablet": "8rem 1rem",
+            "desktop": "8rem 1rem",
+            "mobile": "5rem 1rem"
+          },
+          "backgroundColor": null,
+          "inner": {
+            "padding": {
+              "tablet": "0",
+              "desktop": "0",
+              "mobile": "0"
+            },
+            "backgroundColor": "transparent",
+            "margin": "0 auto",
+            "overflow": "visible",
+            "background": {
+              "overlay": {
+                "color": "",
+                "opacity": 1
+              },
+              "type": "color",
+              "value": "transparent"
+            },
+            "rounded": false,
+            "maxWidth": "1280px"
+          },
+          "maxWidth": "100%"
+        }
+      },
+      "faq": {
+        "layout": {
+          "padding": {
+            "tablet": "6rem 2rem",
+            "desktop": "6rem 2rem",
+            "mobile": "4rem 1rem"
+          },
+          "backgroundColor": null,
+          "inner": {
+            "padding": {
+              "tablet": "0",
+              "desktop": "0",
+              "mobile": "0"
+            },
+            "backgroundColor": "transparent",
+            "margin": "0 auto",
+            "overflow": "visible",
+            "background": {
+              "overlay": {
+                "color": "",
+                "opacity": 1
+              },
+              "type": "color",
+              "value": "transparent"
+            },
+            "rounded": false,
+            "maxWidth": "1280px"
+          },
+          "maxWidth": "100%"
+        }
+      }
+    },
+    "layout": {
+      "heights": {
+        "fit": "h-fit",
+        "auto": "h-auto",
+        "min": "h-min",
+        "xl": "h-80",
+        "viewport": "min-h-screen",
+        "md": "h-48",
+        "screen": "h-screen",
+        "sm": "h-32",
+        "lg": "h-64",
+        "xs": "h-20",
+        "full": "h-full"
+      },
+      "flex": {
+        "center": "flex items-center justify-center",
+        "column": "flex flex-col",
+        "start": "flex items-center justify-start",
+        "end": "flex items-center justify-end",
+        "wrap": "flex flex-wrap",
+        "between": "flex items-center justify-between",
+        "columnCenter": "flex flex-col items-center justify-center"
+      },
+      "containers": {
+        "xl": "max-w-6xl mx-auto",
+        "2xl": "max-w-7xl mx-auto",
+        "md": "max-w-4xl mx-auto",
+        "screen": "w-screen",
+        "sm": "max-w-2xl mx-auto",
+        "lg": "max-w-5xl mx-auto",
+        "xs": "max-w-sm mx-auto",
+        "full": "w-full max-w-none"
+      },
+      "widths": {
+        "fit": "w-fit",
+        "auto": "w-auto",
+        "min": "w-min",
+        "xl": "w-80",
+        "max": "w-max",
+        "md": "w-48",
+        "screen": "w-screen",
+        "sm": "w-32",
+        "lg": "w-64",
+        "xs": "w-20",
+        "full": "w-full"
+      },
+      "position": {
+        "static": "static",
+        "absolute": "absolute",
+        "sticky": "sticky",
+        "fixed": "fixed",
+        "relative": "relative"
+      },
+      "grids": {
+        "threeColumn": "grid grid-cols-1 @md:grid-cols-2 @lg:grid-cols-3",
+        "twoColumn": "grid grid-cols-1 @md:grid-cols-2",
+        "responsive": {
+          "features": "grid grid-cols-1 @md:grid-cols-2 @lg:grid-cols-3",
+          "testimonials": "grid grid-cols-1 @md:grid-cols-2 @lg:grid-cols-4",
+          "cards": "grid grid-cols-1 @md:grid-cols-2 @lg:grid-cols-3",
+          "contact": "grid grid-cols-1 @lg:grid-cols-2"
+        },
+        "oneColumn": "grid grid-cols-1",
+        "autoFit": "grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))]",
+        "fourColumn": "grid grid-cols-1 @md:grid-cols-2 @lg:grid-cols-4"
+      },
+      "zIndex": {
+        "notification": "z-80",
+        "hide": "z-[-1]",
+        "high": "z-30",
+        "overlay": "z-40",
+        "low": "z-10",
+        "max": "z-[9999]",
+        "popover": "z-60",
+        "tooltip": "z-70",
+        "medium": "z-20",
+        "modal": "z-50",
+        "base": "z-0"
+      }
+    },
+    "effects": {
+      "borders": {
+        "none": "border-0",
+        "radius": {
+          "xl": "rounded-xl",
+          "2xl": "rounded-2xl",
+          "md": "rounded-md",
+          "sm": "rounded-sm",
+          "lg": "rounded-lg",
+          "none": "rounded-none",
+          "base": "rounded",
+          "full": "rounded-full"
+        },
+        "thick": "border-2",
+        "thin": "border"
+      },
+      "blur": {
+        "md": "backdrop-blur-md",
+        "sm": "backdrop-blur-sm",
+        "lg": "backdrop-blur-lg",
+        "none": "backdrop-blur-none",
+        "base": "backdrop-blur"
+      },
+      "shadows": {
+        "xl": "shadow-xl",
+        "2xl": "shadow-2xl",
+        "md": "shadow-md",
+        "sm": "shadow-sm",
+        "lg": "shadow-lg",
+        "none": "shadow-none",
+        "inner": "shadow-inner",
+        "base": "shadow"
+      },
+      "transitions": {
+        "all": "transition-all duration-300",
+        "transform": "transition-transform duration-300",
+        "fast": "transition-all duration-150",
+        "slow": "transition-all duration-500",
+        "none": "transition-none",
+        "colors": "transition-colors duration-300"
+      }
+    },
+    "headings": {
+      "fontSizeMd": "6.7rem",
+      "fontFamily": "Inter, sans-serif",
+      "color": "white",
+      "textAlign": "center",
+      "letterSpacing": "-0.05em",
+      "fontSize": "4rem",
+      "lineHeight": "1",
+      "marginBottom": "0.5rem",
+      "fontSizeLg": "7.7rem",
+      "fontWeight": "300"
+    },
+    "hero_headings": {
+      "fontSizeMd": "6.5rem",
+      "fontFamily": "Inter, sans-serif",
+      "color": "white",
+      "textAlign": "center",
+      "letterSpacing": "-0.025em",
+      "fontSize": "4.1rem",
+      "lineHeight": "1",
+      "marginBottom": "1.5rem",
+      "fontSizeLg": "7rem",
+      "fontWeight": "400"
+    },
+    "meta": {
+      "template": {
+        "id": "template_driver_driver_1755987127158",
+        "name": "Driver ",
+        "version": "1.0.0",
+        "appliedAt": "2025-08-23T22:12:34.540Z"
+      }
+    }
+  }
+}

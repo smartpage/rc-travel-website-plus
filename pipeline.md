@@ -80,12 +80,45 @@ This document explains how the design-mode editor selection pipeline works in `r
 ## High-Level Flow
 1. App bootstraps providers and routing. In design mode, it renders:
    - `SelectionOverlay` and `EditorPanelsWrapper`.
-   - `ViewportToggleOverlay` that hosts the site content in a fixed, scrollable `div.@container` and registers it as the editor’s `scrollContainer`.
+   - `ViewportToggleOverlay` that hosts the site content in a fixed, scrollable `div.@container` and registers it as the editor's `scrollContainer`.
 2. `EditorOverlayContext` attaches global `mousemove` and `click` listeners.
 3. Hovering the card handle highlights its parent card. Hovering elsewhere highlights a meaningful element.
 4. Clicking the handle selects the card; otherwise selection chooses the semantic target under the cursor.
 5. Selection updates context: `selectedElement`, `activeElement` (label, sectionId, tokenMatches), `overlayRect`, and focuses the Inspector.
 6. On scroll/resize/token changes, the overlay rect and token matches are recomputed for the `selectedElement`.
+
+### Visual Pipeline Flow
+
+```
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────────┐
+│   User Clicks   │───→│  Element Selection │───→│   Inspector Opens   │
+│   on Element    │    │                  │    │                     │
+└─────────────────┘    └──────────────────┘    └─────────────────────┘
+                                                             │
+                                                             ▼
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────────┐
+│  User Changes   │◄───│  Inspector UI    │◄───│   tokenMatches      │
+│  Token Value    │    │   Controls       │    │   Resolution        │
+└─────────────────┘    └──────────────────┘    └─────────────────────┘
+         │                                      
+         ▼                                      
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────────┐
+│  updateDesign   │───→│   Component      │───→│    resolveTokenRef  │
+│   (Context)     │    │   Re-renders     │    │                     │
+└─────────────────┘    └──────────────────┘    └─────────────────────┘
+                                │                           │
+                                ▼                           ▼
+                    ┌──────────────────┐    ┌─────────────────────┐
+                    │   style={{       │    │ "tokens.colors.primary" │
+                    │  backgroundColor │    │         ↓               │
+                    │  }}              │    │    "#eab308"            │
+                    └──────────────────┘    └─────────────────────┘
+```
+
+**Key Points:**
+- `resolveTokenRef` bridges token strings to actual CSS values
+- Without `resolveTokenRef`, components receive invalid CSS like `"tokens.colors.primary"`
+- With `resolveTokenRef`, components get resolved values like `"#eab308"` or `undefined`
 
 
 ## Core State (EditorOverlayContext)
@@ -305,3 +338,101 @@ Actionable checklist per component:
 - Ensure corresponding keys exist in `public/dbV2.json` under `designV2.tokens.typography.*`.
 - Bind JSX styles to those token paths (fontFamily, fontSize, lineHeight, fontWeight, color).
 - For cards, also add `data-card-type` (and optional `data-card-variant`) on the root so the inspector routes to the correct panel when selecting the card.
+
+
+## Token Resolution with `resolveTokenRef`
+
+### What is `resolveTokenRef`?
+
+`resolveTokenRef` is a helper function that safely resolves token reference strings (like `"tokens.colors.primary"`) to their actual values from the design system. It's critical for ensuring components can consume tokens properly without hardcoded fallbacks that cause disconnects.
+
+### Why `resolveTokenRef` is needed
+
+**The Problem**: Components often receive token values as strings like `"tokens.colors.primary"` instead of the actual hex value `"#eab308"`. When components use the logical OR operator (`||`) for fallbacks, these token strings are truthy and prevent proper fallback behavior:
+
+```tsx
+// ❌ WRONG: Token string "tokens.colors.primary" is truthy, so fallback never applies
+backgroundColor: design.components?.card?.backgroundColor || '#ffffff'
+// Result: Invalid CSS value "tokens.colors.primary"
+
+// ✅ CORRECT: resolveTokenRef returns undefined on miss, ?? applies fallback  
+backgroundColor: resolveTokenRef(design.components?.card?.backgroundColor) ?? '#ffffff'
+// Result: Either "#eab308" (resolved) or "#ffffff" (fallback)
+```
+
+### How `resolveTokenRef` works
+
+```tsx
+const resolveTokenRef = (val: any): any => {
+  if (typeof val !== 'string') return val;           // Pass through non-strings
+  if (!val.startsWith('tokens.')) return val;       // Pass through non-token strings
+  try {
+    const path = val.replace(/^tokens\./, '');       // Remove 'tokens.' prefix
+    const keys = path.split('.');                    // Split into path segments
+    let cur: any = design?.tokens || {};             // Start from tokens root
+    for (const k of keys) {                          // Walk the path
+      if (cur && typeof cur === 'object' && k in cur) {
+        cur = cur[k];
+      } else {
+        return undefined;                            // Return undefined on miss
+      }
+    }
+    return cur ?? undefined;                         // Return undefined if null
+  } catch { 
+    return undefined;                                // Return undefined on error
+  }
+};
+```
+
+### Token Resolution Flow
+
+```
+Token String: "tokens.colors.primary"
+      ↓
+resolveTokenRef()
+      ↓
+1. Check if string starts with "tokens."
+2. Remove "tokens." prefix → "colors.primary"  
+3. Split path → ["colors", "primary"]
+4. Walk design.tokens.colors.primary
+5. Return actual value or undefined
+      ↓
+Actual Value: "#eab308" or undefined
+      ↓
+Component uses ?? for fallback:
+backgroundColor: resolvedValue ?? 'transparent'
+```
+
+### Implementation Guidelines
+
+**✅ DO: Use `resolveTokenRef` + nullish coalescing (`??`)**
+```tsx
+// Mandatory tokens (no fallback)
+backgroundColor: resolveTokenRef(design.components?.card?.backgroundColor),
+
+// Optional tokens (with fallback)
+borderColor: resolveTokenRef(design.components?.card?.borderColor) ?? 'transparent',
+```
+
+**❌ DON'T: Use logical OR (`||`) with token values**
+```tsx
+// This breaks token resolution!
+backgroundColor: design.components?.card?.backgroundColor || '#ffffff',
+```
+
+### Q&A
+
+**Q: Why does the inspector show controls but the component doesn't update?**  
+A: The component likely has `||` fallbacks instead of using `resolveTokenRef` + `??`. Token strings are truthy, so `||` never triggers the fallback and sends invalid CSS values to the browser.
+
+**Q: When should I use `resolveTokenRef`?**  
+A: Use it for ALL token consumption in components, especially when you've removed `||` fallbacks. Any value that might be a token reference string should go through `resolveTokenRef`.
+
+**Q: What's the difference between `||` and `??`?**  
+A: `||` checks truthiness (token strings are truthy), while `??` only checks for `null`/`undefined`. Since `resolveTokenRef` returns `undefined` on token resolution failure, `??` correctly applies fallbacks.
+
+**Q: Can I still use fallbacks with mandatory tokens?**  
+A: Yes, but be intentional. For truly mandatory tokens, omit the fallback to force proper token definition. For optional styling, use `?? 'fallback-value'`.
+
+**Q: How do I debug token resolution issues?**  
+A: Add temporary logging: `console.log('Token resolved:', val, '→', resolveTokenRef(val))` to see what values are being resolved or returning `undefined`.

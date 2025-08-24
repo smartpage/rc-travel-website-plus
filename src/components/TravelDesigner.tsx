@@ -5,12 +5,28 @@ import { useContent } from '@/contexts/ContentContext';
 import { Instagram, Facebook, Linkedin } from 'lucide-react';
 import SectionTitle from '@/components/ui/SectionTitle';
 import Section from '@/components/ui/Section';
+import { Card } from '@/components/ui/card';
 
 const TravelDesigner = () => {
   const { design } = useDesign();
   const { agentConfig } = useSettings();
   const { getContentForComponent, loading } = useContent();
   const travelDesigner = getContentForComponent<any>('TravelDesigner');
+
+  // Token resolver helper
+  const resolveTokenRef = (val: any): any => {
+    if (typeof val !== 'string') return val;
+    if (!val.startsWith('tokens.')) return val;
+    try {
+      const path = val.replace(/^tokens\./, '');
+      const keys = path.split('.');
+      let cur: any = design?.tokens || {};
+      for (const k of keys) {
+        if (cur && typeof cur === 'object' && k in cur) cur = cur[k]; else return undefined;
+      }
+      return cur ?? undefined;
+    } catch { return undefined; }
+  };
 
   if (loading || !travelDesigner) {
     return (
@@ -60,15 +76,33 @@ const TravelDesigner = () => {
         {agentConfig?.ownerCardDesign === 'original' && (
           /* Owner Card Version 1 - Original mais larga */
           <div className="mt-16 flex justify-center">
-            <div className="w-[98%] max-w-lg :max-w-xl bg-white rounded-2xl shadow-lg p-2">
-              <div className="relative h-[600px] w-full rounded-xl overflow-hidden">
+            <Card
+              className="overflow-hidden"
+              data-card-type="travelDesignerCard"
+              style={{
+                backgroundColor: resolveTokenRef(design.components?.travelDesignerCard?.backgroundColor),
+                borderColor: resolveTokenRef(design.components?.travelDesignerCard?.borderColor),
+                borderWidth: resolveTokenRef(design.components?.travelDesignerCard?.borderWidth),
+                borderStyle: resolveTokenRef(design.components?.travelDesignerCard?.borderStyle),
+                borderRadius: resolveTokenRef(design.components?.travelDesignerCard?.borderRadius),
+                padding: resolveTokenRef(design.components?.travelDesignerCard?.padding),
+                boxShadow: resolveTokenRef(design.components?.travelDesignerCard?.shadow),
+                maxWidth: resolveTokenRef(design.components?.travelDesignerCard?.maxWidth),
+                maxHeight: resolveTokenRef(design.components?.travelDesignerCard?.maxHeight)
+              }}
+            >
+              <div className="relative w-full rounded-xl overflow-hidden">
                 <img 
                   src={travelDesigner.imageUrl}
                   alt={travelDesigner.imageAlt}
-                  className="w-full h-full object-cover object-center"
+                  className="w-full object-cover object-center"
+                  style={{ 
+                    maxHeight: resolveTokenRef(design.components?.travelDesignerCard?.imageMaxHeight) ?? '500px',
+                    height: 'auto'
+                  }}
                 />
               </div>
-              <div className="p-4 text-left">
+              <div className="text-left" style={{ padding: resolveTokenRef(design.components?.travelDesignerCard?.contentPadding) }}>
                 <div className="space-y-2">
                   {travelDesigner.originalCard.paragraphs.map((paragraph: string, index: number) => (
                     <p
@@ -86,15 +120,29 @@ const TravelDesigner = () => {
                   ))}
                 </div>
               </div>
-            </div>
+            </Card>
           </div>
         )}
 
         {agentConfig?.ownerCardDesign === 'overlay' && (
           /* Owner Card Version 2 - Nova com overlay */
           <div className="mt-16 flex justify-center">
-            <div className="w-[98%] max-w-lg :max-w-xl bg-white rounded-2xl shadow-lg overflow-hidden">
-              <div className="relative min-h-[100vh] :h-[500px] w-full">
+            <Card
+              className="overflow-hidden"
+              data-card-type="travelDesignerCard"
+              style={{
+                backgroundColor: resolveTokenRef(design.components?.travelDesignerCard?.backgroundColor),
+                borderColor: resolveTokenRef(design.components?.travelDesignerCard?.borderColor),
+                borderWidth: resolveTokenRef(design.components?.travelDesignerCard?.borderWidth),
+                borderStyle: resolveTokenRef(design.components?.travelDesignerCard?.borderStyle),
+                borderRadius: resolveTokenRef(design.components?.travelDesignerCard?.borderRadius),
+                padding: resolveTokenRef(design.components?.travelDesignerCard?.padding),
+                boxShadow: resolveTokenRef(design.components?.travelDesignerCard?.shadow),
+                maxWidth: resolveTokenRef(design.components?.travelDesignerCard?.maxWidth),
+                maxHeight: resolveTokenRef(design.components?.travelDesignerCard?.maxHeight)
+              }}
+            >
+              <div className="relative w-full" style={{ minHeight: '100vh', height: resolveTokenRef(design.components?.travelDesignerCard?.imageHeight) }}>
                 {/* Background image */}
                 <img 
                   src={travelDesigner.imageUrl}
@@ -106,7 +154,8 @@ const TravelDesigner = () => {
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black/80"></div>
                 
                 {/* Content over image */}
-                <div className="absolute inset-0 flex flex-col justify-end p-6">
+                <div className="absolute inset-0 flex flex-col justify-end"
+                     style={{ padding: resolveTokenRef(design.components?.travelDesignerCard?.contentPadding) }}>
                   <div className="text-white">
                     <h3 className="text-2xl font-semibold mb-3" style={{ fontFamily: design.tokens?.typography?.headings?.fontFamily }}>
                       {travelDesigner.overlayCard.title}
@@ -117,7 +166,7 @@ const TravelDesigner = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </Card>
           </div>
         )}
 
