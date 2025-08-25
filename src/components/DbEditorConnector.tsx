@@ -1831,6 +1831,271 @@ const renderFooterCardPanel = (design: any, updateDesignLocal: any): React.React
   );
 };
 
+const renderSectionPanel = (design: any, updateDesignLocal: any, sectionId: string, viewport: string): React.ReactNode => {
+  const section = design?.sections?.[sectionId];
+  if (!section) return null;
+
+  const getPaddingValue = () => {
+    const padding = section.layout?.padding;
+    if (typeof padding === 'string') return padding;
+    if (viewport === 'desktop') return padding?.desktop || padding?.tablet || padding?.mobile || '4rem 2rem';
+    if (viewport === 'tablet') return padding?.tablet || padding?.desktop || padding?.mobile || '3rem 2rem';
+    return padding?.mobile || padding?.tablet || padding?.desktop || '2rem 1rem';
+  };
+
+  const getInnerPaddingValue = () => {
+    const padding = section.layout?.inner?.padding;
+    if (typeof padding === 'string') return padding;
+    if (viewport === 'desktop') return padding?.desktop || padding?.tablet || padding?.mobile || '0';
+    if (viewport === 'tablet') return padding?.tablet || padding?.desktop || padding?.mobile || '0';
+    return padding?.mobile || padding?.tablet || padding?.desktop || '0';
+  };
+
+  return (
+    <div>
+      <SectionHeader title={`Section · ${sectionId}`} />
+      
+      {/* Outer Section */}
+      <div style={{ marginBottom: 16 }}>
+        <SectionHeader title="Outer Container" />
+        
+        <PanelRow label="Background Color">
+          <ColorSwatch
+            value={section.layout?.backgroundColor || '#000000'}
+            onChange={(val) => updateDesignLocal((prev: any) => {
+              const newDesign = { ...prev };
+              if (!newDesign.sections) newDesign.sections = {};
+              if (!newDesign.sections[sectionId]) newDesign.sections[sectionId] = { layout: {} };
+              if (!newDesign.sections[sectionId].layout) newDesign.sections[sectionId].layout = {};
+              newDesign.sections[sectionId].layout.backgroundColor = val;
+              return newDesign;
+            })}
+            placeholder="#000000"
+          />
+        </PanelRow>
+
+        <PanelRow label="Padding">
+          <SmartInput
+            value={getPaddingValue()}
+            onChange={(val) => updateDesignLocal((prev: any) => {
+              const newDesign = { ...prev };
+              if (!newDesign.sections) newDesign.sections = {};
+              if (!newDesign.sections[sectionId]) newDesign.sections[sectionId] = { layout: {} };
+              if (!newDesign.sections[sectionId].layout) newDesign.sections[sectionId].layout = {};
+              if (!newDesign.sections[sectionId].layout.padding) newDesign.sections[sectionId].layout.padding = {};
+              
+              // Set for current viewport
+              if (viewport === 'desktop') {
+                newDesign.sections[sectionId].layout.padding.desktop = val;
+              } else if (viewport === 'tablet') {
+                newDesign.sections[sectionId].layout.padding.tablet = val;
+              } else {
+                newDesign.sections[sectionId].layout.padding.mobile = val;
+              }
+              return newDesign;
+            })}
+            placeholder={viewport === 'desktop' ? '4rem 2rem' : viewport === 'tablet' ? '3rem 2rem' : '2rem 1rem'}
+            label={`sections.${sectionId}.layout.padding.${viewport}`}
+            style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+          />
+        </PanelRow>
+
+        <PanelRow label="Max Width">
+          <SmartInput
+            value={section.layout?.maxWidth || '100%'}
+            onChange={(val) => updateDesignLocal((prev: any) => {
+              const newDesign = { ...prev };
+              if (!newDesign.sections) newDesign.sections = {};
+              if (!newDesign.sections[sectionId]) newDesign.sections[sectionId] = { layout: {} };
+              if (!newDesign.sections[sectionId].layout) newDesign.sections[sectionId].layout = {};
+              newDesign.sections[sectionId].layout.maxWidth = val;
+              return newDesign;
+            })}
+            placeholder="100%"
+            label={`sections.${sectionId}.layout.maxWidth`}
+            style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+          />
+        </PanelRow>
+      </div>
+
+      {/* Inner Section */}
+      <div>
+        <SectionHeader title="Inner Container" />
+        
+        <PanelRow label="Background Type">
+          <select
+            value={section.layout?.inner?.background?.type || 'color'}
+            onChange={(e) => updateDesignLocal((prev: any) => {
+              const newDesign = { ...prev };
+              if (!newDesign.sections) newDesign.sections = {};
+              if (!newDesign.sections[sectionId]) newDesign.sections[sectionId] = { layout: { inner: {} } };
+              if (!newDesign.sections[sectionId].layout) newDesign.sections[sectionId].layout = { inner: {} };
+              if (!newDesign.sections[sectionId].layout.inner) newDesign.sections[sectionId].layout.inner = {};
+              if (!newDesign.sections[sectionId].layout.inner.background) newDesign.sections[sectionId].layout.inner.background = {};
+              newDesign.sections[sectionId].layout.inner.background.type = e.target.value;
+              return newDesign;
+            })}
+            style={{
+              width: '100%',
+              padding: '8px',
+              background: '#1b1b1b',
+              color: '#fff',
+              border: '1px solid #2a2a2a',
+              borderRadius: '6px',
+              fontSize: '12px'
+            }}
+          >
+            <option value="color">Color</option>
+            <option value="image">Image</option>
+          </select>
+        </PanelRow>
+
+        {section.layout?.inner?.background?.type === 'image' ? (
+          <>
+            <PanelRow label="Background Image URL">
+              <SmartInput
+                value={section.layout?.inner?.background?.value || ''}
+                onChange={(val) => updateDesignLocal((prev: any) => {
+                  const newDesign = { ...prev };
+                  if (!newDesign.sections) newDesign.sections = {};
+                  if (!newDesign.sections[sectionId]) newDesign.sections[sectionId] = { layout: { inner: {} } };
+                  if (!newDesign.sections[sectionId].layout) newDesign.sections[sectionId].layout = { inner: {} };
+                  if (!newDesign.sections[sectionId].layout.inner) newDesign.sections[sectionId].layout.inner = {};
+                  if (!newDesign.sections[sectionId].layout.inner.background) newDesign.sections[sectionId].layout.inner.background = {};
+                  newDesign.sections[sectionId].layout.inner.background.value = val;
+                  return newDesign;
+                })}
+                placeholder="https://example.com/image.jpg"
+                label={`sections.${sectionId}.layout.inner.background.value`}
+                style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+              />
+            </PanelRow>
+
+            <PanelRow label="Overlay Gradient">
+              <SmartInput
+                value={section.layout?.inner?.background?.overlay?.color || ''}
+                onChange={(val) => updateDesignLocal((prev: any) => {
+                  const newDesign = { ...prev };
+                  if (!newDesign.sections) newDesign.sections = {};
+                  if (!newDesign.sections[sectionId]) newDesign.sections[sectionId] = { layout: { inner: {} } };
+                  if (!newDesign.sections[sectionId].layout) newDesign.sections[sectionId].layout = { inner: {} };
+                  if (!newDesign.sections[sectionId].layout.inner) newDesign.sections[sectionId].layout.inner = {};
+                  if (!newDesign.sections[sectionId].layout.inner.background) newDesign.sections[sectionId].layout.inner.background = {};
+                  if (!newDesign.sections[sectionId].layout.inner.background.overlay) newDesign.sections[sectionId].layout.inner.background.overlay = {};
+                  newDesign.sections[sectionId].layout.inner.background.overlay.color = val;
+                  return newDesign;
+                })}
+                placeholder="linear-gradient(...)"
+                label={`sections.${sectionId}.layout.inner.background.overlay.color`}
+                style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+              />
+            </PanelRow>
+          </>
+        ) : (
+          <PanelRow label="Background Color">
+            <ColorSwatch
+              value={section.layout?.inner?.backgroundColor || 'transparent'}
+              onChange={(val) => updateDesignLocal((prev: any) => {
+                const newDesign = { ...prev };
+                if (!newDesign.sections) newDesign.sections = {};
+                if (!newDesign.sections[sectionId]) newDesign.sections[sectionId] = { layout: { inner: {} } };
+                if (!newDesign.sections[sectionId].layout) newDesign.sections[sectionId].layout = { inner: {} };
+                if (!newDesign.sections[sectionId].layout.inner) newDesign.sections[sectionId].layout.inner = {};
+                newDesign.sections[sectionId].layout.inner.backgroundColor = val;
+                return newDesign;
+              })}
+              placeholder="transparent"
+            />
+          </PanelRow>
+        )}
+
+        <PanelRow label="Padding">
+          <SmartInput
+            value={getInnerPaddingValue()}
+            onChange={(val) => updateDesignLocal((prev: any) => {
+              const newDesign = { ...prev };
+              if (!newDesign.sections) newDesign.sections = {};
+              if (!newDesign.sections[sectionId]) newDesign.sections[sectionId] = { layout: { inner: {} } };
+              if (!newDesign.sections[sectionId].layout) newDesign.sections[sectionId].layout = { inner: {} };
+              if (!newDesign.sections[sectionId].layout.inner) newDesign.sections[sectionId].layout.inner = {};
+              if (!newDesign.sections[sectionId].layout.inner.padding) newDesign.sections[sectionId].layout.inner.padding = {};
+              
+              // Set for current viewport
+              if (viewport === 'desktop') {
+                newDesign.sections[sectionId].layout.inner.padding.desktop = val;
+              } else if (viewport === 'tablet') {
+                newDesign.sections[sectionId].layout.inner.padding.tablet = val;
+              } else {
+                newDesign.sections[sectionId].layout.inner.padding.mobile = val;
+              }
+              return newDesign;
+            })}
+            placeholder="0"
+            label={`sections.${sectionId}.layout.inner.padding.${viewport}`}
+            style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+          />
+        </PanelRow>
+
+        <PanelRow label="Border Radius">
+          <SmartInput
+            value={section.layout?.inner?.borderRadius || (section.layout?.inner?.rounded ? '1rem' : '0')}
+            onChange={(val) => updateDesignLocal((prev: any) => {
+              const newDesign = { ...prev };
+              if (!newDesign.sections) newDesign.sections = {};
+              if (!newDesign.sections[sectionId]) newDesign.sections[sectionId] = { layout: { inner: {} } };
+              if (!newDesign.sections[sectionId].layout) newDesign.sections[sectionId].layout = { inner: {} };
+              if (!newDesign.sections[sectionId].layout.inner) newDesign.sections[sectionId].layout.inner = {};
+              newDesign.sections[sectionId].layout.inner.borderRadius = val;
+              // Update rounded based on value
+              newDesign.sections[sectionId].layout.inner.rounded = val !== '0' && val !== '0px';
+              return newDesign;
+            })}
+            placeholder="0"
+            label={`sections.${sectionId}.layout.inner.borderRadius`}
+            style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+          />
+        </PanelRow>
+
+        <PanelRow label="Max Width">
+          <SmartInput
+            value={section.layout?.inner?.maxWidth || '100%'}
+            onChange={(val) => updateDesignLocal((prev: any) => {
+              const newDesign = { ...prev };
+              if (!newDesign.sections) newDesign.sections = {};
+              if (!newDesign.sections[sectionId]) newDesign.sections[sectionId] = { layout: { inner: {} } };
+              if (!newDesign.sections[sectionId].layout) newDesign.sections[sectionId].layout = { inner: {} };
+              if (!newDesign.sections[sectionId].layout.inner) newDesign.sections[sectionId].layout.inner = {};
+              newDesign.sections[sectionId].layout.inner.maxWidth = val;
+              return newDesign;
+            })}
+            placeholder="100%"
+            label={`sections.${sectionId}.layout.inner.maxWidth`}
+            style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+          />
+        </PanelRow>
+
+        <PanelRow label="Margin">
+          <SmartInput
+            value={section.layout?.inner?.margin || '0 auto'}
+            onChange={(val) => updateDesignLocal((prev: any) => {
+              const newDesign = { ...prev };
+              if (!newDesign.sections) newDesign.sections = {};
+              if (!newDesign.sections[sectionId]) newDesign.sections[sectionId] = { layout: { inner: {} } };
+              if (!newDesign.sections[sectionId].layout) newDesign.sections[sectionId].layout = { inner: {} };
+              if (!newDesign.sections[sectionId].layout.inner) newDesign.sections[sectionId].layout.inner = {};
+              newDesign.sections[sectionId].layout.inner.margin = val;
+              return newDesign;
+            })}
+            placeholder="0 auto"
+            label={`sections.${sectionId}.layout.inner.margin`}
+            style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+          />
+        </PanelRow>
+      </div>
+    </div>
+  );
+};
+
 const DbEditorConnector: React.FC = () => {
   const { design, updateDesignLocal } = useDesign() as any;
   const { activeElement, viewport, selectedElement } = useEditorOverlay() as any;
@@ -2031,7 +2296,7 @@ const DbEditorConnector: React.FC = () => {
     return filteredFields;
   };
 
-  // Build a dynamic sections panel based on the current selection's sectionId
+  // Build a sections panel based on the current selection's sectionId
   const sectionId: string | null = elementTokens.sectionId || activeElement?.sectionId || null;
   // Show section panel only when clicking section background/root (not any descendant)
   const isDirectSectionClick = !!selectedElement && (
@@ -2043,63 +2308,8 @@ const DbEditorConnector: React.FC = () => {
   const hasSectionMatches = tokenMatches.some((m) => String(m?.tokenPath || m?.path || '').includes('sections.'));
   
   // Require NOT being inside a card to render the section panel
-  if (!cardType && (hasSectionMatches || isDirectSectionClick) && sectionId && design?.sections?.[sectionId] && typeof design.sections[sectionId] === 'object') {
-    const secBaseObj = design.sections[sectionId];
-    const secBasePath = `sections.${sectionId}`;
-    const allSec = filterByViewport(collectFields(secBaseObj, secBasePath));
-    const outerFields = allSec.filter((f) => f.path.startsWith(`${secBasePath}.layout.`) && !f.path.startsWith(`${secBasePath}.layout.inner.`));
-    const innerFields = allSec.filter((f) => f.path.startsWith(`${secBasePath}.layout.inner.`));
-
-    const groupsOuter = new Map<string, Field[]>();
-    for (const f of outerFields) {
-      const grp = groupForPath(`${secBasePath}.layout`, f.path);
-      if (!groupsOuter.has(grp)) groupsOuter.set(grp, []);
-      groupsOuter.get(grp)!.push(f);
-    }
-    const groupsInner = new Map<string, Field[]>();
-    for (const f of innerFields) {
-      const grp = groupForPath(`${secBasePath}.layout.inner`, f.path);
-      if (!groupsInner.has(grp)) groupsInner.set(grp, []);
-      groupsInner.get(grp)!.push(f);
-    }
-    sectionPanel = (
-      <div>
-        <SectionHeader title={`Section · ${sectionId} · Outer`} />
-        {[...groupsOuter.keys()].sort().map((groupName) => {
-          const fields = groupsOuter.get(groupName)!;
-          const showHeader = shouldShowGroupHeader(`${secBasePath}.layout`, groupName, fields);
-          return (
-          <div key={`outer-${groupName}`}>
-              {showHeader && <SectionHeader title={groupName === 'Misc' ? 'General' : groupName} />}
-            <div style={{ display: 'grid', gap: 8 }}>
-                {fields.map((f) => (
-                <div key={f.path}>{renderField(f)}</div>
-              ))}
-            </div>
-          </div>
-          );
-        })}
-        {innerFields.length > 0 && (
-          <>
-            <SectionHeader title={`Section · ${sectionId} · Inner`} />
-            {[...groupsInner.keys()].sort().map((groupName) => {
-              const fields = groupsInner.get(groupName)!;
-              const showHeader = shouldShowGroupHeader(`${secBasePath}.layout.inner`, groupName, fields);
-              return (
-              <div key={`inner-${groupName}`}>
-                  {showHeader && <SectionHeader title={groupName === 'Misc' ? 'General' : groupName} />}
-                <div style={{ display: 'grid', gap: 8 }}>
-                    {fields.map((f) => (
-                    <div key={f.path}>{renderField(f)}</div>
-                  ))}
-                </div>
-              </div>
-              );
-            })}
-          </>
-        )}
-      </div>
-    );
+  if (!cardType && (hasSectionMatches || isDirectSectionClick) && sectionId && design?.sections?.[sectionId]) {
+    sectionPanel = renderSectionPanel(design, updateDesignLocal, sectionId, viewport || 'desktop');
   }
   
   // Check for button elements first

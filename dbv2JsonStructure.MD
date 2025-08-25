@@ -53,7 +53,7 @@ This guide gives a compact index first, followed by a practical deep‑dive into
    - The Inspector renders controls from these resolved token paths.
 
 3) Component binding
-   - Components must consume tokens directly (no `||` fallbacks). Use inline styles reading from `design.tokens.*` or `design.components.*` and prefer `resolveTokenRef(val) ?? fallback` for values that might be token references.
+   - Components must consume tokens directly (no `||` fallbacks). Use inline styles reading from `design.tokens.*` or `design.components.*` 
 
 4) Inspector edit → updateDesignLocal
    - Controls write into `design` via `updateDesignLocal`, mutating the in‑memory working copy.

@@ -1462,7 +1462,7 @@
         "layout": {
           "padding": {
             "tablet": "10rem 2rem",
-            "desktop": "10rem 2rem",
+            "desktop": "10rem 1rem",
             "mobile": "10rem 0rem"
           },
           "backgroundColor": "#000000",
@@ -1473,11 +1473,11 @@
               "desktop": "2rem",
               "mobile": "0"
             },
-            "backgroundColor": "linear-gradient(90deg, rgba(2,0,36,1) 0%, RGBA(0,0,0,1) 35%, rgba(245,185,245,1) 100%)",
+            "backgroundColor": "linear-gradient(90deg, rgba(2,0,36,1) 0%, RGBA(9,9,121,1) 35%, rgba(0,212,255,1) 100%)",
             "borderColor": "",
             "margin": "0 auto",
             "overflow": "visible",
-            "borderRadius": "4rem",
+            "borderRadius": "5rem",
             "background": {
               "overlay": {
                 "color": "",
@@ -1488,7 +1488,7 @@
             },
             "width": "",
             "rounded": true,
-            "maxWidth": "1280px"
+            "maxWidth": "100%"
           },
           "maxWidth": "100%"
         }
@@ -1524,7 +1524,7 @@
             "width": "",
             "rounded": true,
             "height": "98%",
-            "maxWidth": "1280px"
+            "maxWidth": ""
           },
           "maxWidth": "100%"
         }
@@ -1543,11 +1543,11 @@
               "desktop": "2rem",
               "mobile": "0"
             },
-            "backgroundColor": "linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(0,0,0,1) 35%, RGBA(245, 185, 245, 1) 100%)",
+            "backgroundColor": "rgb(2, 2, 2)",
             "margin": "0 auto",
             "overflow": "visible",
             "background": {
-              "type": "color",
+              "type": "image",
               "value": "#000"
             },
             "width": "",
@@ -1658,7 +1658,7 @@
           "minHeight": "100vh",
           "padding": {
             "tablet": "0.5rem 0.5rem",
-            "desktop": "5.5rem 0.5rem",
+            "desktop": "0.5rem 0.5rem",
             "mobile": "0.5rem 0.5rem 4rem"
           },
           "backgroundColor": "#000000",
@@ -1690,7 +1690,7 @@
             "width": "",
             "rounded": true,
             "height": "auto",
-            "maxWidth": "1280px"
+            "maxWidth": "100%"
           },
           "maxWidth": "100%"
         }

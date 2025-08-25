@@ -1543,7 +1543,7 @@
               "desktop": "2rem",
               "mobile": "0"
             },
-            "backgroundColor": "linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(0,0,0,1) 35%, RGBA(245, 185, 245, 1) 100%)",
+            "backgroundColor": "linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(0,0,0,1) 35%, RGBA(128,0,128, 1) 100%)",
             "margin": "0 auto",
             "overflow": "visible",
             "background": {
@@ -1658,7 +1658,7 @@
           "minHeight": "100vh",
           "padding": {
             "tablet": "0.5rem 0.5rem",
-            "desktop": "5.5rem 0.5rem",
+            "desktop": "0.5rem 0.5rem",
             "mobile": "0.5rem 0.5rem 4rem"
           },
           "backgroundColor": "#000000",
@@ -1690,7 +1690,7 @@
             "width": "",
             "rounded": true,
             "height": "auto",
-            "maxWidth": "1280px"
+            "maxWidth": "100%"
           },
           "maxWidth": "100%"
         }

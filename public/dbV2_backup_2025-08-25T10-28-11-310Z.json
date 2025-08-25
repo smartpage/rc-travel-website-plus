@@ -1658,7 +1658,7 @@
           "minHeight": "100vh",
           "padding": {
             "tablet": "0.5rem 0.5rem",
-            "desktop": "5.5rem 0.5rem",
+            "desktop": "0.5rem 0.5rem",
             "mobile": "0.5rem 0.5rem 4rem"
           },
           "backgroundColor": "#000000",
