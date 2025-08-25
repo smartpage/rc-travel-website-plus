@@ -99,8 +99,12 @@ const TravelPackageCard = ({ pkg, ctaText, moreDetailsText, onWhatsAppContact }:
         <div style={{ padding: travelPackageCard.innerPadding || '16px' }}>
         <div className="flex items-start gap-2 mb-3">
           <MapPin
-            className={`w-4 h-4 mt-1 flex-shrink-0`}
-            style={{ color: travelPackageCard.iconColors?.map || colors.accent }}
+            className={`mt-1 flex-shrink-0`}
+            style={{ 
+              color: travelPackageCard.iconColors?.map || colors.accent,
+              width: travelPackageCard.iconSizes?.map || '1.25rem',
+              height: travelPackageCard.iconSizes?.map || '1.25rem'
+            }}
           />
           <div>
             <CardTitle
@@ -137,8 +141,12 @@ const TravelPackageCard = ({ pkg, ctaText, moreDetailsText, onWhatsAppContact }:
           {pkg.includes?.slice(0, 4).map((item, index) => (
             <div key={index} className="flex items-start">
               <CheckCircle
-                className={`w-4 h-4 mr-2 mt-0.5 flex-shrink-0`}
-                style={{ color: travelPackageCard.iconColors?.check || colors.accent }}
+                className={`mr-2 mt-0.5 flex-shrink-0`}
+                style={{ 
+                  color: travelPackageCard.iconColors?.check || colors.accent,
+                  width: travelPackageCard.iconSizes?.check || '1rem',
+                  height: travelPackageCard.iconSizes?.check || '1rem'
+                }}
               />
               <span
                 data-typography="travelPackageIncludes"
@@ -155,8 +163,12 @@ const TravelPackageCard = ({ pkg, ctaText, moreDetailsText, onWhatsAppContact }:
           ))}
           <div className="flex items-start mt-2">
             <MessageCircle
-              className={`w-4 h-4 mr-2 mt-0.5 flex-shrink-0`}
-              style={{ color: travelPackageCard.iconColors?.message || colors.highlight }}
+              className={`mr-2 mt-0.5 flex-shrink-0`}
+              style={{ 
+                color: travelPackageCard.iconColors?.message || colors.highlight,
+                width: travelPackageCard.iconSizes?.message || '1rem',
+                height: travelPackageCard.iconSizes?.message || '1rem'
+              }}
             />
             <span
               data-typography="travelPackageIncludes"

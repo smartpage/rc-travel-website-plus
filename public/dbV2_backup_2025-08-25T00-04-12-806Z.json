@@ -179,11 +179,7 @@
         "innerPadding": "1.25rem",
         "maxHeight": "80vh",
         "borderWidth": "8px",
-        "imageHeight": "100%",
-        "iconSizes": {
-          "check": "1.25rem",
-          "map": "2.5rem"
-        }
+        "imageHeight": "100%"
       },
       "cardDefaults": {
         "className": "bg-white/80 backdrop-blur-sm border-none rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl h-full flex flex-col group",
@@ -1235,14 +1231,14 @@
         "travelPackageTitle": {
           "fontFamily": "Inter, sans-serif",
           "color": "rgb(255, 217, 90)",
-          "fontSize": "2.25rem",
+          "fontSize": "1.75rem",
           "lineHeight": "1.125",
-          "fontWeight": "400"
+          "fontWeight": "500"
         },
         "titleDescription": {
           "fontFamily": "Inter, sans-serif",
           "color": "rgb(255, 217, 90)",
-          "fontSize": "1.25rem",
+          "fontSize": "1.5rem",
           "lineHeight": "1.75",
           "fontWeight": "500",
           "marginTop": "1.5rem",
@@ -1328,10 +1324,10 @@
           "color": "rgba(255,255,255, 1)",
           "textAlign": "center",
           "letterSpacing": "-0.1em",
-          "fontSize": "5.25rem",
+          "fontSize": "3.25rem",
           "lineHeight": "1",
           "marginBottom": "0.5rem",
-          "fontSizeLg": "7.5rem",
+          "fontSizeLg": "6.75rem",
           "fontWeight": "400"
         },
         "travelPackagePriceValue": {
@@ -1351,7 +1347,7 @@
           "color": "rgba(255,255,255, 1)",
           "textAlign": "center",
           "letterSpacing": "-0.1em",
-          "fontSize": "3.5999999999999996rem",
+          "fontSize": "4.1rem",
           "lineHeight": "1",
           "marginBottom": "1.25rem",
           "fontSizeLg": "6.375rem",

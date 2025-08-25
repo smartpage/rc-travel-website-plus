@@ -709,6 +709,318 @@ const renderTravelPackageCardPanel = (design: any, updateDesignLocal: any): Reac
           style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
         />
       </PanelRow>
+
+      <SectionHeader title="Text Colors" />
+      
+      <PanelRow label="Title Color">
+        <ColorSwatch
+          value={design?.tokens?.typography?.travelPackageTitle?.color || '#0a253d'}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.tokens) newDesign.tokens = {};
+            if (!newDesign.tokens.typography) newDesign.tokens.typography = {};
+            if (!newDesign.tokens.typography.travelPackageTitle) newDesign.tokens.typography.travelPackageTitle = {};
+            newDesign.tokens.typography.travelPackageTitle.color = val;
+            return newDesign;
+          })}
+          placeholder="#0a253d"
+        />
+      </PanelRow>
+
+      <PanelRow label="Description Color">
+        <ColorSwatch
+          value={design?.tokens?.typography?.packageDescription?.color || '#111827'}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.tokens) newDesign.tokens = {};
+            if (!newDesign.tokens.typography) newDesign.tokens.typography = {};
+            if (!newDesign.tokens.typography.packageDescription) newDesign.tokens.typography.packageDescription = {};
+            newDesign.tokens.typography.packageDescription.color = val;
+            return newDesign;
+          })}
+          placeholder="#111827"
+        />
+      </PanelRow>
+
+      <PanelRow label="Includes Color">
+        <ColorSwatch
+          value={design?.tokens?.typography?.travelPackageIncludes?.color || '#b54545'}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.tokens) newDesign.tokens = {};
+            if (!newDesign.tokens.typography) newDesign.tokens.typography = {};
+            if (!newDesign.tokens.typography.travelPackageIncludes) newDesign.tokens.typography.travelPackageIncludes = {};
+            newDesign.tokens.typography.travelPackageIncludes.color = val;
+            return newDesign;
+          })}
+          placeholder="#b54545"
+        />
+      </PanelRow>
+
+      <PanelRow label="Price Type Color">
+        <ColorSwatch
+          value={design?.tokens?.typography?.travelPackagePriceType?.color || '#6b7280'}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.tokens) newDesign.tokens = {};
+            if (!newDesign.tokens.typography) newDesign.tokens.typography = {};
+            if (!newDesign.tokens.typography.travelPackagePriceType) newDesign.tokens.typography.travelPackagePriceType = {};
+            newDesign.tokens.typography.travelPackagePriceType.color = val;
+            return newDesign;
+          })}
+          placeholder="#6b7280"
+        />
+      </PanelRow>
+
+      <PanelRow label="Price Value Color">
+        <ColorSwatch
+          value={design?.tokens?.typography?.travelPackagePriceValue?.color || '#1f1a1a'}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.tokens) newDesign.tokens = {};
+            if (!newDesign.tokens.typography) newDesign.tokens.typography = {};
+            if (!newDesign.tokens.typography.travelPackagePriceValue) newDesign.tokens.typography.travelPackagePriceValue = {};
+            newDesign.tokens.typography.travelPackagePriceValue.color = val;
+            return newDesign;
+          })}
+          placeholder="#1f1a1a"
+        />
+      </PanelRow>
+
+      <SectionHeader title="Icon Colors & Sizes" />
+      
+      <PanelRow label="Map Icon Color">
+        <ColorSwatch
+          value={design?.components?.travelPackageCard?.iconColors?.map || design?.tokens?.colors?.accent || '#eab308'}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.components) newDesign.components = {};
+            if (!newDesign.components.travelPackageCard) newDesign.components.travelPackageCard = {};
+            if (!newDesign.components.travelPackageCard.iconColors) newDesign.components.travelPackageCard.iconColors = {};
+            newDesign.components.travelPackageCard.iconColors.map = val;
+            return newDesign;
+          })}
+          placeholder="#eab308"
+        />
+      </PanelRow>
+
+      <PanelRow label="Map Icon Size">
+        <SmartInput
+          value={design?.components?.travelPackageCard?.iconSizes?.map || '1.25rem'}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.components) newDesign.components = {};
+            if (!newDesign.components.travelPackageCard) newDesign.components.travelPackageCard = {};
+            if (!newDesign.components.travelPackageCard.iconSizes) newDesign.components.travelPackageCard.iconSizes = {};
+            newDesign.components.travelPackageCard.iconSizes.map = val;
+            return newDesign;
+          })}
+          placeholder="1.25rem"
+          label="travelPackageCard.iconSizes.map"
+          style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+        />
+      </PanelRow>
+
+      <PanelRow label="Check Icon Color">
+        <ColorSwatch
+          value={design?.components?.travelPackageCard?.iconColors?.check || design?.tokens?.colors?.accent || '#eab308'}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.components) newDesign.components = {};
+            if (!newDesign.components.travelPackageCard) newDesign.components.travelPackageCard = {};
+            if (!newDesign.components.travelPackageCard.iconColors) newDesign.components.travelPackageCard.iconColors = {};
+            newDesign.components.travelPackageCard.iconColors.check = val;
+            return newDesign;
+          })}
+          placeholder="#eab308"
+        />
+      </PanelRow>
+
+      <PanelRow label="Check Icon Size">
+        <SmartInput
+          value={design?.components?.travelPackageCard?.iconSizes?.check || '1rem'}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.components) newDesign.components = {};
+            if (!newDesign.components.travelPackageCard) newDesign.components.travelPackageCard = {};
+            if (!newDesign.components.travelPackageCard.iconSizes) newDesign.components.travelPackageCard.iconSizes = {};
+            newDesign.components.travelPackageCard.iconSizes.check = val;
+            return newDesign;
+          })}
+          placeholder="1rem"
+          label="travelPackageCard.iconSizes.check"
+          style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+        />
+      </PanelRow>
+
+      <PanelRow label="Message Icon Color">
+        <ColorSwatch
+          value={design?.components?.travelPackageCard?.iconColors?.message || design?.tokens?.colors?.highlight || '#ff69b4'}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.components) newDesign.components = {};
+            if (!newDesign.components.travelPackageCard) newDesign.components.travelPackageCard = {};
+            if (!newDesign.components.travelPackageCard.iconColors) newDesign.components.travelPackageCard.iconColors = {};
+            newDesign.components.travelPackageCard.iconColors.message = val;
+            return newDesign;
+          })}
+          placeholder="#ff69b4"
+        />
+      </PanelRow>
+
+      <PanelRow label="Message Icon Size">
+        <SmartInput
+          value={design?.components?.travelPackageCard?.iconSizes?.message || '1rem'}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.components) newDesign.components = {};
+            if (!newDesign.components.travelPackageCard) newDesign.components.travelPackageCard = {};
+            if (!newDesign.components.travelPackageCard.iconSizes) newDesign.components.travelPackageCard.iconSizes = {};
+            newDesign.components.travelPackageCard.iconSizes.message = val;
+            return newDesign;
+          })}
+          placeholder="1rem"
+          label="travelPackageCard.iconSizes.message"
+          style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+        />
+      </PanelRow>
+
+      <SectionHeader title="Text Sizes" />
+      
+      <PanelRow label="Title Font Size">
+        <SmartInput
+          value={design?.tokens?.typography?.travelPackageTitle?.fontSize || '1.75rem'}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.tokens) newDesign.tokens = {};
+            if (!newDesign.tokens.typography) newDesign.tokens.typography = {};
+            if (!newDesign.tokens.typography.travelPackageTitle) newDesign.tokens.typography.travelPackageTitle = {};
+            newDesign.tokens.typography.travelPackageTitle.fontSize = val;
+            return newDesign;
+          })}
+          placeholder="1.75rem"
+          label="travelPackageTitle.fontSize"
+          style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+        />
+      </PanelRow>
+
+      <PanelRow label="Description Font Size">
+        <SmartInput
+          value={design?.tokens?.typography?.packageDescription?.fontSize || '0.75rem'}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.tokens) newDesign.tokens = {};
+            if (!newDesign.tokens.typography) newDesign.tokens.typography = {};
+            if (!newDesign.tokens.typography.packageDescription) newDesign.tokens.typography.packageDescription = {};
+            newDesign.tokens.typography.packageDescription.fontSize = val;
+            return newDesign;
+          })}
+          placeholder="0.75rem"
+          label="packageDescription.fontSize"
+          style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+        />
+      </PanelRow>
+
+      <PanelRow label="Includes Font Size">
+        <SmartInput
+          value={design?.tokens?.typography?.travelPackageIncludes?.fontSize || '0.875rem'}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.tokens) newDesign.tokens = {};
+            if (!newDesign.tokens.typography) newDesign.tokens.typography = {};
+            if (!newDesign.tokens.typography.travelPackageIncludes) newDesign.tokens.typography.travelPackageIncludes = {};
+            newDesign.tokens.typography.travelPackageIncludes.fontSize = val;
+            return newDesign;
+          })}
+          placeholder="0.875rem"
+          label="travelPackageIncludes.fontSize"
+          style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+        />
+      </PanelRow>
+
+      <PanelRow label="Price Type Font Size">
+        <SmartInput
+          value={design?.tokens?.typography?.travelPackagePriceType?.fontSize || '0.875rem'}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.tokens) newDesign.tokens = {};
+            if (!newDesign.tokens.typography) newDesign.tokens.typography = {};
+            if (!newDesign.tokens.typography.travelPackagePriceType) newDesign.tokens.typography.travelPackagePriceType = {};
+            newDesign.tokens.typography.travelPackagePriceType.fontSize = val;
+            return newDesign;
+          })}
+          placeholder="0.875rem"
+          label="travelPackagePriceType.fontSize"
+          style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+        />
+      </PanelRow>
+
+      <PanelRow label="Price Value Font Size">
+        <SmartInput
+          value={design?.tokens?.typography?.travelPackagePriceValue?.fontSize || '3.25rem'}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.tokens) newDesign.tokens = {};
+            if (!newDesign.tokens.typography) newDesign.tokens.typography = {};
+            if (!newDesign.tokens.typography.travelPackagePriceValue) newDesign.tokens.typography.travelPackagePriceValue = {};
+            newDesign.tokens.typography.travelPackagePriceValue.fontSize = val;
+            return newDesign;
+          })}
+          placeholder="3.25rem"
+          label="travelPackagePriceValue.fontSize"
+          style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+        />
+      </PanelRow>
+
+      <SectionHeader title="Card Paddings" />
+      
+      <PanelRow label="Card Padding">
+        <SmartInput
+          value={design?.components?.travelPackageCard?.padding || '16px'}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.components) newDesign.components = {};
+            if (!newDesign.components.travelPackageCard) newDesign.components.travelPackageCard = {};
+            newDesign.components.travelPackageCard.padding = val;
+            return newDesign;
+          })}
+          placeholder="16px"
+          label="travelPackageCard.padding"
+          style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+        />
+      </PanelRow>
+
+      <PanelRow label="Header Padding">
+        <SmartInput
+          value={design?.components?.travelPackageCard?.headerPadding || '0'}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.components) newDesign.components = {};
+            if (!newDesign.components.travelPackageCard) newDesign.components.travelPackageCard = {};
+            newDesign.components.travelPackageCard.headerPadding = val;
+            return newDesign;
+          })}
+          placeholder="0"
+          label="travelPackageCard.headerPadding"
+          style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+        />
+      </PanelRow>
+
+      <PanelRow label="Footer Padding">
+        <SmartInput
+          value={design?.components?.travelPackageCard?.footerPadding || '16px'}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.components) newDesign.components = {};
+            if (!newDesign.components.travelPackageCard) newDesign.components.travelPackageCard = {};
+            newDesign.components.travelPackageCard.footerPadding = val;
+            return newDesign;
+          })}
+          placeholder="16px"
+          label="travelPackageCard.footerPadding"
+          style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+        />
+      </PanelRow>
     </div>
   );
 };
@@ -1386,15 +1698,16 @@ const DbEditorConnector: React.FC = () => {
       let selectedField: Field | null = null;
 
       if (viewport === 'desktop') {
-        // Prefer Lg suffix, fallback to base, avoid Md/Sm
+        // Desktop: prefer Lg suffix, fallback to Md, then base
         selectedField = groupFields.find(f => f.path.endsWith('.desktop') || f.path.endsWith('Lg')) ||
+                      groupFields.find(f => f.path.endsWith('Md')) ||
                       groupFields.find(f => !f.path.includes('.mobile') && !f.path.includes('.tablet') && 
                                             !f.path.endsWith('Md') && !f.path.endsWith('Sm') && !f.path.endsWith('Lg')) ||
                       groupFields[0];
       } else {
-        // Mobile: prefer base field, fallback to mobile-specific, avoid desktop/Lg
+        // Mobile: prefer base field (fontSize), avoid desktop variants
         selectedField = groupFields.find(f => !f.path.includes('.desktop') && !f.path.includes('.tablet') && 
-                                              !f.path.endsWith('Lg') && !f.path.endsWith('Md') && !f.path.endsWith('Sm')) ||
+                                              !f.path.endsWith('Lg') && !f.path.endsWith('Md')) ||
                        groupFields.find(f => f.path.endsWith('.mobile') || f.path.endsWith('Sm')) ||
                        groupFields[0];
       }

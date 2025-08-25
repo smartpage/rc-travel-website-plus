@@ -182,7 +182,7 @@
         "imageHeight": "100%",
         "iconSizes": {
           "check": "1.25rem",
-          "map": "2.5rem"
+          "map": "3.25rem"
         }
       },
       "cardDefaults": {
@@ -1235,7 +1235,7 @@
         "travelPackageTitle": {
           "fontFamily": "Inter, sans-serif",
           "color": "rgb(255, 217, 90)",
-          "fontSize": "2.25rem",
+          "fontSize": "2.5rem",
           "lineHeight": "1.125",
           "fontWeight": "400"
         },
@@ -1328,10 +1328,10 @@
           "color": "rgba(255,255,255, 1)",
           "textAlign": "center",
           "letterSpacing": "-0.1em",
-          "fontSize": "5.25rem",
+          "fontSize": "2.5rem",
           "lineHeight": "1",
           "marginBottom": "0.5rem",
-          "fontSizeLg": "7.5rem",
+          "fontSizeLg": "6.75rem",
           "fontWeight": "400"
         },
         "travelPackagePriceValue": {

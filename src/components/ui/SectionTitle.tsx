@@ -88,16 +88,10 @@ const SectionTitle: React.FC<SectionTitleProps> = ({
     marginTop: design.tokens?.typography?.titleDescription?.marginTop
   };
 
-  // Determine which font size to use based on screen size - for now use fontSizeLg for desktop
-  const getCurrentFontSize = () => {
-    // In a real responsive system, we'd detect viewport size
-    // For now, prioritize fontSizeLg (desktop) since that's what the editor is showing
-    return headingConfig.fontSizeLg || headingConfig.fontSize || '2rem';
-  };
-
   const titleStyles: React.CSSProperties = {
     fontFamily: headingConfig.fontFamily,
-    fontSize: getCurrentFontSize(),
+    // Use CSS variable for responsive sizing
+    fontSize: 'var(--heading-fs)',
     fontWeight: headingConfig.fontWeight,
     letterSpacing: headingConfig.letterSpacing,
     lineHeight: headingConfig.lineHeight,
@@ -115,8 +109,25 @@ const SectionTitle: React.FC<SectionTitleProps> = ({
   // ID único para este componente
   const uniqueId = `title-${Math.random().toString(36).substr(2, 9)}`;
   
-  // No media queries - let the design tokens handle sizing directly
-  const mediaQueryStyles = ``;
+  // Responsive container queries that update dynamically based on design tokens
+  const mediaQueryStyles = `
+    /* Mobile first - use base fontSize */
+    #${uniqueId} { 
+      --heading-fs: ${headingConfig.fontSize || '2rem'}; 
+    }
+    /* Tablet breakpoint - use fontSizeMd if available */
+    @container (min-width: 768px) {
+      #${uniqueId} { 
+        --heading-fs: ${headingConfig.fontSizeMd || headingConfig.fontSize || '3rem'}; 
+      }
+    }
+    /* Desktop breakpoint - use fontSizeLg if available */
+    @container (min-width: 1024px) {
+      #${uniqueId} { 
+        --heading-fs: ${headingConfig.fontSizeLg || headingConfig.fontSizeMd || headingConfig.fontSize || '3.5rem'}; 
+      }
+    }
+  `;
 
   // Função para renderizar HTML se necessário
   const renderTitleContent = () => {

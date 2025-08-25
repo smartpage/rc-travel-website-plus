@@ -1328,10 +1328,10 @@
           "color": "rgba(255,255,255, 1)",
           "textAlign": "center",
           "letterSpacing": "-0.1em",
-          "fontSize": "5.25rem",
+          "fontSize": "3rem",
           "lineHeight": "1",
           "marginBottom": "0.5rem",
-          "fontSizeLg": "7.5rem",
+          "fontSizeLg": "6.75rem",
           "fontWeight": "400"
         },
         "travelPackagePriceValue": {
