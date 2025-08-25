@@ -1843,16 +1843,6 @@ const DbEditorConnector: React.FC = () => {
   // Detect button and tab navigation elements
   const elementType = selectedElement?.dataset?.element || null; // primaryButton, secondaryButton
   const componentType = selectedElement?.dataset?.componentType || null; // tabNavigation
-  
-  // Debug logging
-  console.log('🔍 DbEditorConnector Debug:', {
-    selectedElement: selectedElement?.tagName,
-    elementType,
-    componentType,
-    dataset: selectedElement?.dataset,
-    cardType,
-    activeElementLabel: activeElement?.label
-  });
 
   const renderField = (f: Field) => {
     const visibleLabel = friendlyLabelForPath(f.path);
@@ -2137,7 +2127,7 @@ const DbEditorConnector: React.FC = () => {
     } else if (cardType === 'contactCard') {
       componentPanel = renderContactCardPanel(design, updateDesignLocal);
     } else if (cardType === 'footerCard') {
-      componentPanel = renderFooterCardPanel(design, updateDesignLocal);
+      // Use dynamic system for footer card - let it generate controls automatically
     } else {
       // Fallback to dynamic system for other card types
     // Variants support (heuristic): if components.cardType.variants exists, show a dropdown and render only that variant
