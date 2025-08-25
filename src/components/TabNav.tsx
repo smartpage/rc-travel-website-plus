@@ -70,49 +70,40 @@ const TabNav = ({ tabs, activeTab, onTabChange, showNavigation = true }: TabNavP
           <button
             onClick={scrollPrev}
             disabled={!canScrollPrev}
-            className="absolute left-2 top-1/2 -translate-y-1/2 z-10 transition-colors disabled:opacity-30"
-            style={{
-              color: design.components?.tabNavigation?.arrows?.color,
-              backgroundColor: design.components?.tabNavigation?.arrows?.backgroundColor,
-              padding: design.components?.tabNavigation?.arrows?.padding
-            }}
+            className={`absolute left-2 top-1/2 -translate-y-1/2 z-10 p-2 transition-colors disabled:opacity-30 ${design.components?.slider?.colors?.arrows || ''} ${design.components?.slider?.colors?.arrowsHover || ''}`}
             aria-label="Previous tab"
           >
-            <ChevronLeft 
-              style={{
-                width: design.components?.tabNavigation?.arrows?.size,
-                height: design.components?.tabNavigation?.arrows?.size
-              }}
-            />
+            <ChevronLeft className="h-5 w-5" />
           </button>
 
           <div className="overflow-hidden w-full max-w-full min-w-0 px-4 box-border" ref={emblaRef}>
             <div className="flex w-max">
               {tabs.map((tab) => {
                 const isActive = activeTab === tab.id;
-                const pillStyle = design.components?.tabNavigation?.pill;
-                const containerStyle = design.components?.tabNavigation?.container;
+                const buttonStyle = isActive ? design.components?.button?.variants?.tab?.inverted : design.components?.button?.variants?.tab?.regular;
                 return (
                   <div key={tab.id} className="flex-shrink-0 w-auto min-w-0 mx-1">
                     <div 
                       className="rounded-lg p-1" 
-                      style={{ 
-                        backgroundColor: containerStyle?.backgroundColor,
-                        borderRadius: containerStyle?.borderRadius,
-                        padding: containerStyle?.padding
-                      }}
+                      style={{ backgroundColor: design.components?.button?.variants?.tab?.container?.backgroundColor || undefined }}
                     >
                       <button
                         onClick={() => onTabChange(tab.id)}
-                        className="w-full max-w-full transition-all duration-200"
+                        className="w-full max-w-full px-4 py-2 text-sm font-medium rounded-md transition-all duration-200"
                         style={{
                           fontFamily: design.tokens?.typography?.body?.fontFamily || 'Inter, sans-serif',
-                          backgroundColor: isActive ? pillStyle?.backgroundColor : 'transparent',
-                          color: pillStyle?.color,
-                          padding: pillStyle?.padding,
-                          borderRadius: pillStyle?.borderRadius,
-                          fontSize: pillStyle?.fontSize,
-                          fontWeight: pillStyle?.fontWeight
+                          backgroundColor: buttonStyle?.normal?.backgroundColor,
+                          color: buttonStyle?.normal?.textColor,
+                        }}
+                        onMouseEnter={(e) => {
+                          const target = e.target as HTMLElement;
+                          target.style.backgroundColor = buttonStyle?.hover?.backgroundColor || '';
+                          target.style.color = buttonStyle?.hover?.textColor || '';
+                        }}
+                        onMouseLeave={(e) => {
+                          const target = e.target as HTMLElement;
+                          target.style.backgroundColor = buttonStyle?.normal?.backgroundColor || '';
+                          target.style.color = buttonStyle?.normal?.textColor || '';
                         }}
                       >
                         {tab.name}
@@ -127,20 +118,10 @@ const TabNav = ({ tabs, activeTab, onTabChange, showNavigation = true }: TabNavP
           <button
             onClick={scrollNext}
             disabled={!canScrollNext}
-            className="absolute right-2 top-1/2 -translate-y-1/2 z-10 transition-colors disabled:opacity-30"
-            style={{
-              color: design.components?.tabNavigation?.arrows?.color,
-              backgroundColor: design.components?.tabNavigation?.arrows?.backgroundColor,
-              padding: design.components?.tabNavigation?.arrows?.padding
-            }}
+            className={`absolute right-2 top-1/2 -translate-y-1/2 z-10 p-2 transition-colors disabled:opacity-30 ${design.components?.slider?.colors?.arrows || ''} ${design.components?.slider?.colors?.arrowsHover || ''}`}
             aria-label="Next tab"
           >
-            <ChevronRight 
-              style={{
-                width: design.components?.tabNavigation?.arrows?.size,
-                height: design.components?.tabNavigation?.arrows?.size
-              }}
-            />
+            <ChevronRight className="h-5 w-5" />
           </button>
         </nav>
       </div>
@@ -158,20 +139,26 @@ const TabNav = ({ tabs, activeTab, onTabChange, showNavigation = true }: TabNavP
         >
           {tabs.map((tab) => {
             const isActive = activeTab === tab.id;
-            const pillStyle = design.components?.tabNavigation?.pill;
+            const buttonStyle = isActive ? design.components?.button?.variants?.tab?.inverted : design.components?.button?.variants?.tab?.regular;
             return (
               <button
                 key={tab.id}
                 onClick={() => onTabChange(tab.id)}
-                className="transition-all duration-200"
+                className="px-6 py-3 text-sm font-medium rounded-md transition-all duration-200"
                 style={{
                   fontFamily: design.tokens?.typography?.body?.fontFamily || 'Inter, sans-serif',
-                  backgroundColor: isActive ? pillStyle?.backgroundColor : 'transparent',
-                  color: pillStyle?.color,
-                  padding: pillStyle?.padding,
-                  borderRadius: pillStyle?.borderRadius,
-                  fontSize: pillStyle?.fontSize,
-                  fontWeight: pillStyle?.fontWeight
+                  backgroundColor: buttonStyle?.normal?.backgroundColor,
+                  color: buttonStyle?.normal?.textColor,
+                }}
+                onMouseEnter={(e) => {
+                  const target = e.target as HTMLElement;
+                  target.style.backgroundColor = buttonStyle?.hover?.backgroundColor || '';
+                  target.style.color = buttonStyle?.hover?.textColor || '';
+                }}
+                onMouseLeave={(e) => {
+                  const target = e.target as HTMLElement;
+                  target.style.backgroundColor = buttonStyle?.normal?.backgroundColor || '';
+                  target.style.color = buttonStyle?.normal?.textColor || '';
                 }}
               >
                 {tab.name}

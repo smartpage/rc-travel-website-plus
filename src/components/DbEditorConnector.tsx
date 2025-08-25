@@ -1843,6 +1843,16 @@ const DbEditorConnector: React.FC = () => {
   // Detect button and tab navigation elements
   const elementType = selectedElement?.dataset?.element || null; // primaryButton, secondaryButton
   const componentType = selectedElement?.dataset?.componentType || null; // tabNavigation
+  
+  // Debug logging
+  console.log('🔍 DbEditorConnector Debug:', {
+    selectedElement: selectedElement?.tagName,
+    elementType,
+    componentType,
+    dataset: selectedElement?.dataset,
+    cardType,
+    activeElementLabel: activeElement?.label
+  });
 
   const renderField = (f: Field) => {
     const visibleLabel = friendlyLabelForPath(f.path);
