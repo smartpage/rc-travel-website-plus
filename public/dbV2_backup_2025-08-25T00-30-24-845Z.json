@@ -405,12 +405,12 @@
         "borderWidth": "0",
         "borderStyle": "solid",
         "borderRadius": "0",
-        "padding": "2.25rem 5rem",
+        "padding": "5.25rem 6.5rem",
         "gap": "1rem",
         "text": {
           "fontSize": "1.125rem",
           "fontWeight": "500",
-          "lineHeight": "1.125",
+          "lineHeight": "2",
           "color": "rgba(229, 231, 235, 0.2)"
         },
         "barTop": {

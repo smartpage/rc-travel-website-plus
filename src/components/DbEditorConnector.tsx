@@ -2110,24 +2110,24 @@ const DbEditorConnector: React.FC = () => {
   else if (componentType === 'tabNavigation') {
     componentPanel = renderTabNavigationPanel(design, updateDesignLocal);
   }
-  // Check for card types
-  else if (cardType && design?.components?.[cardType] && typeof design.components[cardType] === 'object') {
-    const baseObj = design.components[cardType];
-    const basePath = `components.${cardType}`;
+ 
+  // Check for card types - also check activeElement.cardType directly
+  else if ((cardType || activeElement?.cardType) && design?.components?.[cardType || activeElement?.cardType] && typeof design.components[cardType || activeElement?.cardType] === 'object') {
+    const finalCardType = cardType || activeElement?.cardType;
+    const baseObj = design.components[finalCardType];
+    const basePath = `components.${finalCardType}`;
 
     // Add hardcoded specific controls for key card types to match legacy parity
-    if (cardType === 'serviceCard') {
+    if (finalCardType === 'serviceCard') {
       componentPanel = renderServiceCardPanel(design, updateDesignLocal);
-    } else if (cardType === 'travelPackageCard') {
+    } else if (finalCardType === 'travelPackageCard') {
       componentPanel = renderTravelPackageCardPanel(design, updateDesignLocal);
-    } else if (cardType === 'testimonialCard') {
+    } else if (finalCardType === 'testimonialCard') {
       componentPanel = renderTestimonialCardPanel(design, updateDesignLocal);
-    } else if (cardType === 'whyFeatureCard') {
+    } else if (finalCardType === 'whyFeatureCard') {
       componentPanel = renderWhyFeatureCardPanel(design, updateDesignLocal);
-    } else if (cardType === 'contactCard') {
+    } else if (finalCardType === 'contactCard') {
       componentPanel = renderContactCardPanel(design, updateDesignLocal);
-    } else if (cardType === 'footerCard') {
-      // Use dynamic system for footer card - let it generate controls automatically
     } else {
       // Fallback to dynamic system for other card types
     // Variants support (heuristic): if components.cardType.variants exists, show a dropdown and render only that variant
