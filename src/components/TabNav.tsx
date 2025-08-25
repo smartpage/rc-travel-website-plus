@@ -63,44 +63,56 @@ const TabNav = ({ tabs, activeTab, onTabChange, showNavigation = true }: TabNavP
     <div className="mb-12 w-full max-w-full min-w-0 overflow-hidden box-border @container">
       {/* Mobile Layout */}
       <div className="@md:hidden">
-        <div className="relative w-full max-w-full min-w-0 box-border">
+        <nav 
+          data-component-type="tabNavigation"
+          className="relative w-full max-w-full min-w-0 box-border"
+        >
           <button
             onClick={scrollPrev}
             disabled={!canScrollPrev}
-            className={`absolute left-2 top-1/2 -translate-y-1/2 z-10 p-2 transition-colors disabled:opacity-30 ${design.components?.slider?.colors?.arrows || ''} ${design.components?.slider?.colors?.arrowsHover || ''}`}
+            className="absolute left-2 top-1/2 -translate-y-1/2 z-10 transition-colors disabled:opacity-30"
+            style={{
+              color: design.components?.tabNavigation?.arrows?.color,
+              backgroundColor: design.components?.tabNavigation?.arrows?.backgroundColor,
+              padding: design.components?.tabNavigation?.arrows?.padding
+            }}
             aria-label="Previous tab"
           >
-            <ChevronLeft className="h-5 w-5" />
+            <ChevronLeft 
+              style={{
+                width: design.components?.tabNavigation?.arrows?.size,
+                height: design.components?.tabNavigation?.arrows?.size
+              }}
+            />
           </button>
 
           <div className="overflow-hidden w-full max-w-full min-w-0 px-4 box-border" ref={emblaRef}>
             <div className="flex w-max">
               {tabs.map((tab) => {
                 const isActive = activeTab === tab.id;
-                const buttonStyle = isActive ? design.components?.button?.variants?.tab?.inverted : design.components?.button?.variants?.tab?.regular;
+                const pillStyle = design.components?.tabNavigation?.pill;
+                const containerStyle = design.components?.tabNavigation?.container;
                 return (
                   <div key={tab.id} className="flex-shrink-0 w-auto min-w-0 mx-1">
                     <div 
                       className="rounded-lg p-1" 
-                      style={{ backgroundColor: design.components?.button?.variants?.tab?.container?.backgroundColor || undefined }}
+                      style={{ 
+                        backgroundColor: containerStyle?.backgroundColor,
+                        borderRadius: containerStyle?.borderRadius,
+                        padding: containerStyle?.padding
+                      }}
                     >
                       <button
                         onClick={() => onTabChange(tab.id)}
-                        className="w-full max-w-full px-4 py-2 text-sm font-medium rounded-md transition-all duration-200"
+                        className="w-full max-w-full transition-all duration-200"
                         style={{
                           fontFamily: design.tokens?.typography?.body?.fontFamily || 'Inter, sans-serif',
-                          backgroundColor: buttonStyle?.normal?.backgroundColor,
-                          color: buttonStyle?.normal?.textColor,
-                        }}
-                        onMouseEnter={(e) => {
-                          const target = e.target as HTMLElement;
-                          target.style.backgroundColor = buttonStyle?.hover?.backgroundColor || '';
-                          target.style.color = buttonStyle?.hover?.textColor || '';
-                        }}
-                        onMouseLeave={(e) => {
-                          const target = e.target as HTMLElement;
-                          target.style.backgroundColor = buttonStyle?.normal?.backgroundColor || '';
-                          target.style.color = buttonStyle?.normal?.textColor || '';
+                          backgroundColor: isActive ? pillStyle?.backgroundColor : 'transparent',
+                          color: pillStyle?.color,
+                          padding: pillStyle?.padding,
+                          borderRadius: pillStyle?.borderRadius,
+                          fontSize: pillStyle?.fontSize,
+                          fontWeight: pillStyle?.fontWeight
                         }}
                       >
                         {tab.name}
@@ -115,49 +127,58 @@ const TabNav = ({ tabs, activeTab, onTabChange, showNavigation = true }: TabNavP
           <button
             onClick={scrollNext}
             disabled={!canScrollNext}
-            className={`absolute right-2 top-1/2 -translate-y-1/2 z-10 p-2 transition-colors disabled:opacity-30 ${design.components?.slider?.colors?.arrows || ''} ${design.components?.slider?.colors?.arrowsHover || ''}`}
+            className="absolute right-2 top-1/2 -translate-y-1/2 z-10 transition-colors disabled:opacity-30"
+            style={{
+              color: design.components?.tabNavigation?.arrows?.color,
+              backgroundColor: design.components?.tabNavigation?.arrows?.backgroundColor,
+              padding: design.components?.tabNavigation?.arrows?.padding
+            }}
             aria-label="Next tab"
           >
-            <ChevronRight className="h-5 w-5" />
+            <ChevronRight 
+              style={{
+                width: design.components?.tabNavigation?.arrows?.size,
+                height: design.components?.tabNavigation?.arrows?.size
+              }}
+            />
           </button>
-        </div>
+        </nav>
       </div>
 
       {/* Desktop Layout */}
       <div className="hidden @md:flex @md:justify-center w-full max-w-full min-w-0 overflow-hidden">
-        <div 
+        <nav 
+          data-component-type="tabNavigation"
           className="inline-flex rounded-lg p-1" 
-          style={{ backgroundColor: design.components?.button?.variants?.tab?.container?.backgroundColor || undefined }}
+          style={{ 
+            backgroundColor: design.components?.tabNavigation?.container?.backgroundColor || design.components?.button?.variants?.tab?.container?.backgroundColor || undefined,
+            borderRadius: design.components?.tabNavigation?.container?.borderRadius || undefined,
+            padding: design.components?.tabNavigation?.container?.padding || undefined
+          }}
         >
           {tabs.map((tab) => {
             const isActive = activeTab === tab.id;
-            const buttonStyle = isActive ? design.components?.button?.variants?.tab?.inverted : design.components?.button?.variants?.tab?.regular;
+            const pillStyle = design.components?.tabNavigation?.pill;
             return (
               <button
                 key={tab.id}
                 onClick={() => onTabChange(tab.id)}
-                className="px-6 py-3 text-sm font-medium rounded-md transition-all duration-200"
+                className="transition-all duration-200"
                 style={{
                   fontFamily: design.tokens?.typography?.body?.fontFamily || 'Inter, sans-serif',
-                  backgroundColor: buttonStyle?.normal?.backgroundColor,
-                  color: buttonStyle?.normal?.textColor,
-                }}
-                onMouseEnter={(e) => {
-                  const target = e.target as HTMLElement;
-                  target.style.backgroundColor = buttonStyle?.hover?.backgroundColor || '';
-                  target.style.color = buttonStyle?.hover?.textColor || '';
-                }}
-                onMouseLeave={(e) => {
-                  const target = e.target as HTMLElement;
-                  target.style.backgroundColor = buttonStyle?.normal?.backgroundColor || '';
-                  target.style.color = buttonStyle?.normal?.textColor || '';
+                  backgroundColor: isActive ? pillStyle?.backgroundColor : 'transparent',
+                  color: pillStyle?.color,
+                  padding: pillStyle?.padding,
+                  borderRadius: pillStyle?.borderRadius,
+                  fontSize: pillStyle?.fontSize,
+                  fontWeight: pillStyle?.fontWeight
                 }}
               >
                 {tab.name}
               </button>
             );
           })}
-        </div>
+        </nav>
       </div>
     </div>
   );

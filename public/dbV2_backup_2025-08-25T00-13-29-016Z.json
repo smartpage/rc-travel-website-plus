@@ -22,6 +22,27 @@
           "dotActive": "bg-yellow-500"
         }
       },
+      "tabNavigation": {
+        "container": {
+          "backgroundColor": "#000000",
+          "borderRadius": "0.5rem",
+          "padding": "0.25rem"
+        },
+        "pill": {
+          "backgroundColor": "#eab308",
+          "color": "#000000",
+          "padding": "0.75rem 1.5rem",
+          "borderRadius": "0.375rem",
+          "fontSize": "0.875rem",
+          "fontWeight": "500"
+        },
+        "arrows": {
+          "color": "#ffffff",
+          "backgroundColor": "transparent",
+          "size": "1.25rem",
+          "padding": "0.5rem"
+        }
+      },
       "primaryCards": {
         "container": {
           "border": "border-2 border-yellow-500",
@@ -179,7 +200,7 @@
         "innerPadding": "1.25rem",
         "maxHeight": "80vh",
         "borderWidth": "8px",
-        "imageHeight": "140%",
+        "imageHeight": "100%",
         "iconSizes": {
           "check": "1.25rem",
           "map": "2.5rem"
@@ -300,17 +321,17 @@
           },
           "primary": {
             "borderColorHover": "#d97706",
-            "padding": "1.5rem 2.75rem",
+            "padding": "1.5rem 1.5rem",
             "backgroundColor": "#eab308",
             "borderColor": "#eab308",
             "backgroundColorHover": "#d97706",
             "fontFamily": "Inter, sans-serif",
-            "borderRadius": "0.5rem",
+            "borderRadius": "0.75rem",
             "textColorHover": "#ffffff",
             "borderWidth": "2px",
-            "fontSize": "1.25rem",
+            "fontSize": "1rem",
             "textColor": "rgba(0,0,0,1)",
-            "fontWeight": "700"
+            "fontWeight": "500"
           }
         }
       },
@@ -1331,7 +1352,7 @@
           "fontSize": "5.25rem",
           "lineHeight": "1",
           "marginBottom": "0.5rem",
-          "fontSizeLg": "7rem",
+          "fontSizeLg": "7.5rem",
           "fontWeight": "400"
         },
         "travelPackagePriceValue": {

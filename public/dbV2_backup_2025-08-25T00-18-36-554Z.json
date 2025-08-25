@@ -305,10 +305,10 @@
             "borderColor": "#eab308",
             "backgroundColorHover": "#d97706",
             "fontFamily": "Inter, sans-serif",
-            "borderRadius": "0.5rem",
+            "borderRadius": "0.75rem",
             "textColorHover": "#ffffff",
-            "borderWidth": "2px",
-            "fontSize": "1.25rem",
+            "borderWidth": "0px",
+            "fontSize": "1rem",
             "textColor": "rgba(0,0,0,1)",
             "fontWeight": "700"
           }
@@ -1331,7 +1331,7 @@
           "fontSize": "5.25rem",
           "lineHeight": "1",
           "marginBottom": "0.5rem",
-          "fontSizeLg": "7rem",
+          "fontSizeLg": "7.5rem",
           "fontWeight": "400"
         },
         "travelPackagePriceValue": {

@@ -339,6 +339,313 @@ const getTokenPathsFromElement = (element: Element | null): {
 };
 
 // Hardcoded card panel renderers for legacy parity
+const renderButtonPanel = (design: any, updateDesignLocal: any, buttonType: string): React.ReactNode => {
+  const isPrimary = buttonType === 'primaryButton';
+  const variant = isPrimary ? 'primary' : 'secondary';
+  const title = isPrimary ? 'Primary Button' : 'Secondary Button';
+  
+  return (
+    <div>
+      <SectionHeader title={title} />
+      
+      <PanelRow label="Background Color">
+        <ColorSwatch
+          value={design?.components?.button?.variants?.[variant]?.backgroundColor || (isPrimary ? '#eab308' : 'transparent')}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.components) newDesign.components = {};
+            if (!newDesign.components.button) newDesign.components.button = {};
+            if (!newDesign.components.button.variants) newDesign.components.button.variants = {};
+            if (!newDesign.components.button.variants[variant]) newDesign.components.button.variants[variant] = {};
+            newDesign.components.button.variants[variant].backgroundColor = val;
+            return newDesign;
+          })}
+          placeholder={isPrimary ? '#eab308' : 'transparent'}
+        />
+      </PanelRow>
+
+      <PanelRow label="Text Color">
+        <ColorSwatch
+          value={design?.components?.button?.variants?.[variant]?.textColor || (isPrimary ? '#000000' : '#ffffff')}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.components) newDesign.components = {};
+            if (!newDesign.components.button) newDesign.components.button = {};
+            if (!newDesign.components.button.variants) newDesign.components.button.variants = {};
+            if (!newDesign.components.button.variants[variant]) newDesign.components.button.variants[variant] = {};
+            newDesign.components.button.variants[variant].textColor = val;
+            return newDesign;
+          })}
+          placeholder={isPrimary ? '#000000' : '#ffffff'}
+        />
+      </PanelRow>
+
+      <PanelRow label="Border Color">
+        <ColorSwatch
+          value={design?.components?.button?.variants?.[variant]?.borderColor || (isPrimary ? '#eab308' : '#ffffff')}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.components) newDesign.components = {};
+            if (!newDesign.components.button) newDesign.components.button = {};
+            if (!newDesign.components.button.variants) newDesign.components.button.variants = {};
+            if (!newDesign.components.button.variants[variant]) newDesign.components.button.variants[variant] = {};
+            newDesign.components.button.variants[variant].borderColor = val;
+            return newDesign;
+          })}
+          placeholder={isPrimary ? '#eab308' : '#ffffff'}
+        />
+      </PanelRow>
+
+      <PanelRow label="Border Width">
+        <SmartInput
+          value={design?.components?.button?.variants?.[variant]?.borderWidth || '2px'}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.components) newDesign.components = {};
+            if (!newDesign.components.button) newDesign.components.button = {};
+            if (!newDesign.components.button.variants) newDesign.components.button.variants = {};
+            if (!newDesign.components.button.variants[variant]) newDesign.components.button.variants[variant] = {};
+            newDesign.components.button.variants[variant].borderWidth = val;
+            return newDesign;
+          })}
+          placeholder="2px"
+          label={`button.variants.${variant}.borderWidth`}
+          style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+        />
+      </PanelRow>
+
+      <PanelRow label="Border Radius">
+        <SmartInput
+          value={design?.components?.button?.variants?.[variant]?.borderRadius || '0.75rem'}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.components) newDesign.components = {};
+            if (!newDesign.components.button) newDesign.components.button = {};
+            if (!newDesign.components.button.variants) newDesign.components.button.variants = {};
+            if (!newDesign.components.button.variants[variant]) newDesign.components.button.variants[variant] = {};
+            newDesign.components.button.variants[variant].borderRadius = val;
+            return newDesign;
+          })}
+          placeholder="0.75rem"
+          label={`button.variants.${variant}.borderRadius`}
+          style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+        />
+      </PanelRow>
+
+      <PanelRow label="Padding">
+        <SmartInput
+          value={design?.components?.button?.variants?.[variant]?.padding || '0.75rem 1.5rem'}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.components) newDesign.components = {};
+            if (!newDesign.components.button) newDesign.components.button = {};
+            if (!newDesign.components.button.variants) newDesign.components.button.variants = {};
+            if (!newDesign.components.button.variants[variant]) newDesign.components.button.variants[variant] = {};
+            newDesign.components.button.variants[variant].padding = val;
+            return newDesign;
+          })}
+          placeholder="0.75rem 1.5rem"
+          label={`button.variants.${variant}.padding`}
+          style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+        />
+      </PanelRow>
+
+      <PanelRow label="Font Size">
+        <SmartInput
+          value={design?.components?.button?.variants?.[variant]?.fontSize || '1rem'}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.components) newDesign.components = {};
+            if (!newDesign.components.button) newDesign.components.button = {};
+            if (!newDesign.components.button.variants) newDesign.components.button.variants = {};
+            if (!newDesign.components.button.variants[variant]) newDesign.components.button.variants[variant] = {};
+            newDesign.components.button.variants[variant].fontSize = val;
+            return newDesign;
+          })}
+          placeholder="1rem"
+          label={`button.variants.${variant}.fontSize`}
+          style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+        />
+      </PanelRow>
+
+      <PanelRow label="Font Weight">
+        <SmartInput
+          value={design?.components?.button?.variants?.[variant]?.fontWeight || '500'}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.components) newDesign.components = {};
+            if (!newDesign.components.button) newDesign.components.button = {};
+            if (!newDesign.components.button.variants) newDesign.components.button.variants = {};
+            if (!newDesign.components.button.variants[variant]) newDesign.components.button.variants[variant] = {};
+            newDesign.components.button.variants[variant].fontWeight = val;
+            return newDesign;
+          })}
+          placeholder="500"
+          label={`button.variants.${variant}.fontWeight`}
+          style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+        />
+      </PanelRow>
+    </div>
+  );
+};
+
+const renderTabNavigationPanel = (design: any, updateDesignLocal: any): React.ReactNode => {
+  return (
+    <div>
+      <SectionHeader title="Tab Navigation" />
+      
+      <PanelRow label="Container Background">
+        <ColorSwatch
+          value={design?.components?.tabNavigation?.container?.backgroundColor || '#000000'}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.components) newDesign.components = {};
+            if (!newDesign.components.tabNavigation) newDesign.components.tabNavigation = {};
+            if (!newDesign.components.tabNavigation.container) newDesign.components.tabNavigation.container = {};
+            newDesign.components.tabNavigation.container.backgroundColor = val;
+            return newDesign;
+          })}
+          placeholder="#000000"
+        />
+      </PanelRow>
+
+      <PanelRow label="Container Padding">
+        <SmartInput
+          value={design?.components?.tabNavigation?.container?.padding || '0.25rem'}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.components) newDesign.components = {};
+            if (!newDesign.components.tabNavigation) newDesign.components.tabNavigation = {};
+            if (!newDesign.components.tabNavigation.container) newDesign.components.tabNavigation.container = {};
+            newDesign.components.tabNavigation.container.padding = val;
+            return newDesign;
+          })}
+          placeholder="0.25rem"
+          label="tabNavigation.container.padding"
+          style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+        />
+      </PanelRow>
+
+      <PanelRow label="Container Border Radius">
+        <SmartInput
+          value={design?.components?.tabNavigation?.container?.borderRadius || '0.5rem'}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.components) newDesign.components = {};
+            if (!newDesign.components.tabNavigation) newDesign.components.tabNavigation = {};
+            if (!newDesign.components.tabNavigation.container) newDesign.components.tabNavigation.container = {};
+            newDesign.components.tabNavigation.container.borderRadius = val;
+            return newDesign;
+          })}
+          placeholder="0.5rem"
+          label="tabNavigation.container.borderRadius"
+          style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+        />
+      </PanelRow>
+
+      <SectionHeader title="Tab Pills" />
+
+      <PanelRow label="Pill Background">
+        <ColorSwatch
+          value={design?.components?.tabNavigation?.pill?.backgroundColor || '#eab308'}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.components) newDesign.components = {};
+            if (!newDesign.components.tabNavigation) newDesign.components.tabNavigation = {};
+            if (!newDesign.components.tabNavigation.pill) newDesign.components.tabNavigation.pill = {};
+            newDesign.components.tabNavigation.pill.backgroundColor = val;
+            return newDesign;
+          })}
+          placeholder="#eab308"
+        />
+      </PanelRow>
+
+      <PanelRow label="Pill Text Color">
+        <ColorSwatch
+          value={design?.components?.tabNavigation?.pill?.color || '#000000'}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.components) newDesign.components = {};
+            if (!newDesign.components.tabNavigation) newDesign.components.tabNavigation = {};
+            if (!newDesign.components.tabNavigation.pill) newDesign.components.tabNavigation.pill = {};
+            newDesign.components.tabNavigation.pill.color = val;
+            return newDesign;
+          })}
+          placeholder="#000000"
+        />
+      </PanelRow>
+
+      <PanelRow label="Pill Padding">
+        <SmartInput
+          value={design?.components?.tabNavigation?.pill?.padding || '0.75rem 1.5rem'}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.components) newDesign.components = {};
+            if (!newDesign.components.tabNavigation) newDesign.components.tabNavigation = {};
+            if (!newDesign.components.tabNavigation.pill) newDesign.components.tabNavigation.pill = {};
+            newDesign.components.tabNavigation.pill.padding = val;
+            return newDesign;
+          })}
+          placeholder="0.75rem 1.5rem"
+          label="tabNavigation.pill.padding"
+          style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+        />
+      </PanelRow>
+
+      <PanelRow label="Pill Font Size">
+        <SmartInput
+          value={design?.components?.tabNavigation?.pill?.fontSize || '0.875rem'}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.components) newDesign.components = {};
+            if (!newDesign.components.tabNavigation) newDesign.components.tabNavigation = {};
+            if (!newDesign.components.tabNavigation.pill) newDesign.components.tabNavigation.pill = {};
+            newDesign.components.tabNavigation.pill.fontSize = val;
+            return newDesign;
+          })}
+          placeholder="0.875rem"
+          label="tabNavigation.pill.fontSize"
+          style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+        />
+      </PanelRow>
+
+      <SectionHeader title="Navigation Arrows" />
+
+      <PanelRow label="Arrow Color">
+        <ColorSwatch
+          value={design?.components?.tabNavigation?.arrows?.color || '#ffffff'}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.components) newDesign.components = {};
+            if (!newDesign.components.tabNavigation) newDesign.components.tabNavigation = {};
+            if (!newDesign.components.tabNavigation.arrows) newDesign.components.tabNavigation.arrows = {};
+            newDesign.components.tabNavigation.arrows.color = val;
+            return newDesign;
+          })}
+          placeholder="#ffffff"
+        />
+      </PanelRow>
+
+      <PanelRow label="Arrow Size">
+        <SmartInput
+          value={design?.components?.tabNavigation?.arrows?.size || '1.25rem'}
+          onChange={(val) => updateDesignLocal((prev: any) => {
+            const newDesign = { ...prev };
+            if (!newDesign.components) newDesign.components = {};
+            if (!newDesign.components.tabNavigation) newDesign.components.tabNavigation = {};
+            if (!newDesign.components.tabNavigation.arrows) newDesign.components.tabNavigation.arrows = {};
+            newDesign.components.tabNavigation.arrows.size = val;
+            return newDesign;
+          })}
+          placeholder="1.25rem"
+          label="tabNavigation.arrows.size"
+          style={{ background: '#2a2a2a', color: '#fff', padding: 8, borderRadius: 4, border: '1px solid #444', fontSize: 12 }}
+        />
+      </PanelRow>
+    </div>
+  );
+};
+
 const renderServiceCardPanel = (design: any, updateDesignLocal: any): React.ReactNode => {
   const activeVariant = design?.components?.serviceCard?.activeVariant || 'standard';
   
@@ -1532,6 +1839,10 @@ const DbEditorConnector: React.FC = () => {
   const elementTokens = getTokenPathsFromElement(selectedElement);
   // IMPORTANT: cardType must come only from data-card-type (not from label)
   const cardType = elementTokens.cardType || activeElement?.cardType || null;
+  
+  // Detect button and tab navigation elements
+  const elementType = selectedElement?.dataset?.element || null; // primaryButton, secondaryButton
+  const componentType = selectedElement?.dataset?.componentType || null; // tabNavigation
 
   const renderField = (f: Field) => {
     const visibleLabel = friendlyLabelForPath(f.path);
@@ -1790,7 +2101,17 @@ const DbEditorConnector: React.FC = () => {
       </div>
     );
   }
-  if (cardType && design?.components?.[cardType] && typeof design.components[cardType] === 'object') {
+  
+  // Check for button elements first
+  if (elementType === 'primaryButton' || elementType === 'secondaryButton') {
+    componentPanel = renderButtonPanel(design, updateDesignLocal, elementType);
+  }
+  // Check for tab navigation
+  else if (componentType === 'tabNavigation') {
+    componentPanel = renderTabNavigationPanel(design, updateDesignLocal);
+  }
+  // Check for card types
+  else if (cardType && design?.components?.[cardType] && typeof design.components[cardType] === 'object') {
     const baseObj = design.components[cardType];
     const basePath = `components.${cardType}`;
 
